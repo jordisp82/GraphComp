@@ -1,0 +1,86 @@
+\documentclass[a4paper,openany]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{libertine}
+\usepackage[protrusion=true,expansion=false,babel=true]{microtype}
+\usepackage[usenames,dvipsnames]{xcolor}
+%\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage[colorlinks,linkcolor=black]{hyperref}
+\usepackage{epigraph}
+
+\title{GraphComp}
+\author{jordisp82}
+\date{\today}
+
+\begin{document}
+\maketitle
+\pagestyle{plain}
+\begin{abstract}
+The purpose of this document is to show why this application was started, what its goals are and the major design decisions taken.
+\end{abstract}
+
+\section{Introduction}
+There are several source code analysis tools on the market, some of them proprietary (usually with a really high price tag), some free software, each of them with a varying degree of features and analysis power. There is something they have in common: the problems they find are shown on the source code, the offending piece highlighted and with accompanying explanations about why a problem has been found and maybe some suggestions about how to fix it.
+
+At first glance, there shouldn't be anything wrong with that. What should those tools do, otherwise? After all, developers write source code, and that souce code sometimes has issues, and the developer needs to see the offending source code as it is: source code.
+
+I've been working with such tools for some time, and they are really great, very powerful. They find mistakes in the code, dangerous uses of the C language, violations of MISRA rules and directives, some even point you at possible runtime failures such as accessing an array out of bounds, divisions by zero, and so on.
+
+The creators of these tools are people with a great knowledge of the C language, they understand how a compiler works and how it analyses and translates the source code, and they spend plenty of time making their tools very powerful.
+
+Alas, power is not the only point to consider. If a tool is very powerful but does a poor job telling the developer what and where the problem is, that power of the tool may become next to useless to the developer. We want, first, a tool that is powerful in analysing the source code; second, we want a tool that does a good job explaining the developer what problem the code has, where it is, and maybe even suggesting ways to fix it.
+
+This is where this application comes. In my experience, source code alone is, sometimes, maybe even often, not enough to get a good understanding of the problems found by the analysis tools. Not all developers have the same level of knowledge of the C language, not all of them have been taught --- or have had the opportunity lo learn --- how a compiler works, and sometimes the tools have diagnostic messages a bit cryptic and hard to understand.
+
+It seemed to me that showing the source code as an abstract syntax tree (AST) could be helpful to the developer to understand what's going on, for several reasons.
+
+\begin{enumerate}
+\item An AST is a graphical representations, and seeing the code as a tree may make it easier for the developer to understand how the expressions and statemens are evaluated and run, and therefore why there is a problem in something that, at first glance, looks completely harmless.
+
+\item An AST is the way compilers see and translate source code. This lets the devel\-oper to be fully aware of the intricacies of the C language and what's going on ``under the hood'' (such as type conversions, either explicit or implicit), and that too helps the developer to understand the problems pointed out by the analysis tool.
+
+\item A tree representation allows to condense the source code and represent succintly big chunks of code.
+\end{enumerate}
+
+This doesn't mean that an AST representation is always better than the ``plain'' source code. It just means that it shows the code in a different way, and I hope that this can provide extra information and hints to the developer, so he or she can better understand the results of an analysis and find it easier to fix the problems.
+
+\section{Design principles}
+Such an application has to big parts:
+
+\begin{enumerate}
+\item It has to analyze the source code submitted to it, and this means that a compiler front-end has to be developed.
+
+\item It has to graphically show the source code as an AST, with the results of the analysis visible in the tree.
+\end{enumerate}
+
+Ideally, the application should accept as many C dialects as possible, but doing so has several problems, as we'll see a bit later on.
+
+\subsection{The front-end}
+A compiler front-end performs lexical, syntax and semantical analysis, either to perform syntax-directed translation or, much more typically, an AST and an intermediate representation, on which several optimizations can take place before generated the target code (assembler).
+
+In theory, this should pose no problem at all. Before dealing with this, let's not forget that the C language has its pre-processor, ``a language within the language''. It would be very nice if the application could preserve as much from the original source code as possible. And also specify, for each node in the AST, its location in terms of file, line and column.
+
+There are compilers with integrated pre-processors. I could have tried to develop one, but I discarded the idea. The goal of my application is not to implement a state-of-the-art pre-processor, or even front-end. So the great effort it would have taken me was not justified. Instead, I call gcc to perform the pre-processing, fully knowing what I lose with that decision.
+
+Next comes the lexical analysis, that is, the tokenization. I found a flex file on the Internet\footnote{\url{https://www.quut.com/c/ANSI-C-grammar-l-2011.html}}. It has only one problem: that there are instances in which the lexer needs to consult the symbol table do differentiate between identifiers, type names defined with typedef, and enumeration constants. So, when implementing a parser, I had to take this into account.
+
+The parser. I found another interesting file on the Internet\footnote{\url{https://www.quut.com/c/ANSI-C-grammar-y.html}}, and I used it as a basis. Here the situation becomes more complex. I had three main options:
+
+\begin{enumerate}
+\item Use the Bison grammar from the Internet and add the code to create the AST, since that file only creates a parser that tells whether a source code file conforms, or does not conform, with the C grammar.
+
+\item Use the Bison grammar from the Internet to create the action and goto tables of the LR parser, and implement the algorithm by hand.
+
+\item Use the Bison grammar from the Internet to get the productions to implement other kind of parsers, more precisely the Earley parser, which is far more tolerant with grammars than the LR parser.
+\end{enumerate}
+
+I've tried all three approaches and I've ended up with the first one. I wanted to implement the parser by hand, to have more control over the creation of the AST, which is why I started with the second option. But then I realised that, if I wanted to include some extensions to the C language --- more precisely those of the GreenHills compiler --- I would probably need to modify the grammar. Doing so in an LR parser is to beg for shift/reduce (and also reduce/reduce conflicts, since Bison is actually an LALR-parser generator) conflicts, something I would avoid with an Earley parser.
+
+I implemented the Earley parser with some info I found on the Internet\footnote{\url{https://loup-vaillant.fr/tutorials/earley-parsing/}}. It was not easy, but not that difficult. Mostly, it was time consuming. It didn't work, and I still don't understand why. Since the parser is not where the real meat of my application is, I decided to switch to the second option.\footnote{Besides, the Earley parser gives not a syntax tree but a syntax forest, if the grammar is ambiguous; creating the AST seems to be more difficult and I would also have been more difficult the interaction with the lexer when it comes to the identifiers.}
+
+The second option should have proven successfully, but it failed even worse than the third: at the third token, it rejected the very simple sample code I used. I didn't want to waste more time with the parser, so finally I gave up and I ended up with a Bison-generated parser.
+
+\end{document}
