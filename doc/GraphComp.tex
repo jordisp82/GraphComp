@@ -59,7 +59,8 @@ Such an application has to big parts:
 Ideally, the application should accept as many C dialects as possible, but doing so has several problems, as we'll see a bit later on.
 
 \subsection{The front-end}
-A compiler front-end performs lexical, syntax and semantical analysis, either to perform syntax-directed translation or, much more typically, an AST and an intermediate representation, on which several optimizations can take place before generated the target code (assembler).
+\subsubsection{The lexer and the parser}
+A compiler front-end performs lexical, syntax and sem\-antic analysis, either to perform syntax-directed translation or, much more typically, an AST and an intermediate representation, on which several optimizations can take place before generated the target code (assembler).
 
 In theory, this should pose no problem at all. Before dealing with this, let's not forget that the C language has its pre-processor, ``a language within the language''. It would be very nice if the application could preserve as much from the original source code as possible. And also specify, for each node in the AST, its location in terms of file, line and column.
 
@@ -79,8 +80,37 @@ The parser. I found another interesting file on the Internet\footnote{\url{https
 
 I've tried all three approaches and I've ended up with the first one. I wanted to implement the parser by hand, to have more control over the creation of the AST, which is why I started with the second option. But then I realised that, if I wanted to include some extensions to the C language --- more precisely those of the GreenHills compiler --- I would probably need to modify the grammar. Doing so in an LR parser is to beg for shift/reduce (and also reduce/reduce conflicts, since Bison is actually an LALR-parser generator) conflicts, something I would avoid with an Earley parser.
 
-I implemented the Earley parser with some info I found on the Internet\footnote{\url{https://loup-vaillant.fr/tutorials/earley-parsing/}}. It was not easy, but not that difficult. Mostly, it was time consuming. It didn't work, and I still don't understand why. Since the parser is not where the real meat of my application is, I decided to switch to the second option.\footnote{Besides, the Earley parser gives not a syntax tree but a syntax forest, if the grammar is ambiguous; creating the AST seems to be more difficult and I would also have been more difficult the interaction with the lexer when it comes to the identifiers.}
+I implemented the Earley parser with some info I found on the Internet\footnote{\url{https://loup-vaillant.fr/tutorials/earley-parsing/}}. It was not easy, but not that difficult. Mostly, it was time consuming. It didn't work, and I still don't understand why. Since the parser is not where the real meat of my application is, I decided to switch to the second option.\footnote{Besides, the Earley parser gives not a syntax tree but a syntax forest, if the grammar is ambiguous; creating the AST seems to be more difficult and it would also have been more difficult the interaction with the lexer when it comes to the identifiers.}
 
 The second option should have proven successfully, but it failed even worse than the third: at the third token, it rejected the very simple sample code I used. I didn't want to waste more time with the parser, so finally I gave up and I ended up with a Bison-generated parser.
 
+\subsubsection{Creating the AST}
+The AST node is a struct with the following fields:
+
+\begin{description}
+\item[token] Integer with the token associated with the node, if any. Relevant only for the leaf nodes.
+
+\item[data] Generic pointer to additional data, such as the string of a literal, or the value of a numeric literal.
+
+\item[n\_children] Number of children of this node --- zero of leaf nodes.
+
+\item[func\_ptr] Pointer to the function that created this node. Used mainly to identify the kind of node, not only regarding its associated non-terminal, but also which production of the non-terminal.
+
+\item[parent] Pointer to the parent node --- null for the root.
+
+\item[children] Array of pointers to the children nodes.
+\end{description}
+
+Creating the nodes is not a difficult task. There are nodes with no children, with a single child, or with 2, 3 and 4 children.
+
+\paragraph{Nodes with no children}
+They are the leaf nodes. Some of such nodes only require to store the kind of token, such as an operator. For identifiers, we store its name in the data field of the node. Others also have a string in this field, even if they do not correspond to an identifier (for example, for a typedef name or an enumeration constant, or goto statements). Numeric literals need to store the value of their literals.
+
+\paragraph{Nodes with a single child}
+For most of them, no additional data is stored for such nodes, but there are some exceptions.
+
+\paragraph{Nodes with more than one child}
+In this cases, the data field of the node is always set to null.
 \end{document}
+
+\subsubsection{Interaction with the lexer}
