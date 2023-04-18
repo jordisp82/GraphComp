@@ -10,7 +10,7 @@ static void sym_extern_decl (ast_node_t * ast, sym_node_t * sym);
 static void sym_transl_unit (ast_node_t * ast, sym_node_t * sym);
 static void sym_func_def (ast_node_t * ast, sym_node_t * sym);
 static void sym_decl (ast_node_t * ast, sym_node_t * sym);
-static void sym_comp_stmt (ast_node_t * ast, sym_node_t * sym);
+static void sym_comp_stmt0 (ast_node_t * ast, sym_node_t * sym);
 static void sym_func_declr (ast_node_t * ast, sym_node_t * sym);
 static void sym_func_dir_declr (ast_node_t * ast, sym_node_t * sym);
 static void sym_par_type_list (ast_node_t * ast, sym_node_t * sym);
@@ -20,7 +20,15 @@ static void sym_declarator (ast_node_t * ast, sym_node_t * sym);
 static void sym_dir_declarator (ast_node_t * ast, sym_node_t * sym);
 static void sym_init_declr_list (ast_node_t * ast, sym_node_t * sym);
 static void sym_init_declr (ast_node_t * ast, sym_node_t * sym);
+static void sym_block_item_list (ast_node_t * ast, sym_node_t * sym);
+static void sym_block_item (ast_node_t * ast, sym_node_t * sym);
+static void sym_stmt (ast_node_t * ast, sym_node_t * sym);
+static void sym_comp_stmt1 (ast_node_t * ast, sym_node_t * sym);
+static void sym_selection_stmt (ast_node_t * ast, sym_node_t * sym);
+static void sym_iteration_stmt (ast_node_t * ast, sym_node_t * sym);
 static void add_symbol (ast_node_t * ast, sym_node_t * sym);
+static sym_node_t *new_sym_scope (ast_node_t * ast, sym_node_t * sym);
+static void debug_print_symtable (sym_node_t * sym) __attribute__((unused));
 
 sym_node_t *
 create_symtable (ast_node_t * tu)
@@ -40,6 +48,7 @@ create_symtable (ast_node_t * tu)
     else if (IS_TRANSLATION_UNIT (tu->children[i]->func_ptr))
       sym_transl_unit (tu->children[i], sym_table);
 
+  debug_print_symtable (sym_table);
   return sym_table;
 }
 
@@ -82,20 +91,10 @@ sym_func_def (ast_node_t * ast, sym_node_t * sym)
   assert (IS_DECLARATOR (ast->children[1]->func_ptr));
   assert (IS_COMPOUND_STATEMENT (ast->children[2]->func_ptr));
 
-  sym->n_children++;
-  sym->children =
-    realloc (sym->children, sym->n_children * sizeof (sym_node_t *));
-  assert (sym->children != NULL);
-  sym->children[sym->n_children - 1] = calloc (1, sizeof (sym_node_t));
-  sym_node_t *current = sym->children[sym->n_children - 1];
-  assert (current != NULL);
-  current->parent = sym;
-  current->list = calloc (1, sizeof (symbol_t));
-  assert (current->list != NULL);
-  current->scope = ast->children[2];
+  sym_node_t *current = new_sym_scope (ast->children[2], sym);
 
   sym_func_declr (ast->children[1], current);
-  sym_comp_stmt (ast->children[2], current);
+  sym_comp_stmt0 (ast->children[2], current);
 }
 
 static void
@@ -122,12 +121,20 @@ sym_decl (ast_node_t * ast, sym_node_t * sym)
 }
 
 static void
-sym_comp_stmt (ast_node_t * ast, sym_node_t * sym)
+sym_comp_stmt0 (ast_node_t * ast, sym_node_t * sym)
 {
   assert (ast != NULL);
   assert (sym != NULL);
 
-  /* create new scope */
+  /* the new scope has already been created */
+
+  /*
+   * It may have just a pair of braces, or
+   * a pair of braces and block list inside.
+   */
+
+  if (ast->n_children == 1)
+    sym_block_item_list (ast->children[0], sym);
 }
 
 static void
@@ -253,54 +260,97 @@ sym_init_declr (ast_node_t * ast, sym_node_t * sym)
   sym_declarator (ast->children[0], sym);
 }
 
-
-#if 0
 static void
-look_for_declaration (ast_node_t * ast, sym_node_t * sym)
+sym_block_item_list (ast_node_t * ast, sym_node_t * sym)
 {
   assert (ast != NULL);
   assert (sym != NULL);
 
-  sym_node_t *current = sym;
-
-  if (IS_FUNCTION_DEFINITION (ast->func_ptr))
-    {
-      /* TODO parameters */
-    }
-  else if (ast->func_ptr == declaration_1 || ast->func_ptr == declaration_2)
-    {
-      /* declaration_3 is static_assert */
-      proc_declaration (ast, current);
-      /* TODO return? */
-    }
-  else if (IS_COMPOUND_STATEMENT (ast->func_ptr))
-    {
-      current = calloc (1, sizeof (sym_node_t));
-      assert (current != NULL);
-      current->parent = sym;
-      current->scope = ast;
-      current->list = calloc (1, sizeof (symbol_t));
-      assert (current->list != NULL);
-      sym->n_children++;
-      sym->children =
-        realloc (sym->children, sym->n_children * sizeof (sym_node_t *));
-      assert (sym->children != NULL);
-      sym->children[sym->n_children - 1] = current;
-    }
   for (int i = 0; i < ast->n_children; i++)
-    look_for_declaration (ast->children[i], current);
+    if (IS_BLOCK_ITEM_LIST (ast->children[i]->func_ptr))
+      sym_block_item_list (ast->children[i], sym);
+    else if (IS_BLOCK_ITEM (ast->children[i]->func_ptr))
+      sym_block_item (ast->children[i], sym);
 }
 
 static void
-proc_declaration (ast_node_t * ast, sym_node_t * sym)
+sym_block_item (ast_node_t * ast, sym_node_t * sym)
 {
   assert (ast != NULL);
   assert (sym != NULL);
 
-  if (look_for_typedef (ast) == 1)
-    return;                     /* this is not a variable declaration */
+  if (IS_DECLARATION (ast->children[0]->func_ptr))
+    sym_decl (ast->children[0], sym);
+  else if (IS_STATEMENT (ast->children[0]->func_ptr))
+    sym_stmt (ast->children[0], sym);
 }
-#endif
+
+static void
+sym_stmt (ast_node_t * ast, sym_node_t * sym)
+{
+  assert (ast != NULL);
+  assert (sym != NULL);
+
+  /* we focus only in certain kind of statements */
+
+  if (IS_COMPOUND_STATEMENT (ast->children[0]->func_ptr))
+    sym_comp_stmt1 (ast->children[0], sym);
+  else if (IS_SELECTION_STATEMENT (ast->children[0]->func_ptr))
+    sym_selection_stmt (ast->children[0], sym);
+  else if (IS_ITERATION_STATEMENT (ast->children[0]->func_ptr))
+    sym_iteration_stmt (ast->children[0], sym);
+}
+
+static void
+sym_comp_stmt1 (ast_node_t * ast, sym_node_t * sym)
+{
+  assert (ast != NULL);
+  assert (sym != NULL);
+
+  sym_node_t *current = new_sym_scope (ast, sym);
+
+  sym_comp_stmt0 (ast, current);
+}
+
+static void
+sym_selection_stmt (ast_node_t * ast, sym_node_t * sym)
+{
+  assert (ast != NULL);
+  assert (sym != NULL);
+
+  for (int i = 0; i < ast->n_children; i++)
+    if (IS_STATEMENT (ast->children[i]->func_ptr))
+      sym_stmt (ast->children[i], sym);
+}
+
+static void
+sym_iteration_stmt (ast_node_t * ast, sym_node_t * sym)
+{
+  assert (ast != NULL);
+  assert (sym != NULL);
+
+  /* beware with for loops */
+
+  if (ast->func_ptr == iteration_statement_1
+      || ast->func_ptr == iteration_statement_2
+      || ast->func_ptr == iteration_statement_3
+      || ast->func_ptr == iteration_statement_4)
+    {
+      for (int i = 0; i < ast->n_children; i++)
+        if (IS_STATEMENT (ast->children[i]->func_ptr))
+          sym_stmt (ast->children[i], sym);
+    }
+  else if (ast->func_ptr == iteration_statement_5
+           || ast->func_ptr == iteration_statement_6)
+    {
+      sym_node_t *current = new_sym_scope (ast, sym);
+      for (int i = 0; i < ast->n_children; i++)
+        if (IS_DECLARATION (ast->children[i]->func_ptr))
+          sym_decl (ast->children[i], current);
+        else if (IS_STATEMENT (ast->children[i]->func_ptr))
+          sym_stmt (ast->children[i], current);
+    }
+}
 
 static void
 add_symbol (ast_node_t * ast, sym_node_t * sym)
@@ -318,4 +368,36 @@ add_symbol (ast_node_t * ast, sym_node_t * sym)
   sym->list->next = new_sym;
 
   printf ("[%s] Added symbol '%s'\n", __func__, new_sym->name);
+}
+
+static sym_node_t *
+new_sym_scope (ast_node_t * ast, sym_node_t * sym)
+{
+  assert (ast != NULL);
+  assert (sym != NULL);
+
+  sym->n_children++;
+  sym->children =
+    realloc (sym->children, sym->n_children * sizeof (sym_node_t *));
+  assert (sym->children != NULL);
+  sym->children[sym->n_children - 1] = calloc (1, sizeof (sym_node_t));
+  sym_node_t *current = sym->children[sym->n_children - 1];
+  assert (current != NULL);
+  current->parent = sym;
+  current->list = calloc (1, sizeof (symbol_t));
+  assert (current->list != NULL);
+  current->scope = ast;
+
+  return current;
+}
+
+static void
+debug_print_symtable (sym_node_t * sym)
+{
+  printf ("\n{\n");
+  for (symbol_t * ptr = sym->list->next; ptr != NULL; ptr = ptr->next)
+    printf (" %s", ptr->name);
+  for (int i = 0; i < sym->n_children; i++)
+    debug_print_symtable (sym->children[i]);
+  printf ("\n}\n");
 }
