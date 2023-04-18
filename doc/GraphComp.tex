@@ -110,7 +110,25 @@ They are the leaf nodes. Some of such nodes only require to store the kind of to
 For most of them, no additional data is stored for such nodes, but there are some exceptions.
 
 \paragraph{Nodes with more than one child}
-In this cases, the data field of the node is always set to null.
-\end{document}
+In these cases, the data field of the node is always set to null. There is only one case that, in a node with two children, a strig is stored (second production of struct or union specifiers).
 
 \subsubsection{Interaction with the lexer}
+When the lexer sees something that looks like an identifier, it must first check that it's not a typedef-defined type or an enumeration constant, and there is a function to check precisely that, sym\_type.
+
+To properly implement it, I created a tiny symbol table. For each scope I have two list of strings, one for the types and another one for the enumeration constants. Also, each scope has a pointer to its parent. There is at list one scope, corresponding to the entire translation unit.
+
+Function sym\_type begins checking the current scope, looking for the string in the two lists. If it's found in one of them, it's clearly not an identifier, and it will return what it is depending on the list where the string was found. If it's not found in any of the list, then it does the same check for the parent scope, if any, until there is no parent scope to look for. In this case, we're sure it's an identifier, and sym\_type returns accordingly.
+
+But who takes care of creating those scopes and filling in the lists of strings?
+
+\begin{itemize}
+\item Except for goto labels, in C there are two scopes: file scope, and block scope. For the first one, the two lists are already created; when the parser sees the start of a block (``compount statement'') creates a new block with function push\_scope, and when it sees the end of the block, it destroys it (with function pull\_scope). In both cases, the pointer to the current scope (the one that has to be looked for first) is updated.
+
+\item Enumeration constants are seen when the enumeration is created. When the parser sees non-terminal ``enumeration constant'', it adds its string to the list of constants of the current scope\footnote{Function scope\_add\_enumeration\_constant}.
+
+The case of typedef-defined types is more complicated, since the syntax for declarations is more complex. There is a production for declarations that includes non-terminal for storage-class specifiers (and typedef is one of them). So, in this production, the parser checks if typedef is among those specifiers\footnote{Function look\_for\_typedef}. If it is, then the identifier of the declarator is stored as a typedef-defined type for the current scope\footnote{Functions register\_id\_as\_typedef and scope\_add\_typedef}.
+\end{itemize}
+
+
+\end{document}
+
