@@ -18,6 +18,8 @@ static void sym_par_list (ast_node_t * ast, sym_node_t * sym);
 static void sym_par_decl (ast_node_t * ast, sym_node_t * sym);
 static void sym_declarator (ast_node_t * ast, sym_node_t * sym);
 static void sym_dir_declarator (ast_node_t * ast, sym_node_t * sym);
+static void sym_init_declr_list (ast_node_t * ast, sym_node_t * sym);
+static void sym_init_declr (ast_node_t * ast, sym_node_t * sym);
 static void add_symbol (ast_node_t * ast, sym_node_t * sym);
 
 sym_node_t *
@@ -30,6 +32,7 @@ create_symtable (ast_node_t * tu)
   assert (sym_table != NULL);
   sym_table->list = calloc (1, sizeof (symbol_t));
   assert (sym_table->list != NULL);
+  sym_table->scope = tu;
 
   for (int i = 0; i < tu->n_children; i++)
     if (IS_EXTERNAL_DECLARATION (tu->children[i]->func_ptr))
@@ -100,6 +103,22 @@ sym_decl (ast_node_t * ast, sym_node_t * sym)
 {
   assert (ast != NULL);
   assert (sym != NULL);
+
+  /*
+   * We are interested in the declarators,
+   * which are the only terminals that will
+   * give us names. But the declaration
+   * specifiers have to be looked at because
+   * typedef could be there...
+   */
+
+  if (IS_DECLARATION_SPECS (ast->children[0]->func_ptr))
+    if (look_for_typedef (ast->children[0]) == 1)
+      return;
+
+  for (int i = 0; i < ast->n_children; i++)
+    if (IS_INIT_DECLARATOR_LIST (ast->children[i]->func_ptr))
+      sym_init_declr_list (ast->children[i], sym);
 }
 
 static void
@@ -211,6 +230,27 @@ sym_dir_declarator (ast_node_t * ast, sym_node_t * sym)
         sym_declarator (ast->children[i], sym);
       else if (IS_DIRECT_DECLARATOR (ast->children[i]->func_ptr))
         sym_dir_declarator (ast->children[i], sym);
+}
+
+static void
+sym_init_declr_list (ast_node_t * ast, sym_node_t * sym)
+{
+  assert (ast != NULL);
+  assert (sym != NULL);
+
+  for (int i = 0; i < ast->n_children; i++)
+    if (IS_INIT_DECLARATOR (ast->children[i]->func_ptr))
+      sym_init_declr (ast->children[i], sym);
+}
+
+static void
+sym_init_declr (ast_node_t * ast, sym_node_t * sym)
+{
+  assert (ast != NULL);
+  assert (sym != NULL);
+  assert (IS_DECLARATOR (ast->children[0]->func_ptr));
+
+  sym_declarator (ast->children[0], sym);
 }
 
 

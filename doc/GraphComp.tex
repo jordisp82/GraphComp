@@ -129,6 +129,60 @@ But who takes care of creating those scopes and filling in the lists of strings?
 The case of typedef-defined types is more complicated, since the syntax for declarations is more complex. There is a production for declarations that includes non-terminal for storage-class specifiers (and typedef is one of them). So, in this production, the parser checks if typedef is among those specifiers\footnote{Function look\_for\_typedef}. If it is, then the identifier of the declarator is stored as a typedef-defined type for the current scope\footnote{Functions register\_id\_as\_typedef and scope\_add\_typedef}.
 \end{itemize}
 
+\subsubsection{The symbol table}
+At some point in time, and assuming the source code is compliant with the C grammar, the parser will have built a parse tree, an AST. What now?
+
+We need to have a more decent symbol table, because all the next steps and checks depend on knowing what each identifier is and where is declared.
+
+Function yyparse created the AST, function create\_symtable will take it and return a symbol table, which is a structure with the following fields:
+
+\begin{description}
+\item[list] List of symbols in the current scope. For each symbol we store its name and a pointer to the node where it's declared --- a pointer to the identifier, to be more precise.
+
+Let it be noted that, when the symbol table is created and a symbol is added, it doesn't check against repetitions.
+
+\item[parent] Pointer to the parent scope. The root symbol table has no parent because it corresponds to the entire translation unit. But for each function definition, a new child scope is created, and for each child scope we need to remember who is its parent.
+
+Similarly, for each block inside a function, new children scopes are created, each of them with a corresponding parent.
+
+\item[scope] Pointer to the node in the AST that ``justified'' the creation of this scope. For the root symbol table, it points to the root of the AST.
+
+For function definitions, it points to the compound statement of the function. Strictly speaking, function parameters are not declared inside the compound statement, but their scope is the same as if they were so declared.
+
+\item[n\_children] Number of children of this symbol table. There may be more than one, since there can be (there usually are) several functions inside a translation unit, and a function can have several blocks.
+
+\item[children] Array of pointers to the children of this scope.
+\end{description}
+
+In this description, the concepts ``symbol table'' and ``scope'' are used as synonims, although they are not really the same. The point is that, for each scope, we create a new symbol table, although the ``actual'' symbol table is the set of all of them.
+
+Let's begin by the root of the AST. The root symbol table is created and the children are examined. Only two kind of children are possible: another translation unit (we'll do the same except creating again the root symbol table) and an external declaration.
+
+In turn, external declarations can be either function definitions, or just declarations. This shouldn't be any surprise, since C source code files just contain declarations (either of variables or functions) and function definitions --- let's remember that we're dealing here with pre-processed units, from which include directives and macro def\-in\-itions have already been removed.
+
+Function definitions declare, at least, the name of the function, and it must be added in the ``parent'' scope, not in the scope created by the function's compound statement. Instead, if the function has parameters, they do belong to the scope of the compound statement, since they have block scope, not file scope\footnote{See function sym\_func\_def}.
+
+My application expects function definitions to conform with the style introduced by the ANSI/ISO standard, which was copied from C++. The K\&R style is supported by the parser, but not by the symbol table, at least not at the time of this writing.
+
+The function definition consists of three non-terminals:
+
+\begin{itemize}
+\item Some declaration specifiers.
+
+\item A declarator.
+
+\item A compound statement.
+\end{itemize}
+
+The declaration specifiers are of no interest right now, since we are only interesed in the names and the nodes where the declaration is found. So we call two functions:
+
+\begin{itemize}
+\item Function sym\_func\_declr to deal with the declarator, which has the name of the function and the parameters, if any.
+
+\item Function sym\_comp\_stmt to deal with the compound statement.
+\end{itemize}
+
+Here we make a difference between a declarator and a declarator belonging to a function definition, because in that latter case we are interested in both the name of the function and its parameters, that is, we know in advance what we are going to find and what we're interested in.
 
 \end{document}
 
