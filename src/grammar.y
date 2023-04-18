@@ -558,7 +558,7 @@ start_symbol
 %%
 #include <stdio.h>
 
-void yyerror(void ** shit, const char *s)
+void yyerror(void ** shit __attribute__ ((unused)), const char *s)
 {
 	fflush(stdout);
 	fprintf(stderr, "*** %s\n", s);
