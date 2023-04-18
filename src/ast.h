@@ -575,5 +575,6 @@ ast_node_t *static_assert_declaration (ast_node_t * node, const char *str);
 int sym_type (const char *str);
 void push_scope (void);
 void pull_scope (void);
+int look_for_typedef (ast_node_t * node);
 
 #endif

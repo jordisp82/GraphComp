@@ -21,7 +21,6 @@ static ast_node_t *ast_node_4 (void *fptr, ast_node_t * n1, ast_node_t * n2,
                                ast_node_t * n3, ast_node_t * n4);
 static void scope_add_enumeration_constant (const char *str);
 static void scope_add_typedef (const char *str);
-static int look_for_typedef (ast_node_t * node);
 static void register_id_as_typedef (ast_node_t * node);
 #if 0
 static ast_node_t *look_for_id_in_declarator_list (ast_node_t * node);
@@ -93,7 +92,7 @@ declaration_specifiers_3 (ast_node_t * n1, ast_node_t * n2)
 ast_node_t *
 declaration_specifiers_4 (ast_node_t * node)
 {
-  return ast_node_1 (translation_unit_1, node);
+  return ast_node_1 (declaration_specifiers_4, node);
 }
 
 ast_node_t *
@@ -2009,7 +2008,7 @@ scope_add_typedef (const char *str)
 #endif
 }
 
-static int
+int
 look_for_typedef (ast_node_t * node)
 {
   assert (node != NULL);
@@ -2037,30 +2036,4 @@ register_id_as_typedef (ast_node_t * node)
   else
     for (int i = 0; i < node->n_children; i++)
       register_id_as_typedef (node->children[i]);
-
-#if 0
-  assert (node->n_children >= 2);
-  assert (IS_INIT_DECLARATOR_LIST (node->children[1]->func_ptr));
-
-  ast_node_t *ptr = look_for_id_in_declarator_list (node->children[1]);
-  if (ptr == NULL)
-    return;                     /* should not happen */
-#endif
 }
-
-#if 0
-static ast_node_t *
-look_for_id_in_declarator_list (ast_node_t * node)
-{
-  assert (node != NULL);
-
-#if 0
-  if (node->n_children == 0)
-    return NULL;
-  else if (node->func_ptr == direct_declarator_1 && node->token == IDENTIFIER)
-    scope_add_typedef (node->data);
-  else
-    for (int i = 0; i < node->n_children; i++);
-#endif
-}
-#endif
