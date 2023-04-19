@@ -1,9 +1,13 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include <assert.h>
 #include <stdio.h>
 
 #include "grammar.tab.h"
 #include "ast.h"
-#include "symtable.h"
+#include "semantic.h"
 
 extern FILE *yyin;
 
@@ -20,7 +24,10 @@ main (int argc, char *argv[])
   ast_node_t *ast = NULL;
 
   yyparse ((void **) &ast);
+  semantic_analysis (ast);
 
+#if 0
   sym_node_t *symtable = create_symtable (ast);
   assert (symtable != NULL);
+#endif
 }

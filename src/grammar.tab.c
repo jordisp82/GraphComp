@@ -68,48 +68,48 @@
 /* First part of user prologue.  */
 #line 1 "grammar.y"
 
-void yyerror(void **, const char *);
+void yyerror (void **, const char *);
 extern int yylex (void);
 #include "ast.h"
 
 #line 76 "grammar.tab.c"
 
-# ifndef YY_CAST
-#  ifdef __cplusplus
-#   define YY_CAST(Type, Val) static_cast<Type> (Val)
-#   define YY_REINTERPRET_CAST(Type, Val) reinterpret_cast<Type> (Val)
-#  else
-#   define YY_CAST(Type, Val) ((Type) (Val))
-#   define YY_REINTERPRET_CAST(Type, Val) ((Type) (Val))
-#  endif
-# endif
-# ifndef YY_NULLPTR
-#  if defined __cplusplus
-#   if 201103L <= __cplusplus
-#    define YY_NULLPTR nullptr
-#   else
-#    define YY_NULLPTR 0
-#   endif
-#  else
-#   define YY_NULLPTR ((void*)0)
-#  endif
-# endif
+#ifndef YY_CAST
+#ifdef __cplusplus
+#define YY_CAST(Type, Val) static_cast<Type> (Val)
+#define YY_REINTERPRET_CAST(Type, Val) reinterpret_cast<Type> (Val)
+#else
+#define YY_CAST(Type, Val) ((Type) (Val))
+#define YY_REINTERPRET_CAST(Type, Val) ((Type) (Val))
+#endif
+#endif
+#ifndef YY_NULLPTR
+#if defined __cplusplus
+#if 201103L <= __cplusplus
+#define YY_NULLPTR nullptr
+#else
+#define YY_NULLPTR 0
+#endif
+#else
+#define YY_NULLPTR ((void*)0)
+#endif
+#endif
 
 /* Enabling verbose error messages.  */
 #ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
+#undef YYERROR_VERBOSE
+#define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE 0
+#define YYERROR_VERBOSE 0
 #endif
 
 /* Use api.header.include to #include this header
    instead of duplicating it here.  */
 #ifndef YY_YY_GRAMMAR_TAB_H_INCLUDED
-# define YY_YY_GRAMMAR_TAB_H_INCLUDED
+#define YY_YY_GRAMMAR_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+#define YYDEBUG 0
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -117,83 +117,83 @@ extern int yydebug;
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-  enum yytokentype
-  {
-    IDENTIFIER = 258,
-    I_CONSTANT = 259,
-    F_CONSTANT = 260,
-    STRING_LITERAL = 261,
-    FUNC_NAME = 262,
-    SIZEOF = 263,
-    PTR_OP = 264,
-    INC_OP = 265,
-    DEC_OP = 266,
-    LEFT_OP = 267,
-    RIGHT_OP = 268,
-    LE_OP = 269,
-    GE_OP = 270,
-    EQ_OP = 271,
-    NE_OP = 272,
-    AND_OP = 273,
-    OR_OP = 274,
-    MUL_ASSIGN = 275,
-    DIV_ASSIGN = 276,
-    MOD_ASSIGN = 277,
-    ADD_ASSIGN = 278,
-    SUB_ASSIGN = 279,
-    LEFT_ASSIGN = 280,
-    RIGHT_ASSIGN = 281,
-    AND_ASSIGN = 282,
-    XOR_ASSIGN = 283,
-    OR_ASSIGN = 284,
-    TYPEDEF_NAME = 285,
-    ENUMERATION_CONSTANT = 286,
-    TYPEDEF = 287,
-    EXTERN = 288,
-    STATIC = 289,
-    AUTO = 290,
-    REGISTER = 291,
-    INLINE = 292,
-    CONST = 293,
-    RESTRICT = 294,
-    VOLATILE = 295,
-    BOOL = 296,
-    CHAR = 297,
-    SHORT = 298,
-    INT = 299,
-    LONG = 300,
-    SIGNED = 301,
-    UNSIGNED = 302,
-    FLOAT = 303,
-    DOUBLE = 304,
-    VOID = 305,
-    COMPLEX = 306,
-    IMAGINARY = 307,
-    STRUCT = 308,
-    UNION = 309,
-    ENUM = 310,
-    ELLIPSIS = 311,
-    CASE = 312,
-    DEFAULT = 313,
-    IF = 314,
-    ELSE = 315,
-    SWITCH = 316,
-    WHILE = 317,
-    DO = 318,
-    FOR = 319,
-    GOTO = 320,
-    CONTINUE = 321,
-    BREAK = 322,
-    RETURN = 323,
-    ALIGNAS = 324,
-    ALIGNOF = 325,
-    ATOMIC = 326,
-    GENERIC = 327,
-    NORETURN = 328,
-    STATIC_ASSERT = 329,
-    THREAD_LOCAL = 330
-  };
+#define YYTOKENTYPE
+enum yytokentype
+{
+  IDENTIFIER = 258,
+  I_CONSTANT = 259,
+  F_CONSTANT = 260,
+  STRING_LITERAL = 261,
+  FUNC_NAME = 262,
+  SIZEOF = 263,
+  PTR_OP = 264,
+  INC_OP = 265,
+  DEC_OP = 266,
+  LEFT_OP = 267,
+  RIGHT_OP = 268,
+  LE_OP = 269,
+  GE_OP = 270,
+  EQ_OP = 271,
+  NE_OP = 272,
+  AND_OP = 273,
+  OR_OP = 274,
+  MUL_ASSIGN = 275,
+  DIV_ASSIGN = 276,
+  MOD_ASSIGN = 277,
+  ADD_ASSIGN = 278,
+  SUB_ASSIGN = 279,
+  LEFT_ASSIGN = 280,
+  RIGHT_ASSIGN = 281,
+  AND_ASSIGN = 282,
+  XOR_ASSIGN = 283,
+  OR_ASSIGN = 284,
+  TYPEDEF_NAME = 285,
+  ENUMERATION_CONSTANT = 286,
+  TYPEDEF = 287,
+  EXTERN = 288,
+  STATIC = 289,
+  AUTO = 290,
+  REGISTER = 291,
+  INLINE = 292,
+  CONST = 293,
+  RESTRICT = 294,
+  VOLATILE = 295,
+  BOOL = 296,
+  CHAR = 297,
+  SHORT = 298,
+  INT = 299,
+  LONG = 300,
+  SIGNED = 301,
+  UNSIGNED = 302,
+  FLOAT = 303,
+  DOUBLE = 304,
+  VOID = 305,
+  COMPLEX = 306,
+  IMAGINARY = 307,
+  STRUCT = 308,
+  UNION = 309,
+  ENUM = 310,
+  ELLIPSIS = 311,
+  CASE = 312,
+  DEFAULT = 313,
+  IF = 314,
+  ELSE = 315,
+  SWITCH = 316,
+  WHILE = 317,
+  DO = 318,
+  FOR = 319,
+  GOTO = 320,
+  CONTINUE = 321,
+  BREAK = 322,
+  RETURN = 323,
+  ALIGNAS = 324,
+  ALIGNOF = 325,
+  ATOMIC = 326,
+  GENERIC = 327,
+  NORETURN = 328,
+  STATIC_ASSERT = 329,
+  THREAD_LOCAL = 330
+};
 #endif
 
 /* Value type.  */
@@ -202,30 +202,30 @@ union YYSTYPE
 {
 #line 9 "grammar.y"
 
-    void *ptr;
-    int i_num;
-    double d_num;
-    const char *str;
+  void *ptr;
+  int i_num;
+  double d_num;
+  const char *str;
 
 #line 211 "grammar.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
+#define YYSTYPE_IS_TRIVIAL 1
+#define YYSTYPE_IS_DECLARED 1
 #endif
 
 
 extern YYSTYPE yylval;
 
-int yyparse (void ** ast);
+int yyparse (void **ast);
 
 #endif /* !YY_YY_GRAMMAR_TAB_H_INCLUDED  */
 
 
 
 #ifdef short
-# undef short
+#undef short
 #endif
 
 /* On compilers that do not define __PTRDIFF_MAX__ etc., make sure
@@ -233,11 +233,11 @@ int yyparse (void ** ast);
    so that the code can choose integer types of a good width.  */
 
 #ifndef __PTRDIFF_MAX__
-# include <limits.h> /* INFRINGES ON USER NAME SPACE */
-# if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
-#  include <stdint.h> /* INFRINGES ON USER NAME SPACE */
-#  define YY_STDINT_H
-# endif
+#include <limits.h>             /* INFRINGES ON USER NAME SPACE */
+#if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+#include <stdint.h>             /* INFRINGES ON USER NAME SPACE */
+#define YY_STDINT_H
+#endif
 #endif
 
 /* Narrow types that promote to a signed type and that can represent a
@@ -284,32 +284,32 @@ typedef int yytype_uint16;
 #endif
 
 #ifndef YYPTRDIFF_T
-# if defined __PTRDIFF_TYPE__ && defined __PTRDIFF_MAX__
-#  define YYPTRDIFF_T __PTRDIFF_TYPE__
-#  define YYPTRDIFF_MAXIMUM __PTRDIFF_MAX__
-# elif defined PTRDIFF_MAX
-#  ifndef ptrdiff_t
-#   include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#  endif
-#  define YYPTRDIFF_T ptrdiff_t
-#  define YYPTRDIFF_MAXIMUM PTRDIFF_MAX
-# else
-#  define YYPTRDIFF_T long
-#  define YYPTRDIFF_MAXIMUM LONG_MAX
-# endif
+#if defined __PTRDIFF_TYPE__ && defined __PTRDIFF_MAX__
+#define YYPTRDIFF_T __PTRDIFF_TYPE__
+#define YYPTRDIFF_MAXIMUM __PTRDIFF_MAX__
+#elif defined PTRDIFF_MAX
+#ifndef ptrdiff_t
+#include <stddef.h>             /* INFRINGES ON USER NAME SPACE */
+#endif
+#define YYPTRDIFF_T ptrdiff_t
+#define YYPTRDIFF_MAXIMUM PTRDIFF_MAX
+#else
+#define YYPTRDIFF_T long
+#define YYPTRDIFF_MAXIMUM LONG_MAX
+#endif
 #endif
 
 #ifndef YYSIZE_T
-# ifdef __SIZE_TYPE__
-#  define YYSIZE_T __SIZE_TYPE__
-# elif defined size_t
-#  define YYSIZE_T size_t
-# elif defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
-#  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#  define YYSIZE_T size_t
-# else
-#  define YYSIZE_T unsigned
-# endif
+#ifdef __SIZE_TYPE__
+#define YYSIZE_T __SIZE_TYPE__
+#elif defined size_t
+#define YYSIZE_T size_t
+#elif defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+#include <stddef.h>             /* INFRINGES ON USER NAME SPACE */
+#define YYSIZE_T size_t
+#else
+#define YYSIZE_T unsigned
+#endif
 #endif
 
 #define YYSIZE_MAXIMUM                                  \
@@ -327,69 +327,69 @@ typedef yytype_int16 yy_state_t;
 typedef int yy_state_fast_t;
 
 #ifndef YY_
-# if defined YYENABLE_NLS && YYENABLE_NLS
-#  if ENABLE_NLS
-#   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
-#   define YY_(Msgid) dgettext ("bison-runtime", Msgid)
-#  endif
-# endif
-# ifndef YY_
-#  define YY_(Msgid) Msgid
-# endif
+#if defined YYENABLE_NLS && YYENABLE_NLS
+#if ENABLE_NLS
+#include <libintl.h>            /* INFRINGES ON USER NAME SPACE */
+#define YY_(Msgid) dgettext ("bison-runtime", Msgid)
+#endif
+#endif
+#ifndef YY_
+#define YY_(Msgid) Msgid
+#endif
 #endif
 
 #ifndef YY_ATTRIBUTE_PURE
-# if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_PURE __attribute__ ((__pure__))
-# else
-#  define YY_ATTRIBUTE_PURE
-# endif
+#if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
+#define YY_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#else
+#define YY_ATTRIBUTE_PURE
+#endif
 #endif
 
 #ifndef YY_ATTRIBUTE_UNUSED
-# if defined __GNUC__ && 2 < __GNUC__ + (7 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_UNUSED __attribute__ ((__unused__))
-# else
-#  define YY_ATTRIBUTE_UNUSED
-# endif
+#if defined __GNUC__ && 2 < __GNUC__ + (7 <= __GNUC_MINOR__)
+#define YY_ATTRIBUTE_UNUSED __attribute__ ((__unused__))
+#else
+#define YY_ATTRIBUTE_UNUSED
+#endif
 #endif
 
 /* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
-# define YYUSE(E) ((void) (E))
+#define YYUSE(E) ((void) (E))
 #else
-# define YYUSE(E) /* empty */
+#define YYUSE(E)                /* empty */
 #endif
 
 #if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
+#define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
     _Pragma ("GCC diagnostic push")                                     \
     _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")              \
     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
+#define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
     _Pragma ("GCC diagnostic pop")
 #else
-# define YY_INITIAL_VALUE(Value) Value
+#define YY_INITIAL_VALUE(Value) Value
 #endif
 #ifndef YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END
+#define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
+#define YY_IGNORE_MAYBE_UNINITIALIZED_END
 #endif
 #ifndef YY_INITIAL_VALUE
-# define YY_INITIAL_VALUE(Value) /* Nothing. */
+#define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
 
 #if defined __cplusplus && defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__
-# define YY_IGNORE_USELESS_CAST_BEGIN                          \
+#define YY_IGNORE_USELESS_CAST_BEGIN                          \
     _Pragma ("GCC diagnostic push")                            \
     _Pragma ("GCC diagnostic ignored \"-Wuseless-cast\"")
-# define YY_IGNORE_USELESS_CAST_END            \
+#define YY_IGNORE_USELESS_CAST_END            \
     _Pragma ("GCC diagnostic pop")
 #endif
 #ifndef YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_END
+#define YY_IGNORE_USELESS_CAST_BEGIN
+#define YY_IGNORE_USELESS_CAST_END
 #endif
 
 
@@ -399,67 +399,67 @@ typedef int yy_state_fast_t;
 
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
 
-# ifdef YYSTACK_USE_ALLOCA
-#  if YYSTACK_USE_ALLOCA
-#   ifdef __GNUC__
-#    define YYSTACK_ALLOC __builtin_alloca
-#   elif defined __BUILTIN_VA_ARG_INCR
-#    include <alloca.h> /* INFRINGES ON USER NAME SPACE */
-#   elif defined _AIX
-#    define YYSTACK_ALLOC __alloca
-#   elif defined _MSC_VER
-#    include <malloc.h> /* INFRINGES ON USER NAME SPACE */
-#    define alloca _alloca
-#   else
-#    define YYSTACK_ALLOC alloca
-#    if ! defined _ALLOCA_H && ! defined EXIT_SUCCESS
-#     include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
+#ifdef YYSTACK_USE_ALLOCA
+#if YYSTACK_USE_ALLOCA
+#ifdef __GNUC__
+#define YYSTACK_ALLOC __builtin_alloca
+#elif defined __BUILTIN_VA_ARG_INCR
+#include <alloca.h>             /* INFRINGES ON USER NAME SPACE */
+#elif defined _AIX
+#define YYSTACK_ALLOC __alloca
+#elif defined _MSC_VER
+#include <malloc.h>             /* INFRINGES ON USER NAME SPACE */
+#define alloca _alloca
+#else
+#define YYSTACK_ALLOC alloca
+#if ! defined _ALLOCA_H && ! defined EXIT_SUCCESS
+#include <stdlib.h>             /* INFRINGES ON USER NAME SPACE */
       /* Use EXIT_SUCCESS as a witness for stdlib.h.  */
-#     ifndef EXIT_SUCCESS
-#      define EXIT_SUCCESS 0
-#     endif
-#    endif
-#   endif
-#  endif
-# endif
+#ifndef EXIT_SUCCESS
+#define EXIT_SUCCESS 0
+#endif
+#endif
+#endif
+#endif
+#endif
 
-# ifdef YYSTACK_ALLOC
+#ifdef YYSTACK_ALLOC
    /* Pacify GCC's 'empty if-body' warning.  */
-#  define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
-#  ifndef YYSTACK_ALLOC_MAXIMUM
+#define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
+#ifndef YYSTACK_ALLOC_MAXIMUM
     /* The OS might guarantee only one guard page at the bottom of the stack,
        and a page size can be as small as 4096 bytes.  So we cannot safely
        invoke alloca (N) if N exceeds 4096.  Use a slightly smaller number
        to allow for a few compiler-allocated temporary stack slots.  */
-#   define YYSTACK_ALLOC_MAXIMUM 4032 /* reasonable circa 2006 */
-#  endif
-# else
-#  define YYSTACK_ALLOC YYMALLOC
-#  define YYSTACK_FREE YYFREE
-#  ifndef YYSTACK_ALLOC_MAXIMUM
-#   define YYSTACK_ALLOC_MAXIMUM YYSIZE_MAXIMUM
-#  endif
-#  if (defined __cplusplus && ! defined EXIT_SUCCESS \
+#define YYSTACK_ALLOC_MAXIMUM 4032      /* reasonable circa 2006 */
+#endif
+#else
+#define YYSTACK_ALLOC YYMALLOC
+#define YYSTACK_FREE YYFREE
+#ifndef YYSTACK_ALLOC_MAXIMUM
+#define YYSTACK_ALLOC_MAXIMUM YYSIZE_MAXIMUM
+#endif
+#if (defined __cplusplus && ! defined EXIT_SUCCESS \
        && ! ((defined YYMALLOC || defined malloc) \
              && (defined YYFREE || defined free)))
-#   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#   ifndef EXIT_SUCCESS
-#    define EXIT_SUCCESS 0
-#   endif
-#  endif
-#  ifndef YYMALLOC
-#   define YYMALLOC malloc
-#   if ! defined malloc && ! defined EXIT_SUCCESS
-void *malloc (YYSIZE_T); /* INFRINGES ON USER NAME SPACE */
-#   endif
-#  endif
-#  ifndef YYFREE
-#   define YYFREE free
-#   if ! defined free && ! defined EXIT_SUCCESS
-void free (void *); /* INFRINGES ON USER NAME SPACE */
-#   endif
-#  endif
-# endif
+#include <stdlib.h>             /* INFRINGES ON USER NAME SPACE */
+#ifndef EXIT_SUCCESS
+#define EXIT_SUCCESS 0
+#endif
+#endif
+#ifndef YYMALLOC
+#define YYMALLOC malloc
+#if ! defined malloc && ! defined EXIT_SUCCESS
+void *malloc (YYSIZE_T);        /* INFRINGES ON USER NAME SPACE */
+#endif
+#endif
+#ifndef YYFREE
+#define YYFREE free
+#if ! defined free && ! defined EXIT_SUCCESS
+void free (void *);             /* INFRINGES ON USER NAME SPACE */
+#endif
+#endif
+#endif
 #endif /* ! defined yyoverflow || YYERROR_VERBOSE */
 
 
@@ -475,22 +475,22 @@ union yyalloc
 };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
-# define YYSTACK_GAP_MAXIMUM (YYSIZEOF (union yyalloc) - 1)
+#define YYSTACK_GAP_MAXIMUM (YYSIZEOF (union yyalloc) - 1)
 
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
-# define YYSTACK_BYTES(N) \
+#define YYSTACK_BYTES(N) \
      ((N) * (YYSIZEOF (yy_state_t) + YYSIZEOF (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
-# define YYCOPY_NEEDED 1
+#define YYCOPY_NEEDED 1
 
 /* Relocate STACK from its old location to the new one.  The
    local variables YYSIZE and YYSTACKSIZE give the old and new number of
    elements in the stack, and YYPTR gives the new location of the
    stack.  Advance YYPTR to a properly aligned location for the next
    stack.  */
-# define YYSTACK_RELOCATE(Stack_alloc, Stack)                           \
+#define YYSTACK_RELOCATE(Stack_alloc, Stack)                           \
     do                                                                  \
       {                                                                 \
         YYPTRDIFF_T yynewbytes;                                         \
@@ -506,12 +506,12 @@ union yyalloc
 #if defined YYCOPY_NEEDED && YYCOPY_NEEDED
 /* Copy COUNT objects from SRC to DST.  The source and destination do
    not overlap.  */
-# ifndef YYCOPY
-#  if defined __GNUC__ && 1 < __GNUC__
-#   define YYCOPY(Dst, Src, Count) \
+#ifndef YYCOPY
+#if defined __GNUC__ && 1 < __GNUC__
+#define YYCOPY(Dst, Src, Count) \
       __builtin_memcpy (Dst, Src, YY_CAST (YYSIZE_T, (Count)) * sizeof (*(Src)))
-#  else
-#   define YYCOPY(Dst, Src, Count)              \
+#else
+#define YYCOPY(Dst, Src, Count)              \
       do                                        \
         {                                       \
           YYPTRDIFF_T yyi;                      \
@@ -519,8 +519,8 @@ union yyalloc
             (Dst)[yyi] = (Src)[yyi];            \
         }                                       \
       while (0)
-#  endif
-# endif
+#endif
+#endif
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
@@ -548,84 +548,81 @@ union yyalloc
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex.  */
-static const yytype_int8 yytranslate[] =
-{
-       0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    90,     2,     2,     2,    92,    85,     2,
-      76,    77,    86,    87,    78,    88,    82,    91,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,    79,    99,
-      93,    98,    94,    97,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,    80,     2,    81,    95,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    83,    96,    84,    89,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
-      75
+static const yytype_int8 yytranslate[] = {
+  0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 90, 2, 2, 2, 92, 85, 2,
+  76, 77, 86, 87, 78, 88, 82, 91, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 79, 99,
+  93, 98, 94, 97, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 80, 2, 81, 95, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 83, 96, 84, 89, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 1, 2, 3, 4,
+  5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+  15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+  25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+  35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
+  45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
+  55, 56, 57, 58, 59, 60, 61, 62, 63, 64,
+  65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
+  75
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int16 yyrline[] =
-{
-       0,    50,    50,    51,    52,    53,    54,    58,    59,    60,
-      64,    68,    69,    73,    77,    78,    82,    83,    87,    88,
-      89,    90,    91,    92,    93,    94,    95,    96,   100,   101,
-     105,   106,   107,   108,   109,   110,   111,   115,   116,   117,
-     118,   119,   120,   124,   125,   129,   130,   131,   132,   136,
-     137,   138,   142,   143,   144,   148,   149,   150,   151,   152,
-     156,   157,   158,   162,   163,   167,   168,   172,   173,   177,
-     178,   182,   183,   187,   188,   192,   193,   197,   198,   199,
-     200,   201,   202,   203,   204,   205,   206,   207,   211,   212,
-     216,   220,   221,   222,   226,   227,   228,   229,   230,   231,
-     232,   233,   234,   235,   239,   240,   244,   245,   249,   250,
-     251,   252,   253,   254,   258,   259,   260,   261,   262,   263,
-     264,   265,   266,   267,   268,   269,   270,   271,   272,   273,
-     277,   278,   279,   283,   284,   288,   289,   293,   294,   295,
-     299,   300,   301,   302,   306,   307,   311,   312,   313,   317,
-     318,   319,   320,   321,   325,   326,   330,   331,   335,   339,
-     340,   341,   342,   346,   347,   351,   352,   356,   357,   361,
-     362,   363,   364,   365,   366,   367,   368,   369,   370,   371,
-     372,   373,   374,   378,   379,   380,   381,   385,   386,   391,
-     392,   396,   397,   401,   402,   403,   407,   408,   412,   413,
-     417,   418,   419,   423,   424,   425,   426,   427,   428,   429,
-     430,   431,   432,   433,   434,   435,   436,   437,   438,   439,
-     440,   441,   442,   443,   447,   448,   449,   453,   454,   455,
-     456,   460,   464,   465,   469,   470,   474,   478,   479,   480,
-     481,   482,   483,   487,   488,   489,   493,   494,   494,   494,
-     498,   499,   503,   504,   508,   509,   513,   514,   515,   519,
-     520,   521,   522,   523,   524,   528,   529,   530,   531,   532,
-     536,   537,   541,   542,   546,   547,   551,   552,   556
+static const yytype_int16 yyrline[] = {
+  0, 50, 50, 51, 52, 53, 54, 58, 59, 60,
+  64, 68, 69, 73, 77, 78, 82, 83, 87, 88,
+  89, 90, 91, 92, 93, 94, 95, 96, 100, 101,
+  105, 106, 107, 108, 109, 110, 111, 115, 116, 117,
+  118, 119, 120, 124, 125, 129, 130, 131, 132, 136,
+  137, 138, 142, 143, 144, 148, 149, 150, 151, 152,
+  156, 157, 158, 162, 163, 167, 168, 172, 173, 177,
+  178, 182, 183, 187, 188, 192, 193, 197, 198, 199,
+  200, 201, 202, 203, 204, 205, 206, 207, 211, 212,
+  216, 220, 221, 222, 226, 227, 228, 229, 230, 231,
+  232, 233, 234, 235, 239, 240, 244, 245, 249, 250,
+  251, 252, 253, 254, 258, 259, 260, 261, 262, 263,
+  264, 265, 266, 267, 268, 269, 270, 271, 272, 273,
+  277, 278, 279, 283, 284, 288, 289, 293, 294, 295,
+  299, 300, 301, 302, 306, 307, 311, 312, 313, 317,
+  318, 319, 320, 321, 325, 326, 330, 331, 335, 339,
+  340, 341, 342, 346, 347, 351, 352, 356, 357, 361,
+  362, 363, 364, 365, 366, 367, 368, 369, 370, 371,
+  372, 373, 374, 378, 379, 380, 381, 385, 386, 391,
+  392, 396, 397, 401, 402, 403, 407, 408, 412, 413,
+  417, 418, 419, 423, 424, 425, 426, 427, 428, 429,
+  430, 431, 432, 433, 434, 435, 436, 437, 438, 439,
+  440, 441, 442, 443, 447, 448, 449, 453, 454, 455,
+  456, 460, 464, 465, 469, 470, 474, 478, 479, 480,
+  481, 482, 483, 487, 488, 489, 493, 494, 494, 494,
+  498, 499, 503, 504, 508, 509, 513, 514, 515, 519,
+  520, 521, 522, 523, 524, 528, 529, 530, 531, 532,
+  536, 537, 541, 542, 546, 547, 551, 552, 556
 };
 #endif
 
 #if YYDEBUG || YYERROR_VERBOSE || 0
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
-static const char *const yytname[] =
-{
+static const char *const yytname[] = {
   "$end", "error", "$undefined", "IDENTIFIER", "I_CONSTANT", "F_CONSTANT",
   "STRING_LITERAL", "FUNC_NAME", "SIZEOF", "PTR_OP", "INC_OP", "DEC_OP",
   "LEFT_OP", "RIGHT_OP", "LE_OP", "GE_OP", "EQ_OP", "NE_OP", "AND_OP",
@@ -669,23 +666,22 @@ static const char *const yytname[] =
 };
 #endif
 
-# ifdef YYPRINT
+#ifdef YYPRINT
 /* YYTOKNUM[NUM] -- (External) token number corresponding to the
    (internal) symbol number NUM (which must be that of a token).  */
-static const yytype_int16 yytoknum[] =
-{
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
-     295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
-     305,   306,   307,   308,   309,   310,   311,   312,   313,   314,
-     315,   316,   317,   318,   319,   320,   321,   322,   323,   324,
-     325,   326,   327,   328,   329,   330,    40,    41,    44,    58,
-      91,    93,    46,   123,   125,    38,    42,    43,    45,   126,
-      33,    47,    37,    60,    62,    94,   124,    63,    61,    59
+static const yytype_int16 yytoknum[] = {
+  0, 256, 257, 258, 259, 260, 261, 262, 263, 264,
+  265, 266, 267, 268, 269, 270, 271, 272, 273, 274,
+  275, 276, 277, 278, 279, 280, 281, 282, 283, 284,
+  285, 286, 287, 288, 289, 290, 291, 292, 293, 294,
+  295, 296, 297, 298, 299, 300, 301, 302, 303, 304,
+  305, 306, 307, 308, 309, 310, 311, 312, 313, 314,
+  315, 316, 317, 318, 319, 320, 321, 322, 323, 324,
+  325, 326, 327, 328, 329, 330, 40, 41, 44, 58,
+  91, 93, 46, 123, 125, 38, 42, 43, 45, 126,
+  33, 47, 37, 60, 62, 94, 124, 63, 61, 59
 };
-# endif
+#endif
 
 #define YYPACT_NINF (-362)
 
@@ -699,735 +695,726 @@ static const yytype_int16 yytoknum[] =
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const yytype_int16 yypact[] =
-{
-    2039,  -362,  -362,  -362,  -362,  -362,  -362,  -362,  -362,  -362,
-    -362,  -362,  -362,  -362,  -362,  -362,  -362,  -362,  -362,  -362,
-    -362,  -362,  -362,  -362,  -362,    27,   -57,   -47,  -362,   -37,
-    -362,  -362,    66,  2129,  2129,  -362,    32,  -362,  -362,  2129,
-    2129,  2129,  -362,  2039,  -362,  -362,    91,   -52,    93,   766,
-    2238,  1514,  -362,    99,   158,  -362,   -45,  -362,  1725,   -48,
-      75,  -362,  -362,    37,  2167,  -362,  -362,  -362,  -362,  -362,
-      93,  -362,    36,    -5,  -362,  -362,  -362,  -362,  -362,  -362,
-    1536,  1558,  1558,  -362,    73,    88,   766,  -362,  -362,  -362,
-    -362,  -362,  -362,  -362,  -362,  -362,  -362,   236,  -362,  1514,
-    -362,    68,    96,   200,    31,   210,    62,    86,    70,   212,
-      33,  -362,   157,  2238,   100,  2238,   163,   199,   204,   215,
-    -362,  -362,  -362,   158,    99,  -362,   214,  1272,  -362,    66,
-    -362,  1941,  1679,   854,   -48,  2167,  1841,  -362,    59,  -362,
-     117,  1514,    15,  -362,   766,  -362,   766,  -362,  -362,  2238,
-    1514,   196,  -362,  -362,   160,   225,   301,  -362,  -362,  1294,
-    1514,   306,  -362,  1514,  1514,  1514,  1514,  1514,  1514,  1514,
-    1514,  1514,  1514,  1514,  1514,  1514,  1514,  1514,  1514,  1514,
-    1514,  1514,  -362,  -362,  1792,   876,   -23,  -362,   135,  -362,
-    -362,  -362,   305,  -362,  -362,  -362,  -362,   216,  -362,   443,
-    1250,  -362,  -362,  -362,  -362,  -362,  -362,   102,   244,   265,
-    -362,   165,  1118,  -362,   266,   268,   898,  1888,  -362,  -362,
-    1514,  -362,   -44,  -362,   267,    23,  -362,  -362,  -362,  -362,
-     273,   275,   277,   279,  -362,  -362,  -362,  -362,  -362,  -362,
-    -362,  -362,  -362,  -362,  -362,  1514,  -362,  1514,  1382,  -362,
-    -362,   203,  -362,   -10,  -362,  -362,  -362,  -362,    68,    68,
-      96,    96,   200,   200,   200,   200,    31,    31,   210,    62,
-      86,    70,   212,   206,  -362,   278,   281,  1118,  -362,   282,
-     283,   986,   135,  1993,  1008,   285,   287,  1514,   288,   292,
-     293,   294,   586,   295,   372,   280,   284,   630,  -362,   -34,
-    -362,  -362,  -362,  -362,   443,  -362,  -362,  -362,  -362,  -362,
-    1514,   373,  -362,   121,  1272,    34,  -362,  1624,  -362,   128,
-    -362,  -362,  2085,  -362,   375,   300,  1118,  -362,  -362,  1514,
-    -362,   303,   304,  -362,  -362,    47,  -362,  1514,  -362,   299,
-     299,  -362,  2204,  -362,  -362,  1250,  -362,  -362,  1514,  -362,
-    1514,  -362,  -362,   307,  1118,  -362,  -362,  1514,  -362,   308,
-    -362,   309,  1118,  -362,   310,   312,  1030,   291,   586,   315,
-     586,  1514,  1514,  1514,   325,   533,   296,  -362,  -362,  -362,
-      78,  -362,   313,  -362,   318,  -362,  1140,  -362,  -362,  -362,
-    -362,  -362,  -362,  -362,  -362,   320,   321,  -362,  -362,  -362,
-    -362,   317,   209,  -362,   324,   125,  -362,  -362,  -362,   323,
-     326,  -362,  -362,   328,  1118,  -362,  -362,  1514,  -362,   329,
-    -362,  -362,   586,  -362,   218,   223,   229,   330,   676,   676,
-    -362,  -362,  -362,  -362,  -362,  -362,  1272,  -362,  -362,  1514,
-    -362,  2204,  1514,  1162,  -362,  -362,  -362,  -362,   331,   333,
-    -362,  -362,   586,   586,   586,  1514,  1404,  1426,  -362,  -362,
-    -362,  -362,  -362,  -362,  -362,   345,  -362,  -362,   250,   586,
-     254,   586,   256,   586,   316,  -362,   586,  -362,   586,  -362,
-    -362,  -362,  -362
+static const yytype_int16 yypact[] = {
+  2039, -362, -362, -362, -362, -362, -362, -362, -362, -362,
+  -362, -362, -362, -362, -362, -362, -362, -362, -362, -362,
+  -362, -362, -362, -362, -362, 27, -57, -47, -362, -37,
+  -362, -362, 66, 2129, 2129, -362, 32, -362, -362, 2129,
+  2129, 2129, -362, 2039, -362, -362, 91, -52, 93, 766,
+  2238, 1514, -362, 99, 158, -362, -45, -362, 1725, -48,
+  75, -362, -362, 37, 2167, -362, -362, -362, -362, -362,
+  93, -362, 36, -5, -362, -362, -362, -362, -362, -362,
+  1536, 1558, 1558, -362, 73, 88, 766, -362, -362, -362,
+  -362, -362, -362, -362, -362, -362, -362, 236, -362, 1514,
+  -362, 68, 96, 200, 31, 210, 62, 86, 70, 212,
+  33, -362, 157, 2238, 100, 2238, 163, 199, 204, 215,
+  -362, -362, -362, 158, 99, -362, 214, 1272, -362, 66,
+  -362, 1941, 1679, 854, -48, 2167, 1841, -362, 59, -362,
+  117, 1514, 15, -362, 766, -362, 766, -362, -362, 2238,
+  1514, 196, -362, -362, 160, 225, 301, -362, -362, 1294,
+  1514, 306, -362, 1514, 1514, 1514, 1514, 1514, 1514, 1514,
+  1514, 1514, 1514, 1514, 1514, 1514, 1514, 1514, 1514, 1514,
+  1514, 1514, -362, -362, 1792, 876, -23, -362, 135, -362,
+  -362, -362, 305, -362, -362, -362, -362, 216, -362, 443,
+  1250, -362, -362, -362, -362, -362, -362, 102, 244, 265,
+  -362, 165, 1118, -362, 266, 268, 898, 1888, -362, -362,
+  1514, -362, -44, -362, 267, 23, -362, -362, -362, -362,
+  273, 275, 277, 279, -362, -362, -362, -362, -362, -362,
+  -362, -362, -362, -362, -362, 1514, -362, 1514, 1382, -362,
+  -362, 203, -362, -10, -362, -362, -362, -362, 68, 68,
+  96, 96, 200, 200, 200, 200, 31, 31, 210, 62,
+  86, 70, 212, 206, -362, 278, 281, 1118, -362, 282,
+  283, 986, 135, 1993, 1008, 285, 287, 1514, 288, 292,
+  293, 294, 586, 295, 372, 280, 284, 630, -362, -34,
+  -362, -362, -362, -362, 443, -362, -362, -362, -362, -362,
+  1514, 373, -362, 121, 1272, 34, -362, 1624, -362, 128,
+  -362, -362, 2085, -362, 375, 300, 1118, -362, -362, 1514,
+  -362, 303, 304, -362, -362, 47, -362, 1514, -362, 299,
+  299, -362, 2204, -362, -362, 1250, -362, -362, 1514, -362,
+  1514, -362, -362, 307, 1118, -362, -362, 1514, -362, 308,
+  -362, 309, 1118, -362, 310, 312, 1030, 291, 586, 315,
+  586, 1514, 1514, 1514, 325, 533, 296, -362, -362, -362,
+  78, -362, 313, -362, 318, -362, 1140, -362, -362, -362,
+  -362, -362, -362, -362, -362, 320, 321, -362, -362, -362,
+  -362, 317, 209, -362, 324, 125, -362, -362, -362, 323,
+  326, -362, -362, 328, 1118, -362, -362, 1514, -362, 329,
+  -362, -362, 586, -362, 218, 223, 229, 330, 676, 676,
+  -362, -362, -362, -362, -362, -362, 1272, -362, -362, 1514,
+  -362, 2204, 1514, 1162, -362, -362, -362, -362, 331, 333,
+  -362, -362, 586, 586, 586, 1514, 1404, 1426, -362, -362,
+  -362, -362, -362, -362, -362, 345, -362, -362, 250, 586,
+  254, 586, 256, 586, 316, -362, 586, -362, 586, -362,
+  -362, -362, -362
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
      Performed when YYTABLE does not specify something else to do.  Zero
      means the default is an error.  */
-static const yytype_int16 yydefact[] =
-{
-       0,   129,   108,   109,   110,   112,   113,   163,   159,   160,
-     161,   123,   115,   116,   117,   118,   121,   122,   119,   120,
-     114,   124,   125,   133,   134,     0,     0,   162,   164,     0,
-     111,   273,     0,    95,    97,   127,     0,   128,   126,    99,
-     101,   103,    93,   278,   270,   272,     0,   153,     0,     0,
-       0,     0,   169,     0,   186,    91,     0,   104,   107,   168,
-       0,    94,    96,   132,     0,    98,   100,   102,   271,     1,
-       0,    10,   157,     0,   154,     2,     7,     8,    11,    12,
-       0,     0,     0,     9,     0,     0,     0,    37,    38,    39,
-      40,    41,    42,    18,     3,     4,     6,    30,    43,     0,
-      45,    49,    52,    55,    60,    63,    65,    67,    69,    71,
-      73,    90,     0,   141,   199,   143,     0,     0,     0,     0,
-     162,   187,   185,   184,     0,    92,   247,     0,   276,     0,
-     275,     0,     0,     0,   167,     0,     0,   135,     0,   139,
-       0,     0,     0,   149,     0,    34,     0,    31,    32,     0,
-       0,    43,    75,    88,     0,     0,     0,    24,    25,     0,
-       0,     0,    33,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,   166,   140,     0,     0,   201,   198,   202,   142,
-     165,   158,     0,   170,   188,   183,   105,   107,   246,     0,
-       0,   226,   106,   277,   274,   196,   181,   195,     0,   190,
-     191,     0,     0,   171,    38,     0,     0,     0,   130,   136,
-       0,   137,     0,   144,   148,     0,   151,   156,   150,   155,
-       0,     0,     0,     0,    78,    79,    80,    81,    82,    83,
-      84,    85,    86,    87,    77,     0,     5,     0,     0,    23,
-      20,     0,    28,     0,    22,    46,    47,    48,    50,    51,
-      53,    54,    58,    59,    56,    57,    61,    62,    64,    66,
-      68,    70,    72,     0,   220,     0,     0,     0,   204,    38,
-       0,     0,   200,     0,     0,     0,     2,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,   254,     0,
-     252,   253,   237,   238,   248,   250,   239,   240,   241,   242,
-       0,     0,   228,     0,     0,     0,   232,     0,   193,   201,
-     194,   180,     0,   182,     0,     0,     0,   172,   179,     0,
-     178,    38,     0,   131,   146,     0,   138,     0,   152,    35,
-       0,    36,     0,    76,    89,     0,    44,    21,     0,    19,
-       0,   221,   203,     0,     0,   205,   211,     0,   210,     0,
-     222,     0,     0,   212,    38,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,   266,   267,   268,
-       0,   255,     0,   251,     0,   235,     0,   224,   227,   231,
-     233,   189,   192,   197,   174,     0,     0,   175,   177,   145,
-     147,     0,     0,    14,     0,     0,    29,    74,   207,     0,
-       0,   209,   223,     0,     0,   213,   219,     0,   218,     0,
-     236,   243,     0,   245,     0,     0,     0,     0,     0,     0,
-     265,   269,   249,   234,   225,   230,     0,   173,   176,     0,
-      13,     0,     0,     0,    26,   206,   208,   215,     0,     0,
-     216,   244,     0,     0,     0,     0,     0,     0,   229,    17,
-      15,    16,    27,   214,   217,   257,   258,   259,     0,     0,
-       0,     0,     0,     0,     0,   263,     0,   261,     0,   256,
-     260,   264,   262
+static const yytype_int16 yydefact[] = {
+  0, 129, 108, 109, 110, 112, 113, 163, 159, 160,
+  161, 123, 115, 116, 117, 118, 121, 122, 119, 120,
+  114, 124, 125, 133, 134, 0, 0, 162, 164, 0,
+  111, 273, 0, 95, 97, 127, 0, 128, 126, 99,
+  101, 103, 93, 278, 270, 272, 0, 153, 0, 0,
+  0, 0, 169, 0, 186, 91, 0, 104, 107, 168,
+  0, 94, 96, 132, 0, 98, 100, 102, 271, 1,
+  0, 10, 157, 0, 154, 2, 7, 8, 11, 12,
+  0, 0, 0, 9, 0, 0, 0, 37, 38, 39,
+  40, 41, 42, 18, 3, 4, 6, 30, 43, 0,
+  45, 49, 52, 55, 60, 63, 65, 67, 69, 71,
+  73, 90, 0, 141, 199, 143, 0, 0, 0, 0,
+  162, 187, 185, 184, 0, 92, 247, 0, 276, 0,
+  275, 0, 0, 0, 167, 0, 0, 135, 0, 139,
+  0, 0, 0, 149, 0, 34, 0, 31, 32, 0,
+  0, 43, 75, 88, 0, 0, 0, 24, 25, 0,
+  0, 0, 33, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 166, 140, 0, 0, 201, 198, 202, 142,
+  165, 158, 0, 170, 188, 183, 105, 107, 246, 0,
+  0, 226, 106, 277, 274, 196, 181, 195, 0, 190,
+  191, 0, 0, 171, 38, 0, 0, 0, 130, 136,
+  0, 137, 0, 144, 148, 0, 151, 156, 150, 155,
+  0, 0, 0, 0, 78, 79, 80, 81, 82, 83,
+  84, 85, 86, 87, 77, 0, 5, 0, 0, 23,
+  20, 0, 28, 0, 22, 46, 47, 48, 50, 51,
+  53, 54, 58, 59, 56, 57, 61, 62, 64, 66,
+  68, 70, 72, 0, 220, 0, 0, 0, 204, 38,
+  0, 0, 200, 0, 0, 0, 2, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 254, 0,
+  252, 253, 237, 238, 248, 250, 239, 240, 241, 242,
+  0, 0, 228, 0, 0, 0, 232, 0, 193, 201,
+  194, 180, 0, 182, 0, 0, 0, 172, 179, 0,
+  178, 38, 0, 131, 146, 0, 138, 0, 152, 35,
+  0, 36, 0, 76, 89, 0, 44, 21, 0, 19,
+  0, 221, 203, 0, 0, 205, 211, 0, 210, 0,
+  222, 0, 0, 212, 38, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 266, 267, 268,
+  0, 255, 0, 251, 0, 235, 0, 224, 227, 231,
+  233, 189, 192, 197, 174, 0, 0, 175, 177, 145,
+  147, 0, 0, 14, 0, 0, 29, 74, 207, 0,
+  0, 209, 223, 0, 0, 213, 219, 0, 218, 0,
+  236, 243, 0, 245, 0, 0, 0, 0, 0, 0,
+  265, 269, 249, 234, 225, 230, 0, 173, 176, 0,
+  13, 0, 0, 0, 26, 206, 208, 215, 0, 0,
+  216, 244, 0, 0, 0, 0, 0, 0, 229, 17,
+  15, 16, 27, 214, 217, 257, 258, 259, 0, 0,
+  0, 0, 0, 0, 0, 263, 0, 261, 0, 256,
+  260, 264, 262
 };
 
   /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int16 yypgoto[] =
-{
-    -362,  -362,  -362,  -362,  -362,  -362,  -362,   -25,  -362,  -362,
-      90,  -362,   -75,   169,   172,    79,   170,   241,   242,   240,
-     243,   245,  -362,   -13,    -6,  -362,   -83,    16,   -56,     8,
-    -362,   297,  -362,   -43,  -362,  -362,   289,  -109,   -55,  -362,
-      85,  -362,   353,  -131,  -362,   -49,  -362,  -362,   -20,   -46,
-     -38,  -129,  -122,  -362,   104,  -362,   -27,   -94,  -169,  -114,
-      83,  -361,  -362,   114,   -24,    -9,  -362,    71,  -362,  -362,
-    -362,   127,  -238,  -362,  -362,  -362,  -362,   389,  -362,  -362,
-    -362
+static const yytype_int16 yypgoto[] = {
+  -362, -362, -362, -362, -362, -362, -362, -25, -362, -362,
+  90, -362, -75, 169, 172, 79, 170, 241, 242, 240,
+  243, 245, -362, -13, -6, -362, -83, 16, -56, 8,
+  -362, 297, -362, -43, -362, -362, 289, -109, -55, -362,
+  85, -362, 353, -131, -362, -49, -362, -362, -20, -46,
+  -38, -129, -122, -362, 104, -362, -27, -94, -169, -114,
+  83, -361, -362, 114, -24, -9, -362, 71, -362, -362,
+  -362, 127, -238, -362, -362, -362, -362, 389, -362, -362,
+  -362
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
-static const yytype_int16 yydefgoto[] =
-{
-      -1,    93,    94,    72,    95,    96,   402,   403,    97,   251,
-     151,    99,   100,   101,   102,   103,   104,   105,   106,   107,
-     108,   109,   110,   152,   153,   245,   299,   112,    31,   129,
-      56,    57,    33,    34,    35,    36,   136,   137,   114,   222,
-     223,    37,    73,    74,    38,    39,    40,    41,   119,    59,
-      60,   123,   275,   209,   210,   211,   404,   276,   188,   312,
-     313,   314,   315,   316,    42,   301,   302,   303,   199,   382,
-     304,   305,   306,   307,   308,   309,    43,    44,    45,   131,
-      46
+static const yytype_int16 yydefgoto[] = {
+  -1, 93, 94, 72, 95, 96, 402, 403, 97, 251,
+  151, 99, 100, 101, 102, 103, 104, 105, 106, 107,
+  108, 109, 110, 152, 153, 245, 299, 112, 31, 129,
+  56, 57, 33, 34, 35, 36, 136, 137, 114, 222,
+  223, 37, 73, 74, 38, 39, 40, 41, 119, 59,
+  60, 123, 275, 209, 210, 211, 404, 276, 188, 312,
+  313, 314, 315, 316, 42, 301, 302, 303, 199, 382,
+  304, 305, 306, 307, 308, 309, 43, 44, 45, 131,
+  46
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_int16 yytable[] =
-{
-     115,   115,   128,   154,   216,   121,   113,   113,    32,   138,
-     208,   229,    58,   202,   134,   115,   122,   282,    71,    49,
-     187,   113,   116,   117,   162,   436,    71,   219,   132,    50,
-      47,    70,   133,   124,   335,    63,   111,   115,   111,    51,
-     139,    61,    62,   113,   247,   170,   171,    65,    66,    67,
-      52,    32,   180,   184,   125,   336,   281,   185,   183,   155,
-     189,   154,    52,   154,   115,   381,   115,   118,   247,    52,
-     113,   349,   113,   142,   194,   203,   186,   253,    52,   143,
-     138,   138,   436,   326,   121,   195,   115,   115,   255,   256,
-     257,    69,   113,   113,   229,   115,    71,   115,   273,   228,
-     115,   113,    52,   113,   197,    52,   113,   338,   219,   197,
-      48,   139,   139,   320,   310,    64,   311,   230,   224,   231,
-     135,   201,   232,    53,   172,   173,   220,   215,   111,   130,
-     181,    52,   389,    54,   141,    53,   121,   429,   220,    98,
-     207,    98,    53,   300,   233,    54,   186,   176,   354,   149,
-     282,    53,    54,   252,   163,   366,   247,   227,   221,   164,
-     165,   361,   138,   121,   150,    55,   178,   194,   115,   319,
-     145,   147,   148,   346,   113,    53,   184,   431,   317,   280,
-     185,   177,   185,   166,   167,    54,    54,   318,    54,    98,
-     456,   457,   207,   139,   201,   225,     8,     9,    10,   386,
-     388,   226,   204,   443,   317,   387,   325,   111,   185,   444,
-     332,   283,   168,   169,   380,   284,   234,   235,   236,   237,
-     238,   239,   240,   241,   242,   243,   174,   175,   121,   120,
-     179,    98,   194,   414,   182,   121,   334,   246,   247,   343,
-     190,   344,   323,   324,    54,   156,   157,   158,   300,   262,
-     263,   264,   265,    98,    98,    98,    98,    98,    98,    98,
-      98,    98,    98,    98,    98,    98,    98,    98,    98,    98,
-      98,   353,   435,   134,   111,   359,   191,   194,   365,   319,
-     347,   348,   192,   374,   247,   350,   440,   441,   424,   425,
-     426,   207,   193,   115,   244,   452,   247,   111,   198,   113,
-     453,   247,   248,   369,   249,   194,   454,   247,   201,   254,
-      98,   285,   159,   121,   127,   224,   160,   194,   161,   428,
-     395,   321,   458,   396,   111,   207,   384,   474,   247,   435,
-     207,   476,   247,   478,   247,   258,   259,   407,    98,   201,
-     260,   261,   406,   322,   266,   267,   337,   327,   409,   328,
-     339,   410,   340,   400,   341,   351,   413,   342,   352,   421,
-     419,   423,   367,   355,   356,   194,   368,   370,   371,   372,
-     373,   375,   468,   470,   472,   376,   385,    98,   393,   377,
-     201,   394,   345,   378,   397,   398,   412,   427,   408,   411,
-     420,   415,   115,   416,   422,   430,   439,   432,   113,   433,
-      98,   437,   438,   442,   445,   473,   455,   446,   448,   447,
-     450,   449,   463,   451,   464,   480,   460,   268,   270,   269,
-     399,   196,   271,   140,   217,   272,   392,    98,   405,   390,
-     201,   383,    68,   459,     0,     0,   461,   201,     0,     0,
-      98,     0,     0,   465,   466,   467,   286,    76,    77,    78,
-      79,    80,     0,    81,    82,     0,     0,     0,     0,     0,
-     475,     0,   477,     0,   479,     0,     0,   481,     0,   482,
-       0,     0,     0,     1,    83,     2,     3,     4,     5,     6,
-       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
-      17,    18,    19,    20,    21,    22,    23,    24,    25,     0,
-     287,   288,   289,     0,   290,   291,   292,   293,   294,   295,
-     296,   297,    26,    84,    27,    85,    28,    29,    30,    86,
-       0,     0,     0,     0,     0,     0,   126,     0,    87,    88,
-      89,    90,    91,    92,     0,     0,    75,    76,    77,    78,
-      79,    80,   298,    81,    82,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     1,    83,     2,     3,     4,     5,     6,
-       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
-      17,    18,    19,    20,    21,    22,    23,    24,    25,   286,
-      76,    77,    78,    79,    80,     0,    81,    82,     0,     0,
-       0,     0,    26,    84,    27,    85,    28,    29,    30,    86,
-       0,     0,     0,     0,     0,     0,     0,    83,    87,    88,
-      89,    90,    91,    92,     0,     0,     0,     0,     0,     0,
-       0,     0,   298,    75,    76,    77,    78,    79,    80,     0,
-      81,    82,     0,   287,   288,   289,     0,   290,   291,   292,
-     293,   294,   295,   296,   297,     0,    84,     0,    85,     0,
-       0,    83,    86,     0,     0,     0,     0,     0,     0,   126,
-       0,    87,    88,    89,    90,    91,    92,     0,     0,    75,
-      76,    77,    78,    79,    80,   298,    81,    82,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      84,     0,    85,     0,     0,     0,    86,    83,     0,     0,
-       0,     0,     0,     0,     0,    87,    88,    89,    90,    91,
-      92,     0,     0,     0,     0,     0,     0,     0,     0,   379,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,    84,     0,    85,     0,
-       0,     0,    86,     0,     0,     0,     0,     0,     0,     0,
-       0,    87,    88,    89,    90,    91,    92,     0,     0,    75,
-      76,    77,    78,    79,    80,   298,    81,    82,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     1,    83,     0,     0,
-       0,     0,     0,     0,     8,     9,    10,    11,    12,    13,
-      14,    15,    16,    17,    18,    19,    20,    21,    22,    23,
-      24,    25,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,    84,    27,    85,     0,
-       0,     0,    86,     0,     0,     0,     0,     0,     0,     0,
-       0,    87,    88,    89,    90,    91,    92,    75,    76,    77,
-      78,    79,    80,     0,    81,    82,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    75,
-      76,    77,    78,    79,    80,    83,    81,    82,   212,     0,
-       0,     0,     8,     9,    10,     0,     0,     0,     0,     0,
-       0,    75,    76,    77,    78,    79,    80,    83,    81,    82,
-     277,     0,     0,     0,     8,     9,    10,     0,     0,     0,
-       0,     0,     0,     0,    84,   120,    85,     0,     0,    83,
-      86,     0,   329,     0,     0,   213,     8,     9,    10,    87,
-     214,    89,    90,    91,    92,     0,    84,   120,    85,     0,
-       0,     0,    86,     0,     0,     0,     0,   278,     0,     0,
-       0,    87,   279,    89,    90,    91,    92,     0,    84,   120,
-      85,     0,     0,     0,    86,     0,     0,     0,     0,   330,
-       0,     0,     0,    87,   331,    89,    90,    91,    92,    75,
-      76,    77,    78,    79,    80,     0,    81,    82,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    75,    76,    77,    78,    79,    80,    83,    81,    82,
-     357,     0,     0,     0,     8,     9,    10,     0,     0,     0,
-       0,     0,     0,    75,    76,    77,    78,    79,    80,    83,
-      81,    82,   362,     0,     0,     0,     8,     9,    10,     0,
-       0,     0,     0,     0,     0,     0,    84,   120,    85,     0,
-       0,    83,    86,     0,   417,     0,     0,   358,     8,     9,
-      10,    87,    88,    89,    90,    91,    92,     0,    84,   120,
-      85,     0,     0,     0,    86,     0,     0,     0,     0,   363,
-       0,     0,     0,    87,   364,    89,    90,    91,    92,     0,
-      84,   120,    85,     0,     0,     0,    86,     0,     0,     0,
-       0,   418,     0,     0,     0,    87,    88,    89,    90,    91,
-      92,    75,    76,    77,    78,    79,    80,     0,    81,    82,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    75,    76,    77,    78,    79,    80,    83,
-      81,    82,     0,     0,     0,     0,     8,     9,    10,     0,
-       0,     0,     0,     0,     0,    75,    76,    77,    78,    79,
-      80,    83,    81,    82,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    84,   120,
-      85,     0,     0,    83,    86,     0,     0,     0,     0,     0,
-       0,     0,     0,    87,    88,    89,    90,    91,    92,     0,
-      84,     0,    85,     0,     0,     0,    86,     0,     0,     0,
-     310,     0,   311,   200,   434,    87,    88,    89,    90,    91,
-      92,     0,    84,     0,    85,     0,     0,     0,    86,     0,
-       0,     0,   310,     0,   311,   200,   462,    87,    88,    89,
-      90,    91,    92,    75,    76,    77,    78,    79,    80,     0,
-      81,    82,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,    75,    76,    77,    78,    79,
-      80,    83,    81,    82,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    75,    76,    77,
-      78,    79,    80,    83,    81,    82,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      84,     0,    85,     0,     0,    83,    86,     0,     0,     0,
-     310,     0,   311,   200,     0,    87,    88,    89,    90,    91,
-      92,     0,    84,     0,    85,     0,     0,     0,    86,     0,
-       0,     0,     0,     0,     0,   200,     0,    87,    88,    89,
-      90,    91,    92,     0,    84,     0,    85,     0,     0,     0,
-      86,   250,     0,     0,     0,     0,     0,     0,     0,    87,
-      88,    89,    90,    91,    92,    75,    76,    77,    78,    79,
-      80,     0,    81,    82,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    75,    76,    77,
-      78,    79,    80,    83,    81,    82,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    75,
-      76,    77,    78,    79,    80,    83,    81,    82,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    84,     0,    85,     0,     0,    83,    86,     0,
-       0,     0,     0,     0,     0,   345,     0,    87,    88,    89,
-      90,    91,    92,     0,    84,     0,    85,     0,     0,     0,
-      86,   469,     0,     0,     0,     0,     0,     0,     0,    87,
-      88,    89,    90,    91,    92,     0,    84,     0,    85,     0,
-       0,     0,    86,   471,     0,     0,     0,     0,     0,     0,
-       0,    87,    88,    89,    90,    91,    92,    75,    76,    77,
-      78,    79,    80,     0,    81,    82,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    75,
-      76,    77,    78,    79,    80,    83,    81,    82,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    75,    76,    77,    78,    79,    80,    83,    81,    82,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    84,     0,    85,     0,     0,    83,
-      86,     0,     0,     0,     0,     0,     0,     0,     0,    87,
-      88,    89,    90,    91,    92,     0,    84,     0,    85,     0,
-       0,     0,   144,     0,     0,     0,     0,     0,     0,     0,
-       0,    87,    88,    89,    90,    91,    92,    52,    84,     0,
-      85,     0,     0,     0,   146,     0,     0,     0,     0,     0,
-       0,     0,     0,    87,    88,    89,    90,    91,    92,     0,
-       0,     0,     0,     0,     1,     0,     2,     3,     4,     5,
-       6,     7,     8,     9,    10,    11,    12,    13,    14,    15,
-      16,    17,    18,    19,    20,    21,    22,    23,    24,    25,
-       0,     0,   205,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    26,     0,    27,     0,    28,     0,    30,
-     317,   274,     0,     0,   185,     0,     0,     0,     0,     1,
-      54,     2,     3,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
-      21,    22,    23,    24,    25,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    26,     0,
-      27,     0,    28,     0,    30,     1,   206,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    26,     0,    27,     0,    28,    29,
-      30,     0,     0,     0,     0,     0,     0,     0,   126,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     1,   127,     2,     3,     4,     5,     6,     7,
-       8,     9,    10,    11,    12,    13,    14,    15,    16,    17,
-      18,    19,    20,    21,    22,    23,    24,    25,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    26,     0,    27,     0,    28,     0,    30,   184,   274,
-       0,     1,   185,     0,     0,     0,     0,     0,    54,     8,
-       9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
-      19,    20,    21,    22,    23,    24,    25,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    27,     0,     0,    29,     0,     0,     1,     0,
-       0,     0,     0,     0,     0,   218,     8,     9,    10,    11,
-      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
-      22,    23,    24,    25,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    27,
-       0,     0,    29,     0,     0,     0,     0,     0,     0,     0,
-       0,     1,   333,     2,     3,     4,     5,     6,     7,     8,
-       9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
-      19,    20,    21,    22,    23,    24,    25,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      26,     0,    27,     0,    28,    29,    30,     0,     0,     0,
-       0,     0,     0,     1,   126,     2,     3,     4,     5,     6,
-       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
-      17,    18,    19,    20,    21,    22,    23,    24,    25,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    26,     0,    27,     0,    28,     0,    30,     1,
-     360,     2,     3,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
-      21,    22,    23,    24,    25,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    26,     0,
-      27,     0,    28,    29,    30,     1,     0,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,   391,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    26,     0,    27,     0,    28,     1,
-      30,     2,     3,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
-      21,    22,    23,    24,    25,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     1,    26,     0,
-      27,     0,    28,     0,    30,     8,     9,    10,    11,    12,
-      13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
-      23,    24,    25,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     1,     0,     0,     0,    27,     0,
-       0,    29,     8,     9,    10,    11,    12,    13,    14,    15,
-      16,    17,    18,    19,    20,    21,    22,    23,    24,    25,
-       0,     0,   401,     0,     0,     0,     0,     0,     1,     0,
-       0,     0,     0,     0,     0,    27,     8,     9,    10,    11,
-      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
-      22,    23,    24,    25,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    27
+static const yytype_int16 yytable[] = {
+  115, 115, 128, 154, 216, 121, 113, 113, 32, 138,
+  208, 229, 58, 202, 134, 115, 122, 282, 71, 49,
+  187, 113, 116, 117, 162, 436, 71, 219, 132, 50,
+  47, 70, 133, 124, 335, 63, 111, 115, 111, 51,
+  139, 61, 62, 113, 247, 170, 171, 65, 66, 67,
+  52, 32, 180, 184, 125, 336, 281, 185, 183, 155,
+  189, 154, 52, 154, 115, 381, 115, 118, 247, 52,
+  113, 349, 113, 142, 194, 203, 186, 253, 52, 143,
+  138, 138, 436, 326, 121, 195, 115, 115, 255, 256,
+  257, 69, 113, 113, 229, 115, 71, 115, 273, 228,
+  115, 113, 52, 113, 197, 52, 113, 338, 219, 197,
+  48, 139, 139, 320, 310, 64, 311, 230, 224, 231,
+  135, 201, 232, 53, 172, 173, 220, 215, 111, 130,
+  181, 52, 389, 54, 141, 53, 121, 429, 220, 98,
+  207, 98, 53, 300, 233, 54, 186, 176, 354, 149,
+  282, 53, 54, 252, 163, 366, 247, 227, 221, 164,
+  165, 361, 138, 121, 150, 55, 178, 194, 115, 319,
+  145, 147, 148, 346, 113, 53, 184, 431, 317, 280,
+  185, 177, 185, 166, 167, 54, 54, 318, 54, 98,
+  456, 457, 207, 139, 201, 225, 8, 9, 10, 386,
+  388, 226, 204, 443, 317, 387, 325, 111, 185, 444,
+  332, 283, 168, 169, 380, 284, 234, 235, 236, 237,
+  238, 239, 240, 241, 242, 243, 174, 175, 121, 120,
+  179, 98, 194, 414, 182, 121, 334, 246, 247, 343,
+  190, 344, 323, 324, 54, 156, 157, 158, 300, 262,
+  263, 264, 265, 98, 98, 98, 98, 98, 98, 98,
+  98, 98, 98, 98, 98, 98, 98, 98, 98, 98,
+  98, 353, 435, 134, 111, 359, 191, 194, 365, 319,
+  347, 348, 192, 374, 247, 350, 440, 441, 424, 425,
+  426, 207, 193, 115, 244, 452, 247, 111, 198, 113,
+  453, 247, 248, 369, 249, 194, 454, 247, 201, 254,
+  98, 285, 159, 121, 127, 224, 160, 194, 161, 428,
+  395, 321, 458, 396, 111, 207, 384, 474, 247, 435,
+  207, 476, 247, 478, 247, 258, 259, 407, 98, 201,
+  260, 261, 406, 322, 266, 267, 337, 327, 409, 328,
+  339, 410, 340, 400, 341, 351, 413, 342, 352, 421,
+  419, 423, 367, 355, 356, 194, 368, 370, 371, 372,
+  373, 375, 468, 470, 472, 376, 385, 98, 393, 377,
+  201, 394, 345, 378, 397, 398, 412, 427, 408, 411,
+  420, 415, 115, 416, 422, 430, 439, 432, 113, 433,
+  98, 437, 438, 442, 445, 473, 455, 446, 448, 447,
+  450, 449, 463, 451, 464, 480, 460, 268, 270, 269,
+  399, 196, 271, 140, 217, 272, 392, 98, 405, 390,
+  201, 383, 68, 459, 0, 0, 461, 201, 0, 0,
+  98, 0, 0, 465, 466, 467, 286, 76, 77, 78,
+  79, 80, 0, 81, 82, 0, 0, 0, 0, 0,
+  475, 0, 477, 0, 479, 0, 0, 481, 0, 482,
+  0, 0, 0, 1, 83, 2, 3, 4, 5, 6,
+  7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+  17, 18, 19, 20, 21, 22, 23, 24, 25, 0,
+  287, 288, 289, 0, 290, 291, 292, 293, 294, 295,
+  296, 297, 26, 84, 27, 85, 28, 29, 30, 86,
+  0, 0, 0, 0, 0, 0, 126, 0, 87, 88,
+  89, 90, 91, 92, 0, 0, 75, 76, 77, 78,
+  79, 80, 298, 81, 82, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 1, 83, 2, 3, 4, 5, 6,
+  7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+  17, 18, 19, 20, 21, 22, 23, 24, 25, 286,
+  76, 77, 78, 79, 80, 0, 81, 82, 0, 0,
+  0, 0, 26, 84, 27, 85, 28, 29, 30, 86,
+  0, 0, 0, 0, 0, 0, 0, 83, 87, 88,
+  89, 90, 91, 92, 0, 0, 0, 0, 0, 0,
+  0, 0, 298, 75, 76, 77, 78, 79, 80, 0,
+  81, 82, 0, 287, 288, 289, 0, 290, 291, 292,
+  293, 294, 295, 296, 297, 0, 84, 0, 85, 0,
+  0, 83, 86, 0, 0, 0, 0, 0, 0, 126,
+  0, 87, 88, 89, 90, 91, 92, 0, 0, 75,
+  76, 77, 78, 79, 80, 298, 81, 82, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  84, 0, 85, 0, 0, 0, 86, 83, 0, 0,
+  0, 0, 0, 0, 0, 87, 88, 89, 90, 91,
+  92, 0, 0, 0, 0, 0, 0, 0, 0, 379,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 84, 0, 85, 0,
+  0, 0, 86, 0, 0, 0, 0, 0, 0, 0,
+  0, 87, 88, 89, 90, 91, 92, 0, 0, 75,
+  76, 77, 78, 79, 80, 298, 81, 82, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 1, 83, 0, 0,
+  0, 0, 0, 0, 8, 9, 10, 11, 12, 13,
+  14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+  24, 25, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 84, 27, 85, 0,
+  0, 0, 86, 0, 0, 0, 0, 0, 0, 0,
+  0, 87, 88, 89, 90, 91, 92, 75, 76, 77,
+  78, 79, 80, 0, 81, 82, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 75,
+  76, 77, 78, 79, 80, 83, 81, 82, 212, 0,
+  0, 0, 8, 9, 10, 0, 0, 0, 0, 0,
+  0, 75, 76, 77, 78, 79, 80, 83, 81, 82,
+  277, 0, 0, 0, 8, 9, 10, 0, 0, 0,
+  0, 0, 0, 0, 84, 120, 85, 0, 0, 83,
+  86, 0, 329, 0, 0, 213, 8, 9, 10, 87,
+  214, 89, 90, 91, 92, 0, 84, 120, 85, 0,
+  0, 0, 86, 0, 0, 0, 0, 278, 0, 0,
+  0, 87, 279, 89, 90, 91, 92, 0, 84, 120,
+  85, 0, 0, 0, 86, 0, 0, 0, 0, 330,
+  0, 0, 0, 87, 331, 89, 90, 91, 92, 75,
+  76, 77, 78, 79, 80, 0, 81, 82, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 75, 76, 77, 78, 79, 80, 83, 81, 82,
+  357, 0, 0, 0, 8, 9, 10, 0, 0, 0,
+  0, 0, 0, 75, 76, 77, 78, 79, 80, 83,
+  81, 82, 362, 0, 0, 0, 8, 9, 10, 0,
+  0, 0, 0, 0, 0, 0, 84, 120, 85, 0,
+  0, 83, 86, 0, 417, 0, 0, 358, 8, 9,
+  10, 87, 88, 89, 90, 91, 92, 0, 84, 120,
+  85, 0, 0, 0, 86, 0, 0, 0, 0, 363,
+  0, 0, 0, 87, 364, 89, 90, 91, 92, 0,
+  84, 120, 85, 0, 0, 0, 86, 0, 0, 0,
+  0, 418, 0, 0, 0, 87, 88, 89, 90, 91,
+  92, 75, 76, 77, 78, 79, 80, 0, 81, 82,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 75, 76, 77, 78, 79, 80, 83,
+  81, 82, 0, 0, 0, 0, 8, 9, 10, 0,
+  0, 0, 0, 0, 0, 75, 76, 77, 78, 79,
+  80, 83, 81, 82, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 84, 120,
+  85, 0, 0, 83, 86, 0, 0, 0, 0, 0,
+  0, 0, 0, 87, 88, 89, 90, 91, 92, 0,
+  84, 0, 85, 0, 0, 0, 86, 0, 0, 0,
+  310, 0, 311, 200, 434, 87, 88, 89, 90, 91,
+  92, 0, 84, 0, 85, 0, 0, 0, 86, 0,
+  0, 0, 310, 0, 311, 200, 462, 87, 88, 89,
+  90, 91, 92, 75, 76, 77, 78, 79, 80, 0,
+  81, 82, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 75, 76, 77, 78, 79,
+  80, 83, 81, 82, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 75, 76, 77,
+  78, 79, 80, 83, 81, 82, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  84, 0, 85, 0, 0, 83, 86, 0, 0, 0,
+  310, 0, 311, 200, 0, 87, 88, 89, 90, 91,
+  92, 0, 84, 0, 85, 0, 0, 0, 86, 0,
+  0, 0, 0, 0, 0, 200, 0, 87, 88, 89,
+  90, 91, 92, 0, 84, 0, 85, 0, 0, 0,
+  86, 250, 0, 0, 0, 0, 0, 0, 0, 87,
+  88, 89, 90, 91, 92, 75, 76, 77, 78, 79,
+  80, 0, 81, 82, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 75, 76, 77,
+  78, 79, 80, 83, 81, 82, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 75,
+  76, 77, 78, 79, 80, 83, 81, 82, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 84, 0, 85, 0, 0, 83, 86, 0,
+  0, 0, 0, 0, 0, 345, 0, 87, 88, 89,
+  90, 91, 92, 0, 84, 0, 85, 0, 0, 0,
+  86, 469, 0, 0, 0, 0, 0, 0, 0, 87,
+  88, 89, 90, 91, 92, 0, 84, 0, 85, 0,
+  0, 0, 86, 471, 0, 0, 0, 0, 0, 0,
+  0, 87, 88, 89, 90, 91, 92, 75, 76, 77,
+  78, 79, 80, 0, 81, 82, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 75,
+  76, 77, 78, 79, 80, 83, 81, 82, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 75, 76, 77, 78, 79, 80, 83, 81, 82,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 84, 0, 85, 0, 0, 83,
+  86, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+  88, 89, 90, 91, 92, 0, 84, 0, 85, 0,
+  0, 0, 144, 0, 0, 0, 0, 0, 0, 0,
+  0, 87, 88, 89, 90, 91, 92, 52, 84, 0,
+  85, 0, 0, 0, 146, 0, 0, 0, 0, 0,
+  0, 0, 0, 87, 88, 89, 90, 91, 92, 0,
+  0, 0, 0, 0, 1, 0, 2, 3, 4, 5,
+  6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+  16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+  0, 0, 205, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 26, 0, 27, 0, 28, 0, 30,
+  317, 274, 0, 0, 185, 0, 0, 0, 0, 1,
+  54, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  21, 22, 23, 24, 25, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 26, 0,
+  27, 0, 28, 0, 30, 1, 206, 2, 3, 4,
+  5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+  15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+  25, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 26, 0, 27, 0, 28, 29,
+  30, 0, 0, 0, 0, 0, 0, 0, 126, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 1, 127, 2, 3, 4, 5, 6, 7,
+  8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+  18, 19, 20, 21, 22, 23, 24, 25, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 26, 0, 27, 0, 28, 0, 30, 184, 274,
+  0, 1, 185, 0, 0, 0, 0, 0, 54, 8,
+  9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+  19, 20, 21, 22, 23, 24, 25, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 27, 0, 0, 29, 0, 0, 1, 0,
+  0, 0, 0, 0, 0, 218, 8, 9, 10, 11,
+  12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  22, 23, 24, 25, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 27,
+  0, 0, 29, 0, 0, 0, 0, 0, 0, 0,
+  0, 1, 333, 2, 3, 4, 5, 6, 7, 8,
+  9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+  19, 20, 21, 22, 23, 24, 25, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  26, 0, 27, 0, 28, 29, 30, 0, 0, 0,
+  0, 0, 0, 1, 126, 2, 3, 4, 5, 6,
+  7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+  17, 18, 19, 20, 21, 22, 23, 24, 25, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 26, 0, 27, 0, 28, 0, 30, 1,
+  360, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  21, 22, 23, 24, 25, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 26, 0,
+  27, 0, 28, 29, 30, 1, 0, 2, 3, 4,
+  5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+  15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+  25, 391, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 26, 0, 27, 0, 28, 1,
+  30, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  21, 22, 23, 24, 25, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 1, 26, 0,
+  27, 0, 28, 0, 30, 8, 9, 10, 11, 12,
+  13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 1, 0, 0, 0, 27, 0,
+  0, 29, 8, 9, 10, 11, 12, 13, 14, 15,
+  16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+  0, 0, 401, 0, 0, 0, 0, 0, 1, 0,
+  0, 0, 0, 0, 0, 27, 8, 9, 10, 11,
+  12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  22, 23, 24, 25, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 27
 };
 
-static const yytype_int16 yycheck[] =
-{
-      49,    50,    58,    86,   133,    54,    49,    50,     0,    64,
-     132,   142,    32,   127,    60,    64,    54,   186,     3,    76,
-     114,    64,    49,    50,    99,   386,     3,   136,    76,    76,
-       3,    83,    80,    78,    78,     3,    49,    86,    51,    76,
-      64,    33,    34,    86,    78,    14,    15,    39,    40,    41,
-       3,    43,    19,    76,    99,    99,   185,    80,   113,    86,
-     115,   144,     3,   146,   113,    99,   115,    51,    78,     3,
-     113,    81,   115,    78,   123,   131,   114,   160,     3,    84,
-     135,   136,   443,   212,   133,   123,   135,   136,   163,   164,
-     165,     0,   135,   136,   225,   144,     3,   146,   181,    84,
-     149,   144,     3,   146,   124,     3,   149,    84,   217,   129,
-      83,   135,   136,   207,    80,    83,    82,   144,   138,   146,
-      83,   127,   149,    76,    93,    94,    79,   133,   141,    58,
-      97,     3,    98,    86,    98,    76,   185,   375,    79,    49,
-     132,    51,    76,   199,   150,    86,   184,    85,   277,    76,
-     319,    76,    86,   159,    86,   284,    78,   141,    99,    91,
-      92,   283,   217,   212,    76,    99,    96,   216,   217,   207,
-      80,    81,    82,   248,   217,    76,    76,    99,    76,   185,
-      80,    95,    80,    87,    88,    86,    86,   207,    86,    99,
-     428,   429,   184,   217,   200,    78,    38,    39,    40,    78,
-     314,    84,   131,    78,    76,    84,   212,   220,    80,    84,
-     216,    76,    12,    13,   297,    80,    20,    21,    22,    23,
-      24,    25,    26,    27,    28,    29,    16,    17,   277,    71,
-      18,   141,   281,   362,    77,   284,   220,    77,    78,   245,
-      77,   247,    77,    78,    86,     9,    10,    11,   304,   170,
-     171,   172,   173,   163,   164,   165,   166,   167,   168,   169,
-     170,   171,   172,   173,   174,   175,   176,   177,   178,   179,
-     180,   277,   386,   319,   287,   281,    77,   326,   284,   317,
-      77,    78,    78,   292,    78,    79,    77,    78,   371,   372,
-     373,   283,    77,   342,    98,    77,    78,   310,    84,   342,
-      77,    78,    77,   287,     3,   354,    77,    78,   314,     3,
-     220,     6,    76,   362,    98,   335,    80,   366,    82,   375,
-     326,    77,   436,   329,   337,   317,   310,    77,    78,   443,
-     322,    77,    78,    77,    78,   166,   167,   350,   248,   345,
-     168,   169,   348,    78,   174,   175,    79,    81,   354,    81,
-      77,   357,    77,   337,    77,    77,   362,    78,    77,   368,
-     366,   370,    77,    81,    81,   414,    79,    79,    76,    76,
-      76,    76,   455,   456,   457,     3,     3,   287,     3,    99,
-     386,    81,    83,    99,    81,    81,    77,    62,    81,    81,
-      99,    81,   441,    81,    79,    99,    79,    84,   441,    81,
-     310,    81,    81,    79,    81,    60,    76,    81,   414,    81,
-      81,   417,    81,   422,    81,    99,   441,   176,   178,   177,
-     335,   124,   179,    70,   135,   180,   322,   337,   345,   315,
-     436,   304,    43,   439,    -1,    -1,   442,   443,    -1,    -1,
-     350,    -1,    -1,   452,   453,   454,     3,     4,     5,     6,
-       7,     8,    -1,    10,    11,    -1,    -1,    -1,    -1,    -1,
-     469,    -1,   471,    -1,   473,    -1,    -1,   476,    -1,   478,
-      -1,    -1,    -1,    30,    31,    32,    33,    34,    35,    36,
-      37,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-      47,    48,    49,    50,    51,    52,    53,    54,    55,    -1,
-      57,    58,    59,    -1,    61,    62,    63,    64,    65,    66,
-      67,    68,    69,    70,    71,    72,    73,    74,    75,    76,
-      -1,    -1,    -1,    -1,    -1,    -1,    83,    -1,    85,    86,
-      87,    88,    89,    90,    -1,    -1,     3,     4,     5,     6,
-       7,     8,    99,    10,    11,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    30,    31,    32,    33,    34,    35,    36,
-      37,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-      47,    48,    49,    50,    51,    52,    53,    54,    55,     3,
-       4,     5,     6,     7,     8,    -1,    10,    11,    -1,    -1,
-      -1,    -1,    69,    70,    71,    72,    73,    74,    75,    76,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    31,    85,    86,
-      87,    88,    89,    90,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    99,     3,     4,     5,     6,     7,     8,    -1,
-      10,    11,    -1,    57,    58,    59,    -1,    61,    62,    63,
-      64,    65,    66,    67,    68,    -1,    70,    -1,    72,    -1,
-      -1,    31,    76,    -1,    -1,    -1,    -1,    -1,    -1,    83,
-      -1,    85,    86,    87,    88,    89,    90,    -1,    -1,     3,
-       4,     5,     6,     7,     8,    99,    10,    11,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      70,    -1,    72,    -1,    -1,    -1,    76,    31,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    85,    86,    87,    88,    89,
-      90,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    99,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    70,    -1,    72,    -1,
-      -1,    -1,    76,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    85,    86,    87,    88,    89,    90,    -1,    -1,     3,
-       4,     5,     6,     7,     8,    99,    10,    11,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    30,    31,    -1,    -1,
-      -1,    -1,    -1,    -1,    38,    39,    40,    41,    42,    43,
-      44,    45,    46,    47,    48,    49,    50,    51,    52,    53,
-      54,    55,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    70,    71,    72,    -1,
-      -1,    -1,    76,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    85,    86,    87,    88,    89,    90,     3,     4,     5,
-       6,     7,     8,    -1,    10,    11,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,     3,
-       4,     5,     6,     7,     8,    31,    10,    11,    34,    -1,
-      -1,    -1,    38,    39,    40,    -1,    -1,    -1,    -1,    -1,
-      -1,     3,     4,     5,     6,     7,     8,    31,    10,    11,
-      34,    -1,    -1,    -1,    38,    39,    40,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    70,    71,    72,    -1,    -1,    31,
-      76,    -1,    34,    -1,    -1,    81,    38,    39,    40,    85,
-      86,    87,    88,    89,    90,    -1,    70,    71,    72,    -1,
-      -1,    -1,    76,    -1,    -1,    -1,    -1,    81,    -1,    -1,
-      -1,    85,    86,    87,    88,    89,    90,    -1,    70,    71,
-      72,    -1,    -1,    -1,    76,    -1,    -1,    -1,    -1,    81,
-      -1,    -1,    -1,    85,    86,    87,    88,    89,    90,     3,
-       4,     5,     6,     7,     8,    -1,    10,    11,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,     3,     4,     5,     6,     7,     8,    31,    10,    11,
-      34,    -1,    -1,    -1,    38,    39,    40,    -1,    -1,    -1,
-      -1,    -1,    -1,     3,     4,     5,     6,     7,     8,    31,
-      10,    11,    34,    -1,    -1,    -1,    38,    39,    40,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    70,    71,    72,    -1,
-      -1,    31,    76,    -1,    34,    -1,    -1,    81,    38,    39,
-      40,    85,    86,    87,    88,    89,    90,    -1,    70,    71,
-      72,    -1,    -1,    -1,    76,    -1,    -1,    -1,    -1,    81,
-      -1,    -1,    -1,    85,    86,    87,    88,    89,    90,    -1,
-      70,    71,    72,    -1,    -1,    -1,    76,    -1,    -1,    -1,
-      -1,    81,    -1,    -1,    -1,    85,    86,    87,    88,    89,
-      90,     3,     4,     5,     6,     7,     8,    -1,    10,    11,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,     3,     4,     5,     6,     7,     8,    31,
-      10,    11,    -1,    -1,    -1,    -1,    38,    39,    40,    -1,
-      -1,    -1,    -1,    -1,    -1,     3,     4,     5,     6,     7,
-       8,    31,    10,    11,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    70,    71,
-      72,    -1,    -1,    31,    76,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    85,    86,    87,    88,    89,    90,    -1,
-      70,    -1,    72,    -1,    -1,    -1,    76,    -1,    -1,    -1,
-      80,    -1,    82,    83,    84,    85,    86,    87,    88,    89,
-      90,    -1,    70,    -1,    72,    -1,    -1,    -1,    76,    -1,
-      -1,    -1,    80,    -1,    82,    83,    84,    85,    86,    87,
-      88,    89,    90,     3,     4,     5,     6,     7,     8,    -1,
-      10,    11,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,     3,     4,     5,     6,     7,
-       8,    31,    10,    11,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,     3,     4,     5,
-       6,     7,     8,    31,    10,    11,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      70,    -1,    72,    -1,    -1,    31,    76,    -1,    -1,    -1,
-      80,    -1,    82,    83,    -1,    85,    86,    87,    88,    89,
-      90,    -1,    70,    -1,    72,    -1,    -1,    -1,    76,    -1,
-      -1,    -1,    -1,    -1,    -1,    83,    -1,    85,    86,    87,
-      88,    89,    90,    -1,    70,    -1,    72,    -1,    -1,    -1,
-      76,    77,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    85,
-      86,    87,    88,    89,    90,     3,     4,     5,     6,     7,
-       8,    -1,    10,    11,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,     3,     4,     5,
-       6,     7,     8,    31,    10,    11,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,     3,
-       4,     5,     6,     7,     8,    31,    10,    11,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    70,    -1,    72,    -1,    -1,    31,    76,    -1,
-      -1,    -1,    -1,    -1,    -1,    83,    -1,    85,    86,    87,
-      88,    89,    90,    -1,    70,    -1,    72,    -1,    -1,    -1,
-      76,    77,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    85,
-      86,    87,    88,    89,    90,    -1,    70,    -1,    72,    -1,
-      -1,    -1,    76,    77,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    85,    86,    87,    88,    89,    90,     3,     4,     5,
-       6,     7,     8,    -1,    10,    11,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,     3,
-       4,     5,     6,     7,     8,    31,    10,    11,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,     3,     4,     5,     6,     7,     8,    31,    10,    11,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    70,    -1,    72,    -1,    -1,    31,
-      76,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    85,
-      86,    87,    88,    89,    90,    -1,    70,    -1,    72,    -1,
-      -1,    -1,    76,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    85,    86,    87,    88,    89,    90,     3,    70,    -1,
-      72,    -1,    -1,    -1,    76,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    85,    86,    87,    88,    89,    90,    -1,
-      -1,    -1,    -1,    -1,    30,    -1,    32,    33,    34,    35,
-      36,    37,    38,    39,    40,    41,    42,    43,    44,    45,
-      46,    47,    48,    49,    50,    51,    52,    53,    54,    55,
-      -1,    -1,     3,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    69,    -1,    71,    -1,    73,    -1,    75,
-      76,    77,    -1,    -1,    80,    -1,    -1,    -1,    -1,    30,
-      86,    32,    33,    34,    35,    36,    37,    38,    39,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
-      51,    52,    53,    54,    55,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    69,    -1,
-      71,    -1,    73,    -1,    75,    30,    77,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    69,    -1,    71,    -1,    73,    74,
-      75,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    83,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    30,    98,    32,    33,    34,    35,    36,    37,
-      38,    39,    40,    41,    42,    43,    44,    45,    46,    47,
-      48,    49,    50,    51,    52,    53,    54,    55,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    69,    -1,    71,    -1,    73,    -1,    75,    76,    77,
-      -1,    30,    80,    -1,    -1,    -1,    -1,    -1,    86,    38,
-      39,    40,    41,    42,    43,    44,    45,    46,    47,    48,
-      49,    50,    51,    52,    53,    54,    55,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    71,    -1,    -1,    74,    -1,    -1,    30,    -1,
-      -1,    -1,    -1,    -1,    -1,    84,    38,    39,    40,    41,
-      42,    43,    44,    45,    46,    47,    48,    49,    50,    51,
-      52,    53,    54,    55,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    71,
-      -1,    -1,    74,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    30,    84,    32,    33,    34,    35,    36,    37,    38,
-      39,    40,    41,    42,    43,    44,    45,    46,    47,    48,
-      49,    50,    51,    52,    53,    54,    55,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      69,    -1,    71,    -1,    73,    74,    75,    -1,    -1,    -1,
-      -1,    -1,    -1,    30,    83,    32,    33,    34,    35,    36,
-      37,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-      47,    48,    49,    50,    51,    52,    53,    54,    55,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    69,    -1,    71,    -1,    73,    -1,    75,    30,
-      77,    32,    33,    34,    35,    36,    37,    38,    39,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
-      51,    52,    53,    54,    55,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    69,    -1,
-      71,    -1,    73,    74,    75,    30,    -1,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    56,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    69,    -1,    71,    -1,    73,    30,
-      75,    32,    33,    34,    35,    36,    37,    38,    39,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
-      51,    52,    53,    54,    55,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    30,    69,    -1,
-      71,    -1,    73,    -1,    75,    38,    39,    40,    41,    42,
-      43,    44,    45,    46,    47,    48,    49,    50,    51,    52,
-      53,    54,    55,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    30,    -1,    -1,    -1,    71,    -1,
-      -1,    74,    38,    39,    40,    41,    42,    43,    44,    45,
-      46,    47,    48,    49,    50,    51,    52,    53,    54,    55,
-      -1,    -1,    58,    -1,    -1,    -1,    -1,    -1,    30,    -1,
-      -1,    -1,    -1,    -1,    -1,    71,    38,    39,    40,    41,
-      42,    43,    44,    45,    46,    47,    48,    49,    50,    51,
-      52,    53,    54,    55,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    71
+static const yytype_int16 yycheck[] = {
+  49, 50, 58, 86, 133, 54, 49, 50, 0, 64,
+  132, 142, 32, 127, 60, 64, 54, 186, 3, 76,
+  114, 64, 49, 50, 99, 386, 3, 136, 76, 76,
+  3, 83, 80, 78, 78, 3, 49, 86, 51, 76,
+  64, 33, 34, 86, 78, 14, 15, 39, 40, 41,
+  3, 43, 19, 76, 99, 99, 185, 80, 113, 86,
+  115, 144, 3, 146, 113, 99, 115, 51, 78, 3,
+  113, 81, 115, 78, 123, 131, 114, 160, 3, 84,
+  135, 136, 443, 212, 133, 123, 135, 136, 163, 164,
+  165, 0, 135, 136, 225, 144, 3, 146, 181, 84,
+  149, 144, 3, 146, 124, 3, 149, 84, 217, 129,
+  83, 135, 136, 207, 80, 83, 82, 144, 138, 146,
+  83, 127, 149, 76, 93, 94, 79, 133, 141, 58,
+  97, 3, 98, 86, 98, 76, 185, 375, 79, 49,
+  132, 51, 76, 199, 150, 86, 184, 85, 277, 76,
+  319, 76, 86, 159, 86, 284, 78, 141, 99, 91,
+  92, 283, 217, 212, 76, 99, 96, 216, 217, 207,
+  80, 81, 82, 248, 217, 76, 76, 99, 76, 185,
+  80, 95, 80, 87, 88, 86, 86, 207, 86, 99,
+  428, 429, 184, 217, 200, 78, 38, 39, 40, 78,
+  314, 84, 131, 78, 76, 84, 212, 220, 80, 84,
+  216, 76, 12, 13, 297, 80, 20, 21, 22, 23,
+  24, 25, 26, 27, 28, 29, 16, 17, 277, 71,
+  18, 141, 281, 362, 77, 284, 220, 77, 78, 245,
+  77, 247, 77, 78, 86, 9, 10, 11, 304, 170,
+  171, 172, 173, 163, 164, 165, 166, 167, 168, 169,
+  170, 171, 172, 173, 174, 175, 176, 177, 178, 179,
+  180, 277, 386, 319, 287, 281, 77, 326, 284, 317,
+  77, 78, 78, 292, 78, 79, 77, 78, 371, 372,
+  373, 283, 77, 342, 98, 77, 78, 310, 84, 342,
+  77, 78, 77, 287, 3, 354, 77, 78, 314, 3,
+  220, 6, 76, 362, 98, 335, 80, 366, 82, 375,
+  326, 77, 436, 329, 337, 317, 310, 77, 78, 443,
+  322, 77, 78, 77, 78, 166, 167, 350, 248, 345,
+  168, 169, 348, 78, 174, 175, 79, 81, 354, 81,
+  77, 357, 77, 337, 77, 77, 362, 78, 77, 368,
+  366, 370, 77, 81, 81, 414, 79, 79, 76, 76,
+  76, 76, 455, 456, 457, 3, 3, 287, 3, 99,
+  386, 81, 83, 99, 81, 81, 77, 62, 81, 81,
+  99, 81, 441, 81, 79, 99, 79, 84, 441, 81,
+  310, 81, 81, 79, 81, 60, 76, 81, 414, 81,
+  81, 417, 81, 422, 81, 99, 441, 176, 178, 177,
+  335, 124, 179, 70, 135, 180, 322, 337, 345, 315,
+  436, 304, 43, 439, -1, -1, 442, 443, -1, -1,
+  350, -1, -1, 452, 453, 454, 3, 4, 5, 6,
+  7, 8, -1, 10, 11, -1, -1, -1, -1, -1,
+  469, -1, 471, -1, 473, -1, -1, 476, -1, 478,
+  -1, -1, -1, 30, 31, 32, 33, 34, 35, 36,
+  37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
+  47, 48, 49, 50, 51, 52, 53, 54, 55, -1,
+  57, 58, 59, -1, 61, 62, 63, 64, 65, 66,
+  67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
+  -1, -1, -1, -1, -1, -1, 83, -1, 85, 86,
+  87, 88, 89, 90, -1, -1, 3, 4, 5, 6,
+  7, 8, 99, 10, 11, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, 30, 31, 32, 33, 34, 35, 36,
+  37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
+  47, 48, 49, 50, 51, 52, 53, 54, 55, 3,
+  4, 5, 6, 7, 8, -1, 10, 11, -1, -1,
+  -1, -1, 69, 70, 71, 72, 73, 74, 75, 76,
+  -1, -1, -1, -1, -1, -1, -1, 31, 85, 86,
+  87, 88, 89, 90, -1, -1, -1, -1, -1, -1,
+  -1, -1, 99, 3, 4, 5, 6, 7, 8, -1,
+  10, 11, -1, 57, 58, 59, -1, 61, 62, 63,
+  64, 65, 66, 67, 68, -1, 70, -1, 72, -1,
+  -1, 31, 76, -1, -1, -1, -1, -1, -1, 83,
+  -1, 85, 86, 87, 88, 89, 90, -1, -1, 3,
+  4, 5, 6, 7, 8, 99, 10, 11, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  70, -1, 72, -1, -1, -1, 76, 31, -1, -1,
+  -1, -1, -1, -1, -1, 85, 86, 87, 88, 89,
+  90, -1, -1, -1, -1, -1, -1, -1, -1, 99,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, 70, -1, 72, -1,
+  -1, -1, 76, -1, -1, -1, -1, -1, -1, -1,
+  -1, 85, 86, 87, 88, 89, 90, -1, -1, 3,
+  4, 5, 6, 7, 8, 99, 10, 11, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, 30, 31, -1, -1,
+  -1, -1, -1, -1, 38, 39, 40, 41, 42, 43,
+  44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
+  54, 55, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, 70, 71, 72, -1,
+  -1, -1, 76, -1, -1, -1, -1, -1, -1, -1,
+  -1, 85, 86, 87, 88, 89, 90, 3, 4, 5,
+  6, 7, 8, -1, 10, 11, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, 3,
+  4, 5, 6, 7, 8, 31, 10, 11, 34, -1,
+  -1, -1, 38, 39, 40, -1, -1, -1, -1, -1,
+  -1, 3, 4, 5, 6, 7, 8, 31, 10, 11,
+  34, -1, -1, -1, 38, 39, 40, -1, -1, -1,
+  -1, -1, -1, -1, 70, 71, 72, -1, -1, 31,
+  76, -1, 34, -1, -1, 81, 38, 39, 40, 85,
+  86, 87, 88, 89, 90, -1, 70, 71, 72, -1,
+  -1, -1, 76, -1, -1, -1, -1, 81, -1, -1,
+  -1, 85, 86, 87, 88, 89, 90, -1, 70, 71,
+  72, -1, -1, -1, 76, -1, -1, -1, -1, 81,
+  -1, -1, -1, 85, 86, 87, 88, 89, 90, 3,
+  4, 5, 6, 7, 8, -1, 10, 11, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, 3, 4, 5, 6, 7, 8, 31, 10, 11,
+  34, -1, -1, -1, 38, 39, 40, -1, -1, -1,
+  -1, -1, -1, 3, 4, 5, 6, 7, 8, 31,
+  10, 11, 34, -1, -1, -1, 38, 39, 40, -1,
+  -1, -1, -1, -1, -1, -1, 70, 71, 72, -1,
+  -1, 31, 76, -1, 34, -1, -1, 81, 38, 39,
+  40, 85, 86, 87, 88, 89, 90, -1, 70, 71,
+  72, -1, -1, -1, 76, -1, -1, -1, -1, 81,
+  -1, -1, -1, 85, 86, 87, 88, 89, 90, -1,
+  70, 71, 72, -1, -1, -1, 76, -1, -1, -1,
+  -1, 81, -1, -1, -1, 85, 86, 87, 88, 89,
+  90, 3, 4, 5, 6, 7, 8, -1, 10, 11,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, 3, 4, 5, 6, 7, 8, 31,
+  10, 11, -1, -1, -1, -1, 38, 39, 40, -1,
+  -1, -1, -1, -1, -1, 3, 4, 5, 6, 7,
+  8, 31, 10, 11, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, 70, 71,
+  72, -1, -1, 31, 76, -1, -1, -1, -1, -1,
+  -1, -1, -1, 85, 86, 87, 88, 89, 90, -1,
+  70, -1, 72, -1, -1, -1, 76, -1, -1, -1,
+  80, -1, 82, 83, 84, 85, 86, 87, 88, 89,
+  90, -1, 70, -1, 72, -1, -1, -1, 76, -1,
+  -1, -1, 80, -1, 82, 83, 84, 85, 86, 87,
+  88, 89, 90, 3, 4, 5, 6, 7, 8, -1,
+  10, 11, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, 3, 4, 5, 6, 7,
+  8, 31, 10, 11, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, 3, 4, 5,
+  6, 7, 8, 31, 10, 11, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  70, -1, 72, -1, -1, 31, 76, -1, -1, -1,
+  80, -1, 82, 83, -1, 85, 86, 87, 88, 89,
+  90, -1, 70, -1, 72, -1, -1, -1, 76, -1,
+  -1, -1, -1, -1, -1, 83, -1, 85, 86, 87,
+  88, 89, 90, -1, 70, -1, 72, -1, -1, -1,
+  76, 77, -1, -1, -1, -1, -1, -1, -1, 85,
+  86, 87, 88, 89, 90, 3, 4, 5, 6, 7,
+  8, -1, 10, 11, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, 3, 4, 5,
+  6, 7, 8, 31, 10, 11, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, 3,
+  4, 5, 6, 7, 8, 31, 10, 11, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, 70, -1, 72, -1, -1, 31, 76, -1,
+  -1, -1, -1, -1, -1, 83, -1, 85, 86, 87,
+  88, 89, 90, -1, 70, -1, 72, -1, -1, -1,
+  76, 77, -1, -1, -1, -1, -1, -1, -1, 85,
+  86, 87, 88, 89, 90, -1, 70, -1, 72, -1,
+  -1, -1, 76, 77, -1, -1, -1, -1, -1, -1,
+  -1, 85, 86, 87, 88, 89, 90, 3, 4, 5,
+  6, 7, 8, -1, 10, 11, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, 3,
+  4, 5, 6, 7, 8, 31, 10, 11, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, 3, 4, 5, 6, 7, 8, 31, 10, 11,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, 70, -1, 72, -1, -1, 31,
+  76, -1, -1, -1, -1, -1, -1, -1, -1, 85,
+  86, 87, 88, 89, 90, -1, 70, -1, 72, -1,
+  -1, -1, 76, -1, -1, -1, -1, -1, -1, -1,
+  -1, 85, 86, 87, 88, 89, 90, 3, 70, -1,
+  72, -1, -1, -1, 76, -1, -1, -1, -1, -1,
+  -1, -1, -1, 85, 86, 87, 88, 89, 90, -1,
+  -1, -1, -1, -1, 30, -1, 32, 33, 34, 35,
+  36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+  46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+  -1, -1, 3, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, 69, -1, 71, -1, 73, -1, 75,
+  76, 77, -1, -1, 80, -1, -1, -1, -1, 30,
+  86, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+  41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+  51, 52, 53, 54, 55, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, 69, -1,
+  71, -1, 73, -1, 75, 30, 77, 32, 33, 34,
+  35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
+  45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
+  55, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, 69, -1, 71, -1, 73, 74,
+  75, -1, -1, -1, -1, -1, -1, -1, 83, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, 30, 98, 32, 33, 34, 35, 36, 37,
+  38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+  48, 49, 50, 51, 52, 53, 54, 55, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, 69, -1, 71, -1, 73, -1, 75, 76, 77,
+  -1, 30, 80, -1, -1, -1, -1, -1, 86, 38,
+  39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
+  49, 50, 51, 52, 53, 54, 55, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, 71, -1, -1, 74, -1, -1, 30, -1,
+  -1, -1, -1, -1, -1, 84, 38, 39, 40, 41,
+  42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
+  52, 53, 54, 55, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, 71,
+  -1, -1, 74, -1, -1, -1, -1, -1, -1, -1,
+  -1, 30, 84, 32, 33, 34, 35, 36, 37, 38,
+  39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
+  49, 50, 51, 52, 53, 54, 55, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  69, -1, 71, -1, 73, 74, 75, -1, -1, -1,
+  -1, -1, -1, 30, 83, 32, 33, 34, 35, 36,
+  37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
+  47, 48, 49, 50, 51, 52, 53, 54, 55, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, 69, -1, 71, -1, 73, -1, 75, 30,
+  77, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+  41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+  51, 52, 53, 54, 55, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, 69, -1,
+  71, -1, 73, 74, 75, 30, -1, 32, 33, 34,
+  35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
+  45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
+  55, 56, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, 69, -1, 71, -1, 73, 30,
+  75, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+  41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+  51, 52, 53, 54, 55, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, 30, 69, -1,
+  71, -1, 73, -1, 75, 38, 39, 40, 41, 42,
+  43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
+  53, 54, 55, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, 30, -1, -1, -1, 71, -1,
+  -1, 74, 38, 39, 40, 41, 42, 43, 44, 45,
+  46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+  -1, -1, 58, -1, -1, -1, -1, -1, 30, -1,
+  -1, -1, -1, -1, -1, 71, 38, 39, 40, 41,
+  42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
+  52, 53, 54, 55, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, 71
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
-static const yytype_uint8 yystos[] =
-{
-       0,    30,    32,    33,    34,    35,    36,    37,    38,    39,
-      40,    41,    42,    43,    44,    45,    46,    47,    48,    49,
-      50,    51,    52,    53,    54,    55,    69,    71,    73,    74,
-      75,   128,   129,   132,   133,   134,   135,   141,   144,   145,
-     146,   147,   164,   176,   177,   178,   180,     3,    83,    76,
-      76,    76,     3,    76,    86,    99,   130,   131,   148,   149,
-     150,   129,   129,     3,    83,   129,   129,   129,   177,     0,
-      83,     3,   103,   142,   143,     3,     4,     5,     6,     7,
-       8,    10,    11,    31,    70,    72,    76,    85,    86,    87,
-      88,    89,    90,   101,   102,   104,   105,   108,   110,   111,
-     112,   113,   114,   115,   116,   117,   118,   119,   120,   121,
-     122,   123,   127,   133,   138,   145,   156,   156,   127,   148,
-      71,   145,   150,   151,    78,    99,    83,    98,   128,   129,
-     167,   179,    76,    80,   149,    83,   136,   137,   138,   164,
-     142,    98,    78,    84,    76,   110,    76,   110,   110,    76,
-      76,   110,   123,   124,   126,   156,     9,    10,    11,    76,
-      80,    82,   112,    86,    91,    92,    87,    88,    12,    13,
-      14,    15,    93,    94,    16,    17,    85,    95,    96,    18,
-      19,    97,    77,   138,    76,    80,   150,   157,   158,   138,
-      77,    77,    78,    77,   145,   150,   131,   148,    84,   168,
-      83,   124,   159,   128,   167,     3,    77,   129,   152,   153,
-     154,   155,    34,    81,    86,   124,   151,   136,    84,   137,
-      79,    99,   139,   140,   148,    78,    84,   127,    84,   143,
-     156,   156,   156,   124,    20,    21,    22,    23,    24,    25,
-      26,    27,    28,    29,    98,   125,    77,    78,    77,     3,
-      77,   109,   124,   126,     3,   112,   112,   112,   113,   113,
-     114,   114,   115,   115,   115,   115,   116,   116,   117,   118,
-     119,   120,   121,   126,    77,   152,   157,    34,    81,    86,
-     124,   151,   158,    76,    80,     6,     3,    57,    58,    59,
-      61,    62,    63,    64,    65,    66,    67,    68,    99,   126,
-     128,   165,   166,   167,   170,   171,   172,   173,   174,   175,
-      80,    82,   159,   160,   161,   162,   163,    76,   148,   150,
-     157,    77,    78,    77,    78,   124,   151,    81,    81,    34,
-      81,    86,   124,    84,   127,    78,    99,    79,    84,    77,
-      77,    77,    78,   124,   124,    83,   112,    77,    78,    81,
-      79,    77,    77,   124,   151,    81,    81,    34,    81,   124,
-      77,   152,    34,    81,    86,   124,   151,    77,    79,   127,
-      79,    76,    76,    76,   165,    76,     3,    99,    99,    99,
-     126,    99,   169,   171,   127,     3,    78,    84,   159,    98,
-     163,    56,   154,     3,    81,   124,   124,    81,    81,   140,
-     127,    58,   106,   107,   156,   160,   124,   123,    81,   124,
-     124,    81,    77,   124,   151,    81,    81,    34,    81,   124,
-      99,   165,    79,   165,   126,   126,   126,    62,   128,   172,
-      99,    99,    84,    81,    84,   159,   161,    81,    81,    79,
-      77,    78,    79,    78,    84,    81,    81,    81,   124,   124,
-      81,   165,    77,    77,    77,    76,   172,   172,   159,   124,
-     107,   124,    84,    81,    81,   165,   165,   165,   126,    77,
-     126,    77,   126,    60,    77,   165,    77,   165,    77,   165,
-      99,   165,   165
+static const yytype_uint8 yystos[] = {
+  0, 30, 32, 33, 34, 35, 36, 37, 38, 39,
+  40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
+  50, 51, 52, 53, 54, 55, 69, 71, 73, 74,
+  75, 128, 129, 132, 133, 134, 135, 141, 144, 145,
+  146, 147, 164, 176, 177, 178, 180, 3, 83, 76,
+  76, 76, 3, 76, 86, 99, 130, 131, 148, 149,
+  150, 129, 129, 3, 83, 129, 129, 129, 177, 0,
+  83, 3, 103, 142, 143, 3, 4, 5, 6, 7,
+  8, 10, 11, 31, 70, 72, 76, 85, 86, 87,
+  88, 89, 90, 101, 102, 104, 105, 108, 110, 111,
+  112, 113, 114, 115, 116, 117, 118, 119, 120, 121,
+  122, 123, 127, 133, 138, 145, 156, 156, 127, 148,
+  71, 145, 150, 151, 78, 99, 83, 98, 128, 129,
+  167, 179, 76, 80, 149, 83, 136, 137, 138, 164,
+  142, 98, 78, 84, 76, 110, 76, 110, 110, 76,
+  76, 110, 123, 124, 126, 156, 9, 10, 11, 76,
+  80, 82, 112, 86, 91, 92, 87, 88, 12, 13,
+  14, 15, 93, 94, 16, 17, 85, 95, 96, 18,
+  19, 97, 77, 138, 76, 80, 150, 157, 158, 138,
+  77, 77, 78, 77, 145, 150, 131, 148, 84, 168,
+  83, 124, 159, 128, 167, 3, 77, 129, 152, 153,
+  154, 155, 34, 81, 86, 124, 151, 136, 84, 137,
+  79, 99, 139, 140, 148, 78, 84, 127, 84, 143,
+  156, 156, 156, 124, 20, 21, 22, 23, 24, 25,
+  26, 27, 28, 29, 98, 125, 77, 78, 77, 3,
+  77, 109, 124, 126, 3, 112, 112, 112, 113, 113,
+  114, 114, 115, 115, 115, 115, 116, 116, 117, 118,
+  119, 120, 121, 126, 77, 152, 157, 34, 81, 86,
+  124, 151, 158, 76, 80, 6, 3, 57, 58, 59,
+  61, 62, 63, 64, 65, 66, 67, 68, 99, 126,
+  128, 165, 166, 167, 170, 171, 172, 173, 174, 175,
+  80, 82, 159, 160, 161, 162, 163, 76, 148, 150,
+  157, 77, 78, 77, 78, 124, 151, 81, 81, 34,
+  81, 86, 124, 84, 127, 78, 99, 79, 84, 77,
+  77, 77, 78, 124, 124, 83, 112, 77, 78, 81,
+  79, 77, 77, 124, 151, 81, 81, 34, 81, 124,
+  77, 152, 34, 81, 86, 124, 151, 77, 79, 127,
+  79, 76, 76, 76, 165, 76, 3, 99, 99, 99,
+  126, 99, 169, 171, 127, 3, 78, 84, 159, 98,
+  163, 56, 154, 3, 81, 124, 124, 81, 81, 140,
+  127, 58, 106, 107, 156, 160, 124, 123, 81, 124,
+  124, 81, 77, 124, 151, 81, 81, 34, 81, 124,
+  99, 165, 79, 165, 126, 126, 126, 62, 128, 172,
+  99, 99, 84, 81, 84, 159, 161, 81, 81, 79,
+  77, 78, 79, 78, 84, 81, 81, 81, 124, 124,
+  81, 165, 77, 77, 77, 76, 172, 172, 159, 124,
+  107, 124, 84, 81, 81, 165, 165, 165, 126, 77,
+  126, 77, 126, 60, 77, 165, 77, 165, 77, 165,
+  99, 165, 165
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const yytype_uint8 yyr1[] =
-{
-       0,   100,   101,   101,   101,   101,   101,   102,   102,   102,
-     103,   104,   104,   105,   106,   106,   107,   107,   108,   108,
-     108,   108,   108,   108,   108,   108,   108,   108,   109,   109,
-     110,   110,   110,   110,   110,   110,   110,   111,   111,   111,
-     111,   111,   111,   112,   112,   113,   113,   113,   113,   114,
-     114,   114,   115,   115,   115,   116,   116,   116,   116,   116,
-     117,   117,   117,   118,   118,   119,   119,   120,   120,   121,
-     121,   122,   122,   123,   123,   124,   124,   125,   125,   125,
-     125,   125,   125,   125,   125,   125,   125,   125,   126,   126,
-     127,   128,   128,   128,   129,   129,   129,   129,   129,   129,
-     129,   129,   129,   129,   130,   130,   131,   131,   132,   132,
-     132,   132,   132,   132,   133,   133,   133,   133,   133,   133,
-     133,   133,   133,   133,   133,   133,   133,   133,   133,   133,
-     134,   134,   134,   135,   135,   136,   136,   137,   137,   137,
-     138,   138,   138,   138,   139,   139,   140,   140,   140,   141,
-     141,   141,   141,   141,   142,   142,   143,   143,   144,   145,
-     145,   145,   145,   146,   146,   147,   147,   148,   148,   149,
-     149,   149,   149,   149,   149,   149,   149,   149,   149,   149,
-     149,   149,   149,   150,   150,   150,   150,   151,   151,   152,
-     152,   153,   153,   154,   154,   154,   155,   155,   156,   156,
-     157,   157,   157,   158,   158,   158,   158,   158,   158,   158,
-     158,   158,   158,   158,   158,   158,   158,   158,   158,   158,
-     158,   158,   158,   158,   159,   159,   159,   160,   160,   160,
-     160,   161,   162,   162,   163,   163,   164,   165,   165,   165,
-     165,   165,   165,   166,   166,   166,   167,   168,   169,   167,
-     170,   170,   171,   171,   172,   172,   173,   173,   173,   174,
-     174,   174,   174,   174,   174,   175,   175,   175,   175,   175,
-     176,   176,   177,   177,   178,   178,   179,   179,   180
+static const yytype_uint8 yyr1[] = {
+  0, 100, 101, 101, 101, 101, 101, 102, 102, 102,
+  103, 104, 104, 105, 106, 106, 107, 107, 108, 108,
+  108, 108, 108, 108, 108, 108, 108, 108, 109, 109,
+  110, 110, 110, 110, 110, 110, 110, 111, 111, 111,
+  111, 111, 111, 112, 112, 113, 113, 113, 113, 114,
+  114, 114, 115, 115, 115, 116, 116, 116, 116, 116,
+  117, 117, 117, 118, 118, 119, 119, 120, 120, 121,
+  121, 122, 122, 123, 123, 124, 124, 125, 125, 125,
+  125, 125, 125, 125, 125, 125, 125, 125, 126, 126,
+  127, 128, 128, 128, 129, 129, 129, 129, 129, 129,
+  129, 129, 129, 129, 130, 130, 131, 131, 132, 132,
+  132, 132, 132, 132, 133, 133, 133, 133, 133, 133,
+  133, 133, 133, 133, 133, 133, 133, 133, 133, 133,
+  134, 134, 134, 135, 135, 136, 136, 137, 137, 137,
+  138, 138, 138, 138, 139, 139, 140, 140, 140, 141,
+  141, 141, 141, 141, 142, 142, 143, 143, 144, 145,
+  145, 145, 145, 146, 146, 147, 147, 148, 148, 149,
+  149, 149, 149, 149, 149, 149, 149, 149, 149, 149,
+  149, 149, 149, 150, 150, 150, 150, 151, 151, 152,
+  152, 153, 153, 154, 154, 154, 155, 155, 156, 156,
+  157, 157, 157, 158, 158, 158, 158, 158, 158, 158,
+  158, 158, 158, 158, 158, 158, 158, 158, 158, 158,
+  158, 158, 158, 158, 159, 159, 159, 160, 160, 160,
+  160, 161, 162, 162, 163, 163, 164, 165, 165, 165,
+  165, 165, 165, 166, 166, 166, 167, 168, 169, 167,
+  170, 170, 171, 171, 172, 172, 173, 173, 173, 174,
+  174, 174, 174, 174, 174, 175, 175, 175, 175, 175,
+  176, 176, 177, 177, 178, 178, 179, 179, 180
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
-static const yytype_int8 yyr2[] =
-{
-       0,     2,     1,     1,     1,     3,     1,     1,     1,     1,
-       1,     1,     1,     6,     1,     3,     3,     3,     1,     4,
-       3,     4,     3,     3,     2,     2,     6,     7,     1,     3,
-       1,     2,     2,     2,     2,     4,     4,     1,     1,     1,
-       1,     1,     1,     1,     4,     1,     3,     3,     3,     1,
-       3,     3,     1,     3,     3,     1,     3,     3,     3,     3,
-       1,     3,     3,     1,     3,     1,     3,     1,     3,     1,
-       3,     1,     3,     1,     5,     1,     3,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     3,
-       1,     2,     3,     1,     2,     1,     2,     1,     2,     1,
-       2,     1,     2,     1,     1,     3,     3,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       4,     5,     2,     1,     1,     1,     2,     2,     3,     1,
-       2,     1,     2,     1,     1,     3,     2,     3,     1,     4,
-       5,     5,     6,     2,     1,     3,     3,     1,     4,     1,
-       1,     1,     1,     1,     1,     4,     4,     2,     1,     1,
-       3,     3,     4,     6,     5,     5,     6,     5,     4,     4,
-       4,     3,     4,     3,     2,     2,     1,     1,     2,     3,
-       1,     1,     3,     2,     2,     1,     1,     3,     2,     1,
-       2,     1,     1,     3,     2,     3,     5,     4,     5,     4,
-       3,     3,     3,     4,     6,     5,     5,     6,     4,     4,
-       2,     3,     3,     4,     3,     4,     1,     2,     1,     4,
-       3,     2,     1,     2,     3,     2,     7,     1,     1,     1,
-       1,     1,     1,     3,     4,     3,     2,     0,     0,     5,
-       1,     2,     1,     1,     1,     2,     7,     5,     5,     5,
-       7,     6,     7,     6,     7,     3,     2,     2,     2,     3,
-       1,     2,     1,     1,     4,     3,     1,     2,     1
+static const yytype_int8 yyr2[] = {
+  0, 2, 1, 1, 1, 3, 1, 1, 1, 1,
+  1, 1, 1, 6, 1, 3, 3, 3, 1, 4,
+  3, 4, 3, 3, 2, 2, 6, 7, 1, 3,
+  1, 2, 2, 2, 2, 4, 4, 1, 1, 1,
+  1, 1, 1, 1, 4, 1, 3, 3, 3, 1,
+  3, 3, 1, 3, 3, 1, 3, 3, 3, 3,
+  1, 3, 3, 1, 3, 1, 3, 1, 3, 1,
+  3, 1, 3, 1, 5, 1, 3, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
+  1, 2, 3, 1, 2, 1, 2, 1, 2, 1,
+  2, 1, 2, 1, 1, 3, 3, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  4, 5, 2, 1, 1, 1, 2, 2, 3, 1,
+  2, 1, 2, 1, 1, 3, 2, 3, 1, 4,
+  5, 5, 6, 2, 1, 3, 3, 1, 4, 1,
+  1, 1, 1, 1, 1, 4, 4, 2, 1, 1,
+  3, 3, 4, 6, 5, 5, 6, 5, 4, 4,
+  4, 3, 4, 3, 2, 2, 1, 1, 2, 3,
+  1, 1, 3, 2, 2, 1, 1, 3, 2, 1,
+  2, 1, 1, 3, 2, 3, 5, 4, 5, 4,
+  3, 3, 3, 4, 6, 5, 5, 6, 4, 4,
+  2, 3, 3, 4, 3, 4, 1, 2, 1, 4,
+  3, 2, 1, 2, 3, 2, 7, 1, 1, 1,
+  1, 1, 1, 3, 4, 3, 2, 0, 0, 5,
+  1, 2, 1, 1, 1, 2, 7, 5, 5, 5,
+  7, 6, 7, 6, 7, 3, 2, 2, 2, 3,
+  1, 2, 1, 1, 4, 3, 1, 2, 1
 };
 
 
@@ -1469,12 +1456,12 @@ static const yytype_int8 yyr2[] =
 /* Enable debugging if requested.  */
 #if YYDEBUG
 
-# ifndef YYFPRINTF
-#  include <stdio.h> /* INFRINGES ON USER NAME SPACE */
-#  define YYFPRINTF fprintf
-# endif
+#ifndef YYFPRINTF
+#include <stdio.h>              /* INFRINGES ON USER NAME SPACE */
+#define YYFPRINTF fprintf
+#endif
 
-# define YYDPRINTF(Args)                        \
+#define YYDPRINTF(Args)                        \
 do {                                            \
   if (yydebug)                                  \
     YYFPRINTF Args;                             \
@@ -1482,11 +1469,11 @@ do {                                            \
 
 /* This macro is provided for backward compatibility. */
 #ifndef YY_LOCATION_PRINT
-# define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+#define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 #endif
 
 
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)                    \
+#define YY_SYMBOL_PRINT(Title, Type, Value, Location)                    \
 do {                                                                      \
   if (yydebug)                                                            \
     {                                                                     \
@@ -1503,21 +1490,20 @@ do {                                                                      \
 `-----------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, void ** ast)
+yy_symbol_value_print (FILE * yyo, int yytype, YYSTYPE const *const yyvaluep,
+                       void **ast)
 {
   FILE *yyoutput = yyo;
   YYUSE (yyoutput);
   YYUSE (ast);
   if (!yyvaluep)
     return;
-# ifdef YYPRINT
+#ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
-# endif
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  YYUSE (yytype);
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
-}
+#endif
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN YYUSE (yytype);
+YY_IGNORE_MAYBE_UNINITIALIZED_END}
 
 
 /*---------------------------.
@@ -1525,7 +1511,8 @@ yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, vo
 `---------------------------*/
 
 static void
-yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, void ** ast)
+yy_symbol_print (FILE * yyo, int yytype, YYSTYPE const *const yyvaluep,
+                 void **ast)
 {
   YYFPRINTF (yyo, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
@@ -1540,7 +1527,7 @@ yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, void ** 
 `------------------------------------------------------------------*/
 
 static void
-yy_stack_print (yy_state_t *yybottom, yy_state_t *yytop)
+yy_stack_print (yy_state_t * yybottom, yy_state_t * yytop)
 {
   YYFPRINTF (stderr, "Stack now");
   for (; yybottom <= yytop; yybottom++)
@@ -1551,7 +1538,7 @@ yy_stack_print (yy_state_t *yybottom, yy_state_t *yytop)
   YYFPRINTF (stderr, "\n");
 }
 
-# define YY_STACK_PRINT(Bottom, Top)                            \
+#define YY_STACK_PRINT(Bottom, Top)                            \
 do {                                                            \
   if (yydebug)                                                  \
     yy_stack_print ((Bottom), (Top));                           \
@@ -1563,7 +1550,7 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, int yyrule, void ** ast)
+yy_reduce_print (yy_state_t * yyssp, YYSTYPE * yyvsp, int yyrule, void **ast)
 {
   int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -1576,13 +1563,12 @@ yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, int yyrule, void ** ast)
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
                        yystos[+yyssp[yyi + 1 - yynrhs]],
-                       &yyvsp[(yyi + 1) - (yynrhs)]
-                                              , ast);
+                       &yyvsp[(yyi + 1) - (yynrhs)], ast);
       YYFPRINTF (stderr, "\n");
     }
 }
 
-# define YY_REDUCE_PRINT(Rule)          \
+#define YY_REDUCE_PRINT(Rule)          \
 do {                                    \
   if (yydebug)                          \
     yy_reduce_print (yyssp, yyvsp, Rule, ast); \
@@ -1592,16 +1578,16 @@ do {                                    \
    multiple parsers can coexist.  */
 int yydebug;
 #else /* !YYDEBUG */
-# define YYDPRINTF(Args)
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
-# define YY_STACK_PRINT(Bottom, Top)
-# define YY_REDUCE_PRINT(Rule)
+#define YYDPRINTF(Args)
+#define YY_SYMBOL_PRINT(Title, Type, Value, Location)
+#define YY_STACK_PRINT(Bottom, Top)
+#define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
 
 
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
 #ifndef YYINITDEPTH
-# define YYINITDEPTH 200
+#define YYINITDEPTH 200
 #endif
 
 /* YYMAXDEPTH -- maximum size the stacks can grow to (effective only
@@ -1612,16 +1598,16 @@ int yydebug;
    evaluated with infinite-precision integer arithmetic.  */
 
 #ifndef YYMAXDEPTH
-# define YYMAXDEPTH 10000
+#define YYMAXDEPTH 10000
 #endif
 
 
 #if YYERROR_VERBOSE
 
-# ifndef yystrlen
-#  if defined __GLIBC__ && defined _STRING_H
-#   define yystrlen(S) (YY_CAST (YYPTRDIFF_T, strlen (S)))
-#  else
+#ifndef yystrlen
+#if defined __GLIBC__ && defined _STRING_H
+#define yystrlen(S) (YY_CAST (YYPTRDIFF_T, strlen (S)))
+#else
 /* Return the length of YYSTR.  */
 static YYPTRDIFF_T
 yystrlen (const char *yystr)
@@ -1631,13 +1617,13 @@ yystrlen (const char *yystr)
     continue;
   return yylen;
 }
-#  endif
-# endif
+#endif
+#endif
 
-# ifndef yystpcpy
-#  if defined __GLIBC__ && defined _STRING_H && defined _GNU_SOURCE
-#   define yystpcpy stpcpy
-#  else
+#ifndef yystpcpy
+#if defined __GLIBC__ && defined _STRING_H && defined _GNU_SOURCE
+#define yystpcpy stpcpy
+#else
 /* Copy YYSRC to YYDEST, returning the address of the terminating '\0' in
    YYDEST.  */
 static char *
@@ -1651,10 +1637,10 @@ yystpcpy (char *yydest, const char *yysrc)
 
   return yyd - 1;
 }
-#  endif
-# endif
+#endif
+#endif
 
-# ifndef yytnamerr
+#ifndef yytnamerr
 /* Copy to YYRES the contents of YYSTR after stripping away unnecessary
    quotes and backslashes, so that it's suitable for yyerror.  The
    heuristic is that double-quoting is unnecessary unless the string
@@ -1695,7 +1681,7 @@ yytnamerr (char *yyres, const char *yystr)
               yyres[yyn] = '\0';
             return yyn;
           }
-    do_not_strip_quotes: ;
+    do_not_strip_quotes:;
     }
 
   if (yyres)
@@ -1703,7 +1689,7 @@ yytnamerr (char *yyres, const char *yystr)
   else
     return yystrlen (yystr);
 }
-# endif
+#endif
 
 /* Copy into *YYMSG, which is of size *YYMSG_ALLOC, an error message
    about the unexpected token YYTOKEN for the state stack whose top is
@@ -1714,10 +1700,11 @@ yytnamerr (char *yyres, const char *yystr)
    *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
    required number of bytes is too large to store.  */
 static int
-yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
-                yy_state_t *yyssp, int yytoken)
+yysyntax_error (YYPTRDIFF_T * yymsg_alloc, char **yymsg,
+                yy_state_t * yyssp, int yytoken)
 {
-  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+  enum
+  { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
   /* Arguments of yyformat: reported tokens (one for the "unexpected",
@@ -1730,27 +1717,27 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
 
   /* There are many possibilities here to consider:
      - If this state is a consistent state with a default action, then
-       the only way this function was invoked is if the default action
-       is an error action.  In that case, don't check for expected
-       tokens because there are none.
+     the only way this function was invoked is if the default action
+     is an error action.  In that case, don't check for expected
+     tokens because there are none.
      - The only way there can be no lookahead present (in yychar) is if
-       this state is a consistent state with a default action.  Thus,
-       detecting the absence of a lookahead is sufficient to determine
-       that there is no unexpected or expected token to report.  In that
-       case, just report a simple "syntax error".
+     this state is a consistent state with a default action.  Thus,
+     detecting the absence of a lookahead is sufficient to determine
+     that there is no unexpected or expected token to report.  In that
+     case, just report a simple "syntax error".
      - Don't assume there isn't a lookahead just because this state is a
-       consistent state with a default action.  There might have been a
-       previous inconsistent state, consistent state with a non-default
-       action, or user semantic action that manipulated yychar.
+     consistent state with a default action.  There might have been a
+     previous inconsistent state, consistent state with a non-default
+     action, or user semantic action that manipulated yychar.
      - Of course, the expected token list depends on states to have
-       correct lookahead information, and it depends on the parser not
-       to perform extra reductions after fetching a lookahead from the
-       scanner and before detecting a syntax error.  Thus, state merging
-       (from LALR or IELR) and default reductions corrupt the expected
-       token list.  However, the list is correct for canonical LR with
-       one exception: it will still contain any token that will not be
-       accepted due to an error action in a later state.
-  */
+     correct lookahead information, and it depends on the parser not
+     to perform extra reductions after fetching a lookahead from the
+     scanner and before detecting a syntax error.  Thus, state merging
+     (from LALR or IELR) and default reductions corrupt the expected
+     token list.  However, the list is correct for canonical LR with
+     one exception: it will still contain any token that will not be
+     accepted due to an error action in a later state.
+   */
   if (yytoken != YYEMPTY)
     {
       int yyn = yypact[+*yyssp];
@@ -1793,18 +1780,21 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
 
   switch (yycount)
     {
-# define YYCASE_(N, S)                      \
+#define YYCASE_(N, S)                      \
       case N:                               \
         yyformat = S;                       \
       break
-    default: /* Avoid compiler warnings. */
-      YYCASE_(0, YY_("syntax error"));
-      YYCASE_(1, YY_("syntax error, unexpected %s"));
-      YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
-      YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
-      YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
-      YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
-# undef YYCASE_
+    default:                   /* Avoid compiler warnings. */
+      YYCASE_ (0, YY_ ("syntax error"));
+      YYCASE_ (1, YY_ ("syntax error, unexpected %s"));
+      YYCASE_ (2, YY_ ("syntax error, unexpected %s, expecting %s"));
+      YYCASE_ (3, YY_ ("syntax error, unexpected %s, expecting %s or %s"));
+      YYCASE_ (4,
+               YY_ ("syntax error, unexpected %s, expecting %s or %s or %s"));
+      YYCASE_ (5,
+               YY_
+               ("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+#undef YYCASE_
     }
 
   {
@@ -1820,8 +1810,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
   if (*yymsg_alloc < yysize)
     {
       *yymsg_alloc = 2 * yysize;
-      if (! (yysize <= *yymsg_alloc
-             && *yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
+      if (!(yysize <= *yymsg_alloc && *yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
         *yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
       return 1;
     }
@@ -1853,7 +1842,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, void ** ast)
+yydestruct (const char *yymsg, int yytype, YYSTYPE * yyvaluep, void **ast)
 {
   YYUSE (yyvaluep);
   YYUSE (ast);
@@ -1861,10 +1850,8 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, void ** ast)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  YYUSE (yytype);
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
-}
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN YYUSE (yytype);
+YY_IGNORE_MAYBE_UNINITIALIZED_END}
 
 
 
@@ -1883,30 +1870,30 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (void ** ast)
+yyparse (void **ast)
 {
-    yy_state_fast_t yystate;
-    /* Number of tokens to shift before error messages enabled.  */
-    int yyerrstatus;
+  yy_state_fast_t yystate;
+  /* Number of tokens to shift before error messages enabled.  */
+  int yyerrstatus;
 
-    /* The stacks and their tools:
-       'yyss': related to states.
-       'yyvs': related to semantic values.
+  /* The stacks and their tools:
+     'yyss': related to states.
+     'yyvs': related to semantic values.
 
-       Refer to the stacks through separate pointers, to allow yyoverflow
-       to reallocate them elsewhere.  */
+     Refer to the stacks through separate pointers, to allow yyoverflow
+     to reallocate them elsewhere.  */
 
-    /* The state stack.  */
-    yy_state_t yyssa[YYINITDEPTH];
-    yy_state_t *yyss;
-    yy_state_t *yyssp;
+  /* The state stack.  */
+  yy_state_t yyssa[YYINITDEPTH];
+  yy_state_t *yyss;
+  yy_state_t *yyssp;
 
-    /* The semantic value stack.  */
-    YYSTYPE yyvsa[YYINITDEPTH];
-    YYSTYPE *yyvs;
-    YYSTYPE *yyvsp;
+  /* The semantic value stack.  */
+  YYSTYPE yyvsa[YYINITDEPTH];
+  YYSTYPE *yyvs;
+  YYSTYPE *yyvsp;
 
-    YYPTRDIFF_T yystacksize;
+  YYPTRDIFF_T yystacksize;
 
   int yyn;
   int yyresult;
@@ -1938,7 +1925,7 @@ yyparse (void ** ast)
   yystate = 0;
   yyerrstatus = 0;
   yynerrs = 0;
-  yychar = YYEMPTY; /* Cause a token to be read.  */
+  yychar = YYEMPTY;             /* Cause a token to be read.  */
   goto yysetstate;
 
 
@@ -1957,19 +1944,16 @@ yynewstate:
 yysetstate:
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
   YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
-  YY_IGNORE_USELESS_CAST_BEGIN
-  *yyssp = YY_CAST (yy_state_t, yystate);
-  YY_IGNORE_USELESS_CAST_END
-
-  if (yyss + yystacksize - 1 <= yyssp)
+  YY_IGNORE_USELESS_CAST_BEGIN *yyssp = YY_CAST (yy_state_t, yystate);
+  YY_IGNORE_USELESS_CAST_END if (yyss + yystacksize - 1 <= yyssp)
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
-    goto yyexhaustedlab;
+      goto yyexhaustedlab;
 #else
     {
       /* Get the current used size of the three stacks, in elements.  */
       YYPTRDIFF_T yysize = yyssp - yyss + 1;
 
-# if defined yyoverflow
+#if defined yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
@@ -1981,14 +1965,13 @@ yysetstate:
            data in use in that stack, in bytes.  This used to be a
            conditional around just the two extra args, but that might
            be undefined if yyoverflow is a macro.  */
-        yyoverflow (YY_("memory exhausted"),
+        yyoverflow (YY_ ("memory exhausted"),
                     &yyss1, yysize * YYSIZEOF (*yyssp),
-                    &yyvs1, yysize * YYSIZEOF (*yyvsp),
-                    &yystacksize);
+                    &yyvs1, yysize * YYSIZEOF (*yyvsp), &yystacksize);
         yyss = yyss1;
         yyvs = yyvs1;
       }
-# else /* defined YYSTACK_RELOCATE */
+#else /* defined YYSTACK_RELOCATE */
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
         goto yyexhaustedlab;
@@ -1998,29 +1981,28 @@ yysetstate:
 
       {
         yy_state_t *yyss1 = yyss;
-        union yyalloc *yyptr =
-          YY_CAST (union yyalloc *,
-                   YYSTACK_ALLOC (YY_CAST (YYSIZE_T, YYSTACK_BYTES (yystacksize))));
-        if (! yyptr)
+        union yyalloc *yyptr = YY_CAST (union yyalloc *,
+                                        YYSTACK_ALLOC (YY_CAST (YYSIZE_T,
+                                                                YYSTACK_BYTES
+                                                                (yystacksize))));
+        if (!yyptr)
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-# undef YYSTACK_RELOCATE
+#undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE (yyss1);
       }
-# endif
+#endif
 
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
       YY_IGNORE_USELESS_CAST_BEGIN
-      YYDPRINTF ((stderr, "Stack size increased to %ld\n",
-                  YY_CAST (long, yystacksize)));
-      YY_IGNORE_USELESS_CAST_END
-
-      if (yyss + yystacksize - 1 <= yyssp)
-        YYABORT;
+        YYDPRINTF ((stderr, "Stack size increased to %ld\n",
+                    YY_CAST (long, yystacksize)));
+      YY_IGNORE_USELESS_CAST_END if (yyss + yystacksize - 1 <= yyssp)
+          YYABORT;
     }
 #endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
 
@@ -2084,12 +2066,10 @@ yybackup:
   /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
   yystate = yyn;
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  *++yyvsp = yylval;
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
-
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
+    /* Discard the shifted token.  */
+    yychar = YYEMPTY;
   goto yynewstate;
 
 
@@ -2118,1678 +2098,2293 @@ yyreduce:
      users should not rely upon it.  Assigning to YYVAL
      unconditionally makes the parser a bit smaller, and it avoids a
      GCC warning that YYVAL may be used uninitialized.  */
-  yyval = yyvsp[1-yylen];
+  yyval = yyvsp[1 - yylen];
 
 
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2:
+    case 2:
 #line 50 "grammar.y"
-                                   { (yyval.ptr) = primary_expression_1 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = primary_expression_1 ((yyvsp[0].str));
+      }
 #line 2131 "grammar.tab.c"
-    break;
+      break;
 
-  case 3:
+    case 3:
 #line 51 "grammar.y"
-                                   { (yyval.ptr) = primary_expression_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = primary_expression_2 ((yyvsp[0].ptr));
+      }
 #line 2137 "grammar.tab.c"
-    break;
+      break;
 
-  case 4:
+    case 4:
 #line 52 "grammar.y"
-                                   { (yyval.ptr) = primary_expression_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = primary_expression_3 ((yyvsp[0].ptr));
+      }
 #line 2143 "grammar.tab.c"
-    break;
+      break;
 
-  case 5:
+    case 5:
 #line 53 "grammar.y"
-                                   { (yyval.ptr) = primary_expression_4 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = primary_expression_4 ((yyvsp[-1].ptr));
+      }
 #line 2149 "grammar.tab.c"
-    break;
+      break;
 
-  case 6:
+    case 6:
 #line 54 "grammar.y"
-                                   { (yyval.ptr) = primary_expression_5 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = primary_expression_5 ((yyvsp[0].ptr));
+      }
 #line 2155 "grammar.tab.c"
-    break;
+      break;
 
-  case 7:
+    case 7:
 #line 58 "grammar.y"
-                                   { (yyval.ptr) = constant_1 ((yyvsp[0].i_num)); }
+      {
+        (yyval.ptr) = constant_1 ((yyvsp[0].i_num));
+      }
 #line 2161 "grammar.tab.c"
-    break;
+      break;
 
-  case 8:
+    case 8:
 #line 59 "grammar.y"
-                                   { (yyval.ptr) = constant_2 ((yyvsp[0].d_num)); }
+      {
+        (yyval.ptr) = constant_2 ((yyvsp[0].d_num));
+      }
 #line 2167 "grammar.tab.c"
-    break;
+      break;
 
-  case 9:
+    case 9:
 #line 60 "grammar.y"
-                                   { (yyval.ptr) = constant_3 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = constant_3 ((yyvsp[0].str));
+      }
 #line 2173 "grammar.tab.c"
-    break;
+      break;
 
-  case 10:
+    case 10:
 #line 64 "grammar.y"
-                               { (yyval.ptr) = enumeration_constant ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = enumeration_constant ((yyvsp[0].str));
+      }
 #line 2179 "grammar.tab.c"
-    break;
+      break;
 
-  case 11:
+    case 11:
 #line 68 "grammar.y"
-                                   { (yyval.ptr) = string_1 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = string_1 ((yyvsp[0].str));
+      }
 #line 2185 "grammar.tab.c"
-    break;
+      break;
 
-  case 12:
+    case 12:
 #line 69 "grammar.y"
-                                   { (yyval.ptr) = string_2 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = string_2 ((yyvsp[0].str));
+      }
 #line 2191 "grammar.tab.c"
-    break;
+      break;
 
-  case 13:
+    case 13:
 #line 73 "grammar.y"
-                                                                           { (yyval.ptr) = generic_selection ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = generic_selection ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 2197 "grammar.tab.c"
-    break;
+      break;
 
-  case 14:
+    case 14:
 #line 77 "grammar.y"
-                                   { (yyval.ptr) = generic_assoc_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = generic_assoc_list_1 ((yyvsp[0].ptr));
+      }
 #line 2203 "grammar.tab.c"
-    break;
+      break;
 
-  case 15:
+    case 15:
 #line 78 "grammar.y"
-                                                           { (yyval.ptr) = generic_assoc_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = generic_assoc_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2209 "grammar.tab.c"
-    break;
+      break;
 
-  case 16:
+    case 16:
 #line 82 "grammar.y"
-                                                   { (yyval.ptr) = generic_assoc_1 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = generic_assoc_1 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2215 "grammar.tab.c"
-    break;
+      break;
 
-  case 17:
+    case 17:
 #line 83 "grammar.y"
-                                                   { (yyval.ptr) = generic_assoc_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = generic_assoc_2 ((yyvsp[0].ptr));
+      }
 #line 2221 "grammar.tab.c"
-    break;
+      break;
 
-  case 18:
+    case 18:
 #line 87 "grammar.y"
-                                       { (yyval.ptr) = postfix_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = postfix_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2227 "grammar.tab.c"
-    break;
+      break;
 
-  case 19:
+    case 19:
 #line 88 "grammar.y"
-                                                       { (yyval.ptr) = postfix_expression_2 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = postfix_expression_2 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 2233 "grammar.tab.c"
-    break;
+      break;
 
-  case 20:
+    case 20:
 #line 89 "grammar.y"
-                                       { (yyval.ptr) = postfix_expression_3 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = postfix_expression_3 ((yyvsp[-2].ptr));
+      }
 #line 2239 "grammar.tab.c"
-    break;
+      break;
 
-  case 21:
+    case 21:
 #line 90 "grammar.y"
-                                                               { (yyval.ptr) = postfix_expression_4 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = postfix_expression_4 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 2245 "grammar.tab.c"
-    break;
+      break;
 
-  case 22:
+    case 22:
 #line 91 "grammar.y"
-                                                       { (yyval.ptr) = postfix_expression_5 ((yyvsp[-2].ptr), (yyvsp[0].str)); }
+      {
+        (yyval.ptr) = postfix_expression_5 ((yyvsp[-2].ptr), (yyvsp[0].str));
+      }
 #line 2251 "grammar.tab.c"
-    break;
+      break;
 
-  case 23:
+    case 23:
 #line 92 "grammar.y"
-                                                       { (yyval.ptr) = postfix_expression_6 ((yyvsp[-2].ptr), (yyvsp[0].str)); }
+      {
+        (yyval.ptr) = postfix_expression_6 ((yyvsp[-2].ptr), (yyvsp[0].str));
+      }
 #line 2257 "grammar.tab.c"
-    break;
+      break;
 
-  case 24:
+    case 24:
 #line 93 "grammar.y"
-                                       { (yyval.ptr) = postfix_expression_7 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = postfix_expression_7 ((yyvsp[-1].ptr));
+      }
 #line 2263 "grammar.tab.c"
-    break;
+      break;
 
-  case 25:
+    case 25:
 #line 94 "grammar.y"
-                                       { (yyval.ptr) = postfix_expression_8 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = postfix_expression_8 ((yyvsp[-1].ptr));
+      }
 #line 2269 "grammar.tab.c"
-    break;
+      break;
 
-  case 26:
+    case 26:
 #line 95 "grammar.y"
-                                                               { (yyval.ptr) = postfix_expression_9 ((yyvsp[-4].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = postfix_expression_9 ((yyvsp[-4].ptr), (yyvsp[-1].ptr));
+      }
 #line 2275 "grammar.tab.c"
-    break;
+      break;
 
-  case 27:
+    case 27:
 #line 96 "grammar.y"
-                                                               { (yyval.ptr) = postfix_expression_10 ((yyvsp[-5].ptr), (yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) =
+          postfix_expression_10 ((yyvsp[-5].ptr), (yyvsp[-2].ptr));
+      }
 #line 2281 "grammar.tab.c"
-    break;
+      break;
 
-  case 28:
+    case 28:
 #line 100 "grammar.y"
-                                       { (yyval.ptr) = argument_expression_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = argument_expression_list_1 ((yyvsp[0].ptr));
+      }
 #line 2287 "grammar.tab.c"
-    break;
+      break;
 
-  case 29:
+    case 29:
 #line 101 "grammar.y"
-                                                               { (yyval.ptr) = argument_expression_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          argument_expression_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2293 "grammar.tab.c"
-    break;
+      break;
 
-  case 30:
+    case 30:
 #line 105 "grammar.y"
-                                           { (yyval.ptr) = unary_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = unary_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2299 "grammar.tab.c"
-    break;
+      break;
 
-  case 31:
+    case 31:
 #line 106 "grammar.y"
-                                           { (yyval.ptr) = unary_expression_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = unary_expression_2 ((yyvsp[0].ptr));
+      }
 #line 2305 "grammar.tab.c"
-    break;
+      break;
 
-  case 32:
+    case 32:
 #line 107 "grammar.y"
-                                           { (yyval.ptr) = unary_expression_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = unary_expression_3 ((yyvsp[0].ptr));
+      }
 #line 2311 "grammar.tab.c"
-    break;
+      break;
 
-  case 33:
+    case 33:
 #line 108 "grammar.y"
-                                           { (yyval.ptr) = unary_expression_4 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = unary_expression_4 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2317 "grammar.tab.c"
-    break;
+      break;
 
-  case 34:
+    case 34:
 #line 109 "grammar.y"
-                                           { (yyval.ptr) = unary_expression_5 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = unary_expression_5 ((yyvsp[0].ptr));
+      }
 #line 2323 "grammar.tab.c"
-    break;
+      break;
 
-  case 35:
+    case 35:
 #line 110 "grammar.y"
-                                           { (yyval.ptr) = unary_expression_6 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = unary_expression_6 ((yyvsp[-1].ptr));
+      }
 #line 2329 "grammar.tab.c"
-    break;
+      break;
 
-  case 36:
+    case 36:
 #line 111 "grammar.y"
-                                           { (yyval.ptr) = unary_expression_7 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = unary_expression_7 ((yyvsp[-1].ptr));
+      }
 #line 2335 "grammar.tab.c"
-    break;
+      break;
 
-  case 37:
+    case 37:
 #line 115 "grammar.y"
-                   { (yyval.ptr) = unary_op_1 (); }
+      {
+        (yyval.ptr) = unary_op_1 ();
+      }
 #line 2341 "grammar.tab.c"
-    break;
+      break;
 
-  case 38:
+    case 38:
 #line 116 "grammar.y"
-                   { (yyval.ptr) = unary_op_2 (); }
+      {
+        (yyval.ptr) = unary_op_2 ();
+      }
 #line 2347 "grammar.tab.c"
-    break;
+      break;
 
-  case 39:
+    case 39:
 #line 117 "grammar.y"
-                   { (yyval.ptr) = unary_op_3 (); }
+      {
+        (yyval.ptr) = unary_op_3 ();
+      }
 #line 2353 "grammar.tab.c"
-    break;
+      break;
 
-  case 40:
+    case 40:
 #line 118 "grammar.y"
-                   { (yyval.ptr) = unary_op_4 (); }
+      {
+        (yyval.ptr) = unary_op_4 ();
+      }
 #line 2359 "grammar.tab.c"
-    break;
+      break;
 
-  case 41:
+    case 41:
 #line 119 "grammar.y"
-                   { (yyval.ptr) = unary_op_5 (); }
+      {
+        (yyval.ptr) = unary_op_5 ();
+      }
 #line 2365 "grammar.tab.c"
-    break;
+      break;
 
-  case 42:
+    case 42:
 #line 120 "grammar.y"
-                   { (yyval.ptr) = unary_op_6 (); }
+      {
+        (yyval.ptr) = unary_op_6 ();
+      }
 #line 2371 "grammar.tab.c"
-    break;
+      break;
 
-  case 43:
+    case 43:
 #line 124 "grammar.y"
-                                               { (yyval.ptr) = cast_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = cast_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2377 "grammar.tab.c"
-    break;
+      break;
 
-  case 44:
+    case 44:
 #line 125 "grammar.y"
-                                               { (yyval.ptr) = cast_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = cast_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2383 "grammar.tab.c"
-    break;
+      break;
 
-  case 45:
+    case 45:
 #line 129 "grammar.y"
-                                   { (yyval.ptr) = mult_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = mult_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2389 "grammar.tab.c"
-    break;
+      break;
 
-  case 46:
+    case 46:
 #line 130 "grammar.y"
-                                                               { (yyval.ptr) = mult_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = mult_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2395 "grammar.tab.c"
-    break;
+      break;
 
-  case 47:
+    case 47:
 #line 131 "grammar.y"
-                                                               { (yyval.ptr) = mult_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = mult_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2401 "grammar.tab.c"
-    break;
+      break;
 
-  case 48:
+    case 48:
 #line 132 "grammar.y"
-                                                               { (yyval.ptr) = mult_expression_4 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = mult_expression_4 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2407 "grammar.tab.c"
-    break;
+      break;
 
-  case 49:
+    case 49:
 #line 136 "grammar.y"
-                                       { (yyval.ptr) = add_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = add_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2413 "grammar.tab.c"
-    break;
+      break;
 
-  case 50:
+    case 50:
 #line 137 "grammar.y"
-                                                               { (yyval.ptr) = add_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = add_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2419 "grammar.tab.c"
-    break;
+      break;
 
-  case 51:
+    case 51:
 #line 138 "grammar.y"
-                                                               { (yyval.ptr) = add_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = add_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2425 "grammar.tab.c"
-    break;
+      break;
 
-  case 52:
+    case 52:
 #line 142 "grammar.y"
-                                       { (yyval.ptr) = shift_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = shift_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2431 "grammar.tab.c"
-    break;
+      break;
 
-  case 53:
+    case 53:
 #line 143 "grammar.y"
-                                                               { (yyval.ptr) = shift_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = shift_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2437 "grammar.tab.c"
-    break;
+      break;
 
-  case 54:
+    case 54:
 #line 144 "grammar.y"
-                                                               { (yyval.ptr) = shift_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = shift_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2443 "grammar.tab.c"
-    break;
+      break;
 
-  case 55:
+    case 55:
 #line 148 "grammar.y"
-                                       { (yyval.ptr) = relational_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = relational_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2449 "grammar.tab.c"
-    break;
+      break;
 
-  case 56:
+    case 56:
 #line 149 "grammar.y"
-                                                               { (yyval.ptr) = relational_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          relational_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2455 "grammar.tab.c"
-    break;
+      break;
 
-  case 57:
+    case 57:
 #line 150 "grammar.y"
-                                                               { (yyval.ptr) = relational_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          relational_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2461 "grammar.tab.c"
-    break;
+      break;
 
-  case 58:
+    case 58:
 #line 151 "grammar.y"
-                                                               { (yyval.ptr) = relational_expression_4 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          relational_expression_4 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2467 "grammar.tab.c"
-    break;
+      break;
 
-  case 59:
+    case 59:
 #line 152 "grammar.y"
-                                                               { (yyval.ptr) = relational_expression_5 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          relational_expression_5 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2473 "grammar.tab.c"
-    break;
+      break;
 
-  case 60:
+    case 60:
 #line 156 "grammar.y"
-                                       { (yyval.ptr) = equality_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = equality_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2479 "grammar.tab.c"
-    break;
+      break;
 
-  case 61:
+    case 61:
 #line 157 "grammar.y"
-                                                               { (yyval.ptr) = equality_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = equality_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2485 "grammar.tab.c"
-    break;
+      break;
 
-  case 62:
+    case 62:
 #line 158 "grammar.y"
-                                                               { (yyval.ptr) = equality_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = equality_expression_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2491 "grammar.tab.c"
-    break;
+      break;
 
-  case 63:
+    case 63:
 #line 162 "grammar.y"
-                                       { (yyval.ptr) = and_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = and_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2497 "grammar.tab.c"
-    break;
+      break;
 
-  case 64:
+    case 64:
 #line 163 "grammar.y"
-                                                               { (yyval.ptr) = and_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = and_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2503 "grammar.tab.c"
-    break;
+      break;
 
-  case 65:
+    case 65:
 #line 167 "grammar.y"
-                                       { (yyval.ptr) = xor_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = xor_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2509 "grammar.tab.c"
-    break;
+      break;
 
-  case 66:
+    case 66:
 #line 168 "grammar.y"
-                                                               { (yyval.ptr) = xor_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = xor_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2515 "grammar.tab.c"
-    break;
+      break;
 
-  case 67:
+    case 67:
 #line 172 "grammar.y"
-                                       { (yyval.ptr) = or_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = or_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2521 "grammar.tab.c"
-    break;
+      break;
 
-  case 68:
+    case 68:
 #line 173 "grammar.y"
-                                                               { (yyval.ptr) = or_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = or_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2527 "grammar.tab.c"
-    break;
+      break;
 
-  case 69:
+    case 69:
 #line 177 "grammar.y"
-                                       { (yyval.ptr) = logic_and_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = logic_and_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2533 "grammar.tab.c"
-    break;
+      break;
 
-  case 70:
+    case 70:
 #line 178 "grammar.y"
-                                                                   { (yyval.ptr) = logic_and_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          logic_and_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2539 "grammar.tab.c"
-    break;
+      break;
 
-  case 71:
+    case 71:
 #line 182 "grammar.y"
-                                       { (yyval.ptr) = logic_or_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = logic_or_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2545 "grammar.tab.c"
-    break;
+      break;
 
-  case 72:
+    case 72:
 #line 183 "grammar.y"
-                                                                   { (yyval.ptr) = logic_or_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = logic_or_expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2551 "grammar.tab.c"
-    break;
+      break;
 
-  case 73:
+    case 73:
 #line 187 "grammar.y"
-                                       { (yyval.ptr) = conditional_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = conditional_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2557 "grammar.tab.c"
-    break;
+      break;
 
-  case 74:
+    case 74:
 #line 188 "grammar.y"
-                                                                           { (yyval.ptr) = conditional_expression_2 ((yyvsp[-4].ptr), (yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          conditional_expression_2 ((yyvsp[-4].ptr), (yyvsp[-2].ptr),
+                                    (yyvsp[0].ptr));
+      }
 #line 2563 "grammar.tab.c"
-    break;
+      break;
 
-  case 75:
+    case 75:
 #line 192 "grammar.y"
-                                       { (yyval.ptr) = assignment_expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = assignment_expression_1 ((yyvsp[0].ptr));
+      }
 #line 2569 "grammar.tab.c"
-    break;
+      break;
 
-  case 76:
+    case 76:
 #line 193 "grammar.y"
-                                                                           { (yyval.ptr) = assignment_expression_2 ((yyvsp[-2].ptr), (yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          assignment_expression_2 ((yyvsp[-2].ptr), (yyvsp[-1].ptr),
+                                   (yyvsp[0].ptr));
+      }
 #line 2575 "grammar.tab.c"
-    break;
+      break;
 
-  case 77:
+    case 77:
 #line 197 "grammar.y"
-                           { (yyval.ptr) = assign_op_1 (); }
+      {
+        (yyval.ptr) = assign_op_1 ();
+      }
 #line 2581 "grammar.tab.c"
-    break;
+      break;
 
-  case 78:
+    case 78:
 #line 198 "grammar.y"
-                           { (yyval.ptr) = assign_op_2 (); }
+      {
+        (yyval.ptr) = assign_op_2 ();
+      }
 #line 2587 "grammar.tab.c"
-    break;
+      break;
 
-  case 79:
+    case 79:
 #line 199 "grammar.y"
-                           { (yyval.ptr) = assign_op_3 (); }
+      {
+        (yyval.ptr) = assign_op_3 ();
+      }
 #line 2593 "grammar.tab.c"
-    break;
+      break;
 
-  case 80:
+    case 80:
 #line 200 "grammar.y"
-                           { (yyval.ptr) = assign_op_4 (); }
+      {
+        (yyval.ptr) = assign_op_4 ();
+      }
 #line 2599 "grammar.tab.c"
-    break;
+      break;
 
-  case 81:
+    case 81:
 #line 201 "grammar.y"
-                           { (yyval.ptr) = assign_op_5 (); }
+      {
+        (yyval.ptr) = assign_op_5 ();
+      }
 #line 2605 "grammar.tab.c"
-    break;
+      break;
 
-  case 82:
+    case 82:
 #line 202 "grammar.y"
-                           { (yyval.ptr) = assign_op_6 (); }
+      {
+        (yyval.ptr) = assign_op_6 ();
+      }
 #line 2611 "grammar.tab.c"
-    break;
+      break;
 
-  case 83:
+    case 83:
 #line 203 "grammar.y"
-                           { (yyval.ptr) = assign_op_7 (); }
+      {
+        (yyval.ptr) = assign_op_7 ();
+      }
 #line 2617 "grammar.tab.c"
-    break;
+      break;
 
-  case 84:
+    case 84:
 #line 204 "grammar.y"
-                           { (yyval.ptr) = assign_op_8 (); }
+      {
+        (yyval.ptr) = assign_op_8 ();
+      }
 #line 2623 "grammar.tab.c"
-    break;
+      break;
 
-  case 85:
+    case 85:
 #line 205 "grammar.y"
-                           { (yyval.ptr) = assign_op_9 (); }
+      {
+        (yyval.ptr) = assign_op_9 ();
+      }
 #line 2629 "grammar.tab.c"
-    break;
+      break;
 
-  case 86:
+    case 86:
 #line 206 "grammar.y"
-                           { (yyval.ptr) = assign_op_10 (); }
+      {
+        (yyval.ptr) = assign_op_10 ();
+      }
 #line 2635 "grammar.tab.c"
-    break;
+      break;
 
-  case 87:
+    case 87:
 #line 207 "grammar.y"
-                           { (yyval.ptr) = assign_op_11 (); }
+      {
+        (yyval.ptr) = assign_op_11 ();
+      }
 #line 2641 "grammar.tab.c"
-    break;
+      break;
 
-  case 88:
+    case 88:
 #line 211 "grammar.y"
-                                                   { (yyval.ptr) = expression_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = expression_1 ((yyvsp[0].ptr));
+      }
 #line 2647 "grammar.tab.c"
-    break;
+      break;
 
-  case 89:
+    case 89:
 #line 212 "grammar.y"
-                                                   { (yyval.ptr) = expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = expression_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2653 "grammar.tab.c"
-    break;
+      break;
 
-  case 90:
+    case 90:
 #line 216 "grammar.y"
-                                       { (yyval.ptr) = constant_expression ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = constant_expression ((yyvsp[0].ptr));
+      }
 #line 2659 "grammar.tab.c"
-    break;
+      break;
 
-  case 91:
+    case 91:
 #line 220 "grammar.y"
-                                           { (yyval.ptr) = declaration_1 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = declaration_1 ((yyvsp[-1].ptr));
+      }
 #line 2665 "grammar.tab.c"
-    break;
+      break;
 
-  case 92:
+    case 92:
 #line 221 "grammar.y"
-                                                           { (yyval.ptr) = declaration_2 ((yyvsp[-2].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = declaration_2 ((yyvsp[-2].ptr), (yyvsp[-1].ptr));
+      }
 #line 2671 "grammar.tab.c"
-    break;
+      break;
 
-  case 93:
+    case 93:
 #line 222 "grammar.y"
-                                           { (yyval.ptr) = declaration_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declaration_3 ((yyvsp[0].ptr));
+      }
 #line 2677 "grammar.tab.c"
-    break;
+      break;
 
-  case 94:
+    case 94:
 #line 226 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          declaration_specifiers_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2683 "grammar.tab.c"
-    break;
+      break;
 
-  case 95:
+    case 95:
 #line 227 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declaration_specifiers_2 ((yyvsp[0].ptr));
+      }
 #line 2689 "grammar.tab.c"
-    break;
+      break;
 
-  case 96:
+    case 96:
 #line 228 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_3 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          declaration_specifiers_3 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2695 "grammar.tab.c"
-    break;
+      break;
 
-  case 97:
+    case 97:
 #line 229 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_4 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declaration_specifiers_4 ((yyvsp[0].ptr));
+      }
 #line 2701 "grammar.tab.c"
-    break;
+      break;
 
-  case 98:
+    case 98:
 #line 230 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_5 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          declaration_specifiers_5 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2707 "grammar.tab.c"
-    break;
+      break;
 
-  case 99:
+    case 99:
 #line 231 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_6 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declaration_specifiers_6 ((yyvsp[0].ptr));
+      }
 #line 2713 "grammar.tab.c"
-    break;
+      break;
 
-  case 100:
+    case 100:
 #line 232 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_7 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          declaration_specifiers_7 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2719 "grammar.tab.c"
-    break;
+      break;
 
-  case 101:
+    case 101:
 #line 233 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_8 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declaration_specifiers_8 ((yyvsp[0].ptr));
+      }
 #line 2725 "grammar.tab.c"
-    break;
+      break;
 
-  case 102:
+    case 102:
 #line 234 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_9 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          declaration_specifiers_9 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2731 "grammar.tab.c"
-    break;
+      break;
 
-  case 103:
+    case 103:
 #line 235 "grammar.y"
-                                                           { (yyval.ptr) = declaration_specifiers_10 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declaration_specifiers_10 ((yyvsp[0].ptr));
+      }
 #line 2737 "grammar.tab.c"
-    break;
+      break;
 
-  case 104:
+    case 104:
 #line 239 "grammar.y"
-                                   { (yyval.ptr) = init_declarator_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = init_declarator_list_1 ((yyvsp[0].ptr));
+      }
 #line 2743 "grammar.tab.c"
-    break;
+      break;
 
-  case 105:
+    case 105:
 #line 240 "grammar.y"
-                                                           { (yyval.ptr) = init_declarator_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          init_declarator_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2749 "grammar.tab.c"
-    break;
+      break;
 
-  case 106:
+    case 106:
 #line 244 "grammar.y"
-                                           { (yyval.ptr) = init_declarator_1 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = init_declarator_1 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2755 "grammar.tab.c"
-    break;
+      break;
 
-  case 107:
+    case 107:
 #line 245 "grammar.y"
-                                           { (yyval.ptr) = init_declarator_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = init_declarator_2 ((yyvsp[0].ptr));
+      }
 #line 2761 "grammar.tab.c"
-    break;
+      break;
 
-  case 108:
+    case 108:
 #line 249 "grammar.y"
-                                   { (yyval.ptr) = storage_class_spec_1 (); }
+      {
+        (yyval.ptr) = storage_class_spec_1 ();
+      }
 #line 2767 "grammar.tab.c"
-    break;
+      break;
 
-  case 109:
+    case 109:
 #line 250 "grammar.y"
-                                   { (yyval.ptr) = storage_class_spec_2 (); }
+      {
+        (yyval.ptr) = storage_class_spec_2 ();
+      }
 #line 2773 "grammar.tab.c"
-    break;
+      break;
 
-  case 110:
+    case 110:
 #line 251 "grammar.y"
-                                   { (yyval.ptr) = storage_class_spec_3 (); }
+      {
+        (yyval.ptr) = storage_class_spec_3 ();
+      }
 #line 2779 "grammar.tab.c"
-    break;
+      break;
 
-  case 111:
+    case 111:
 #line 252 "grammar.y"
-                                   { (yyval.ptr) = storage_class_spec_4 (); }
+      {
+        (yyval.ptr) = storage_class_spec_4 ();
+      }
 #line 2785 "grammar.tab.c"
-    break;
+      break;
 
-  case 112:
+    case 112:
 #line 253 "grammar.y"
-                                   { (yyval.ptr) = storage_class_spec_5 (); }
+      {
+        (yyval.ptr) = storage_class_spec_5 ();
+      }
 #line 2791 "grammar.tab.c"
-    break;
+      break;
 
-  case 113:
+    case 113:
 #line 254 "grammar.y"
-                                   { (yyval.ptr) = storage_class_spec_6 (); }
+      {
+        (yyval.ptr) = storage_class_spec_6 ();
+      }
 #line 2797 "grammar.tab.c"
-    break;
+      break;
 
-  case 114:
+    case 114:
 #line 258 "grammar.y"
-                                   { (yyval.ptr) = type_spec_1 (); }
+      {
+        (yyval.ptr) = type_spec_1 ();
+      }
 #line 2803 "grammar.tab.c"
-    break;
+      break;
 
-  case 115:
+    case 115:
 #line 259 "grammar.y"
-                                   { (yyval.ptr) = type_spec_2 (); }
+      {
+        (yyval.ptr) = type_spec_2 ();
+      }
 #line 2809 "grammar.tab.c"
-    break;
+      break;
 
-  case 116:
+    case 116:
 #line 260 "grammar.y"
-                                   { (yyval.ptr) = type_spec_3 (); }
+      {
+        (yyval.ptr) = type_spec_3 ();
+      }
 #line 2815 "grammar.tab.c"
-    break;
+      break;
 
-  case 117:
+    case 117:
 #line 261 "grammar.y"
-                                   { (yyval.ptr) = type_spec_4 (); }
+      {
+        (yyval.ptr) = type_spec_4 ();
+      }
 #line 2821 "grammar.tab.c"
-    break;
+      break;
 
-  case 118:
+    case 118:
 #line 262 "grammar.y"
-                                   { (yyval.ptr) = type_spec_5 (); }
+      {
+        (yyval.ptr) = type_spec_5 ();
+      }
 #line 2827 "grammar.tab.c"
-    break;
+      break;
 
-  case 119:
+    case 119:
 #line 263 "grammar.y"
-                                   { (yyval.ptr) = type_spec_6 (); }
+      {
+        (yyval.ptr) = type_spec_6 ();
+      }
 #line 2833 "grammar.tab.c"
-    break;
+      break;
 
-  case 120:
+    case 120:
 #line 264 "grammar.y"
-                                   { (yyval.ptr) = type_spec_7 (); }
+      {
+        (yyval.ptr) = type_spec_7 ();
+      }
 #line 2839 "grammar.tab.c"
-    break;
+      break;
 
-  case 121:
+    case 121:
 #line 265 "grammar.y"
-                                   { (yyval.ptr) = type_spec_8 (); }
+      {
+        (yyval.ptr) = type_spec_8 ();
+      }
 #line 2845 "grammar.tab.c"
-    break;
+      break;
 
-  case 122:
+    case 122:
 #line 266 "grammar.y"
-                                   { (yyval.ptr) = type_spec_9 (); }
+      {
+        (yyval.ptr) = type_spec_9 ();
+      }
 #line 2851 "grammar.tab.c"
-    break;
+      break;
 
-  case 123:
+    case 123:
 #line 267 "grammar.y"
-                                   { (yyval.ptr) = type_spec_10 (); }
+      {
+        (yyval.ptr) = type_spec_10 ();
+      }
 #line 2857 "grammar.tab.c"
-    break;
+      break;
 
-  case 124:
+    case 124:
 #line 268 "grammar.y"
-                                   { (yyval.ptr) = type_spec_11 (); }
+      {
+        (yyval.ptr) = type_spec_11 ();
+      }
 #line 2863 "grammar.tab.c"
-    break;
+      break;
 
-  case 125:
+    case 125:
 #line 269 "grammar.y"
-                                           { (yyval.ptr) = type_spec_12 (); }
+      {
+        (yyval.ptr) = type_spec_12 ();
+      }
 #line 2869 "grammar.tab.c"
-    break;
+      break;
 
-  case 126:
+    case 126:
 #line 270 "grammar.y"
-                                   { (yyval.ptr) = type_spec_13 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = type_spec_13 ((yyvsp[0].ptr));
+      }
 #line 2875 "grammar.tab.c"
-    break;
+      break;
 
-  case 127:
+    case 127:
 #line 271 "grammar.y"
-                                       { (yyval.ptr) = type_spec_14 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = type_spec_14 ((yyvsp[0].ptr));
+      }
 #line 2881 "grammar.tab.c"
-    break;
+      break;
 
-  case 128:
+    case 128:
 #line 272 "grammar.y"
-                                   { (yyval.ptr) = type_spec_15 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = type_spec_15 ((yyvsp[0].ptr));
+      }
 #line 2887 "grammar.tab.c"
-    break;
+      break;
 
-  case 129:
+    case 129:
 #line 273 "grammar.y"
-                                   { (yyval.ptr) = type_spec_16 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = type_spec_16 ((yyvsp[0].str));
+      }
 #line 2893 "grammar.tab.c"
-    break;
+      break;
 
-  case 130:
+    case 130:
 #line 277 "grammar.y"
-                                                                       { (yyval.ptr) = struct_union_spec_1 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = struct_union_spec_1 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 2899 "grammar.tab.c"
-    break;
+      break;
 
-  case 131:
+    case 131:
 #line 278 "grammar.y"
-                                                                       { (yyval.ptr) = struct_union_spec_2 ((yyvsp[-4].ptr), (yyvsp[-3].str), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          struct_union_spec_2 ((yyvsp[-4].ptr), (yyvsp[-3].str),
+                               (yyvsp[-1].ptr));
+      }
 #line 2905 "grammar.tab.c"
-    break;
+      break;
 
-  case 132:
+    case 132:
 #line 279 "grammar.y"
-                                               { (yyval.ptr) = struct_union_spec_3 ((yyvsp[-1].ptr), (yyvsp[0].str)); }
+      {
+        (yyval.ptr) = struct_union_spec_3 ((yyvsp[-1].ptr), (yyvsp[0].str));
+      }
 #line 2911 "grammar.tab.c"
-    break;
+      break;
 
-  case 133:
+    case 133:
 #line 283 "grammar.y"
-                                   { (yyval.ptr) = struct_or_union_1 (); }
+      {
+        (yyval.ptr) = struct_or_union_1 ();
+      }
 #line 2917 "grammar.tab.c"
-    break;
+      break;
 
-  case 134:
+    case 134:
 #line 284 "grammar.y"
-                                   { (yyval.ptr) = struct_or_union_2 (); }
+      {
+        (yyval.ptr) = struct_or_union_2 ();
+      }
 #line 2923 "grammar.tab.c"
-    break;
+      break;
 
-  case 135:
+    case 135:
 #line 288 "grammar.y"
-                                   { (yyval.ptr) = struct_declaration_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = struct_declaration_list_1 ((yyvsp[0].ptr));
+      }
 #line 2929 "grammar.tab.c"
-    break;
+      break;
 
-  case 136:
+    case 136:
 #line 289 "grammar.y"
-                                                           { (yyval.ptr) = struct_declaration_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          struct_declaration_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2935 "grammar.tab.c"
-    break;
+      break;
 
-  case 137:
+    case 137:
 #line 293 "grammar.y"
-                                                               { (yyval.ptr) = struct_declaration_1 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = struct_declaration_1 ((yyvsp[-1].ptr));
+      }
 #line 2941 "grammar.tab.c"
-    break;
+      break;
 
-  case 138:
+    case 138:
 #line 294 "grammar.y"
-                                                               { (yyval.ptr) = struct_declaration_2 ((yyvsp[-2].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = struct_declaration_2 ((yyvsp[-2].ptr), (yyvsp[-1].ptr));
+      }
 #line 2947 "grammar.tab.c"
-    break;
+      break;
 
-  case 139:
+    case 139:
 #line 295 "grammar.y"
-                                                               { (yyval.ptr) = struct_declaration_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = struct_declaration_3 ((yyvsp[0].ptr));
+      }
 #line 2953 "grammar.tab.c"
-    break;
+      break;
 
-  case 140:
+    case 140:
 #line 299 "grammar.y"
-                                                       { (yyval.ptr) = spec_qual_list_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = spec_qual_list_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2959 "grammar.tab.c"
-    break;
+      break;
 
-  case 141:
+    case 141:
 #line 300 "grammar.y"
-                                                       { (yyval.ptr) = spec_qual_list_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = spec_qual_list_2 ((yyvsp[0].ptr));
+      }
 #line 2965 "grammar.tab.c"
-    break;
+      break;
 
-  case 142:
+    case 142:
 #line 301 "grammar.y"
-                                                       { (yyval.ptr) = spec_qual_list_3 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = spec_qual_list_3 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 2971 "grammar.tab.c"
-    break;
+      break;
 
-  case 143:
+    case 143:
 #line 302 "grammar.y"
-                                                       { (yyval.ptr) = spec_qual_list_4 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = spec_qual_list_4 ((yyvsp[0].ptr));
+      }
 #line 2977 "grammar.tab.c"
-    break;
+      break;
 
-  case 144:
+    case 144:
 #line 306 "grammar.y"
-                                       { (yyval.ptr) = struct_declarator_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = struct_declarator_list_1 ((yyvsp[0].ptr));
+      }
 #line 2983 "grammar.tab.c"
-    break;
+      break;
 
-  case 145:
+    case 145:
 #line 307 "grammar.y"
-                                                               { (yyval.ptr) = struct_declarator_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          struct_declarator_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 2989 "grammar.tab.c"
-    break;
+      break;
 
-  case 146:
+    case 146:
 #line 311 "grammar.y"
-                                               { (yyval.ptr) = struct_declarator_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = struct_declarator_1 ((yyvsp[0].ptr));
+      }
 #line 2995 "grammar.tab.c"
-    break;
+      break;
 
-  case 147:
+    case 147:
 #line 312 "grammar.y"
-                                               { (yyval.ptr) = struct_declarator_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = struct_declarator_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3001 "grammar.tab.c"
-    break;
+      break;
 
-  case 148:
+    case 148:
 #line 313 "grammar.y"
-                                               { (yyval.ptr) = struct_declarator_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = struct_declarator_3 ((yyvsp[0].ptr));
+      }
 #line 3007 "grammar.tab.c"
-    break;
+      break;
 
-  case 149:
+    case 149:
 #line 317 "grammar.y"
-                                               { (yyval.ptr) = enum_spec_1 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = enum_spec_1 ((yyvsp[-1].ptr));
+      }
 #line 3013 "grammar.tab.c"
-    break;
+      break;
 
-  case 150:
+    case 150:
 #line 318 "grammar.y"
-                                               { (yyval.ptr) = enum_spec_2 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = enum_spec_2 ((yyvsp[-2].ptr));
+      }
 #line 3019 "grammar.tab.c"
-    break;
+      break;
 
-  case 151:
+    case 151:
 #line 319 "grammar.y"
-                                                           { (yyval.ptr) = enum_spec_3 ((yyvsp[-3].str), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = enum_spec_3 ((yyvsp[-3].str), (yyvsp[-1].ptr));
+      }
 #line 3025 "grammar.tab.c"
-    break;
+      break;
 
-  case 152:
+    case 152:
 #line 320 "grammar.y"
-                                                           { (yyval.ptr) = enum_spec_4 ((yyvsp[-4].str), (yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = enum_spec_4 ((yyvsp[-4].str), (yyvsp[-2].ptr));
+      }
 #line 3031 "grammar.tab.c"
-    break;
+      break;
 
-  case 153:
+    case 153:
 #line 321 "grammar.y"
-                                               { (yyval.ptr) = enum_spec_5 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = enum_spec_5 ((yyvsp[0].str));
+      }
 #line 3037 "grammar.tab.c"
-    break;
+      break;
 
-  case 154:
+    case 154:
 #line 325 "grammar.y"
-                                               { (yyval.ptr) = enumerator_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = enumerator_list_1 ((yyvsp[0].ptr));
+      }
 #line 3043 "grammar.tab.c"
-    break;
+      break;
 
-  case 155:
+    case 155:
 #line 326 "grammar.y"
-                                               { (yyval.ptr) = enumerator_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = enumerator_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3049 "grammar.tab.c"
-    break;
+      break;
 
-  case 156:
+    case 156:
 #line 330 "grammar.y"
-                                                           { (yyval.ptr) = enumerator_1 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = enumerator_1 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3055 "grammar.tab.c"
-    break;
+      break;
 
-  case 157:
+    case 157:
 #line 331 "grammar.y"
-                                                           { (yyval.ptr) = enumerator_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = enumerator_2 ((yyvsp[0].ptr));
+      }
 #line 3061 "grammar.tab.c"
-    break;
+      break;
 
-  case 158:
+    case 158:
 #line 335 "grammar.y"
-                                       { (yyval.ptr) = atomic_type_spec ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = atomic_type_spec ((yyvsp[-1].ptr));
+      }
 #line 3067 "grammar.tab.c"
-    break;
+      break;
 
-  case 159:
+    case 159:
 #line 339 "grammar.y"
-                           { (yyval.ptr) = type_qualifier_1 (); }
+      {
+        (yyval.ptr) = type_qualifier_1 ();
+      }
 #line 3073 "grammar.tab.c"
-    break;
+      break;
 
-  case 160:
+    case 160:
 #line 340 "grammar.y"
-                           { (yyval.ptr) = type_qualifier_2 (); }
+      {
+        (yyval.ptr) = type_qualifier_2 ();
+      }
 #line 3079 "grammar.tab.c"
-    break;
+      break;
 
-  case 161:
+    case 161:
 #line 341 "grammar.y"
-                           { (yyval.ptr) = type_qualifier_3 (); }
+      {
+        (yyval.ptr) = type_qualifier_3 ();
+      }
 #line 3085 "grammar.tab.c"
-    break;
+      break;
 
-  case 162:
+    case 162:
 #line 342 "grammar.y"
-                           { (yyval.ptr) = type_qualifier_4 (); }
+      {
+        (yyval.ptr) = type_qualifier_4 ();
+      }
 #line 3091 "grammar.tab.c"
-    break;
+      break;
 
-  case 163:
+    case 163:
 #line 346 "grammar.y"
-                           { (yyval.ptr) = function_spec_1 (); }
+      {
+        (yyval.ptr) = function_spec_1 ();
+      }
 #line 3097 "grammar.tab.c"
-    break;
+      break;
 
-  case 164:
+    case 164:
 #line 347 "grammar.y"
-                           { (yyval.ptr) = function_spec_2 (); }
+      {
+        (yyval.ptr) = function_spec_2 ();
+      }
 #line 3103 "grammar.tab.c"
-    break;
+      break;
 
-  case 165:
+    case 165:
 #line 351 "grammar.y"
-                                                   { (yyval.ptr) = alignment_spec_1 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = alignment_spec_1 ((yyvsp[-1].ptr));
+      }
 #line 3109 "grammar.tab.c"
-    break;
+      break;
 
-  case 166:
+    case 166:
 #line 352 "grammar.y"
-                                                   { (yyval.ptr) = alignment_spec_2 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = alignment_spec_2 ((yyvsp[-1].ptr));
+      }
 #line 3115 "grammar.tab.c"
-    break;
+      break;
 
-  case 167:
+    case 167:
 #line 356 "grammar.y"
-                                           { (yyval.ptr) = declarator_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declarator_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3121 "grammar.tab.c"
-    break;
+      break;
 
-  case 168:
+    case 168:
 #line 357 "grammar.y"
-                                           { (yyval.ptr) = declarator_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declarator_2 ((yyvsp[0].ptr));
+      }
 #line 3127 "grammar.tab.c"
-    break;
+      break;
 
-  case 169:
+    case 169:
 #line 361 "grammar.y"
-                                   { (yyval.ptr) = direct_declarator_1 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = direct_declarator_1 ((yyvsp[0].str));
+      }
 #line 3133 "grammar.tab.c"
-    break;
+      break;
 
-  case 170:
+    case 170:
 #line 362 "grammar.y"
-                                   { (yyval.ptr) = direct_declarator_2 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_2 ((yyvsp[-1].ptr));
+      }
 #line 3139 "grammar.tab.c"
-    break;
+      break;
 
-  case 171:
+    case 171:
 #line 363 "grammar.y"
-                                           { (yyval.ptr) = direct_declarator_3 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_3 ((yyvsp[-2].ptr));
+      }
 #line 3145 "grammar.tab.c"
-    break;
+      break;
 
-  case 172:
+    case 172:
 #line 364 "grammar.y"
-                                           { (yyval.ptr) = direct_declarator_4 ((yyvsp[-3].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_4 ((yyvsp[-3].ptr));
+      }
 #line 3151 "grammar.tab.c"
-    break;
+      break;
 
-  case 173:
+    case 173:
 #line 365 "grammar.y"
-                                                                                       { (yyval.ptr) = direct_declarator_5 ((yyvsp[-5].ptr), (yyvsp[-2].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_declarator_5 ((yyvsp[-5].ptr), (yyvsp[-2].ptr),
+                               (yyvsp[-1].ptr));
+      }
 #line 3157 "grammar.tab.c"
-    break;
+      break;
 
-  case 174:
+    case 174:
 #line 366 "grammar.y"
-                                                                       { (yyval.ptr) = direct_declarator_6 ((yyvsp[-4].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_6 ((yyvsp[-4].ptr), (yyvsp[-1].ptr));
+      }
 #line 3163 "grammar.tab.c"
-    break;
+      break;
 
-  case 175:
+    case 175:
 #line 367 "grammar.y"
-                                                                       { (yyval.ptr) = direct_declarator_7 ((yyvsp[-4].ptr), (yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_7 ((yyvsp[-4].ptr), (yyvsp[-2].ptr));
+      }
 #line 3169 "grammar.tab.c"
-    break;
+      break;
 
-  case 176:
+    case 176:
 #line 368 "grammar.y"
-                                                                                       { (yyval.ptr) = direct_declarator_8 ((yyvsp[-5].ptr), (yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_declarator_8 ((yyvsp[-5].ptr), (yyvsp[-3].ptr),
+                               (yyvsp[-1].ptr));
+      }
 #line 3175 "grammar.tab.c"
-    break;
+      break;
 
-  case 177:
+    case 177:
 #line 369 "grammar.y"
-                                                                                       { (yyval.ptr) = direct_declarator_9 ((yyvsp[-4].ptr), (yyvsp[-2].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_declarator_9 ((yyvsp[-4].ptr), (yyvsp[-2].ptr),
+                               (yyvsp[-1].ptr));
+      }
 #line 3181 "grammar.tab.c"
-    break;
+      break;
 
-  case 178:
+    case 178:
 #line 370 "grammar.y"
-                                                                       { (yyval.ptr) = direct_declarator_10 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_10 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 3187 "grammar.tab.c"
-    break;
+      break;
 
-  case 179:
+    case 179:
 #line 371 "grammar.y"
-                                                                       { (yyval.ptr) = direct_declarator_11 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_11 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 3193 "grammar.tab.c"
-    break;
+      break;
 
-  case 180:
+    case 180:
 #line 372 "grammar.y"
-                                                                       { (yyval.ptr) = direct_declarator_12 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_12 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 3199 "grammar.tab.c"
-    break;
+      break;
 
-  case 181:
+    case 181:
 #line 373 "grammar.y"
-                                       { (yyval.ptr) = direct_declarator_13 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_13 ((yyvsp[-2].ptr));
+      }
 #line 3205 "grammar.tab.c"
-    break;
+      break;
 
-  case 182:
+    case 182:
 #line 374 "grammar.y"
-                                                                       { (yyval.ptr) = direct_declarator_14 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_declarator_14 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 3211 "grammar.tab.c"
-    break;
+      break;
 
-  case 183:
+    case 183:
 #line 378 "grammar.y"
-                                           { (yyval.ptr) = pointer_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = pointer_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3217 "grammar.tab.c"
-    break;
+      break;
 
-  case 184:
+    case 184:
 #line 379 "grammar.y"
-                                           { (yyval.ptr) = pointer_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = pointer_2 ((yyvsp[0].ptr));
+      }
 #line 3223 "grammar.tab.c"
-    break;
+      break;
 
-  case 185:
+    case 185:
 #line 380 "grammar.y"
-                                           { (yyval.ptr) = pointer_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = pointer_3 ((yyvsp[0].ptr));
+      }
 #line 3229 "grammar.tab.c"
-    break;
+      break;
 
-  case 186:
+    case 186:
 #line 381 "grammar.y"
-                                           { (yyval.ptr) = pointer_4 (); }
+      {
+        (yyval.ptr) = pointer_4 ();
+      }
 #line 3235 "grammar.tab.c"
-    break;
+      break;
 
-  case 187:
+    case 187:
 #line 385 "grammar.y"
-                                               { (yyval.ptr) = type_qualifier_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = type_qualifier_list_1 ((yyvsp[0].ptr));
+      }
 #line 3241 "grammar.tab.c"
-    break;
+      break;
 
-  case 188:
+    case 188:
 #line 386 "grammar.y"
-                                               { (yyval.ptr) = type_qualifier_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = type_qualifier_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3247 "grammar.tab.c"
-    break;
+      break;
 
-  case 189:
+    case 189:
 #line 391 "grammar.y"
-                                           { (yyval.ptr) = parameter_type_list_1 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = parameter_type_list_1 ((yyvsp[-2].ptr));
+      }
 #line 3253 "grammar.tab.c"
-    break;
+      break;
 
-  case 190:
+    case 190:
 #line 392 "grammar.y"
-                                           { (yyval.ptr) = parameter_type_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = parameter_type_list_1 ((yyvsp[0].ptr));
+      }
 #line 3259 "grammar.tab.c"
-    break;
+      break;
 
-  case 191:
+    case 191:
 #line 396 "grammar.y"
-                                                       { (yyval.ptr) = parameter_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = parameter_list_1 ((yyvsp[0].ptr));
+      }
 #line 3265 "grammar.tab.c"
-    break;
+      break;
 
-  case 192:
+    case 192:
 #line 397 "grammar.y"
-                                                       { (yyval.ptr) = parameter_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = parameter_list_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3271 "grammar.tab.c"
-    break;
+      break;
 
-  case 193:
+    case 193:
 #line 401 "grammar.y"
-                                                       { (yyval.ptr) = parameter_declaration_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          parameter_declaration_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3277 "grammar.tab.c"
-    break;
+      break;
 
-  case 194:
+    case 194:
 #line 402 "grammar.y"
-                                                       { (yyval.ptr) = parameter_declaration_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          parameter_declaration_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3283 "grammar.tab.c"
-    break;
+      break;
 
-  case 195:
+    case 195:
 #line 403 "grammar.y"
-                                                       { (yyval.ptr) = parameter_declaration_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = parameter_declaration_3 ((yyvsp[0].ptr));
+      }
 #line 3289 "grammar.tab.c"
-    break;
+      break;
 
-  case 196:
+    case 196:
 #line 407 "grammar.y"
-                                               { (yyval.ptr) = identifier_list_1 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = identifier_list_1 ((yyvsp[0].str));
+      }
 #line 3295 "grammar.tab.c"
-    break;
+      break;
 
-  case 197:
+    case 197:
 #line 408 "grammar.y"
-                                               { (yyval.ptr) = identifier_list_2 ((yyvsp[-2].ptr), (yyvsp[0].str)); }
+      {
+        (yyval.ptr) = identifier_list_2 ((yyvsp[-2].ptr), (yyvsp[0].str));
+      }
 #line 3301 "grammar.tab.c"
-    break;
+      break;
 
-  case 198:
+    case 198:
 #line 412 "grammar.y"
-                                                           { (yyval.ptr) = type_name_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = type_name_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3307 "grammar.tab.c"
-    break;
+      break;
 
-  case 199:
+    case 199:
 #line 413 "grammar.y"
-                                                           { (yyval.ptr) = type_name_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = type_name_2 ((yyvsp[0].ptr));
+      }
 #line 3313 "grammar.tab.c"
-    break;
+      break;
 
-  case 200:
+    case 200:
 #line 417 "grammar.y"
-                                               { (yyval.ptr) = abstract_declarator_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = abstract_declarator_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3319 "grammar.tab.c"
-    break;
+      break;
 
-  case 201:
+    case 201:
 #line 418 "grammar.y"
-                                               { (yyval.ptr) = abstract_declarator_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = abstract_declarator_2 ((yyvsp[0].ptr));
+      }
 #line 3325 "grammar.tab.c"
-    break;
+      break;
 
-  case 202:
+    case 202:
 #line 419 "grammar.y"
-                                               { (yyval.ptr) = abstract_declarator_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = abstract_declarator_3 ((yyvsp[0].ptr));
+      }
 #line 3331 "grammar.tab.c"
-    break;
+      break;
 
-  case 203:
+    case 203:
 #line 423 "grammar.y"
-                                               { (yyval.ptr) = direct_abstract_declarator_1 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_1 ((yyvsp[-1].ptr));
+      }
 #line 3337 "grammar.tab.c"
-    break;
+      break;
 
-  case 204:
+    case 204:
 #line 424 "grammar.y"
-                           { (yyval.ptr) = direct_abstract_declarator_2 (); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_2 ();
+      }
 #line 3343 "grammar.tab.c"
-    break;
+      break;
 
-  case 205:
+    case 205:
 #line 425 "grammar.y"
-                           { (yyval.ptr) = direct_abstract_declarator_3 (); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_3 ();
+      }
 #line 3349 "grammar.tab.c"
-    break;
+      break;
 
-  case 206:
+    case 206:
 #line 426 "grammar.y"
-                                                                   { (yyval.ptr) = direct_abstract_declarator_4 ((yyvsp[-2].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_4 ((yyvsp[-2].ptr), (yyvsp[-1].ptr));
+      }
 #line 3355 "grammar.tab.c"
-    break;
+      break;
 
-  case 207:
+    case 207:
 #line 427 "grammar.y"
-                                               { (yyval.ptr) = direct_abstract_declarator_5 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_5 ((yyvsp[-1].ptr));
+      }
 #line 3361 "grammar.tab.c"
-    break;
+      break;
 
-  case 208:
+    case 208:
 #line 428 "grammar.y"
-                                                                   { (yyval.ptr) = direct_abstract_declarator_6 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_6 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 3367 "grammar.tab.c"
-    break;
+      break;
 
-  case 209:
+    case 209:
 #line 429 "grammar.y"
-                                                                   { (yyval.ptr) = direct_abstract_declarator_7 ((yyvsp[-2].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_7 ((yyvsp[-2].ptr), (yyvsp[-1].ptr));
+      }
 #line 3373 "grammar.tab.c"
-    break;
+      break;
 
-  case 210:
+    case 210:
 #line 430 "grammar.y"
-                                               { (yyval.ptr) = direct_abstract_declarator_8 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_8 ((yyvsp[-1].ptr));
+      }
 #line 3379 "grammar.tab.c"
-    break;
+      break;
 
-  case 211:
+    case 211:
 #line 431 "grammar.y"
-                                               { (yyval.ptr) = direct_abstract_declarator_9 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_9 ((yyvsp[-1].ptr));
+      }
 #line 3385 "grammar.tab.c"
-    break;
+      break;
 
-  case 212:
+    case 212:
 #line 432 "grammar.y"
-                                               { (yyval.ptr) = direct_abstract_declarator_10 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_10 ((yyvsp[-2].ptr));
+      }
 #line 3391 "grammar.tab.c"
-    break;
+      break;
 
-  case 213:
+    case 213:
 #line 433 "grammar.y"
-                                                   { (yyval.ptr) = direct_abstract_declarator_11 ((yyvsp[-3].ptr)); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_11 ((yyvsp[-3].ptr));
+      }
 #line 3397 "grammar.tab.c"
-    break;
+      break;
 
-  case 214:
+    case 214:
 #line 434 "grammar.y"
-                                                                                               { (yyval.ptr) = direct_abstract_declarator_12 ((yyvsp[-5].ptr), (yyvsp[-2].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_12 ((yyvsp[-5].ptr), (yyvsp[-2].ptr),
+                                         (yyvsp[-1].ptr));
+      }
 #line 3403 "grammar.tab.c"
-    break;
+      break;
 
-  case 215:
+    case 215:
 #line 435 "grammar.y"
-                                                                           { (yyval.ptr) = direct_abstract_declarator_13 ((yyvsp[-4].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_13 ((yyvsp[-4].ptr), (yyvsp[-1].ptr));
+      }
 #line 3409 "grammar.tab.c"
-    break;
+      break;
 
-  case 216:
+    case 216:
 #line 436 "grammar.y"
-                                                                                           { (yyval.ptr) = direct_abstract_declarator_14 ((yyvsp[-4].ptr), (yyvsp[-2].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_14 ((yyvsp[-4].ptr), (yyvsp[-2].ptr),
+                                         (yyvsp[-1].ptr));
+      }
 #line 3415 "grammar.tab.c"
-    break;
+      break;
 
-  case 217:
+    case 217:
 #line 437 "grammar.y"
-                                                                                               { (yyval.ptr) = direct_abstract_declarator_15 ((yyvsp[-5].ptr), (yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_15 ((yyvsp[-5].ptr), (yyvsp[-3].ptr),
+                                         (yyvsp[-1].ptr));
+      }
 #line 3421 "grammar.tab.c"
-    break;
+      break;
 
-  case 218:
+    case 218:
 #line 438 "grammar.y"
-                                                                       { (yyval.ptr) = direct_abstract_declarator_16 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_16 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 3427 "grammar.tab.c"
-    break;
+      break;
 
-  case 219:
+    case 219:
 #line 439 "grammar.y"
-                                                                       { (yyval.ptr) = direct_abstract_declarator_17 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_17 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 3433 "grammar.tab.c"
-    break;
+      break;
 
-  case 220:
+    case 220:
 #line 440 "grammar.y"
-                           { (yyval.ptr) = direct_abstract_declarator_18 (); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_18 ();
+      }
 #line 3439 "grammar.tab.c"
-    break;
+      break;
 
-  case 221:
+    case 221:
 #line 441 "grammar.y"
-                                           { (yyval.ptr) = direct_abstract_declarator_19 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_19 ((yyvsp[-1].ptr));
+      }
 #line 3445 "grammar.tab.c"
-    break;
+      break;
 
-  case 222:
+    case 222:
 #line 442 "grammar.y"
-                                               { (yyval.ptr) = direct_abstract_declarator_20 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = direct_abstract_declarator_20 ((yyvsp[-2].ptr));
+      }
 #line 3451 "grammar.tab.c"
-    break;
+      break;
 
-  case 223:
+    case 223:
 #line 443 "grammar.y"
-                                                                   { (yyval.ptr) = direct_abstract_declarator_21 ((yyvsp[-3].ptr), (yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) =
+          direct_abstract_declarator_21 ((yyvsp[-3].ptr), (yyvsp[-1].ptr));
+      }
 #line 3457 "grammar.tab.c"
-    break;
+      break;
 
-  case 224:
+    case 224:
 #line 447 "grammar.y"
-                                           { (yyval.ptr) = initializer_1 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = initializer_1 ((yyvsp[-1].ptr));
+      }
 #line 3463 "grammar.tab.c"
-    break;
+      break;
 
-  case 225:
+    case 225:
 #line 448 "grammar.y"
-                                           { (yyval.ptr) = initializer_2 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = initializer_2 ((yyvsp[-2].ptr));
+      }
 #line 3469 "grammar.tab.c"
-    break;
+      break;
 
-  case 226:
+    case 226:
 #line 449 "grammar.y"
-                                           { (yyval.ptr) = initializer_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = initializer_3 ((yyvsp[0].ptr));
+      }
 #line 3475 "grammar.tab.c"
-    break;
+      break;
 
-  case 227:
+    case 227:
 #line 453 "grammar.y"
-                                                           { (yyval.ptr) = initializer_list_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = initializer_list_1 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3481 "grammar.tab.c"
-    break;
+      break;
 
-  case 228:
+    case 228:
 #line 454 "grammar.y"
-                                                           { (yyval.ptr) = initializer_list_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = initializer_list_2 ((yyvsp[0].ptr));
+      }
 #line 3487 "grammar.tab.c"
-    break;
+      break;
 
-  case 229:
+    case 229:
 #line 455 "grammar.y"
-                                                           { (yyval.ptr) = initializer_list_3 ((yyvsp[-3].ptr), (yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          initializer_list_3 ((yyvsp[-3].ptr), (yyvsp[-1].ptr),
+                              (yyvsp[0].ptr));
+      }
 #line 3493 "grammar.tab.c"
-    break;
+      break;
 
-  case 230:
+    case 230:
 #line 456 "grammar.y"
-                                                           { (yyval.ptr) = initializer_list_4 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = initializer_list_4 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3499 "grammar.tab.c"
-    break;
+      break;
 
-  case 231:
+    case 231:
 #line 460 "grammar.y"
-                                       { (yyval.ptr) = designation ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = designation ((yyvsp[-1].ptr));
+      }
 #line 3505 "grammar.tab.c"
-    break;
+      break;
 
-  case 232:
+    case 232:
 #line 464 "grammar.y"
-                                       { (yyval.ptr) = designator_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = designator_list_1 ((yyvsp[0].ptr));
+      }
 #line 3511 "grammar.tab.c"
-    break;
+      break;
 
-  case 233:
+    case 233:
 #line 465 "grammar.y"
-                                       { (yyval.ptr) = designator_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = designator_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3517 "grammar.tab.c"
-    break;
+      break;
 
-  case 234:
+    case 234:
 #line 469 "grammar.y"
-                                       { (yyval.ptr) = designator_1 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = designator_1 ((yyvsp[-1].ptr));
+      }
 #line 3523 "grammar.tab.c"
-    break;
+      break;
 
-  case 235:
+    case 235:
 #line 470 "grammar.y"
-                                       { (yyval.ptr) = designator_2 ((yyvsp[0].str)); }
+      {
+        (yyval.ptr) = designator_2 ((yyvsp[0].str));
+      }
 #line 3529 "grammar.tab.c"
-    break;
+      break;
 
-  case 236:
+    case 236:
 #line 474 "grammar.y"
-                                                                           { (yyval.ptr) = static_assert_declaration ((yyvsp[-4].ptr), (yyvsp[-2].str)); }
+      {
+        (yyval.ptr) =
+          static_assert_declaration ((yyvsp[-4].ptr), (yyvsp[-2].str));
+      }
 #line 3535 "grammar.tab.c"
-    break;
+      break;
 
-  case 237:
+    case 237:
 #line 478 "grammar.y"
-                                   { (yyval.ptr) = statement_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = statement_1 ((yyvsp[0].ptr));
+      }
 #line 3541 "grammar.tab.c"
-    break;
+      break;
 
-  case 238:
+    case 238:
 #line 479 "grammar.y"
-                                   { (yyval.ptr) = statement_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = statement_2 ((yyvsp[0].ptr));
+      }
 #line 3547 "grammar.tab.c"
-    break;
+      break;
 
-  case 239:
+    case 239:
 #line 480 "grammar.y"
-                                   { (yyval.ptr) = statement_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = statement_3 ((yyvsp[0].ptr));
+      }
 #line 3553 "grammar.tab.c"
-    break;
+      break;
 
-  case 240:
+    case 240:
 #line 481 "grammar.y"
-                                   { (yyval.ptr) = statement_4 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = statement_4 ((yyvsp[0].ptr));
+      }
 #line 3559 "grammar.tab.c"
-    break;
+      break;
 
-  case 241:
+    case 241:
 #line 482 "grammar.y"
-                                   { (yyval.ptr) = statement_5 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = statement_5 ((yyvsp[0].ptr));
+      }
 #line 3565 "grammar.tab.c"
-    break;
+      break;
 
-  case 242:
+    case 242:
 #line 483 "grammar.y"
-                                   { (yyval.ptr) = statement_6 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = statement_6 ((yyvsp[0].ptr));
+      }
 #line 3571 "grammar.tab.c"
-    break;
+      break;
 
-  case 243:
+    case 243:
 #line 487 "grammar.y"
-                                                   { (yyval.ptr) = labeled_statement_1 ((yyvsp[-2].str), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = labeled_statement_1 ((yyvsp[-2].str), (yyvsp[0].ptr));
+      }
 #line 3577 "grammar.tab.c"
-    break;
+      break;
 
-  case 244:
+    case 244:
 #line 488 "grammar.y"
-                                                   { (yyval.ptr) = labeled_statement_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = labeled_statement_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3583 "grammar.tab.c"
-    break;
+      break;
 
-  case 245:
+    case 245:
 #line 489 "grammar.y"
-                                                   { (yyval.ptr) = labeled_statement_3 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = labeled_statement_3 ((yyvsp[0].ptr));
+      }
 #line 3589 "grammar.tab.c"
-    break;
+      break;
 
-  case 246:
+    case 246:
 #line 493 "grammar.y"
-                                       { (yyval.ptr) = compound_statement_1 (); }
+      {
+        (yyval.ptr) = compound_statement_1 ();
+      }
 #line 3595 "grammar.tab.c"
-    break;
+      break;
 
-  case 247:
+    case 247:
 #line 494 "grammar.y"
-              { push_scope (); }
+      {
+        push_scope ();
+      }
 #line 3601 "grammar.tab.c"
-    break;
+      break;
 
-  case 248:
+    case 248:
 #line 494 "grammar.y"
-                                                 { pull_scope (); }
+      {
+        pull_scope ();
+      }
 #line 3607 "grammar.tab.c"
-    break;
+      break;
 
-  case 249:
+    case 249:
 #line 494 "grammar.y"
-                                                                            { (yyval.ptr) = compound_statement_2 ((yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) = compound_statement_2 ((yyvsp[-2].ptr));
+      }
 #line 3613 "grammar.tab.c"
-    break;
+      break;
 
-  case 250:
+    case 250:
 #line 498 "grammar.y"
-                                       { (yyval.ptr) = block_item_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = block_item_list_1 ((yyvsp[0].ptr));
+      }
 #line 3619 "grammar.tab.c"
-    break;
+      break;
 
-  case 251:
+    case 251:
 #line 499 "grammar.y"
-                                       { (yyval.ptr) = block_item_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = block_item_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3625 "grammar.tab.c"
-    break;
+      break;
 
-  case 252:
+    case 252:
 #line 503 "grammar.y"
-                                       { (yyval.ptr) = block_item_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = block_item_1 ((yyvsp[0].ptr));
+      }
 #line 3631 "grammar.tab.c"
-    break;
+      break;
 
-  case 253:
+    case 253:
 #line 504 "grammar.y"
-                                       { (yyval.ptr) = block_item_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = block_item_2 ((yyvsp[0].ptr));
+      }
 #line 3637 "grammar.tab.c"
-    break;
+      break;
 
-  case 254:
+    case 254:
 #line 508 "grammar.y"
-                                       { (yyval.ptr) = expression_statement_1 (); }
+      {
+        (yyval.ptr) = expression_statement_1 ();
+      }
 #line 3643 "grammar.tab.c"
-    break;
+      break;
 
-  case 255:
+    case 255:
 #line 509 "grammar.y"
-                                       { (yyval.ptr) = expression_statement_2 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = expression_statement_2 ((yyvsp[-1].ptr));
+      }
 #line 3649 "grammar.tab.c"
-    break;
+      break;
 
-  case 256:
+    case 256:
 #line 513 "grammar.y"
-                                                           { (yyval.ptr) = selection_statement_1 ((yyvsp[-4].ptr), (yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          selection_statement_1 ((yyvsp[-4].ptr), (yyvsp[-2].ptr),
+                                 (yyvsp[0].ptr));
+      }
 #line 3655 "grammar.tab.c"
-    break;
+      break;
 
-  case 257:
+    case 257:
 #line 514 "grammar.y"
-                                                           { (yyval.ptr) = selection_statement_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = selection_statement_2 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3661 "grammar.tab.c"
-    break;
+      break;
 
-  case 258:
+    case 258:
 #line 515 "grammar.y"
-                                                           { (yyval.ptr) = selection_statement_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = selection_statement_3 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3667 "grammar.tab.c"
-    break;
+      break;
 
-  case 259:
+    case 259:
 #line 519 "grammar.y"
-                                                           { (yyval.ptr) = iteration_statement_1 ((yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = iteration_statement_1 ((yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3673 "grammar.tab.c"
-    break;
+      break;
 
-  case 260:
+    case 260:
 #line 520 "grammar.y"
-                                                           { (yyval.ptr) = iteration_statement_2 ((yyvsp[-5].ptr), (yyvsp[-2].ptr)); }
+      {
+        (yyval.ptr) =
+          iteration_statement_2 ((yyvsp[-5].ptr), (yyvsp[-2].ptr));
+      }
 #line 3679 "grammar.tab.c"
-    break;
+      break;
 
-  case 261:
+    case 261:
 #line 521 "grammar.y"
-                                                                           { (yyval.ptr) = iteration_statement_3 ((yyvsp[-3].ptr), (yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          iteration_statement_3 ((yyvsp[-3].ptr), (yyvsp[-2].ptr),
+                                 (yyvsp[0].ptr));
+      }
 #line 3685 "grammar.tab.c"
-    break;
+      break;
 
-  case 262:
+    case 262:
 #line 522 "grammar.y"
-                                                                                       { (yyval.ptr) = iteration_statement_4 ((yyvsp[-4].ptr), (yyvsp[-3].ptr), (yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          iteration_statement_4 ((yyvsp[-4].ptr), (yyvsp[-3].ptr),
+                                 (yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3691 "grammar.tab.c"
-    break;
+      break;
 
-  case 263:
+    case 263:
 #line 523 "grammar.y"
-                                                                           { (yyval.ptr) = iteration_statement_5 ((yyvsp[-3].ptr), (yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          iteration_statement_5 ((yyvsp[-3].ptr), (yyvsp[-2].ptr),
+                                 (yyvsp[0].ptr));
+      }
 #line 3697 "grammar.tab.c"
-    break;
+      break;
 
-  case 264:
+    case 264:
 #line 524 "grammar.y"
-                                                                               { (yyval.ptr) = iteration_statement_6 ((yyvsp[-4].ptr), (yyvsp[-3].ptr), (yyvsp[-2].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          iteration_statement_6 ((yyvsp[-4].ptr), (yyvsp[-3].ptr),
+                                 (yyvsp[-2].ptr), (yyvsp[0].ptr));
+      }
 #line 3703 "grammar.tab.c"
-    break;
+      break;
 
-  case 265:
+    case 265:
 #line 528 "grammar.y"
-                                       { (yyval.ptr) = jump_statement_1 ((yyvsp[-1].str)); }
+      {
+        (yyval.ptr) = jump_statement_1 ((yyvsp[-1].str));
+      }
 #line 3709 "grammar.tab.c"
-    break;
+      break;
 
-  case 266:
+    case 266:
 #line 529 "grammar.y"
-                                       { (yyval.ptr) = jump_statement_2 (); }
+      {
+        (yyval.ptr) = jump_statement_2 ();
+      }
 #line 3715 "grammar.tab.c"
-    break;
+      break;
 
-  case 267:
+    case 267:
 #line 530 "grammar.y"
-                                       { (yyval.ptr) = jump_statement_3 (); }
+      {
+        (yyval.ptr) = jump_statement_3 ();
+      }
 #line 3721 "grammar.tab.c"
-    break;
+      break;
 
-  case 268:
+    case 268:
 #line 531 "grammar.y"
-                                       { (yyval.ptr) = jump_statement_4 (); }
+      {
+        (yyval.ptr) = jump_statement_4 ();
+      }
 #line 3727 "grammar.tab.c"
-    break;
+      break;
 
-  case 269:
+    case 269:
 #line 532 "grammar.y"
-                                       { (yyval.ptr) = jump_statement_5 ((yyvsp[-1].ptr)); }
+      {
+        (yyval.ptr) = jump_statement_5 ((yyvsp[-1].ptr));
+      }
 #line 3733 "grammar.tab.c"
-    break;
+      break;
 
-  case 270:
+    case 270:
 #line 536 "grammar.y"
-                                                   { (yyval.ptr) = translation_unit_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = translation_unit_1 ((yyvsp[0].ptr));
+      }
 #line 3739 "grammar.tab.c"
-    break;
+      break;
 
-  case 271:
+    case 271:
 #line 537 "grammar.y"
-                                                   { (yyval.ptr) = translation_unit_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = translation_unit_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3745 "grammar.tab.c"
-    break;
+      break;
 
-  case 272:
+    case 272:
 #line 541 "grammar.y"
-                                                   { (yyval.ptr) = external_declaration_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = external_declaration_1 ((yyvsp[0].ptr));
+      }
 #line 3751 "grammar.tab.c"
-    break;
+      break;
 
-  case 273:
+    case 273:
 #line 542 "grammar.y"
-                                                   { (yyval.ptr) = external_declaration_2 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = external_declaration_2 ((yyvsp[0].ptr));
+      }
 #line 3757 "grammar.tab.c"
-    break;
+      break;
 
-  case 274:
+    case 274:
 #line 546 "grammar.y"
-                                                                                   { (yyval.ptr) = function_definition_1 ((yyvsp[-3].ptr), (yyvsp[-2].ptr), (yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          function_definition_1 ((yyvsp[-3].ptr), (yyvsp[-2].ptr),
+                                 (yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3763 "grammar.tab.c"
-    break;
+      break;
 
-  case 275:
+    case 275:
 #line 547 "grammar.y"
-                                                                                   { (yyval.ptr) = function_definition_2 ((yyvsp[-2].ptr), (yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) =
+          function_definition_2 ((yyvsp[-2].ptr), (yyvsp[-1].ptr),
+                                 (yyvsp[0].ptr));
+      }
 #line 3769 "grammar.tab.c"
-    break;
+      break;
 
-  case 276:
+    case 276:
 #line 551 "grammar.y"
-                                           { (yyval.ptr) = declaration_list_1 ((yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declaration_list_1 ((yyvsp[0].ptr));
+      }
 #line 3775 "grammar.tab.c"
-    break;
+      break;
 
-  case 277:
+    case 277:
 #line 552 "grammar.y"
-                                           { (yyval.ptr) = declaration_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr)); }
+      {
+        (yyval.ptr) = declaration_list_2 ((yyvsp[-1].ptr), (yyvsp[0].ptr));
+      }
 #line 3781 "grammar.tab.c"
-    break;
+      break;
 
-  case 278:
+    case 278:
 #line 556 "grammar.y"
-                            { *ast = (yyvsp[0].ptr); }
+      {
+        *ast = (yyvsp[0].ptr);
+      }
 #line 3787 "grammar.tab.c"
-    break;
+      break;
 
 
 #line 3791 "grammar.tab.c"
 
-      default: break;
+    default:
+      break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
      that yytoken be updated with the new translation.  We take the
@@ -3817,8 +4412,7 @@ yyreduce:
     const int yylhs = yyr1[yyn] - YYNTOKENS;
     const int yyi = yypgoto[yylhs] + *yyssp;
     yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
-               ? yytable[yyi]
-               : yydefgoto[yylhs]);
+               ? yytable[yyi] : yydefgoto[yylhs]);
   }
 
   goto yynewstate;
@@ -3837,12 +4431,12 @@ yyerrlab:
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
-      yyerror (ast, YY_("syntax error"));
+      yyerror (ast, YY_ ("syntax error"));
 #else
-# define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
+#define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
                                         yyssp, yytoken)
       {
-        char const *yymsgp = YY_("syntax error");
+        char const *yymsgp = YY_ ("syntax error");
         int yysyntax_error_status;
         yysyntax_error_status = YYSYNTAX_ERROR;
         if (yysyntax_error_status == 0)
@@ -3851,7 +4445,9 @@ yyerrlab:
           {
             if (yymsg != yymsgbuf)
               YYSTACK_FREE (yymsg);
-            yymsg = YY_CAST (char *, YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
+            yymsg =
+              YY_CAST (char *,
+                       YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
             if (!yymsg)
               {
                 yymsg = yymsgbuf;
@@ -3868,7 +4464,7 @@ yyerrlab:
         if (yysyntax_error_status == 2)
           goto yyexhaustedlab;
       }
-# undef YYSYNTAX_ERROR
+#undef YYSYNTAX_ERROR
 #endif
     }
 
@@ -3887,8 +4483,7 @@ yyerrlab:
         }
       else
         {
-          yydestruct ("Error: discarding",
-                      yytoken, &yylval, ast);
+          yydestruct ("Error: discarding", yytoken, &yylval, ast);
           yychar = YYEMPTY;
         }
     }
@@ -3920,7 +4515,7 @@ yyerrorlab:
 | yyerrlab1 -- common code for both syntax error and YYERROR.  |
 `-------------------------------------------------------------*/
 yyerrlab1:
-  yyerrstatus = 3;      /* Each real token shifted decrements this.  */
+  yyerrstatus = 3;              /* Each real token shifted decrements this.  */
 
   for (;;)
     {
@@ -3941,20 +4536,16 @@ yyerrlab1:
         YYABORT;
 
 
-      yydestruct ("Error: popping",
-                  yystos[yystate], yyvsp, ast);
+      yydestruct ("Error: popping", yystos[yystate], yyvsp, ast);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
     }
 
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  *++yyvsp = yylval;
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
-
-
-  /* Shift the error token.  */
-  YY_SYMBOL_PRINT ("Shifting", yystos[yyn], yyvsp, yylsp);
+    /* Shift the error token.  */
+    YY_SYMBOL_PRINT ("Shifting", yystos[yyn], yyvsp, yylsp);
 
   yystate = yyn;
   goto yynewstate;
@@ -3981,7 +4572,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (ast, YY_("memory exhausted"));
+  yyerror (ast, YY_ ("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
@@ -3996,8 +4587,7 @@ yyreturn:
       /* Make sure we have latest lookahead translation.  See comments at
          user semantic actions for why this is necessary.  */
       yytoken = YYTRANSLATE (yychar);
-      yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval, ast);
+      yydestruct ("Cleanup: discarding lookahead", yytoken, &yylval, ast);
     }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT.  */
@@ -4005,8 +4595,7 @@ yyreturn:
   YY_STACK_PRINT (yyss, yyssp);
   while (yyssp != yyss)
     {
-      yydestruct ("Cleanup: popping",
-                  yystos[+*yyssp], yyvsp, ast);
+      yydestruct ("Cleanup: popping", yystos[+*yyssp], yyvsp, ast);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -4019,12 +4608,14 @@ yyreturn:
 #endif
   return yyresult;
 }
+
 #line 558 "grammar.y"
 
 #include <stdio.h>
 
-void yyerror(void ** shit __attribute__ ((unused)), const char *s)
+void
+yyerror (void **shit __attribute__((unused)), const char *s)
 {
-	fflush(stdout);
-	fprintf(stderr, "*** %s\n", s);
+  fflush (stdout);
+  fprintf (stderr, "*** %s\n", s);
 }

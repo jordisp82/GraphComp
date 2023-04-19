@@ -184,5 +184,7 @@ The declaration specifiers are of no interest right now, since we are only inter
 
 Here we make a difference between a declarator and a declarator belonging to a function definition, because in that latter case we are interested in both the name of the function and its parameters, that is, we know in advance what we are going to find and what we're interested in.
 
+Function definitions always include a compount statement, which in turn have declarations and statements. Declarations are nothing new, we just process them in a similar way as we did when we wanted to get the function name; for statements, we look into those that can create new scopes: compound statements (which also are statements), selection statements and iteration statements.
+
 \end{document}
 
