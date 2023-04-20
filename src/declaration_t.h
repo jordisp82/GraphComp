@@ -1,6 +1,8 @@
 #ifndef DECLARATION_T_H
 #define DECLARATION_T_H
 
+#include "ast_t.h"
+
 typedef struct
 {
   int n_typedef;
@@ -53,5 +55,18 @@ typedef struct
   type_qual_t type_qual;
   func_spec_t func_spec;
 } decl_specs_t;
+
+typedef struct __enumconst
+{
+  const char *name;
+  ast_node_t *value;
+  struct __enumconst *next;
+} enum_const_t;
+
+typedef struct
+{
+  const char *tag;
+  enum_const_t *enum_consts;
+} enum_t;
 
 #endif

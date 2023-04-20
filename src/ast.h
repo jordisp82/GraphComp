@@ -89,7 +89,11 @@ ast_node_t *type_spec_16 (const char *str);
                              (x) == type_spec_8 || \
                              (x) == type_spec_9 || \
                              (x) == type_spec_10 || \
-                             (x) == type_spec_11)
+                             (x) == type_spec_11 || \
+                             (x) == type_spec_12 || \
+                             (x) == type_spec_13 || \
+                             (x) == type_spec_14 || \
+                             (x) == type_spec_15)
 ast_node_t *struct_or_union_1 (void);
 ast_node_t *struct_or_union_2 (void);
 #define IS_STRUCT_OR_UNION(x)       ((x) == struct_or_union_1 || \
