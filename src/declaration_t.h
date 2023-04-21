@@ -48,14 +48,6 @@ typedef struct
   int n_noreturn;
 } func_spec_t;
 
-typedef struct
-{
-  stg_class_spec_t stg_class_spec;
-  type_spec_t type_spec;
-  type_qual_t type_qual;
-  func_spec_t func_spec;
-} decl_specs_t;
-
 typedef struct __enumconst
 {
   const char *name;
@@ -68,5 +60,21 @@ typedef struct
   const char *tag;
   enum_const_t *enum_consts;
 } enum_t;
+
+typedef struct
+{
+  int token;
+  const char *tag;
+} struct_union_t;
+
+typedef struct
+{
+  stg_class_spec_t stg_class_spec;
+  type_spec_t type_spec;
+  type_qual_t type_qual;
+  func_spec_t func_spec;
+  enum_t *enum_specs;
+  struct_union_t *struct_union_specs;
+} decl_specs_t;
 
 #endif

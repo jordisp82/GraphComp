@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -ggdb -g3
-OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o declaration.o decl_aux.o decl_specs.o
+OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o declaration.o decl_aux.o decl_specs.o enums.o struct_union.o
 PROGNAME = test1
 
 all: $(PROGNAME)
@@ -37,6 +37,12 @@ decl_aux.o: decl_aux.c decl_aux.h declaration_t.h
 
 decl_specs.o: decl_specs.c decl_specs.h ast_t.h decl_aux.h
 	$(CC) $(CFLAGS) -c decl_specs.c
+
+enums.o: enums.c enums.h ast_t.h ast.h declaration_t.h
+	$(CC) $(CFLAGS) -c enums.c
+
+struct_union.o: struct_union.c struct_union.h ast_t.h ast.h
+	$(CC) $(CFLAGS) -c struct_union.c
 
 clean:
 	rm -f *.o

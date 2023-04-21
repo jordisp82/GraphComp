@@ -8,6 +8,8 @@
 
 #include "decl_specs.h"
 #include "decl_aux.h"
+#include "enums.h"
+#include "struct_union.h"
 #include "ast.h"
 
 #ifndef NULL
@@ -15,17 +17,8 @@
 #endif
 
 static void sem_stg_class_spec (ast_node_t * ast);
-static void sem_type_spec (ast_node_t * ast);
-static void sem_type_qual (ast_node_t * ast);
 static void sem_func_spec (ast_node_t * ast);
 static void sem_align_spec (ast_node_t * ast);
-static void sem_struct_union (ast_node_t * ast);
-static void sem_enum (ast_node_t * ast);
-static void sem_enum1 (ast_node_t * ast);
-static void sem_enum2 (ast_node_t * ast);
-static void sem_enum3 (ast_node_t * ast);
-static void sem_enum_list (ast_node_t * ast);
-static void sem_enumerator (ast_node_t * ast);
 
 void
 sem_decl_specs (ast_node_t * ast)
@@ -122,7 +115,7 @@ sem_stg_class_spec (ast_node_t * ast)
     }
 }
 
-static void
+void
 sem_type_spec (ast_node_t * ast)
 {
   assert (ast != NULL);
@@ -195,28 +188,22 @@ sem_type_spec (ast_node_t * ast)
         ptr->n_atomic++;        /* for now, fuck off with that */
       else if (ast->func_ptr == type_spec_14)
         {
-          switch (ast->children[0]->token)
-            {
-            case STRUCT:
-              ptr->n_struct++;
-              break;
-
-            case UNION:
-              ptr->n_union++;
-              break;
-            }
-          sem_struct_union (ast->children[0]);
+          sem_struct_union_spec (ast->children[0]);
+          decl_specs_t *parent = ast->parent->data;
+          parent->struct_union_specs = ast->children[0]->data;
         }
       else if (ast->func_ptr == type_spec_15)
         {
           ptr->n_enum++;
           sem_enum (ast->children[0]);
+          decl_specs_t *parent = ast->parent->data;
+          parent->enum_specs = ast->children[0]->data;
         }
       break;
     }
 }
 
-static void
+void
 sem_type_qual (ast_node_t * ast)
 {
   assert (ast != NULL);
@@ -287,120 +274,4 @@ sem_align_spec (ast_node_t * ast)
   /* so far, we do nothing */
 
   return;
-}
-
-static void
-sem_struct_union (ast_node_t * ast)
-{
-  assert (ast != NULL);
-  assert (IS_STRUCT_OR_UNION (ast->func_ptr));
-  assert (ast->parent != NULL);
-  assert (ast->children != NULL || ast->n_children == 0);
-
-  /* TODO */
-}
-
-static void
-sem_enum (ast_node_t * ast)
-{
-  assert (ast != NULL);
-  assert (IS_ENUM_SPEC (ast->func_ptr));
-  assert (ast->parent != NULL);
-  assert (ast->children != NULL || ast->n_children == 0);
-
-  enum_t *ptr = calloc (1, sizeof (enum_t));
-  assert (ptr != NULL);
-  if (ast->data != NULL)
-    ptr->tag = ast->data;
-  ast->data = ptr;
-  ptr->enum_consts = calloc (1, sizeof (enum_const_t));
-  assert (ptr->enum_consts != NULL);
-
-  /*
-   * (a) and (b): enum without tag with constants
-   * (c) and (d): enum with tag and constants
-   * (e): enum with tag without constants
-   */
-
-  if (ast->func_ptr == enum_spec_1 || ast->func_ptr == enum_spec_2)
-    sem_enum1 (ast);
-  else if (ast->func_ptr == enum_spec_3 || ast->func_ptr == enum_spec_4)
-    sem_enum2 (ast);
-  else if (ast->func_ptr == enum_spec_5)
-    sem_enum3 (ast);
-
-  assert (ast->data != NULL);   /* FIXME only for debugging purposes */
-}
-
-static void
-sem_enum1 (ast_node_t * ast)
-{
-  assert (ast != NULL);
-  assert (IS_ENUM_SPEC (ast->func_ptr));
-  assert (ast->parent != NULL);
-  assert (ast->children != NULL);
-  assert (IS_ENUMERATOR_LIST (ast->children[0]->func_ptr));
-
-  sem_enum_list (ast->children[0]);
-}
-
-static void
-sem_enum2 (ast_node_t * ast)
-{
-  assert (ast != NULL);
-  assert (IS_ENUM_SPEC (ast->func_ptr));
-  assert (ast->parent != NULL);
-  assert (ast->children != NULL);
-  assert (IS_ENUMERATOR_LIST (ast->children[0]->func_ptr));
-
-  sem_enum_list (ast->children[0]);
-}
-
-static void
-sem_enum3 (ast_node_t * ast)
-{
-  assert (ast != NULL);
-  assert (IS_ENUM_SPEC (ast->func_ptr));
-  assert (ast->parent != NULL);
-  assert (ast->children != NULL || ast->n_children == 0);
-
-  /* NOTE do nothing? */
-}
-
-static void
-sem_enum_list (ast_node_t * ast)
-{
-  assert (ast != NULL);
-  assert (IS_ENUMERATOR_LIST (ast->func_ptr));
-  assert (ast->parent != NULL);
-  assert (ast->children != NULL);
-
-  ast->data = ast->parent->data;
-
-  for (int i = 0; i < ast->n_children; i++)
-    if (IS_ENUMERATOR (ast->children[i]->func_ptr))
-      sem_enumerator (ast->children[i]);
-    else if (IS_ENUMERATOR_LIST (ast->children[i]->func_ptr))
-      sem_enum_list (ast->children[i]);
-}
-
-static void
-sem_enumerator (ast_node_t * ast)
-{
-  assert (ast != NULL);
-  assert (IS_ENUMERATOR (ast->func_ptr));
-  assert (ast->parent != NULL);
-  assert (ast->children != NULL);
-
-  enum_const_t *ptr1 = calloc (1, sizeof (enum_const_t));
-  assert (ptr1 != NULL);
-  ast->data = ptr1;
-  ptr1->name = strdup (ast->children[0]->data);
-  assert (ptr1->name != NULL);
-  if (ast->n_children > 1)
-    ptr1->value = ast->children[1];
-  enum_t *ptr2 = ast->parent->data;
-  assert (ptr2 != NULL);
-  ptr1->next = ptr2->enum_consts->next;
-  ptr2->enum_consts->next = ptr1;
 }
