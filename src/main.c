@@ -25,9 +25,4 @@ main (int argc, char *argv[])
 
   yyparse ((void **) &ast);
   semantic_analysis (ast);
-
-#if 0
-  sym_node_t *symtable = create_symtable (ast);
-  assert (symtable != NULL);
-#endif
 }
