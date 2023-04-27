@@ -1,4 +1,4 @@
-\documentclass[a4paper,openany]{article}
+\documentclass[a4paper,openany]{refrep}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{babel}
@@ -18,11 +18,12 @@
 \begin{document}
 \maketitle
 \pagestyle{plain}
-\begin{abstract}
-The purpose of this document is to show why this application was started, what its goals are and the major design decisions taken.
-\end{abstract}
+\tableofcontents
+%\begin{abstract}
+%The purpose of this document is to show why this application was started, what its goals are and the major design decisions taken.
+%\end{abstract}
 
-\section{Introduction}
+\chapter{Introduction}
 There are several source code analysis tools on the market, some of them proprietary (usually with a really high price tag), some free software, each of them with a varying degree of features and analysis power. There is something they have in common: the problems they find are shown on the source code, the offending piece highlighted and with accompanying explanations about why a problem has been found and maybe some suggestions about how to fix it.
 
 At first glance, there shouldn't be anything wrong with that. What should those tools do, otherwise? After all, developers write source code, and that souce code sometimes has issues, and the developer needs to see the offending source code as it is: source code.
@@ -40,52 +41,55 @@ It seemed to me that showing the source code as an abstract syntax tree (AST) co
 \begin{enumerate}
 \item An AST is a graphical representations, and seeing the code as a tree may make it easier for the developer to understand how the expressions and statemens are evaluated and run, and therefore why there is a problem in something that, at first glance, looks completely harmless.
 
-\item An AST is the way compilers see and translate source code. This lets the devel\-oper to be fully aware of the intricacies of the C language and what's going on ``under the hood'' (such as type conversions, either explicit or implicit), and that too helps the developer to understand the problems pointed out by the analysis tool.
+\item An AST is the way compilers see and translate source code. This lets the devel\-oper to be fully aware of the intricacies of the C language and what's going on ``under the hood'' (such as type conversions, either ex\-plicit or implicit), and that too helps the developer to understand the problems pointed out by the analysis tool.
 
 \item A tree representation allows to condense the source code and represent succintly big chunks of code.
 \end{enumerate}
 
 This doesn't mean that an AST representation is always better than the ``plain'' source code. It just means that it shows the code in a different way, and I hope that this can provide extra information and hints to the developer, so he or she can better understand the results of an analysis and find it easier to fix the problems.
 
-\section{Design principles}
-Such an application has to big parts:
+To accomplish this goal, the application needs to:
 
 \begin{enumerate}
-\item It has to analyze the source code submitted to it, and this means that a compiler front-end has to be developed.
+\item Analyze the source code submitted to it, and this means that a compiler front-end has to be developed.
 
-\item It has to graphically show the source code as an AST, with the results of the analysis visible in the tree.
+\item Graphically show the source code as an AST, with the results of the analysis visible in the tree.
 \end{enumerate}
 
-Ideally, the application should accept as many C dialects as possible, but doing so has several problems, as we'll see a bit later on.
+In the next chapters I'll explain how I designed and developed the application to accomplish its goals, by carefully analyzing the source code submitted to it and representing it as a syntax tree.
 
-\subsection{The front-end}
-\subsubsection{The lexer and the parser}
-A compiler front-end performs lexical, syntax and sem\-antic analysis, either to perform syntax-directed translation or, much more typically, an AST and an intermediate representation, on which several optimizations can take place before generated the target code (assembler).
+\chapter{The compiler front-end}
+\section{Introduction}
+A compiler front-end performs lexical, syntax and sem\-antic analysis, either to perform syntax-directed translation or, much more typically, an AST and an intermediate representation, on which several optimizations can take place before generating the target code (assembler).
 
-In theory, this should pose no problem at all. Before dealing with this, let's not forget that the C language has its pre-processor, ``a language within the language''. It would be very nice if the application could preserve as much from the original source code as possible. And also specify, for each node in the AST, its location in terms of file, line and column.
+When it comes to C, this poses an additional problem: the pre-processor, which is, in practical terms, a language inside the language. I had no doubts about how to deal with this: calling gcc to perform this step. Ah, yes, a parser with an integrated pre-processor would have been awesome, but this is not the core of my application. I didn't want to spend time and effort on this.
 
-There are compilers with integrated pre-processors. I could have tried to develop one, but I discarded the idea. The goal of my application is not to implement a state-of-the-art pre-processor, or even front-end. So the great effort it would have taken me was not justified. Instead, I call gcc to perform the pre-processing, fully knowing what I lose with that decision.
+Fully knowing what I lose by dealing with ``just'' a translation unit, then I focused on the lexical analysis. Using flex for that was my first and only option, because implementing a lexer by hand would have given me almost no benefit --- meaning, my tool will not be what I intend it to be just because it has an awesome scanner implemented by hand.
 
-Next comes the lexical analysis, that is, the tokenization. I found a flex file on the Internet\footnote{\url{https://www.quut.com/c/ANSI-C-grammar-l-2011.html}}. It has only one problem: that there are instances in which the lexer needs to consult the symbol table do differentiate between identifiers, type names defined with typedef, and enumeration constants. So, when implementing a parser, I had to take this into account.
-
-The parser. I found another interesting file on the Internet\footnote{\url{https://www.quut.com/c/ANSI-C-grammar-y.html}}, and I used it as a basis. Here the situation becomes more complex. I had three main options:
+In contrast, the parser gave me much trouble. First, I needed a grammar. The C standard luckily has an LALR grammar as one of its appendix, and I found a Bison file with it\footnote{\url{https://www.quut.com/c/ANSI-C-grammar-y.html}}. I had three big options to choose from:
 
 \begin{enumerate}
 \item Use the Bison grammar from the Internet and add the code to create the AST, since that file only creates a parser that tells whether a source code file conforms, or does not conform, with the C grammar.
 
 \item Use the Bison grammar from the Internet to create the action and goto tables of the LR parser, and implement the algorithm by hand.
 
-\item Use the Bison grammar from the Internet to get the productions to implement other kind of parsers, more precisely the Earley parser, which is far more tolerant with grammars than the LR parser.
+\item Use the Bison grammar from the Internet to get the productions to im\-ple\-ment other kind of parsers, more precisely the Earley parser, which is far more tolerant with grammars than the LR parser.
 \end{enumerate}
 
-I've tried all three approaches and I've ended up with the first one. I wanted to implement the parser by hand, to have more control over the creation of the AST, which is why I started with the second option. But then I realised that, if I wanted to include some extensions to the C language --- more precisely those of the GreenHills compiler --- I would probably need to modify the grammar. Doing so in an LR parser is to beg for shift/reduce (and also reduce/reduce conflicts, since Bison is actually an LALR-parser generator) conflicts, something I would avoid with an Earley parser.
+I started implementing the algorithm of an LR parser, using Bison to create the \emph{action} and \emph{goto} tables for the grammar. The reason was that I don't have much experience with Bison (which also means that I don't yet trust it enough), and I preferred to implement the parser myself to have more control over it.
 
-I implemented the Earley parser with some info I found on the Internet\footnote{\url{https://loup-vaillant.fr/tutorials/earley-parsing/}}. It was not easy, but not that difficult. Mostly, it was time consuming. It didn't work, and I still don't understand why. Since the parser is not where the real meat of my application is, I decided to switch to the second option.\footnote{Besides, the Earley parser gives not a syntax tree but a syntax forest, if the grammar is ambiguous; creating the AST seems to be more difficult and it would also have been more difficult the interaction with the lexer when it comes to the identifiers.}
+But then I realised that if I want to modify the grammar, at some point in time, to include some language extensions (such as those of the GreenHills compiler) that require doing so, an LALR parser could easily become a pain in the ass --- shift-reduce and reduce-reduce conflicts. I remembered having read, in some book, a pletora of other parsing algorithsm that pose almost no restrictions on the grammars, and one of these algorithms was the Earley parser.
 
-The second option should have proven successfully, but it failed even worse than the third: at the third token, it rejected the very simple sample code I used. I didn't want to waste more time with the parser, so finally I gave up and I ended up with a Bison-generated parser.
+Long story short: I ended up implementing the parser with Bison, which was my least preferred option. Why? When I read the Earley parser in the book, all seemed to be wonderful. I even looked at some pages on the Internet to better understand it so I could successfully implement it\footnote{\url{https://loup-vaillant.fr/tutorials/earley-parsing/}}.
 
-\subsubsection{Creating the AST}
-The AST node is a struct with the following fields:
+Neither the book nor the webpage were enough for me to succeed. I used a pretty simple and small example, and even with that, the parser failed. Then I tried to use the LR implementation I had previously done, with even a more disastrous result.
+
+It was a very shameful experience, me being incapable of successfuly im\-ple\-men\-ting neither of those parser algorithms. I don't know it the tables were wrong, if my code was buggy, or if I was missing something when implementing the Earley parser. Be it as it may, I realised that it would be better for me to stick with the easy road --- after all, a fancy parser isn't the core of my application, either, despite the fact that is closer to it than the lexer.
+
+\section{The parser}
+The goal of the parser, here, is just to create the abstract syntax tree (AST). It will take for granted that the code successfully compiles, so it won't do any kind of error recovery. If it finds a syntax error it will stop immediately, no apologies made.
+
+For the AST, I created a node with the following fields:
 
 \begin{description}
 \item[token] Integer with the token associated with the node, if any. Relevant only for the leaf nodes.
@@ -101,10 +105,10 @@ The AST node is a struct with the following fields:
 \item[children] Array of pointers to the children nodes.
 \end{description}
 
-Creating the nodes is not a difficult task. There are nodes with no children, with a single child, or with 2, 3 and 4 children.
+Creating this tree is not difficult nor complex, although not trivial.
 
 \paragraph{Nodes with no children}
-They are the leaf nodes. Some of such nodes only require to store the kind of token, such as an operator. For identifiers, we store its name in the data field of the node. Others also have a string in this field, even if they do not correspond to an identifier (for example, for a typedef name or an enumeration constant, or goto statements). Numeric literals need to store the value of their literals.
+They are the leaf nodes. Some of such nodes only require to store the kind of token, such as an operator. For identifiers, we store its string in the data field of the node. Others leaf nodes also have a string in this field, even if they do not correspond to an identifier (for example, for a typedef name or an enumeration constant, or goto statements). Numeric literals need to store the value of their literals.
 
 \paragraph{Nodes with a single child}
 For most of them, no additional data is stored for such nodes, but there are some exceptions.
@@ -112,7 +116,9 @@ For most of them, no additional data is stored for such nodes, but there are som
 \paragraph{Nodes with more than one child}
 In these cases, the data field of the node is always set to null. There is only one case that, in a node with two children, a strig is stored (second production of struct or union specifiers).
 
-\subsubsection{Interaction with the lexer}
+It's up to the functions called within the Bison grammar file to create this AST.
+
+\subsection{Interaction with the lexer}
 When the lexer sees something that looks like an identifier, it must first check that it's not a typedef-defined type or an enumeration constant, and there is a function to check precisely that, sym\_type.
 
 To properly implement it, I created a tiny symbol table. For each scope I have two list of strings, one for the types and another one for the enumeration constants. Also, each scope has a pointer to its parent. There is at list one scope, corresponding to the entire translation unit.
@@ -129,62 +135,18 @@ But who takes care of creating those scopes and filling in the lists of strings?
 The case of typedef-defined types is more complicated, since the syntax for declarations is more complex. There is a production for declarations that includes non-terminal for storage-class specifiers (and typedef is one of them). So, in this production, the parser checks if typedef is among those specifiers\footnote{Function look\_for\_typedef}. If it is, then the identifier of the declarator is stored as a typedef-defined type for the current scope\footnote{Functions register\_id\_as\_typedef and scope\_add\_typedef}.
 \end{itemize}
 
-\subsubsection{The symbol table}
-At some point in time, and assuming the source code is compliant with the C grammar, the parser will have built a parse tree, an AST. What now?
+\subsection{Flattening the AST}
+With all of this made, I then proceeded to ``colorize'' the AST, that is, to fill it with some attributes. Let's suppose we have a variable declaration: it would be very convenient to have, at the root node of that declaration, all we need to know about this variable: name, type, storage class, and so on. Sooner said than done.
 
-We need to have a more decent symbol table, because all the next steps and checks depend on knowing what each identifier is and where is declared.
+With the AST we have just created, we face a problem. The tree mimics the grammar, which is tailored for an LALR parser. This kind of parsers loves left recursion in the grammar. Let's put an example.
 
-Function yyparse created the AST, function create\_symtable will take it and return a symbol table, which is a structure with the following fields:
+Imagine a translation unit, which is the start symbol of the grammar. A translation unit is just a set of external definitions (which in turn can be either declarations or function definitions). Now, when it comes to the grammar, a translation unit is either an external definition, or a translation unit followed by an external definition.
 
-\begin{description}
-\item[list] List of symbols in the current scope. For each symbol we store its name and a pointer to the node where it's declared --- a pointer to the identifier, to be more precise.
+If our translation unit has, let's say, a thousand external declarations, we won't have a root node with a thousand children. We will have a node with two children, and the first child will, in turn, have two children, until we will reach, almost one thousand generations later, a node with a single child.
 
-Let it be noted that, when the symbol table is created and a symbol is added, it doesn't check against repetitions.
+Not only this makes giving attributes to the nodes more difficult, but it will also drive mad the developer who sees his or her source code in this way --- inducing the developer to believe that there is some hierarchical relationship between the declarations and function definitions in the source code.
 
-\item[parent] Pointer to the parent scope. The root symbol table has no parent because it corresponds to the entire translation unit. But for each function definition, a new child scope is created, and for each child scope we need to remember who is its parent.
-
-Similarly, for each block inside a function, new children scopes are created, each of them with a corresponding parent.
-
-\item[scope] Pointer to the node in the AST that ``justified'' the creation of this scope. For the root symbol table, it points to the root of the AST.
-
-For function definitions, it points to the compound statement of the function. Strictly speaking, function parameters are not declared inside the compound statement, but their scope is the same as if they were so declared.
-
-\item[n\_children] Number of children of this symbol table. There may be more than one, since there can be (there usually are) several functions inside a translation unit, and a function can have several blocks.
-
-\item[children] Array of pointers to the children of this scope.
-\end{description}
-
-In this description, the concepts ``symbol table'' and ``scope'' are used as synonims, although they are not really the same. The point is that, for each scope, we create a new symbol table, although the ``actual'' symbol table is the set of all of them.
-
-Let's begin by the root of the AST. The root symbol table is created and the children are examined. Only two kind of children are possible: another translation unit (we'll do the same except creating again the root symbol table) and an external declaration.
-
-In turn, external declarations can be either function definitions, or just declarations. This shouldn't be any surprise, since C source code files just contain declarations (either of variables or functions) and function definitions --- let's remember that we're dealing here with pre-processed units, from which include directives and macro def\-in\-itions have already been removed.
-
-Function definitions declare, at least, the name of the function, and it must be added in the ``parent'' scope, not in the scope created by the function's compound statement. Instead, if the function has parameters, they do belong to the scope of the compound statement, since they have block scope, not file scope\footnote{See function sym\_func\_def}.
-
-My application expects function definitions to conform with the style introduced by the ANSI/ISO standard, which was copied from C++. The K\&R style is supported by the parser, but not by the symbol table, at least not at the time of this writing.
-
-The function definition consists of three non-terminals:
-
-\begin{itemize}
-\item Some declaration specifiers.
-
-\item A declarator.
-
-\item A compound statement.
-\end{itemize}
-
-The declaration specifiers are of no interest right now, since we are only interesed in the names and the nodes where the declaration is found. So we call two functions:
-
-\begin{itemize}
-\item Function sym\_func\_declr to deal with the declarator, which has the name of the function and the parameters, if any.
-
-\item Function sym\_comp\_stmt to deal with the compound statement.
-\end{itemize}
-
-Here we make a difference between a declarator and a declarator belonging to a function definition, because in that latter case we are interested in both the name of the function and its parameters, that is, we know in advance what we are going to find and what we're interested in.
-
-Function definitions always include a compount statement, which in turn have declarations and statements. Declarations are nothing new, we just process them in a similar way as we did when we wanted to get the function name; for statements, we look into those that can create new scopes: compound statements (which also are statements), selection statements and iteration statements.
+The AST created by the parser, therefore, needs to be ``flattened''. If there are a hundred external defintions in a translation unit, then the translation unit has to be one node with a hundred children, period --- no matter what the LALR grammar says.
 
 \end{document}
 
