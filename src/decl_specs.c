@@ -23,7 +23,7 @@ sem_decl_specs (ast_node_t * ast)
 {
   assert (ast != NULL);
   assert (IS_DECLARATION_SPECS (ast->func_ptr));
-  assert (ast->children != NULL && ast->n_children > 2);
+  assert (ast->children != NULL);
 
   decl_specs_t *ds = calloc (1, sizeof (decl_specs_t));
   assert (ds != NULL);

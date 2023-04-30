@@ -109,14 +109,56 @@ typedef struct __declspecs
 
 typedef struct __declr
 {
-    int n_pointers;
-    struct __pointer **pointers;
-    struct __ddeclr *dir_declr;
+  int n_pointers;
+  struct __pointer **pointers;
+  struct __ddeclr *dir_declr;
 } declarator_t;
 
 typedef struct __pointer
 {
-    type_qual_t type_qual;
+  type_qual_t type_qual;
 } pointer_t;
+
+typedef enum
+{
+  DIR_DECLR_IDENT,
+  DIR_DECLR_DECLR,
+  DIR_DECLR_ARRAY,
+  DIR_DECLR_FUNCTION
+} dir_declr_kind_t;
+
+typedef struct
+{
+  const char *id;
+} dir_declr_ident_t;
+
+typedef struct
+{
+  declarator_t *declr;
+} dir_declr_declr_t;
+
+typedef struct
+{
+  struct __ddeclr *ddeclr;
+  /* TODO */
+} dir_declr_array_t;
+
+typedef struct
+{
+  struct __ddeclr *ddeclr;
+  /* TODO */
+} dir_declr_function_t;
+
+typedef struct __ddeclr
+{
+  dir_declr_kind_t kind;
+  union
+  {
+    dir_declr_ident_t ident;
+    declarator_t *declr;
+    dir_declr_array_t array;
+    dir_declr_function_t function;
+  } ddeclr;
+} direct_declr_t;
 
 #endif

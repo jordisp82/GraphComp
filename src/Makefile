@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -ggdb -g3
-OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o declaration.o decl_aux.o decl_specs.o enums.o struct_union.o
+CFLAGS = -Wall -Wextra -ggdb -g3 -pipe
+OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o decl_specs.o declarator.o dir_declr.o
 PROGNAME = test1
 
 all: $(PROGNAME)
@@ -23,30 +23,24 @@ main.o: main.c ast.h ast_t.h grammar.tab.h semantic.h
 preproc.o: preproc.c preproc.h project_t.h
 	$(CC) $(CFLAGS) -c preproc.c
 
-semantic.o: semantic.c semantic.h ast_t.h func_def.h declaration.h
+semantic.o: semantic.c semantic.h ast_t.h ast.h grammar.tab.h nonterms.h func_def.h
 	$(CC) $(CFLAGS) -c semantic.c
 
-func_def.o: func_def.c func_def.h ast_t.h
+func_def.o: func_def.c func_def.h nonterms.h ast.h ast_t.h grammar.tab.h decl_specs.h declarator.h
 	$(CC) $(CFLAGS) -c func_def.c
 
-declaration.o: declaration.c declaration.h ast_t.h declaration_t.h decl_specs.h
-	$(CC) $(CFLAGS) -c declaration.c
-
-decl_aux.o: decl_aux.c decl_aux.h declaration_t.h
-	$(CC) $(CFLAGS) -c decl_aux.c
-
-decl_specs.o: decl_specs.c decl_specs.h ast_t.h decl_aux.h
+decl_specs.o: decl_specs.c decl_specs.h ast.h ast_t.h grammar.tab.h nonterms.h
 	$(CC) $(CFLAGS) -c decl_specs.c
 
-enums.o: enums.c enums.h ast_t.h ast.h declaration_t.h
-	$(CC) $(CFLAGS) -c enums.c
+declarator.o: declarator.c declarator.h nonterms.h ast.h ast_t.h grammar.tab.h dir_declr.h
+	$(CC) $(CFLAGS) -c declarator.c
 
-struct_union.o: struct_union.c struct_union.h ast_t.h ast.h
-	$(CC) $(CFLAGS) -c struct_union.c
+dir_declr.o: dir_declr.c dir_declr.h nonterms.h ast.h ast_t.h grammar.tab.h declarator.h
+	$(CC) $(CFLAGS) -c dir_declr.c
 
 clean:
 	rm -f *.o
 	rm -f $(PROGNAME)
 
 check:
-	$(CC) $(CFLAGS) -fsyntax-only *.c
+	$(CC) -Wall -Wextra -fsyntax-only *.c

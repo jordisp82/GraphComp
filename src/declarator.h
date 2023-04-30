@@ -4,6 +4,6 @@
 #include "nonterms.h"
 #include "ast_t.h"
 
-declarator_t * sem_declarator (ast_node_t * ast);
+declarator_t *sem_declarator (ast_node_t * ast);
 
 #endif

@@ -48,7 +48,7 @@ sem_func_def_kr (ast_node_t * ast)
   assert (fd != NULL);
 
   fd->decl_specs = sem_decl_specs (ast->children[0]);
-  /* TODO */
+  fd->declarator = sem_declarator (ast->children[1]);
 
   return fd;
 }
@@ -63,7 +63,7 @@ sem_func_def_iso (ast_node_t * ast)
   assert (fd != NULL);
 
   fd->decl_specs = sem_decl_specs (ast->children[0]);
-  /* TODO */
+  fd->declarator = sem_declarator (ast->children[1]);
 
   return fd;
 }
