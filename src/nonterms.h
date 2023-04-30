@@ -16,6 +16,8 @@ struct __funcspec;
 struct __alignspec;
 struct __pointer;
 struct __ddeclr;
+struct __ptlist;
+struct __paramdecl;
 
 typedef enum
 {
@@ -146,7 +148,7 @@ typedef struct
 typedef struct
 {
   struct __ddeclr *ddeclr;
-  /* TODO */
+  struct __ptlist *ptlist;
 } dir_declr_function_t;
 
 typedef struct __ddeclr
@@ -160,5 +162,12 @@ typedef struct __ddeclr
     dir_declr_function_t function;
   } ddeclr;
 } direct_declr_t;
+
+typedef struct __ptlist
+{
+  int is_variadic;
+  int n_params;
+  struct __paramdecl **params;
+} param_type_list_t;
 
 #endif

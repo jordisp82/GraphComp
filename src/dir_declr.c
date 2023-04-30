@@ -19,6 +19,7 @@ static void sem_direct_declr_declr (direct_declr_t * ddr, ast_node_t * ast);
 static void sem_direct_declr_array (direct_declr_t * ddr, ast_node_t * ast);
 static void sem_direct_declr_function (direct_declr_t * ddr,
                                        ast_node_t * ast);
+static void sem_param_type_list (direct_declr_t * ddr, ast_node_t * ast);
 
 direct_declr_t *
 sem_direct_declarator (ast_node_t * ast)
@@ -98,6 +99,43 @@ sem_direct_declr_function (direct_declr_t * ddr, ast_node_t * ast)
   assert (ast->children != NULL);
 
   ddr->kind = DIR_DECLR_FUNCTION;
+  ddr->ddeclr.function.ddeclr = NULL;
+  ddr->ddeclr.function.ptlist = NULL;
+
+  if (ast->func_ptr == direct_declarator_13)
+    return;
+
+  if (ast->func_ptr == direct_declarator_14)
+    return;                     /* TODO it's really a K&R definition */
+
+  ddr->ddeclr.function.ddeclr = sem_direct_declarator (ast->children[0]);
+  sem_param_type_list (ddr, ast->children[1]);
+}
+
+static void
+sem_param_type_list (direct_declr_t * ddr, ast_node_t * ast)
+{
+  assert (ddr != NULL);
+  assert (ast != NULL);
+  assert (IS_PARAMETER_TYPE_LIST (ast->func_ptr));
+  assert (ast->children != NULL);
+
+  ddr->ddeclr.function.ptlist = calloc (1, sizeof (param_type_list_t));
+  assert (ddr->ddeclr.function.ptlist != NULL);
+
+  if (ast->func_ptr == parameter_type_list_1)
+    ddr->ddeclr.function.ptlist->is_variadic = 1;
+
+  ddr->ddeclr.function.ptlist->n_params = 1;
+  ast_node_t *ptr;
+
+  for (ptr = ast->children[0]; ptr->n_children > 1; ptr = ptr->children[0])
+    ddr->ddeclr.function.ptlist->n_params++;
+
+  ddr->ddeclr.function.ptlist->params =
+    calloc (ddr->ddeclr.function.ptlist->n_params,
+            sizeof (struct __paramdecl *));
+  assert (ddr->ddeclr.function.ptlist->params != NULL);
 
   /* TODO */
 }
