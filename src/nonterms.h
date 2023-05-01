@@ -18,6 +18,7 @@ struct __pointer;
 struct __ddeclr;
 struct __ptlist;
 struct __paramdecl;
+struct __initdeclr;
 
 typedef enum
 {
@@ -176,5 +177,18 @@ typedef struct __paramdecl
   declarator_t *declr;          /* may be NULL */
   /* TODO abstract declarator *//* may be NULL */
 } param_decl_t;
+
+typedef struct __decl
+{
+  decl_specs_t *decl_specs;
+  int n_ideclrs;
+  struct __initdeclr **ideclrs;
+} declaration_t;
+
+typedef struct __initdeclr
+{
+  declarator_t *declr;          /* mandatory */
+  /* TODO initializer */
+} init_declr_t;
 
 #endif

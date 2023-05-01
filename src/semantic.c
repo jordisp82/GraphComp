@@ -9,6 +9,7 @@
 #include "ast.h"
 #include "nonterms.h"
 #include "func_def.h"
+#include "declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -67,7 +68,7 @@ sem_extern_decl (ast_node_t * ast)
   else if (IS_DECLARATION (ast->children[0]->func_ptr))
     {
       ed->kind = EXTDEF_DECL;
-      /* TODO */
+      ed->child.decl = sem_declaration (ast->children[0]);
     }
 
   return ed;
