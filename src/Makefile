@@ -35,7 +35,7 @@ decl_specs.o: decl_specs.c decl_specs.h ast.h ast_t.h grammar.tab.h nonterms.h
 declarator.o: declarator.c declarator.h nonterms.h ast.h ast_t.h grammar.tab.h dir_declr.h
 	$(CC) $(CFLAGS) -c declarator.c
 
-dir_declr.o: dir_declr.c dir_declr.h nonterms.h ast.h ast_t.h grammar.tab.h declarator.h
+dir_declr.o: dir_declr.c dir_declr.h nonterms.h ast.h ast_t.h grammar.tab.h declarator.h decl_specs.h
 	$(CC) $(CFLAGS) -c dir_declr.c
 
 clean:

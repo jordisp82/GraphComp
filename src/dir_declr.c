@@ -9,6 +9,7 @@
 #include "dir_declr.h"
 #include "ast.h"
 #include "declarator.h"
+#include "decl_specs.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -20,6 +21,7 @@ static void sem_direct_declr_array (direct_declr_t * ddr, ast_node_t * ast);
 static void sem_direct_declr_function (direct_declr_t * ddr,
                                        ast_node_t * ast);
 static void sem_param_type_list (direct_declr_t * ddr, ast_node_t * ast);
+static param_decl_t *sem_param_decl (ast_node_t * ast);
 
 direct_declr_t *
 sem_direct_declarator (ast_node_t * ast)
@@ -133,9 +135,39 @@ sem_param_type_list (direct_declr_t * ddr, ast_node_t * ast)
     ddr->ddeclr.function.ptlist->n_params++;
 
   ddr->ddeclr.function.ptlist->params =
-    calloc (ddr->ddeclr.function.ptlist->n_params,
-            sizeof (struct __paramdecl *));
+    calloc (ddr->ddeclr.function.ptlist->n_params, sizeof (param_decl_t *));
   assert (ddr->ddeclr.function.ptlist->params != NULL);
 
-  /* TODO */
+  for (ptr = ast; IS_PARAMETER_LIST (ptr->children[0]->func_ptr);
+       ptr = ptr->children[0]);
+  ddr->ddeclr.function.ptlist->params[0] = sem_param_decl (ptr->children[0]);
+  ptr = ptr->parent;
+  for (int i = 1; IS_PARAMETER_DECLARATION (ptr->func_ptr);
+       ptr = ptr->parent, i++)
+    ddr->ddeclr.function.ptlist->params[i] =
+      sem_param_decl (ptr->children[1]);
+}
+
+static param_decl_t *
+sem_param_decl (ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (IS_PARAMETER_DECLARATION (ast->func_ptr));
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  param_decl_t *pd = calloc (1, sizeof (param_decl_t));
+  assert (pd != NULL);
+
+  pd->decl_specs = sem_decl_specs (ast->children[0]);
+
+  if (ast->n_children == 1)
+    return pd;
+
+  if (IS_DECLARATOR (ast->children[1]->func_ptr))
+    pd->declr = sem_declarator (ast->children[1]);
+  else if (IS_ABSTRACT_DECLARATOR (ast->children[1]->func_ptr))
+    /* TODO */ ;
+
+  return pd;
 }

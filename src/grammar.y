@@ -389,7 +389,7 @@ type_qualifier_list
 
 parameter_type_list
 	: parameter_list ',' ELLIPSIS      { $$ = parameter_type_list_1 ($1); }
-	| parameter_list                   { $$ = parameter_type_list_1 ($1); }
+	| parameter_list                   { $$ = parameter_type_list_2 ($1); }
 	;
 
 parameter_list

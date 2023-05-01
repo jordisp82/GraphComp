@@ -62,7 +62,7 @@ sem_pointers (declarator_t * dr, ast_node_t * ast)
 
   int i = 0;
   for (ptr = ast->children[0]; (child = find_pointer_child (ptr)) != NULL;
-       ptr = child)
+       ptr = child, i++)
     {
       dr->pointers[i] = calloc (1, sizeof (pointer_t));
       assert (dr->pointers[i] != NULL);

@@ -170,4 +170,11 @@ typedef struct __ptlist
   struct __paramdecl **params;
 } param_type_list_t;
 
+typedef struct __paramdecl
+{
+  decl_specs_t *decl_specs;     /* shall not be NULL */
+  declarator_t *declr;          /* may be NULL */
+  /* TODO abstract declarator *//* may be NULL */
+} param_decl_t;
+
 #endif

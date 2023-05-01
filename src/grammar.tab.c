@@ -1944,10 +1944,10 @@ yynewstate:
 yysetstate:
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
   YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
-  YY_IGNORE_USELESS_CAST_BEGIN *yyssp = YY_CAST (yy_state_t, yystate);
+  YY_IGNORE_USELESS_CAST_BEGIN * yyssp = YY_CAST (yy_state_t, yystate);
   YY_IGNORE_USELESS_CAST_END if (yyss + yystacksize - 1 <= yyssp)
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
-      goto yyexhaustedlab;
+    goto yyexhaustedlab;
 #else
     {
       /* Get the current used size of the three stacks, in elements.  */
@@ -1982,9 +1982,10 @@ yysetstate:
       {
         yy_state_t *yyss1 = yyss;
         union yyalloc *yyptr = YY_CAST (union yyalloc *,
-                                        YYSTACK_ALLOC (YY_CAST (YYSIZE_T,
-                                                                YYSTACK_BYTES
-                                                                (yystacksize))));
+                                        YYSTACK_ALLOC (YY_CAST
+                                                       (YYSIZE_T,
+                                                        YYSTACK_BYTES
+                                                        (yystacksize))));
         if (!yyptr)
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
@@ -2002,7 +2003,7 @@ yysetstate:
         YYDPRINTF ((stderr, "Stack size increased to %ld\n",
                     YY_CAST (long, yystacksize)));
       YY_IGNORE_USELESS_CAST_END if (yyss + yystacksize - 1 <= yyssp)
-          YYABORT;
+        YYABORT;
     }
 #endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
 
@@ -2066,7 +2067,7 @@ yybackup:
   /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
   yystate = yyn;
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN *++yyvsp = yylval;
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN * ++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
     /* Discard the shifted token.  */
     yychar = YYEMPTY;
@@ -3638,7 +3639,7 @@ yyreduce:
     case 190:
 #line 392 "grammar.y"
       {
-        (yyval.ptr) = parameter_type_list_1 ((yyvsp[0].ptr));
+        (yyval.ptr) = parameter_type_list_2 ((yyvsp[0].ptr));
       }
 #line 3259 "grammar.tab.c"
       break;
@@ -4542,7 +4543,7 @@ yyerrlab1:
       YY_STACK_PRINT (yyss, yyssp);
     }
 
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN *++yyvsp = yylval;
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN * ++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
     /* Shift the error token.  */
     YY_SYMBOL_PRINT ("Shifting", yystos[yyn], yyvsp, yylsp);
