@@ -19,6 +19,14 @@ struct __ddeclr;
 struct __ptlist;
 struct __paramdecl;
 struct __initdeclr;
+#if 0
+struct __initzr;
+struct __assexpr;
+#endif
+struct __expr;
+struct __prexpr;
+struct __pfexpr;
+struct __unexpr;
 
 typedef enum
 {
@@ -188,7 +196,105 @@ typedef struct __decl
 typedef struct __initdeclr
 {
   declarator_t *declr;          /* mandatory */
-  /* TODO initializer */
+#if 0
+  struct __initzr *initzr;      /* optional */
+#endif
 } init_declr_t;
+
+#if 0
+typedef enum
+{
+  INITZR_LIST,
+  INITZR_EXPR
+} initzr_t;
+
+typedef struct __initzr
+{
+  initzr_t kind;
+  union
+  {
+    struct __assexpr *expr;
+  } child;
+} initializer_t;
+#endif
+
+typedef enum
+{
+  PREXPR_ID,                    /* primary_expression_1 */
+  PREXPR_CONST_I,               /* primary_expression_2, constant_1 */
+  PREXPR_CONST_F,               /* primary_expression_2, constant_2 */
+  PREXPR_CONST_E,               /* primary_expression_2, constant_3 */
+  PREXPR_STRING,                /* primary_expression_3, string_1 */
+  PREXPR_FUNCNAM,               /* primary_expression_3, string_2 */
+  PREXPR_EXPR,                  /* primary_expression_4 */
+  PREXPR_GENERIC                /* primary_expression_5 */
+} prim_expr_kind_t;
+
+typedef struct __prexpr
+{
+  prim_expr_kind_t kind;
+  union
+  {
+    const char *str;            /* PREXPR_ID, PREXPR_CONST_E PREXPR_STRING, PREXPR_EXPR */
+    long long int iv;           /* PREXPR_CONST_I */
+    double dv;                  /* PREXPR_CONST_F */
+    struct __expr *expr;        /* PREXPR_EXPR */
+    /* TODO generic selection */
+  } child;
+} prim_expr_t;
+
+typedef enum
+{
+  POSTFIX_PRI,                  /* postfix_expression_1 */
+  POSTFIX_ARRAY,                /* postfix_expression_2 */
+  POSTFIX_FUNC,                 /* postfix_expression_3, postfix_expression_4 */
+  POSTFIX_MEMB1,                /* postfix_expression_5 */
+  POSTFIX_MEMB2,                /* postfix_expression_6 */
+  POSTFIX_INCR,                 /* postfix_expression_7 */
+  POSTFIX_DECR,                 /* postfix_expression_8 */
+  POSTFIX_CLIT,                 /* postfix_expression_9, postfix_expression_10 */
+} postfix_expr_kind_t;
+
+typedef struct __pfexpr
+{
+  postfix_expr_kind_t kind;
+  struct __pfexpr *operand;     /* left-hand-side */
+  union
+  {
+    prim_expr_t *pri_expr;      /* POSTFIX_PRI */
+    struct __expr *expr;        /* POSTFIX_ARRAY */
+    /* TODO *//* POSTFIX_FUNC */
+    const char *id;             /* POSTFIX_MEMB1, POSTFIX_MEMB2 */
+    /* TODO *//* POSTFIX_CLIT */
+  } child;
+} postfix_expr_t;
+
+typedef enum
+{
+  UNEXPR_POSTFIX,               /* unary_expression_1 */
+  UNEXPR_INCR,                  /* unary_expression_2 */
+  UNEXPR_DECR,                  /* unary_expression_3 */
+  UNEXPR_UNOP,                  /* unary_expression_4 */
+  UNEXPR_SIZEOF1,               /* unary_expression_5 */
+  UNEXPR_SIZEOF2,               /* unary_expression_6 */
+  UNEXPR_ALIGNOF,               /* unary_expression_7 */
+} unary_expr_kind_t;
+
+typedef struct __unexpr
+{
+  unary_expr_kind_t kind;
+  struct __unexpr *operand;     /* right-hand-side */
+  union
+  {
+    postfix_expr_t *pfe_expr;   /* UNEXPR_POSTFIX */
+    struct
+    {
+      char op;                  /* UNEXPR_UNOP */
+      /* TODO cast_expression for UNEXPR_UNOP */
+    } unop;
+    /* TODO UNEXPR_SIZEOF2 */
+    /* TODO UNEXPR_ALIGNOF */
+  } child;
+} unary_expr_t;
 
 #endif

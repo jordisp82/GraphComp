@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -ggdb -g3 -pipe
-OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o decl_specs.o declarator.o dir_declr.o declaration.o
+OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o decl_specs.o declarator.o dir_declr.o declaration.o prim_expr.o postfix_expr.o unary_expr.o
 PROGNAME = test1
 
 all: $(PROGNAME)
@@ -40,6 +40,15 @@ dir_declr.o: dir_declr.c dir_declr.h nonterms.h ast.h ast_t.h grammar.tab.h decl
 
 declaration.o: declaration.c declaration.h ast.h ast_t.h nonterms.h grammar.tab.h decl_specs.h declarator.h
 	$(CC) $(CFLAGS) -c declaration.c
+
+prim_expr.o: prim_expr.c prim_expr.h nonterms.h ast.h ast_t.h grammar.tab.h
+	$(CC) $(CFLAGS) -c prim_expr.c
+
+postfix_expr.o: postfix_expr.c postfix_expr.h nonterms.h ast.h ast_t.h grammar.tab.h prim_expr.h
+	$(CC) $(CFLAGS) -c postfix_expr.c
+
+unary_expr.o: unary_expr.c unary_expr.h nonterms.h ast.h ast_t.h grammar.tab.h postfix_expr.h
+	$(CC) $(CFLAGS) -c unary_expr.c
 
 clean:
 	rm -f *.o
