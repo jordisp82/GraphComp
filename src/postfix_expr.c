@@ -52,6 +52,8 @@ sem_postfix_expr (ast_node_t * ast)
   else if (ast->func_ptr == postfix_expression_9
            || ast->func_ptr == postfix_expression_10)
     sem_postfix_clit (pfe, ast);
+
+  return pfe;
 }
 
 static void

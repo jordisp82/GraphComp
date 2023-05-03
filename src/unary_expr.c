@@ -9,6 +9,7 @@
 #include "unary_expr.h"
 #include "ast.h"
 #include "postfix_expr.h"
+#include "cast_expr.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -51,10 +52,87 @@ sem_unary_expr (ast_node_t * ast)
   return uex;
 }
 
-static void sem_unary_pfe (unary_expr_t * uex, ast_node_t * ast);
-static void sem_unary_inc (unary_expr_t * uex, ast_node_t * ast);
-static void sem_unary_dec (unary_expr_t * uex, ast_node_t * ast);
-static void sem_unary_unop (unary_expr_t * uex, ast_node_t * ast);
-static void sem_unary_sizeof1 (unary_expr_t * uex, ast_node_t * ast);
-static void sem_unary_sizeof2 (unary_expr_t * uex, ast_node_t * ast);
-static void sem_unary_alignof (unary_expr_t * uex, ast_node_t * ast);
+static void
+sem_unary_pfe (unary_expr_t * uex, ast_node_t * ast)
+{
+  assert (uex != NULL);
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  uex->kind = UNEXPR_POSTFIX;
+  uex->child.pfe_expr = sem_postfix_expr (ast->children[0]);
+}
+
+static void
+sem_unary_inc (unary_expr_t * uex, ast_node_t * ast)
+{
+  assert (uex != NULL);
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  uex->kind = UNEXPR_INCR;
+  uex->operand = sem_unary_expr (ast->children[0]);
+}
+
+static void
+sem_unary_dec (unary_expr_t * uex, ast_node_t * ast)
+{
+  assert (uex != NULL);
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  uex->kind = UNEXPR_DECR;
+  uex->operand = sem_unary_expr (ast->children[0]);
+}
+
+static void
+sem_unary_unop (unary_expr_t * uex, ast_node_t * ast)
+{
+  assert (uex != NULL);
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  uex->kind = UNEXPR_UNOP;
+  uex->child.unop.op = ast->children[0]->token;
+  uex->child.unop.cast = sem_cast_expr (ast->children[1]);
+}
+
+static void
+sem_unary_sizeof1 (unary_expr_t * uex, ast_node_t * ast)
+{
+  assert (uex != NULL);
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  uex->kind = UNEXPR_SIZEOF1;
+  uex->operand = sem_unary_expr (ast->children[0]);
+}
+
+static void
+sem_unary_sizeof2 (unary_expr_t * uex, ast_node_t * ast)
+{
+  assert (uex != NULL);
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  uex->kind = UNEXPR_SIZEOF2;
+  /* TODO type name */
+}
+
+static void
+sem_unary_alignof (unary_expr_t * uex, ast_node_t * ast)
+{
+  assert (uex != NULL);
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  uex->kind = UNEXPR_ALIGNOF;
+  /* TODO type name */
+}

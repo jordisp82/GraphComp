@@ -27,6 +27,17 @@ struct __expr;
 struct __prexpr;
 struct __pfexpr;
 struct __unexpr;
+struct __csexpr;
+struct __mlexpr;
+struct __addexpr;
+struct __bitexpr;               /* FIXME shift */
+struct __relexpr;
+struct __eqexpr;
+struct __bandexpr;
+struct __bxorexpr;
+struct __borexpr;
+struct __landexpr;
+struct __lorexpr;
 
 typedef enum
 {
@@ -289,12 +300,96 @@ typedef struct __unexpr
     postfix_expr_t *pfe_expr;   /* UNEXPR_POSTFIX */
     struct
     {
-      char op;                  /* UNEXPR_UNOP */
-      /* TODO cast_expression for UNEXPR_UNOP */
+      int op;                   /* UNEXPR_UNOP */
+      struct __csexpr *cast;    /* UNEXPR_UNOP */
     } unop;
     /* TODO UNEXPR_SIZEOF2 */
     /* TODO UNEXPR_ALIGNOF */
   } child;
 } unary_expr_t;
+
+typedef enum
+{
+  CSEXPR_UNARY,                 /* cast_expression_1 */
+  CSEXPR_CAST                   /* cast_expression_2 */
+} cast_expr_kind_t;
+
+typedef struct __csexpr
+{
+  cast_expr_kind_t kind;
+  unary_expr_t *unary;          /* CSEXPR_UNARY */
+  struct __csexpr *cast;        /* CSEXPR_CAST */
+  /* TODO type name *//* CSEXPR_CAST */
+} cast_expr_t;
+
+typedef struct __mlexpr
+{
+  cast_expr_t *cast;
+  struct __mlexpr *operand;     /* NULL if no operation */
+  int op;                       /* zero if no operation */
+} mult_expr_t;
+
+typedef struct __addexpr
+{
+  mult_expr_t *mult;
+  struct __addexpr *operand;
+  int op;
+} add_expr_t;
+
+typedef struct __bitexpr
+{
+  add_expr_t *add;
+  struct __bitexpr *operand;
+  int op;
+} bitw_expr_t;
+
+typedef struct __relexpr
+{
+  bitw_expr_t *shift;
+  struct __relexpr *operand;
+  int op;
+} rel_expr_t;
+
+typedef struct __eqexpr
+{
+  rel_expr_t *rel;
+  struct __eqexpr *operand;
+  int op;
+} equal_expr_t;
+
+typedef struct __bandexpr
+{
+  equal_expr_t *eq;
+  struct __bandexpr *operand;
+  int op;
+} bit_and_expr_t;
+
+typedef struct __bxorexpr
+{
+  bit_and_expr_t *band;
+  struct __bxorexpr *operand;
+  int op;
+} bit_xor_expr_t;
+
+typedef struct __borexpr
+{
+  bit_xor_expr_t *xor;
+  struct __borexpr *operand;
+  int op;
+} bit_or_expr_t;
+
+typedef struct __landexpr
+{
+  bit_or_expr_t *bor;
+  struct __landexpr *operand;
+  int op;
+} logic_and_expr_t;
+
+typedef struct __lorexpr
+{
+  logic_and_expr_t *land;
+  struct __lorexpr *operand;
+  int op;
+} logic_or_expr_t;
 
 #endif
