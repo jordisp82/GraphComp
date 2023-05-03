@@ -38,6 +38,8 @@ struct __bxorexpr;
 struct __borexpr;
 struct __landexpr;
 struct __lorexpr;
+struct __condexpr;
+struct __assexpr;
 
 typedef enum
 {
@@ -391,5 +393,26 @@ typedef struct __lorexpr
   struct __lorexpr *operand;
   int op;
 } logic_or_expr_t;
+
+typedef struct __condexpr
+{
+  logic_or_expr_t *op1;         /* shall not be NULL */
+  struct __expr *op2;           /* may be NULL */
+  struct __condexpr *op3;       /* may be NULL */
+} cond_expr_t;
+
+typedef struct __assexpr
+{
+  cond_expr_t *cond;            /* non-NULL if no assignment */
+  unary_expr_t *unary;          /* non-NULL if assignment */
+  int op;                       /* non-zero if assignment */
+  struct __assexpr *ass;        /* non-NULL if assignment */
+} ass_expr_t;
+
+typedef struct __expr
+{
+  ass_expr_t *ass;
+  struct __expr *expr;
+} expression_t;
 
 #endif
