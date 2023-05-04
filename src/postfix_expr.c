@@ -7,8 +7,9 @@
 #include <string.h>
 
 #include "postfix_expr.h"
-#include "ast.h"
 #include "prim_expr.h"
+#include "expression.h"
+#include "ast.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -80,7 +81,7 @@ sem_postfix_array (postfix_expr_t * pfe, ast_node_t * ast)
 
   pfe->kind = POSTFIX_ARRAY;
   pfe->operand = sem_postfix_expr (ast->children[0]);
-  /* TODO pfe->child.expr */
+  pfe->child.expr = sem_expression (ast->children[1]);
 }
 
 static void

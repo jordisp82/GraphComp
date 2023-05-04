@@ -8,7 +8,6 @@ struct __decl;
 struct __declspecs;
 struct __declr;
 struct __decllist;
-struct __compstmt;
 struct __stgclasspec;
 struct __typespec;
 struct __typequal;
@@ -40,6 +39,10 @@ struct __landexpr;
 struct __lorexpr;
 struct __condexpr;
 struct __assexpr;
+struct __cstmt;
+struct __stmt;
+struct __jstmt;
+struct __sstmt;
 
 typedef enum
 {
@@ -68,7 +71,7 @@ typedef struct __funcdef
   struct __declspecs *decl_specs;
   struct __declr *declarator;
   struct __decllist *decl_list; /* only for K&R-style */
-  struct __compstmt *compound_stmt;
+  struct __cstmt *compound_stmt;
 } func_def_t;
 
 typedef struct __decllist
@@ -414,5 +417,80 @@ typedef struct __expr
   ass_expr_t *ass;
   struct __expr *expr;
 } expression_t;
+
+typedef enum
+{
+  BLOCK_DECLARATION,
+  BLOCK_STATEMENT
+} block_kind_t;
+
+typedef struct
+{
+  block_kind_t kind;
+  union
+  {
+    declaration_t *decl;
+    struct __stmt *stmt;
+  } element;
+} block_item_t;
+
+typedef struct __cstmt
+{
+  int n_blocks;
+  block_item_t **blocks;
+} compound_stmt_t;
+
+typedef enum
+{
+  STMT_LABELED,
+  STMT_COMPOUND,
+  STMT_EXPRESSION,
+  STMT_SELECTION,
+  STMT_ITERATION,
+  STMT_JUMP
+} stmt_kind_t;
+
+typedef struct __stmt
+{
+  stmt_kind_t kind;
+  union
+  {
+    /* TODO labeled */
+    compound_stmt_t *comp;      /* STMT_COMPOUND */
+    expression_t *expr;         /* STMT_EXPRESSION, may be NULL */
+    struct __sstmt *select;     /* STMT_SELECTION */
+    struct __jstmt *jump;       /* STMT_JUMP */
+  } child;
+} statement_t;
+
+typedef enum
+{
+  JUMP_GOTO,
+  JUMP_CONTINUE,
+  JUMP_BREAK,
+  JUMP_RETURN
+} jump_kind_t;
+
+typedef struct __jstmt
+{
+  jump_kind_t kind;
+  const char *label;            /* JUMP_GOTO */
+  expression_t *expr;           /* optional for JUMP_RETURN */
+} jump_stmt_t;
+
+typedef enum
+{
+  SELECT_IF,
+  SELECT_IF_ELSE,
+  SELECT_SWITCH
+} select_kind_t;
+
+typedef struct __sstmt
+{
+  select_kind_t kind;
+  expression_t *expr;           /* inside if or switch */
+  statement_t *st;              /* if or switch */
+  statement_t *st_e;            /* only if else */
+} select_stmt_t;
 
 #endif

@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -ggdb -g3 -pipe
-OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o decl_specs.o declarator.o dir_declr.o declaration.o prim_expr.o postfix_expr.o unary_expr.o cast_expr.o mult_expr.o add_expr.o bitw_expr.o equal_expr.o bit_and_expr.o bit_xor_expr.o bit_or_expr.o logic_and_expr.o logic_or_expr.o
+OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o decl_specs.o declarator.o dir_declr.o declaration.o prim_expr.o postfix_expr.o unary_expr.o cast_expr.o mult_expr.o add_expr.o bitw_expr.o rel_expr.o equal_expr.o bit_and_expr.o bit_xor_expr.o bit_or_expr.o logic_and_expr.o logic_or_expr.o cond_expr.o ass_expr.o expression.o compound_stmt.o statement.o
 PROGNAME = test1
 
 all: $(PROGNAME)
@@ -62,7 +62,10 @@ add_expr.o: add_expr.c add_expr.h nonterms.h ast.h ast_t.h grammar.tab.h mult_ex
 bitw_expr.o: bitw_expr.c bitw_expr.h nonterms.h ast.h ast_t.h grammar.tab.h add_expr.h
 	$(CC) $(CFLAGS) -c bitw_expr.c
 
-equal_expr.o: equal_expr.c equal_expr.h nonterms.h ast.h ast_t.h grammar.tab.h bitw_expr.h
+rel_expr.o: rel_expr.c rel_expr.h nonterms.h ast.h ast_t.h grammar.tab.h bitw_expr.h
+	$(CC) $(CFLAGS) -c rel_expr.c
+
+equal_expr.o: equal_expr.c equal_expr.h nonterms.h ast.h ast_t.h grammar.tab.h rel_expr.h
 	$(CC) $(CFLAGS) -c equal_expr.c
 
 bit_and_expr.o: bit_and_expr.c bit_and_expr.h nonterms.h ast.h ast_t.h grammar.tab.h equal_expr.h
@@ -71,7 +74,7 @@ bit_and_expr.o: bit_and_expr.c bit_and_expr.h nonterms.h ast.h ast_t.h grammar.t
 bit_xor_expr.o: bit_xor_expr.c bit_xor_expr.h nonterms.h ast.h ast_t.h grammar.tab.h bit_and_expr.h
 	$(CC) $(CFLAGS) -c bit_xor_expr.c
 
-bit_or_expr.o: bit_or_expr.c bit_or_expr.h nonterms.h ast.h ast_t.h grammar.tab.h bit_and_xor_expr.h
+bit_or_expr.o: bit_or_expr.c bit_or_expr.h nonterms.h ast.h ast_t.h grammar.tab.h bit_xor_expr.h
 	$(CC) $(CFLAGS) -c bit_or_expr.c
 
 logic_and_expr.o: logic_and_expr.c logic_and_expr.h nonterms.h ast.h ast_t.h grammar.tab.h bit_or_expr.h
@@ -79,6 +82,21 @@ logic_and_expr.o: logic_and_expr.c logic_and_expr.h nonterms.h ast.h ast_t.h gra
 
 logic_or_expr.o: logic_or_expr.c logic_or_expr.h nonterms.h ast.h ast_t.h grammar.tab.h logic_and_expr.h
 	$(CC) $(CFLAGS) -c logic_or_expr.c
+
+cond_expr.o: cond_expr.c cond_expr.h nonterms.h ast.h ast_t.h grammar.tab.h logic_or_expr.h
+	$(CC) $(CFLAGS) -c cond_expr.c
+
+ass_expr.o: ass_expr.c ass_expr.h nonterms.h ast.h ast_t.h grammar.tab.h cond_expr.h unary_expr.h
+	$(CC) $(CFLAGS) -c ass_expr.c
+
+expression.o: expression.c expression.h nonterms.h ast.h ast_t.h grammar.tab.h ass_expr.h
+	$(CC) $(CFLAGS) -c expression.c
+
+compound_stmt.o: compound_stmt.c compound_stmt.h nonterms.h ast.h ast_t.h grammar.tab.h declaration.h
+	$(CC) $(CFLAGS) -c compound_stmt.c
+
+statement.o: statement.c statement.h nonterms.h ast.h ast_t.h grammar.tab.h compound_stmt.h expression.h
+	$(CC) $(CFLAGS) -c statement.c
 
 clean:
 	rm -f *.o

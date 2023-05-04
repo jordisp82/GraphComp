@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "prim_expr.h"
+#include "expression.h"
 #include "ast.h"
 
 #ifndef NULL
@@ -108,5 +109,5 @@ sem_pri_expr_expr (prim_expr_t * pe, ast_node_t * ast)
   assert (ast->func_ptr == primary_expression_4);
 
   pe->kind = PREXPR_EXPR;
-  /* TODO */
+  pe->child.expr = sem_expression (ast->children[0]);
 }

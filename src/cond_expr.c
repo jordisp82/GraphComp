@@ -8,6 +8,7 @@
 
 #include "cond_expr.h"
 #include "logic_or_expr.h"
+#include "expression.h"
 #include "ast.h"
 
 #ifndef NULL
@@ -28,7 +29,7 @@ sem_cond_expr (ast_node_t * ast)
   ce->op1 = sem_logic_or_expr (ast->children[0]);
   if (ast->func_ptr == conditional_expression_1)
     {
-      ce->op2 = /* TODO */ 0;
+      ce->op2 = sem_expression (ast->children[1]);
       ce->op3 = sem_cond_expr (ast->children[2]);
     }
 

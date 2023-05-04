@@ -10,6 +10,7 @@
 #include "nonterms.h"
 #include "decl_specs.h"
 #include "declarator.h"
+#include "compound_stmt.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -17,7 +18,9 @@
 
 static func_def_t *sem_func_def_kr (ast_node_t * ast);
 static func_def_t *sem_func_def_iso (ast_node_t * ast);
+#if 0
 static decl_list_t *sem_decl_list (ast_node_t * ast);
+#endif
 
 func_def_t *
 sem_func_def (ast_node_t * ast)
@@ -49,6 +52,8 @@ sem_func_def_kr (ast_node_t * ast)
 
   fd->decl_specs = sem_decl_specs (ast->children[0]);
   fd->declarator = sem_declarator (ast->children[1]);
+  /* TODO declaration_list */
+  fd->compound_stmt = sem_compound_stmt (ast->children[3]);
 
   return fd;
 }
@@ -64,10 +69,12 @@ sem_func_def_iso (ast_node_t * ast)
 
   fd->decl_specs = sem_decl_specs (ast->children[0]);
   fd->declarator = sem_declarator (ast->children[1]);
+  fd->compound_stmt = sem_compound_stmt (ast->children[2]);
 
   return fd;
 }
 
+#if 0
 static decl_list_t *
 sem_decl_list (ast_node_t * ast)
 {
@@ -95,3 +102,4 @@ sem_decl_list (ast_node_t * ast)
 
   return dl;
 }
+#endif
