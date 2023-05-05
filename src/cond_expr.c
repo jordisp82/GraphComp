@@ -27,7 +27,7 @@ sem_cond_expr (ast_node_t * ast)
   assert (ce != NULL);
 
   ce->op1 = sem_logic_or_expr (ast->children[0]);
-  if (ast->func_ptr == conditional_expression_1)
+  if (ast->func_ptr == conditional_expression_2)
     {
       ce->op2 = sem_expression (ast->children[1]);
       ce->op3 = sem_cond_expr (ast->children[2]);

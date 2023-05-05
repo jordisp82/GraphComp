@@ -10,6 +10,7 @@
 #include "ast.h"
 #include "declarator.h"
 #include "decl_specs.h"
+#include "abs_declr.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -167,7 +168,7 @@ sem_param_decl (ast_node_t * ast)
   if (IS_DECLARATOR (ast->children[1]->func_ptr))
     pd->declr = sem_declarator (ast->children[1]);
   else if (IS_ABSTRACT_DECLARATOR (ast->children[1]->func_ptr))
-    /* TODO */ ;
+    pd->adeclr = sem_abstract_declarator (ast->children[1]);
 
   return pd;
 }

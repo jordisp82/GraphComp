@@ -9,6 +9,8 @@
 #include "statement.h"
 #include "compound_stmt.h"
 #include "expression.h"
+#include "cond_expr.h"
+#include "declaration.h"
 #include "ast.h"
 
 #ifndef NULL
@@ -55,8 +57,30 @@ sem_stmt_labeled (statement_t * st, ast_node_t * ast)
   assert (st != NULL);
   assert (ast != NULL);
   assert (IS_LABELED_STATEMENT (ast->func_ptr));
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
 
-  /* TODO */
+  st->child.label = calloc (1, sizeof (label_stmt_t));
+  assert (st->child.label != NULL);
+
+  if (ast->func_ptr == labeled_statement_1)
+    {
+      st->child.label->kind = LABEL_LABEL;
+      st->child.label->id = strdup (ast->data);
+      assert (st->child.label->id != NULL);
+      st->child.label->stmt = sem_statement (ast->children[0]);
+    }
+  else if (ast->func_ptr == labeled_statement_2)
+    {
+      st->child.label->kind = LABEL_CASE;
+      st->child.label->const_expr = sem_cond_expr (ast->children[0]);
+      st->child.label->stmt = sem_statement (ast->children[1]);
+    }
+  else if (ast->func_ptr == labeled_statement_3)
+    {
+      st->child.label->kind = LABEL_DEFAULT;
+      st->child.label->stmt = sem_statement (ast->children[0]);
+    }
 }
 
 static void
@@ -126,7 +150,51 @@ sem_stmt_iter (statement_t * st, ast_node_t * ast)
   assert (ast != NULL);
   assert (IS_ITERATION_STATEMENT (ast->func_ptr));
 
-  /* TODO */
+  st->child.iter = calloc (1, sizeof (iter_stmt_t));
+  assert (st->child.iter != NULL);
+
+  if (ast->func_ptr == iteration_statement_1)
+    {
+      st->child.iter->kind = ITER_WHILE;
+      st->child.iter->expr = sem_expression (ast->children[0]);
+      st->child.iter->stmt = sem_statement (ast->children[1]);
+    }
+  else if (ast->func_ptr == iteration_statement_2)
+    {
+      st->child.iter->kind = ITER_DO;
+      st->child.iter->expr = sem_expression (ast->children[1]);
+      st->child.iter->stmt = sem_statement (ast->children[0]);
+    }
+  else if (ast->func_ptr == iteration_statement_3)
+    {
+      st->child.iter->kind = ITER_FOR_1;
+      st->child.iter->es1 = sem_statement (ast->children[0]);
+      st->child.iter->es2 = sem_statement (ast->children[1]);
+      st->child.iter->stmt = sem_statement (ast->children[2]);
+    }
+  else if (ast->func_ptr == iteration_statement_4)
+    {
+      st->child.iter->kind = ITER_FOR_2;
+      st->child.iter->es1 = sem_statement (ast->children[0]);
+      st->child.iter->es2 = sem_statement (ast->children[1]);
+      st->child.iter->expr = sem_expression (ast->children[2]);
+      st->child.iter->stmt = sem_statement (ast->children[3]);
+    }
+  else if (ast->func_ptr == iteration_statement_5)
+    {
+      st->child.iter->kind = ITER_FOR_3;
+      st->child.iter->decl = sem_declaration (ast->children[0]);
+      st->child.iter->es1 = sem_statement (ast->children[1]);
+      st->child.iter->stmt = sem_statement (ast->children[2]);
+    }
+  else if (ast->func_ptr == iteration_statement_6)
+    {
+      st->child.iter->kind = ITER_FOR_4;
+      st->child.iter->decl = sem_declaration (ast->children[0]);
+      st->child.iter->es1 = sem_statement (ast->children[1]);
+      st->child.iter->expr = sem_expression (ast->children[2]);
+      st->child.iter->stmt = sem_statement (ast->children[3]);
+    }
 }
 
 static void

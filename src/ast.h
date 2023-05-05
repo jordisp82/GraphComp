@@ -287,7 +287,7 @@ ast_node_t *direct_abstract_declarator_21 (ast_node_t * n1, ast_node_t * n2);
                                              (x) == direct_abstract_declarator_18 || \
                                              (x) == direct_abstract_declarator_19 || \
                                              (x) == direct_abstract_declarator_20 || \
-                                             (x) == direct_abstract_declarator_21 ||
+                                             (x) == direct_abstract_declarator_21)
 ast_node_t *abstract_declarator_1 (ast_node_t * n1, ast_node_t * n2);
 ast_node_t *abstract_declarator_2 (ast_node_t * node);
 ast_node_t *abstract_declarator_3 (ast_node_t * node);

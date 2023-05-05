@@ -18,7 +18,7 @@ bit_and_expr_t *
 sem_bit_and_expr (ast_node_t * ast)
 {
   assert (ast != NULL);
-  assert (IS_ADD_EXPRESSION (ast->func_ptr));
+  assert (IS_AND_EXPRESSION (ast->func_ptr));
   assert (ast->n_children > 0);
   assert (ast->children != NULL);
 

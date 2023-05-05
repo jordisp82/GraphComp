@@ -1837,7 +1837,8 @@ yy_get_next_buffer (void)
       /* Extend the array by 50%, plus the number we really need. */
       int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
       YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc ((void *)
-                                                                YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,
+                                                                YY_CURRENT_BUFFER_LVALUE->
+                                                                yy_ch_buf,
                                                                 (yy_size_t)
                                                                 new_size);
       if (!YY_CURRENT_BUFFER_LVALUE->yy_ch_buf)
@@ -1932,8 +1933,8 @@ yyunput (int c, char *yy_bp)
       /* +2 for EOB chars. */
       int number_to_move = (yy_n_chars) + 2;
       char *dest =
-        &YY_CURRENT_BUFFER_LVALUE->
-        yy_ch_buf[YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
+        &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[YY_CURRENT_BUFFER_LVALUE->
+                                             yy_buf_size + 2];
       char *source = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
 
       while (source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf)

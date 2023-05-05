@@ -97,7 +97,8 @@ sem_postfix_func (postfix_expr_t * pfe, ast_node_t * ast)
   pfe->kind = POSTFIX_FUNC;
   pfe->operand = sem_postfix_expr (ast->children[0]);
   if (ast->func_ptr == postfix_expression_4)
-    /* TODO */ ;
+    {                           /* TODO */
+    }
 }
 
 static void

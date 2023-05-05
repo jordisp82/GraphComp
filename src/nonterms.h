@@ -43,6 +43,10 @@ struct __cstmt;
 struct __stmt;
 struct __jstmt;
 struct __sstmt;
+struct __lstmt;
+struct __istmt;
+struct __absdeclr;
+struct __dadeclr;
 
 typedef enum
 {
@@ -199,7 +203,7 @@ typedef struct __paramdecl
 {
   decl_specs_t *decl_specs;     /* shall not be NULL */
   declarator_t *declr;          /* may be NULL */
-  /* TODO abstract declarator *//* may be NULL */
+  struct __absdeclr *adeclr;    /* may be NULL */
 } param_decl_t;
 
 typedef struct __decl
@@ -455,10 +459,11 @@ typedef struct __stmt
   stmt_kind_t kind;
   union
   {
-    /* TODO labeled */
+    struct __lstmt *label;      /* STMT_LABELED */
     compound_stmt_t *comp;      /* STMT_COMPOUND */
     expression_t *expr;         /* STMT_EXPRESSION, may be NULL */
     struct __sstmt *select;     /* STMT_SELECTION */
+    struct __istmt *iter;       /* STMT_ITERATION */
     struct __jstmt *jump;       /* STMT_JUMP */
   } child;
 } statement_t;
@@ -492,5 +497,57 @@ typedef struct __sstmt
   statement_t *st;              /* if or switch */
   statement_t *st_e;            /* only if else */
 } select_stmt_t;
+
+typedef enum
+{
+  LABEL_LABEL,
+  LABEL_CASE,
+  LABEL_DEFAULT
+} label_kind_t;
+
+typedef struct __lstmt
+{
+  label_kind_t kind;
+  const char *id;               /* LABEL_LABEL */
+  statement_t *stmt;            /* all */
+  cond_expr_t *const_expr;      /* LABEL_CASE constant expressions are conditional expressions with some additional constraints */
+} label_stmt_t;
+
+typedef enum
+{
+  ITER_WHILE,
+  ITER_DO,
+  ITER_FOR_1,
+  ITER_FOR_2,
+  ITER_FOR_3,
+  ITER_FOR_4
+} iter_kind_t;
+
+typedef struct __istmt
+{
+  iter_kind_t kind;
+  expression_t *expr;           /* ITER_WHILE, ITER_DO, ITER_FOR_2, ITER_FOR_4 */
+  statement_t *stmt;            /* all */
+  statement_t *es1;             /* all ITER_FOR, it must be expression statement */
+  statement_t *es2;             /* ITER_FOR_1, ITER_FOR_2, it must be expression statement */
+  declaration_t *decl;          /* ITER_FOR_3, ITER_FOR_4 */
+} iter_stmt_t;
+
+typedef struct __absdeclr
+{
+  int n_pointers;
+  struct __pointer **pointers;
+  struct __dadeclr *dir_abs_declr;
+} abs_declr_t;
+
+typedef struct __dadeclr
+{
+  int kind;
+  abs_declr_t *abs_declr;       /* 1 */
+  type_qual_t *type_qual_list;  /* 4, 6, 7, 8, 12, 14, 15, 16 */
+  ass_expr_t *ass_expr;         /* 4, 5, 6, 7, 9, 12, 13, 14, 15, 17 */
+  struct __dadeclr *dad;        /* 10, 11, 12, 13, 14, 15, 16, 17, 20, 21 */
+  param_type_list_t *par_type_list;     /* 19, 21 */
+} dir_abs_declr_t;
 
 #endif
