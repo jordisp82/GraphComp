@@ -10,6 +10,7 @@
 #include "ast.h"
 #include "decl_specs.h"
 #include "declarator.h"
+#include "ass_expr.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -17,6 +18,7 @@
 
 static void sem_init_declr_list (declaration_t * decl, ast_node_t * ast);
 static init_declr_t *sem_init_declr (ast_node_t * ast);
+static initializer_t *sem_initializer (ast_node_t * ast);
 
 declaration_t *
 sem_declaration (ast_node_t * ast)
@@ -78,7 +80,33 @@ sem_init_declr (ast_node_t * ast)
   assert (idr != NULL);
 
   idr->declr = sem_declarator (ast->children[0]);
-  /* TODO initializer, if it exists */
+  if (ast->n_children > 1)
+    idr->initzr = sem_initializer (ast->children[1]);
 
   return idr;
+}
+
+static initializer_t *
+sem_initializer (ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (IS_INITIALIZER (ast->func_ptr));
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  initializer_t *iz = calloc (1, sizeof (initializer_t));
+  assert (iz != NULL);
+
+  if (ast->func_ptr == initializer_1 || ast->func_ptr == initializer_2)
+    {
+      iz->kind = INITZR_LIST;
+      /* TODO */
+    }
+  else if (ast->func_ptr == initializer_3)
+    {
+      iz->kind = INITZR_EXPR;
+      iz->child.expr = sem_ass_expr (ast->children[0]);
+    }
+
+  return iz;
 }

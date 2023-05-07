@@ -4,10 +4,12 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "ast.h"
 #include "nonterms.h"
 #include "decl_specs.h"
+#include "cond_expr.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -17,6 +19,11 @@ static void sem_stg_class_spec (decl_specs_t * ds, ast_node_t * ast);
 static void sem_type_spec (decl_specs_t * ds, ast_node_t * ast);
 static void sem_type_qual (decl_specs_t * ds, ast_node_t * ast);
 static void sem_func_spec (decl_specs_t * ds, ast_node_t * ast);
+static void sem_atomic_spec (decl_specs_t * ds, ast_node_t * ast);
+static void sem_struct_union_spec (decl_specs_t * ds, ast_node_t * ast);
+static void sem_enum_spec (decl_specs_t * ds, ast_node_t * ast);
+static void sem_enum_list (enum_t * et, ast_node_t * ast);
+static enum_const_t *sem_enum_const (ast_node_t * ast);
 
 decl_specs_t *
 sem_decl_specs (ast_node_t * ast)
@@ -147,7 +154,12 @@ sem_type_spec (decl_specs_t * ds, ast_node_t * ast)
       break;
 
     default:
-      /* TODO */
+      if (ast->func_ptr == type_spec_13)
+        sem_atomic_spec (ds, ast);
+      else if (ast->func_ptr == type_spec_14)
+        sem_struct_union_spec (ds, ast);
+      else if (ast->func_ptr == type_spec_15)
+        sem_enum_spec (ds, ast->children[0]);
 #if 0
       assert (ast->n_children > 0 && ast->children != NULL
               && ast->children[0] != NULL);
@@ -215,4 +227,79 @@ sem_func_spec (decl_specs_t * ds, ast_node_t * ast)
       ds->func_spec.n_noreturn++;
       break;
     }
+}
+
+static void
+sem_atomic_spec (decl_specs_t * ds, ast_node_t * ast)
+{
+  assert (ds != NULL);
+  assert (ast != NULL);
+  assert (IS_TYPE_SPEC (ast->func_ptr));
+}
+
+static void
+sem_struct_union_spec (decl_specs_t * ds, ast_node_t * ast)
+{
+  assert (ds != NULL);
+  assert (ast != NULL);
+  assert (IS_TYPE_SPEC (ast->func_ptr));
+}
+
+static void
+sem_enum_spec (decl_specs_t * ds, ast_node_t * ast)
+{
+  assert (ds != NULL);
+  assert (ast != NULL);
+  assert (IS_TYPE_SPEC (ast->func_ptr));
+
+  ds->type_spec.ts_enum = calloc (1, sizeof (enum_t));
+  assert (ds->type_spec.ts_enum != NULL);
+  enum_t *e = ds->type_spec.ts_enum;
+
+  if (ast->func_ptr == enum_spec_3 || ast->func_ptr == enum_spec_4
+      || ast->func_ptr == enum_spec_5)
+    e->tag = strdup (ast->data);
+  if (ast->func_ptr != enum_spec_5)
+    sem_enum_list (e, ast->children[0]);
+}
+
+static void
+sem_enum_list (enum_t * et, ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (et != NULL);
+
+  et->n_consts = 1;
+  ast_node_t *ptr;
+
+  for (ptr = ast; IS_ENUMERATOR_LIST (ptr->children[0]->func_ptr);
+       ptr = ptr->children[0])
+    et->n_consts++;
+
+  et->consts = calloc (et->n_consts, sizeof (enum_const_t *));
+  assert (et->consts != NULL);
+
+  for (ptr = ast; IS_ENUMERATOR_LIST (ptr->children[0]->func_ptr);
+       ptr = ptr->children[0]);
+  et->consts[0] = sem_enum_const (ptr->children[0]);
+  ptr = ptr->parent;
+  for (int i = 1; ptr != NULL; ptr = ptr->parent, i++)
+    et->consts[i] = sem_enum_const (ptr->children[1]);
+}
+
+static enum_const_t *
+sem_enum_const (ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (IS_ENUMERATOR (ast->func_ptr));
+
+  enum_const_t *ec = calloc (1, sizeof (enum_const_t));
+  assert (ec != NULL);
+
+  ec->constant = strdup (ast->children[0]->data);
+  assert (ec->constant != NULL);
+  if (ast->func_ptr == enumerator_1)
+    ec->expr = sem_cond_expr (ast->children[1]);
+
+  return ec;
 }

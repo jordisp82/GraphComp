@@ -13,6 +13,12 @@ struct __typespec;
 struct __typequal;
 struct __funcspec;
 struct __alignspec;
+struct __struct;
+struct __union;
+struct __enum;
+struct __sudecl;
+struct __enumtor;
+
 struct __pointer;
 struct __ddeclr;
 struct __ptlist;
@@ -113,6 +119,9 @@ typedef struct __typespec
   int n_union;
   int n_enum;
   int n_typedef;
+  struct __struct *ts_struct;
+  struct __union *ts_union;
+  struct __enum *ts_enum;
 } type_spec_t;
 
 typedef struct __typequal
@@ -137,6 +146,40 @@ typedef struct __declspecs
   func_spec_t func_spec;
   //struct __alignspec **align_spec;
 } decl_specs_t;
+
+typedef struct __struct
+{
+  const char *tag;              /* may be NULL */
+  int n_fields;                 /* may be zero */
+  struct __sudecl **fields;
+} struct_t;
+
+typedef struct __union
+{
+  const char *tag;              /* may be NULL */
+  int n_fields;                 /* may be zero */
+  struct __sudecl **fields;
+} union_t;
+
+typedef struct __enum
+{
+  const char *tag;              /* may be NULL */
+  int n_consts;                 /* may be zero */
+  struct __enumtor **consts;
+} enum_t;
+
+typedef struct __sudecl
+{
+  /* TODO */
+} struct_union_field_t;
+
+typedef struct __enumtor
+{
+  const char *constant;         /* name of the constant */
+  struct __condexpr *expr;      /* may be NULL; value of the constant */
+} enum_const_t;
+
+
 
 typedef struct __declr
 {
@@ -216,12 +259,9 @@ typedef struct __decl
 typedef struct __initdeclr
 {
   declarator_t *declr;          /* mandatory */
-#if 0
   struct __initzr *initzr;      /* optional */
-#endif
 } init_declr_t;
 
-#if 0
 typedef enum
 {
   INITZR_LIST,
@@ -236,7 +276,6 @@ typedef struct __initzr
     struct __assexpr *expr;
   } child;
 } initializer_t;
-#endif
 
 typedef enum
 {
