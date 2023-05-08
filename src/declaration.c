@@ -11,6 +11,7 @@
 #include "decl_specs.h"
 #include "declarator.h"
 #include "ass_expr.h"
+#include "cond_expr.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -19,6 +20,11 @@
 static void sem_init_declr_list (declaration_t * decl, ast_node_t * ast);
 static init_declr_t *sem_init_declr (ast_node_t * ast);
 static initializer_t *sem_initializer (ast_node_t * ast);
+static init_list_t *sem_init_list (ast_node_t * ast);
+static init_block_t *sem_init_block1 (ast_node_t * ast);
+static init_block_t *sem_init_block2 (ast_node_t * ast);
+static designation_t *sem_designation (ast_node_t * ast);
+static designator_t *sem_designator (ast_node_t * ast);
 
 declaration_t *
 sem_declaration (ast_node_t * ast)
@@ -100,7 +106,7 @@ sem_initializer (ast_node_t * ast)
   if (ast->func_ptr == initializer_1 || ast->func_ptr == initializer_2)
     {
       iz->kind = INITZR_LIST;
-      /* TODO */
+      iz->child.init_list = sem_init_list (ast->children[0]);
     }
   else if (ast->func_ptr == initializer_3)
     {
@@ -109,4 +115,125 @@ sem_initializer (ast_node_t * ast)
     }
 
   return iz;
+}
+
+static init_list_t *
+sem_init_list (ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (IS_INITIALIZER_LIST (ast->func_ptr));
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  init_list_t *il = calloc (1, sizeof (init_list_t));
+  assert (il != NULL);
+  il->n_init_blocks = 1;
+  ast_node_t *ptr;
+
+  for (ptr = ast; IS_INITIALIZER_LIST (ptr->children[0]->func_ptr);
+       ptr = ptr->children[0])
+    il->n_init_blocks++;
+
+  il->init_blocks = calloc (il->n_init_blocks, sizeof (init_block_t *));
+  assert (il->init_blocks != NULL);
+
+  for (ptr = ast; IS_INITIALIZER_LIST (ptr->children[0]->func_ptr);
+       ptr = ptr->children[0]);
+  il->init_blocks[0] = sem_init_block1 (ptr);
+  ptr = ptr->parent;
+  for (int i = 1; ptr != NULL; ptr = ptr->parent, i++)
+    il->init_blocks[i] = sem_init_block2 (ptr);
+
+  return il;
+}
+
+static init_block_t *
+sem_init_block1 (ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  init_block_t *ib = calloc (1, sizeof (init_block_t));
+  assert (ib != NULL);
+
+  if (ast->children[0]->func_ptr == designation)
+    {
+      ib->design = sem_designation (ast->children[0]);
+      ib->initializer = sem_initializer (ast->children[1]);
+    }
+  else if (IS_INITIALIZER (ast->children[0]->func_ptr))
+    ib->initializer = sem_initializer (ast->children[0]);
+
+  return ib;
+}
+
+static init_block_t *
+sem_init_block2 (ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  init_block_t *ib = calloc (1, sizeof (init_block_t));
+  assert (ib != NULL);
+
+  if (ast->children[1]->func_ptr == designation)
+    {
+      ib->design = sem_designation (ast->children[1]);
+      ib->initializer = sem_initializer (ast->children[2]);
+    }
+  else if (IS_INITIALIZER (ast->children[1]->func_ptr))
+    ib->initializer = sem_initializer (ast->children[1]);
+
+  return ib;
+}
+
+static designation_t *
+sem_designation (ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (ast->func_ptr == designation);
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  designation_t *ds = calloc (1, sizeof (designation_t));
+  assert (ds != NULL);
+  ds->n_designators = 1;
+  ast_node_t *ptr;
+
+  for (ptr = ast; IS_DESIGNATOR_LIST (ptr->children[0]->func_ptr);
+       ptr = ptr->children[0])
+    ds->n_designators++;
+
+  ds->designators = calloc (ds->n_designators, sizeof (designator_t *));
+  assert (ds->designators != NULL);
+
+  for (ptr = ast; IS_DESIGNATOR_LIST (ptr->children[0]->func_ptr);
+       ptr = ptr->children[0]);
+  ds->designators[0] = sem_designator (ptr->children[0]);
+  ptr = ptr->parent;
+  for (int i = 1; ptr != NULL; ptr = ptr->parent, i++)
+    ds->designators[i] = sem_designator (ptr->children[1]);
+
+  return ds;
+}
+
+static designator_t *
+sem_designator (ast_node_t * ast)
+{
+  assert (ast != NULL);
+  assert (IS_DESIGNATOR (ast->func_ptr));
+  assert (ast->n_children > 0);
+  assert (ast->children != NULL);
+
+  designator_t *ds = calloc (1, sizeof (designator_t));
+  assert (ds != NULL);
+
+  if (ast->func_ptr == designator_1)
+    ds->const_expr = sem_cond_expr (ast->children[0]);
+  else if (ast->func_ptr == designator_2)
+    ds->id = strdup (ast->data);
+
+  return ds;
 }

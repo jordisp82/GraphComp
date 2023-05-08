@@ -24,10 +24,6 @@ struct __ddeclr;
 struct __ptlist;
 struct __paramdecl;
 struct __initdeclr;
-#if 0
-struct __initzr;
-struct __assexpr;
-#endif
 struct __expr;
 struct __prexpr;
 struct __pfexpr;
@@ -53,6 +49,10 @@ struct __lstmt;
 struct __istmt;
 struct __absdeclr;
 struct __dadeclr;
+struct __designator;
+struct __designation;
+struct __initblock;
+struct __initializerlist;
 
 typedef enum
 {
@@ -266,16 +266,41 @@ typedef enum
 {
   INITZR_LIST,
   INITZR_EXPR
-} initzr_t;
+} initzr_kind_t;
 
 typedef struct __initzr
 {
-  initzr_t kind;
+  initzr_kind_t kind;
   union
   {
     struct __assexpr *expr;
+    struct __initializerlist *init_list;
   } child;
 } initializer_t;
+
+typedef struct __designator
+{
+  struct __condexpr *const_expr;        /* [ constant-expression ] */
+  const char *id;               /* . IDENTIFIER */
+} designator_t;
+
+typedef struct __designation
+{
+  int n_designators;
+  designator_t **designators;
+} designation_t;
+
+typedef struct __initblock
+{
+  designation_t *design;
+  initializer_t *initializer;
+} init_block_t;
+
+typedef struct __initializerlist
+{
+  int n_init_blocks;
+  init_block_t **init_blocks;
+} init_list_t;
 
 typedef enum
 {
