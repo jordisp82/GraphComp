@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -ggdb -g3 -pipe
-OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o decl_specs.o declarator.o dir_declr.o declaration.o prim_expr.o postfix_expr.o unary_expr.o cast_expr.o mult_expr.o add_expr.o bitw_expr.o rel_expr.o equal_expr.o bit_and_expr.o bit_xor_expr.o bit_or_expr.o logic_and_expr.o logic_or_expr.o cond_expr.o ass_expr.o expression.o compound_stmt.o statement.o abs_declr.o dir_abs_declr.o
+OBJECTS = ast.o grammar.tab.o lex.yy.o main.o preproc.o semantic.o func_def.o decl_specs.o declarator.o dir_declr.o declaration.o prim_expr.o postfix_expr.o unary_expr.o cast_expr.o mult_expr.o add_expr.o bitw_expr.o rel_expr.o equal_expr.o bit_and_expr.o bit_xor_expr.o bit_or_expr.o logic_and_expr.o logic_or_expr.o cond_expr.o ass_expr.o expression.o compound_stmt.o statement.o abs_declr.o dir_abs_declr.o struct_union_spec.o
 PROGNAME = test1
 
 all: $(PROGNAME)
@@ -103,6 +103,9 @@ abs_declr.o: abs_declr.c abs_declr.h nonterms.h ast.h ast_t.h grammar.tab.h
 
 dir_abs_declr.o: dir_abs_declr.c dir_abs_declr.h nonterms.h ast.h ast_t.h grammar.tab.h abs_declr.h ass_expr.h
 	$(CC) $(CFLAGS) -c dir_abs_declr.c
+
+struct_union_spec.o: struct_union_spec.c struct_union_spec.h nonterms.h ast.h ast_t.h grammar.tab.h
+	$(CC) $(CFLAGS) -c struct_union_spec.c
 
 clean:
 	rm -f *.o

@@ -10,6 +10,7 @@
 #include "nonterms.h"
 #include "decl_specs.h"
 #include "cond_expr.h"
+#include "struct_union_spec.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -20,7 +21,6 @@ static void sem_type_spec (decl_specs_t * ds, ast_node_t * ast);
 static void sem_type_qual (decl_specs_t * ds, ast_node_t * ast);
 static void sem_func_spec (decl_specs_t * ds, ast_node_t * ast);
 static void sem_atomic_spec (decl_specs_t * ds, ast_node_t * ast);
-static void sem_struct_union_spec (decl_specs_t * ds, ast_node_t * ast);
 static void sem_enum_spec (decl_specs_t * ds, ast_node_t * ast);
 static void sem_enum_list (enum_t * et, ast_node_t * ast);
 static enum_const_t *sem_enum_const (ast_node_t * ast);
@@ -157,7 +157,7 @@ sem_type_spec (decl_specs_t * ds, ast_node_t * ast)
       if (ast->func_ptr == type_spec_13)
         sem_atomic_spec (ds, ast);
       else if (ast->func_ptr == type_spec_14)
-        sem_struct_union_spec (ds, ast);
+        sem_struct_union_spec (ds, ast->children[0]);
       else if (ast->func_ptr == type_spec_15)
         sem_enum_spec (ds, ast->children[0]);
 #if 0
@@ -170,13 +170,6 @@ sem_type_spec (decl_specs_t * ds, ast_node_t * ast)
           sem_struct_union_spec (ast->children[0]);
           decl_specs_t *parent = ast->parent->data;
           parent->struct_union_specs = ast->children[0]->data;
-        }
-      else if (ast->func_ptr == type_spec_15)
-        {
-          ptr->n_enum++;
-          sem_enum (ast->children[0]);
-          decl_specs_t *parent = ast->parent->data;
-          parent->enum_specs = ast->children[0]->data;
         }
 #endif
       break;
@@ -235,14 +228,12 @@ sem_atomic_spec (decl_specs_t * ds, ast_node_t * ast)
   assert (ds != NULL);
   assert (ast != NULL);
   assert (IS_TYPE_SPEC (ast->func_ptr));
-}
 
-static void
-sem_struct_union_spec (decl_specs_t * ds, ast_node_t * ast)
-{
-  assert (ds != NULL);
-  assert (ast != NULL);
-  assert (IS_TYPE_SPEC (ast->func_ptr));
+  /*
+   * TODO needs type-name,
+   * which in turn needs the
+   * abstract declarator
+   */
 }
 
 static void
@@ -252,6 +243,7 @@ sem_enum_spec (decl_specs_t * ds, ast_node_t * ast)
   assert (ast != NULL);
   assert (IS_TYPE_SPEC (ast->func_ptr));
 
+  ds->type_spec.n_enum++;
   ds->type_spec.ts_enum = calloc (1, sizeof (enum_t));
   assert (ds->type_spec.ts_enum != NULL);
   enum_t *e = ds->type_spec.ts_enum;

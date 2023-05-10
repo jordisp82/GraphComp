@@ -18,7 +18,6 @@ struct __union;
 struct __enum;
 struct __sudecl;
 struct __enumtor;
-
 struct __pointer;
 struct __ddeclr;
 struct __ptlist;
@@ -170,8 +169,18 @@ typedef struct __enum
 
 typedef struct __sudecl
 {
-  /* TODO */
+  type_spec_t ts;
+  type_qual_t tq;
+  int n_struct_declr;
+  struct __sdclr **struct_declr;
 } struct_union_field_t;
+
+typedef struct __sdclr
+{
+  /* only one of the following may be NULL */
+  struct __declr *declr;
+  struct __condexpr *const_expr;
+} struct_declr_t;
 
 typedef struct __enumtor
 {
