@@ -1,0 +1,43 @@
+#ifndef STRUCTS_T_H
+#define STRUCTS_T_H
+
+struct transl_unit;
+struct extern_def;
+struct func_def;
+struct decltion;
+struct block_item;
+struct declaration;
+struct statement;
+struct compound_stmt;
+struct decl_specs;
+struct static_assert_decl;
+struct init_decl_list;
+struct declarator;
+struct pointer;
+struct direct_dclor;
+struct decltion_list;
+struct expression;
+struct iteration_stmt;
+struct jump_stmt;
+struct const_expr;
+struct label_stmt;
+struct select_stmt;
+struct prim_expr;
+struct postfix_expr;
+struct unary_expr;
+struct unary_expr;
+struct cast_expr;
+struct mult_expr;
+struct add_expr;
+struct shift_expr;
+struct rel_expr;
+struct equal_expr;
+struct bin_and_expr;
+struct xor_expr;
+struct bin_or_expr;
+struct log_and_expr;
+struct log_or_expr;
+struct cond_expr;
+struct ass_expr;
+
+#endif
