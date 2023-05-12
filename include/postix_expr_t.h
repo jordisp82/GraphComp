@@ -24,10 +24,19 @@ typedef struct postfix_expr
   {
     struct prim_expr *prim;     /* POSTFIX_PRI */
     struct expression *array;   /* POSTFIX_ARRAY */
-    /* TODO POSTFIX_FUNC */
+    struct
+    {
+      int n_args_exprs;
+      struct ass_expr *args_exprs;
+    } function;                 /* POSTFIX_FUNC */
     const char *str;            /* POSTFIX_MEMB1, POSTFIX_MEMB2 */
     /* NOTE none needed for POSTFIX_INCR, POSTFIX_DECR */
-    /* TODO POSTFIX_CLIT */
+    struct
+    {
+      struct type_name *type_name;
+      int n_initzers;
+      struct initzer *initzers;
+    } comp_lit;                 /* POSTFIX_CLIT */
   };
   ast_node_t *node;
 } postfix_expr_t;

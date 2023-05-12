@@ -29,8 +29,7 @@ typedef struct unary_expr
       struct cast_expr *cast_expr;
     };                          /* UNEXPR_UNOP */
     struct unary_expr *unary_expr;      /* UNEXPR_SIZEOF1 */
-    /* TODO UNEXPR_SIZEOF2 */
-    /* TODO UNEXPR_ALIGNOF */
+    struct type_name *type_name;        /* UNEXPR_SIZEOF2, UNEXPR_ALIGNOF */
   };
   ast_node_t *node;
 } unary_expr_t;

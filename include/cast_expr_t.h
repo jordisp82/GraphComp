@@ -18,7 +18,7 @@ typedef struct cast_expr
     struct unary_expr *unary_expr;      /* CSEXPR_UNARY */
     struct
     {
-      /* TODO type_name */
+      struct type_name *type_name;      /* CSEXPR_CAST */
       struct cast_expr *cast_expr;
     };                          /* CSEXPR_CAST */
   };

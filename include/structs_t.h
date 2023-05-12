@@ -39,5 +39,24 @@ struct log_and_expr;
 struct log_or_expr;
 struct cond_expr;
 struct ass_expr;
+struct type_name;
+struct initzer;
+struct init_declr;
+struct initzer_block;
+struct designation;
+struct designator;
+struct const_expr;
+struct param_type_list;
+struct param_decl;
+struct abstract_dclor;
+struct pointer;
+struct type_name;
+struct direct_abs_dlcor;
+struct struct_decl;
+struct struct_declr;
+struct enum_spec;
+struct enumerator;
+struct struct_union_spec;
+struct type_spec;
 
 #endif

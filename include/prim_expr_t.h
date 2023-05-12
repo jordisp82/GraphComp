@@ -26,7 +26,7 @@ typedef struct prim_expr
     long long int iv;           /* PREXPR_CONST_I */
     double dv;                  /* PREXPR_CONST_F */
     struct expression *expr;    /* PREXPR_EXPR */
-    /* TODO generic selection */
+    /* NOTE fuck off generic selection */
   };
 } prim_expr_t;
 

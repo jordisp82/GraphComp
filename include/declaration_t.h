@@ -21,7 +21,9 @@ typedef struct declaration
     struct
     {
       struct decl_specs *decl_specs;    /* mandatory */
-      struct init_decl_list *init_decl_list;    /* optional */
+      int n_init_declrs;        /* may be zero */
+      struct init_declr **init_declrs;  /* may be NULL */
+      /* NOTE fuck off static_assert_decl */
     };
   };
   ast_node_t *node;
