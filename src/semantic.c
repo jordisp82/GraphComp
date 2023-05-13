@@ -5,17 +5,15 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "semantic.h"
 #include "ast.h"
-#include "nonterms.h"
-#include "func_def.h"
-#include "declaration.h"
+#include "semantic.h"
+#include "sem_t.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
 
-static ext_def_t *sem_extern_decl (ast_node_t * ast);
+static extern_decl_t *sem_extern_decl (ast_node_t * ast);
 
 void
 semantic_analysis (ast_node_t * ast)
@@ -31,7 +29,7 @@ semantic_analysis (ast_node_t * ast)
    * external declarations.
    */
 
-  tu_t *tu = calloc (1, sizeof (tu_t));
+  transl_unit_t *tu = calloc (1, sizeof (transl_unit_t));
   assert (tu != NULL);
   tu->n_children = 1;
   ast_node_t *ptr;
@@ -39,7 +37,7 @@ semantic_analysis (ast_node_t * ast)
   for (ptr = ast; ptr->n_children > 1; ptr = ptr->children[0])
     tu->n_children++;
 
-  tu->children = calloc (tu->n_children, sizeof (ext_def_t *));
+  tu->children = calloc (tu->n_children, sizeof (extern_decl_t *));
   assert (tu->children != NULL);
 
   for (ptr = ast; IS_TRANSLATION_UNIT (ptr->children[0]->func_ptr);
@@ -48,27 +46,30 @@ semantic_analysis (ast_node_t * ast)
   ptr = ptr->parent;
   for (int i = 1; ptr != NULL; ptr = ptr->parent, i++)
     tu->children[i] = sem_extern_decl (ptr->children[1]);
+  
+  for (int i = 0; i < tu->n_children; i++)
+      tu->children[i]->parent = tu;
 }
 
-static ext_def_t *
+static extern_decl_t *
 sem_extern_decl (ast_node_t * ast)
 {
   assert (ast != NULL);
   assert (IS_EXTERNAL_DECLARATION (ast->func_ptr));
   assert (ast->children != NULL);
 
-  ext_def_t *ed = calloc (1, sizeof (ext_def_t));
+  extern_decl_t *ed = calloc (1, sizeof (extern_decl_t));
   assert (ed != NULL);
 
   if (IS_FUNCTION_DEFINITION (ast->children[0]->func_ptr))
     {
       ed->kind = EXTDEF_FUNC_DEF;
-      ed->child.funcdef = sem_func_def (ast->children[0]);
+      //ed->child.funcdef = sem_func_def (ast->children[0]);
     }
   else if (IS_DECLARATION (ast->children[0]->func_ptr))
     {
       ed->kind = EXTDEF_DECL;
-      ed->child.decl = sem_declaration (ast->children[0]);
+      //ed->child.decl = sem_declaration (ast->children[0]);
     }
 
   return ed;
