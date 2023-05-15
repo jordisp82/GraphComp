@@ -8,6 +8,7 @@
 #include "ast.h"
 #include "semantic.h"
 #include "sem_t.h"
+#include "func_def.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -32,6 +33,7 @@ semantic_analysis (ast_node_t * ast)
   transl_unit_t *tu = calloc (1, sizeof (transl_unit_t));
   assert (tu != NULL);
   tu->n_children = 1;
+  tu->node = ast;
   ast_node_t *ptr;
 
   for (ptr = ast; ptr->n_children > 1; ptr = ptr->children[0])
@@ -46,9 +48,9 @@ semantic_analysis (ast_node_t * ast)
   ptr = ptr->parent;
   for (int i = 1; ptr != NULL; ptr = ptr->parent, i++)
     tu->children[i] = sem_extern_decl (ptr->children[1]);
-  
+
   for (int i = 0; i < tu->n_children; i++)
-      tu->children[i]->parent = tu;
+    tu->children[i]->parent = tu;
 }
 
 static extern_decl_t *
@@ -64,13 +66,17 @@ sem_extern_decl (ast_node_t * ast)
   if (IS_FUNCTION_DEFINITION (ast->children[0]->func_ptr))
     {
       ed->kind = EXTDEF_FUNC_DEF;
-      //ed->child.funcdef = sem_func_def (ast->children[0]);
+      ed->func_def = sem_func_def (ast->children[0]);
+      ed->func_def->parent = ed;
+      ed->node = ast;
     }
   else if (IS_DECLARATION (ast->children[0]->func_ptr))
     {
       ed->kind = EXTDEF_DECL;
-      //ed->child.decl = sem_declaration (ast->children[0]);
+      //ed->decltion = sem_declaration (ast->children[0]);
+      ed->node = ast;
     }
+  /* else abort */
 
   return ed;
 }

@@ -30,6 +30,20 @@ typedef struct type_qual
   /* NOTE no ast_node_t * node */
 } type_qual_t;
 
+typedef enum
+{
+    PARENT_UNKNOWN = 0,
+    PARENT_FUNC_DEF,
+    PARENT_COMPOUND_STMT,
+    PARENT_BLOCK_ITEM,
+    PARENT_LABEL_STMT,
+    PARENT_IF_STMT,
+    PARENT_SWITCH_STMT,
+    PARENT_ITER_STMT,
+    PARENT_JUMP_STMT,
+    PARENT_STATEMENT,
+} parent_kind_t;
+
 struct abstract_dclor;
 struct add_expr;
 struct ass_expr;
@@ -150,6 +164,8 @@ typedef struct block_item
     struct statement *stmt;
   };
   ast_node_t *node;
+  parent_kind_t parent_kind;
+  void *parent;
 } block_item_t;
 
 typedef enum
@@ -178,6 +194,8 @@ typedef struct compound_stmt
   int n_block_items;
   struct block_item **block_items;
   ast_node_t *node;
+  parent_kind_t parent_kind;
+  void *parent;
 } compound_stmt_t;
 
 typedef struct cond_expr
@@ -435,6 +453,7 @@ typedef struct iteration_stmt
   struct statement *es2;        /* ITER_FOR_1, ITER_FOR_2, it must be expression statement */
   struct declaration *decl;     /* ITER_FOR_3, ITER_FOR_4 */
   ast_node_t *node;
+  struct statement *parent;
 } iter_stmt_t;
 
 typedef enum
@@ -451,6 +470,7 @@ typedef struct jump_stmt
   const char *label;            /* JUMP_GOTO */
   struct expression *expr;      /* optional for JUMP_RETURN */
   ast_node_t *node;
+  struct statement *parent;
 } jump_stmt_t;
 
 typedef enum
@@ -467,6 +487,7 @@ typedef struct label_stmt
   struct const_expr *expr;      /* LABEL_CASE */
   struct statement *stmt;       /* LABEL_LABEL, LABEL_CASE, LABEL_DEFAULT */
   ast_node_t *node;
+  struct statement *parent;
 } label_stmt_t;
 
 typedef struct log_and_expr
@@ -635,6 +656,8 @@ typedef struct statement
     struct jump_stmt *jump;     /* STMT_JUMP */
   };
   ast_node_t *node;
+  parent_kind_t parent_kind;
+  void *parent;
 } statement_t;
 
 typedef struct struct_decl
