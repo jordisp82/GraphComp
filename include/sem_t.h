@@ -42,6 +42,7 @@ typedef enum
     PARENT_ITER_STMT,
     PARENT_JUMP_STMT,
     PARENT_STATEMENT,
+    PARENT_EXTERNAL_DECL,
 } parent_kind_t;
 
 struct abstract_dclor;
@@ -58,7 +59,7 @@ struct const_expr;
 struct declaration;
 struct declarator;
 struct decl_specs;
-struct decltion;
+//struct decltion;
 struct decltion_list;
 struct designation;
 struct designator;
@@ -235,10 +236,11 @@ typedef struct declaration
       struct decl_specs *decl_specs;    /* mandatory */
       int n_init_declrs;        /* may be zero */
       struct init_declr **init_declrs;  /* may be NULL */
-      /* NOTE fuck off static_assert_decl */
     };
   };
   ast_node_t *node;
+  parent_kind_t parent_kind;
+  void *parent;
 } declaration_t;
 
 typedef struct declarator
@@ -383,7 +385,7 @@ typedef struct extern_decl
   union
   {
     struct func_def *func_def;
-    struct decltion *decltion;
+    struct declaration *decltion;
   };
   struct transl_unit *parent;
   ast_node_t *node;

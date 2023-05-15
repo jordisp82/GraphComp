@@ -5,10 +5,11 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "ast.h"
 #include "semantic.h"
+#include "ast.h"
 #include "sem_t.h"
 #include "func_def.h"
+#include "declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -73,7 +74,9 @@ sem_extern_decl (ast_node_t * ast)
   else if (IS_DECLARATION (ast->children[0]->func_ptr))
     {
       ed->kind = EXTDEF_DECL;
-      //ed->decltion = sem_declaration (ast->children[0]);
+      ed->decltion = sem_declaration (ast->children[0]);
+      ed->decltion->parent_kind = PARENT_EXTERNAL_DECL;
+      ed->decltion->parent = ed;
       ed->node = ast;
     }
   /* else abort */

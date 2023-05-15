@@ -7,16 +7,21 @@
 #include <string.h>
 
 #include "declaration.h"
+#include "sem_t.h"
 #include "ast.h"
+
+#if 0
 #include "decl_specs.h"
 #include "declarator.h"
 #include "ass_expr.h"
 #include "cond_expr.h"
+#endif
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
 
+#if 0
 static void sem_init_declr_list (declaration_t * decl, ast_node_t * ast);
 static init_declr_t *sem_init_declr (ast_node_t * ast);
 static initializer_t *sem_initializer (ast_node_t * ast);
@@ -25,6 +30,7 @@ static init_block_t *sem_init_block1 (ast_node_t * ast);
 static init_block_t *sem_init_block2 (ast_node_t * ast);
 static designation_t *sem_designation (ast_node_t * ast);
 static designator_t *sem_designator (ast_node_t * ast);
+#endif
 
 declaration_t *
 sem_declaration (ast_node_t * ast)
@@ -40,13 +46,16 @@ sem_declaration (ast_node_t * ast)
   declaration_t *decl = calloc (1, sizeof (declaration_t));
   assert (decl != NULL);
 
-  decl->decl_specs = sem_decl_specs (ast->children[0]);
-  if (ast->func_ptr == declaration_2)
-    sem_init_declr_list (decl, ast);
+  /* TODO
+     decl->decl_specs = sem_decl_specs (ast->children[0]);
+     if (ast->func_ptr == declaration_2)
+     sem_init_declr_list (decl, ast);
+   */
 
   return decl;
 }
 
+#if 0
 static void
 sem_init_declr_list (declaration_t * decl, ast_node_t * ast)
 {
@@ -237,3 +246,4 @@ sem_designator (ast_node_t * ast)
 
   return ds;
 }
+#endif

@@ -13,7 +13,6 @@
 #if 0
 #include "decl_specs.h"
 #include "declarator.h"
-#include "declaration.h"
 #endif
 
 #ifndef NULL

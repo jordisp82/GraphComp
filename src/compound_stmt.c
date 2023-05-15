@@ -9,10 +9,7 @@
 #include "sem_t.h"
 #include "ast.h"
 #include "statement.h"
-
-#if 0
 #include "declaration.h"
-#endif
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -91,8 +88,9 @@ sem_block_item (ast_node_t * ast)
     {
       bi->node = ast;
       bi->kind = BLOCK_DECLARATION;
-      //bi->decl = sem_declaration (ast->children[0]);
-      // parent, parent_kind
+      bi->decl = sem_declaration (ast->children[0]);
+      bi->decl->parent_kind = PARENT_BLOCK_ITEM;
+      bi->decl->parent = bi;
     }
   else if (IS_STATEMENT (ast->children[0]->func_ptr))
     {

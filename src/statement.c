@@ -10,13 +10,13 @@
 #include "sem_t.h"
 #include "ast.h"
 #include "compound_stmt.h"
+#include "declaration.h"
 
 #if 0
 #include "statement.h"
 #include "compound_stmt.h"
 #include "expression.h"
 #include "cond_expr.h"
-#include "declaration.h"
 #include "ast.h"
 #endif
 
@@ -86,7 +86,7 @@ sem_stmt_labeled (statement_t * st, ast_node_t * ast)
   else if (ast->func_ptr == labeled_statement_2)
     {
       st->label->kind = LABEL_CASE;
-      // TODO st->label->expr = sem_cond_expr (ast->children[0]);
+      // st->label->expr = sem_cond_expr (ast->children[0]);
       st->label->stmt = sem_statement (ast->children[1]);
       st->label->parent = st;
       st->label->stmt->parent = st->label;
@@ -227,7 +227,9 @@ sem_stmt_iter (statement_t * st, ast_node_t * ast)
   else if (ast->func_ptr == iteration_statement_5)
     {
       st->iter->kind = ITER_FOR_3;
-      // TODO st->iter->decl = sem_declaration (ast->children[0]);
+      st->iter->decl = sem_declaration (ast->children[0]);
+      st->iter->decl->parent_kind = PARENT_ITER_STMT;
+      st->iter->decl->parent = st->iter;
       st->iter->es1 = sem_statement (ast->children[1]);
       st->iter->es1->parent = st->iter;
       st->iter->stmt = sem_statement (ast->children[2]);
@@ -236,7 +238,9 @@ sem_stmt_iter (statement_t * st, ast_node_t * ast)
   else if (ast->func_ptr == iteration_statement_6)
     {
       st->iter->kind = ITER_FOR_4;
-      // TODO st->iter->decl = sem_declaration (ast->children[0]);
+      st->iter->decl = sem_declaration (ast->children[0]);
+      st->iter->decl->parent_kind = PARENT_ITER_STMT;
+      st->iter->decl->parent = st->iter;
       st->iter->es1 = sem_statement (ast->children[1]);
       st->iter->es1->parent = st->iter;
       // TODO st->iter->expr = sem_expression (ast->children[2]);
