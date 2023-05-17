@@ -6,24 +6,29 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ast.h"
-#include "nonterms.h"
 #include "decl_specs.h"
+#include "sem_t.h"
+#include "ast.h"
+
+#if 0
 #include "cond_expr.h"
 #include "struct_union_spec.h"
+#endif
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
 
-static void sem_stg_class_spec (decl_specs_t * ds, ast_node_t * ast);
-static void sem_type_spec (decl_specs_t * ds, ast_node_t * ast);
-static void sem_type_qual (decl_specs_t * ds, ast_node_t * ast);
-static void sem_func_spec (decl_specs_t * ds, ast_node_t * ast);
+static void sem_stg_class_spec (stg_class_spec_t * ds, ast_node_t * ast);
+static void sem_type_spec (type_spec_t * ptr, ast_node_t * ast);
+static void sem_type_qual (type_qual_t * ptr, ast_node_t * ast);
+static void sem_func_spec (func_spec_t * ptr, ast_node_t * ast);
+#if 0
 static void sem_atomic_spec (decl_specs_t * ds, ast_node_t * ast);
 static void sem_enum_spec (decl_specs_t * ds, ast_node_t * ast);
 static void sem_enum_list (enum_t * et, ast_node_t * ast);
 static enum_const_t *sem_enum_const (ast_node_t * ast);
+#endif
 
 decl_specs_t *
 sem_decl_specs (ast_node_t * ast)
@@ -34,20 +39,23 @@ sem_decl_specs (ast_node_t * ast)
 
   decl_specs_t *ds = calloc (1, sizeof (decl_specs_t));
   assert (ds != NULL);
+  ds->node = ast;
+  ds->type_spec = calloc (1, sizeof (type_spec_t));
+  assert (ds->type_spec != NULL);
 
-  /* we're going to ignore alignment specifiers */
+  /* NOTE we're going to ignore alignment specifiers */
 
   ast_node_t *ptr = ast->children[0];
   while (1)
     {
       if (IS_STORAGE_CLASS_SPEC (ptr->func_ptr))
-        sem_stg_class_spec (ds, ptr);
+        sem_stg_class_spec (&ds->stg_class_specs, ptr);
       else if (IS_TYPE_SPEC (ptr->func_ptr))
-        sem_type_spec (ds, ptr);
+        sem_type_spec (ds->type_spec, ptr);
       else if (IS_TYPE_QUAL (ptr->func_ptr))
-        sem_type_qual (ds, ptr);
+        sem_type_qual (&ds->type_quals, ptr);
       else if (IS_FUNCTION_SPEC (ptr->func_ptr))
-        sem_func_spec (ds, ptr);
+        sem_func_spec (&ds->func_specs, ptr);
       if (ptr->parent->n_children == 2)
         ptr = ptr->parent->children[1]->children[0];
       else
@@ -58,102 +66,105 @@ sem_decl_specs (ast_node_t * ast)
 }
 
 static void
-sem_stg_class_spec (decl_specs_t * ds, ast_node_t * ast)
+sem_stg_class_spec (stg_class_spec_t * ptr, ast_node_t * ast)
 {
-  assert (ds != NULL);
+  assert (ptr != NULL);
   assert (ast != NULL);
   assert (IS_STORAGE_CLASS_SPEC (ast->func_ptr));
 
   switch (ast->token)
     {
     case TYPEDEF:
-      ds->stg_class.n_typedef++;
+      ptr->n_typedef++;
       break;
 
     case EXTERN:
-      ds->stg_class.n_extern++;
+      ptr->n_extern++;
       break;
 
     case STATIC:
-      ds->stg_class.n_static++;
+      ptr->n_static++;
       break;
 
     case THREAD_LOCAL:
-      ds->stg_class.n_thread_local++;
+      ptr->n_thread_local++;
       break;
 
     case AUTO:
-      ds->stg_class.n_auto++;
+      ptr->n_auto++;
       break;
 
     case REGISTER:
-      ds->stg_class.n_register++;
+      ptr->n_register++;
       break;
     }
 }
 
 static void
-sem_type_spec (decl_specs_t * ds, ast_node_t * ast)
+sem_type_spec (type_spec_t * ptr, ast_node_t * ast)
 {
-  assert (ds != NULL);
+  assert (ptr != NULL);
   assert (ast != NULL);
   assert (IS_TYPE_SPEC (ast->func_ptr));
 
   switch (ast->token)
     {
     case VOID:
-      ds->type_spec.n_void++;
+      ptr->n_void++;
       break;
 
     case CHAR:
-      ds->type_spec.n_char++;
+      ptr->n_char++;
       break;
 
     case SHORT:
-      ds->type_spec.n_short++;
+      ptr->n_short++;
       break;
 
     case INT:
-      ds->type_spec.n_int++;
+      ptr->n_int++;
       break;
 
     case LONG:
-      ds->type_spec.n_long++;
+      ptr->n_long++;
       break;
 
     case FLOAT:
-      ds->type_spec.n_float++;
+      ptr->n_float++;
       break;
 
     case DOUBLE:
-      ds->type_spec.n_double++;
+      ptr->n_double++;
       break;
 
     case SIGNED:
-      ds->type_spec.n_signed++;
+      ptr->n_signed++;
       break;
 
     case UNSIGNED:
-      ds->type_spec.n_unsigned++;
+      ptr->n_unsigned++;
       break;
 
     case BOOL:
-      ds->type_spec.n_bool++;
+      ptr->n_bool++;
       break;
 
     case COMPLEX:
-      ds->type_spec.n_complex++;
+      ptr->n_complex++;
       break;
 
     case IMAGINARY:
-      ds->type_spec.n_imaginary++;
+      ptr->n_imaginary++;
       break;
 
     case TYPEDEF_NAME:
-      ds->type_spec.n_typedef++;
+      ptr->typedef_name = strdup (ast->data);
+      assert (ptr->typedef_name != NULL);
       break;
 
     default:
+      /* TODO */
+#if 0
       if (ast->func_ptr == type_spec_13)
         sem_atomic_spec (ds, ast);
       else if (ast->func_ptr == type_spec_14)
@@ -172,56 +183,58 @@ sem_type_spec (decl_specs_t * ds, ast_node_t * ast)
           parent->struct_union_specs = ast->children[0]->data;
         }
 #endif
+#endif
       break;
     }
 }
 
 static void
-sem_type_qual (decl_specs_t * ds, ast_node_t * ast)
+sem_type_qual (type_qual_t * ptr, ast_node_t * ast)
 {
-  assert (ds != NULL);
+  assert (ptr != NULL);
   assert (ast != NULL);
   assert (IS_TYPE_QUAL (ast->func_ptr));
 
   switch (ast->token)
     {
     case CONST:
-      ds->type_qual.n_const++;
+      ptr->n_const++;
       break;
 
     case RESTRICT:
-      ds->type_qual.n_restrict++;
+      ptr->n_restrict++;
       break;
 
     case VOLATILE:
-      ds->type_qual.n_volatile++;
+      ptr->n_volatile++;
       break;
 
     case ATOMIC:
-      ds->type_qual.n_atomic++;
+      ptr->n_atomic++;
       break;
     }
 }
 
 static void
-sem_func_spec (decl_specs_t * ds, ast_node_t * ast)
+sem_func_spec (func_spec_t * ptr, ast_node_t * ast)
 {
-  assert (ds != NULL);
+  assert (ptr != NULL);
   assert (ast != NULL);
   assert (IS_FUNCTION_SPEC (ast->func_ptr));
 
   switch (ast->token)
     {
     case INLINE:
-      ds->func_spec.n_inline++;
+      ptr->n_inline++;
       break;
 
     case NORETURN:
-      ds->func_spec.n_noreturn++;
+      ptr->n_noreturn++;
       break;
     }
 }
 
+#if 0
 static void
 sem_atomic_spec (decl_specs_t * ds, ast_node_t * ast)
 {
@@ -295,3 +308,4 @@ sem_enum_const (ast_node_t * ast)
 
   return ec;
 }
+#endif

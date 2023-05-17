@@ -9,11 +9,8 @@
 #include "sem_t.h"
 #include "ast.h"
 #include "compound_stmt.h"
-
-#if 0
 #include "decl_specs.h"
 #include "declarator.h"
-#endif
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -48,9 +45,13 @@ sem_func_def_kr (ast_node_t * ast)
   func_def_t *fd = calloc (1, sizeof (func_def_t));
   assert (fd != NULL);
 
-#if 0
   fd->decl_specs = sem_decl_specs (ast->children[0]);
-  fd->declarator = sem_declarator (ast->children[1]);
+  fd->decl_specs->parent_kind = PARENT_FUNC_DEF;
+  fd->decl_specs->parent = fd;
+  fd->declr = sem_declarator (ast->children[1]);
+  fd->declr->parent_kind = PARENT_DECLARATION;
+  fd->declr->parent = fd;
+#if 0
   fd->decl_list = sem_decl_list (ast->children[2]);
 #endif
   fd->comp_stmt = sem_compound_stmt (ast->children[3]);
@@ -69,11 +70,15 @@ sem_func_def_iso (ast_node_t * ast)
   func_def_t *fd = calloc (1, sizeof (func_def_t));
   assert (fd != NULL);
 
-#if 0
   fd->decl_specs = sem_decl_specs (ast->children[0]);
-  fd->declarator = sem_declarator (ast->children[1]);
-  fd->compound_stmt = sem_compound_stmt (ast->children[2]);
-#endif
+  fd->decl_specs->parent_kind = PARENT_FUNC_DEF;
+  fd->decl_specs->parent = fd;
+  fd->declr = sem_declarator (ast->children[1]);
+  fd->declr = sem_declarator (ast->children[1]);
+  fd->declr->parent_kind = PARENT_DECLARATION;
+  fd->comp_stmt = sem_compound_stmt (ast->children[2]);
+  fd->comp_stmt->parent_kind = PARENT_FUNC_DEF;
+  fd->comp_stmt->parent = fd;
 
   return fd;
 }

@@ -6,18 +6,26 @@
 #include <stdlib.h>
 
 #include "declarator.h"
+#include "sem_t.h"
+#include "ast.h"
+
+#if 0
+
 #include "ast.h"
 #include "nonterms.h"
 #include "dir_declr.h"
+#endif
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
 
+#if 0
 static void sem_pointers (declarator_t * dr, ast_node_t * ast);
 static ast_node_t *find_pointer_child (ast_node_t * ast);
 static type_qual_t find_type_qual_in_pointer (ast_node_t * ast);
 static type_qual_t type_quals_in_pointer (ast_node_t * ast);
+#endif
 
 declarator_t *
 sem_declarator (ast_node_t * ast)
@@ -29,6 +37,7 @@ sem_declarator (ast_node_t * ast)
   declarator_t *dr = calloc (1, sizeof (declarator_t));
   assert (dr != NULL);
 
+#if 0
   dr->n_pointers = 0;
   dr->pointers = NULL;
 
@@ -39,10 +48,12 @@ sem_declarator (ast_node_t * ast)
     }
   else if (ast->func_ptr == declarator_2)
     dr->dir_declr = sem_direct_declarator (ast->children[0]);
+#endif
 
   return dr;
 }
 
+#if 0
 static void
 sem_pointers (declarator_t * dr, ast_node_t * ast)
 {
@@ -137,3 +148,4 @@ type_quals_in_pointer (ast_node_t * ast)
 
   return ret;
 }
+#endif

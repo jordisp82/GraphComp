@@ -43,6 +43,7 @@ typedef enum
     PARENT_JUMP_STMT,
     PARENT_STATEMENT,
     PARENT_EXTERNAL_DECL,
+    PARENT_DECLARATION,
 } parent_kind_t;
 
 struct abstract_dclor;
@@ -214,7 +215,9 @@ typedef struct decl_specs
   type_qual_t type_quals;
   func_spec_t func_specs;
   /* NOTE fuck off alignment specifier [0..N] */
-  ast_node_t *node;             /* parent must be directly a function definition */
+  ast_node_t *node;
+  parent_kind_t parent_kind;
+  void *parent;
 } decl_specs_t;
 
 /*
@@ -248,6 +251,8 @@ typedef struct declarator
   struct pointer *pointer;      /* optional */
   struct direct_dclor *__direct_dclor;  /* mandatory */
   ast_node_t *node;
+  parent_kind_t parent_kind;
+  void *parent;
 } declarator_t;
 
 typedef struct decltion_list
@@ -724,6 +729,7 @@ typedef struct type_spec
   int n_bool;
   int n_complex;
   int n_imaginary;              /* extension */
+  const char *typedef_name;
   /* NOTE fuck off atomic */
   struct struct_union_spec *struct_or_union;
   struct enum_spec *enum_spec;

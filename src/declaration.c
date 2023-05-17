@@ -9,9 +9,9 @@
 #include "declaration.h"
 #include "sem_t.h"
 #include "ast.h"
+#include "decl_specs.h"
 
 #if 0
-#include "decl_specs.h"
 #include "declarator.h"
 #include "ass_expr.h"
 #include "cond_expr.h"
@@ -46,8 +46,11 @@ sem_declaration (ast_node_t * ast)
   declaration_t *decl = calloc (1, sizeof (declaration_t));
   assert (decl != NULL);
 
+  decl->decl_specs = sem_decl_specs (ast->children[0]);
+  decl->decl_specs->parent_kind = PARENT_DECLARATION;
+  decl->decl_specs->parent = decl;
+
   /* TODO
-     decl->decl_specs = sem_decl_specs (ast->children[0]);
      if (ast->func_ptr == declaration_2)
      sem_init_declr_list (decl, ast);
    */
