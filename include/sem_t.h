@@ -44,6 +44,7 @@ typedef enum
     PARENT_STATEMENT,
     PARENT_EXTERNAL_DECL,
     PARENT_DECLARATION,
+    PARENT_DECLTION_LIST,
 } parent_kind_t;
 
 struct abstract_dclor;
@@ -260,6 +261,8 @@ typedef struct decltion_list
   int n_declarations;
   struct declaration **declarations;
   ast_node_t *node;
+  parent_kind_t parent_kind;
+  void *parent;
 } decltion_list_t;
 
 typedef struct designation
@@ -406,11 +409,13 @@ typedef struct func_def
   ast_node_t *node;
 } func_def_t;
 
-struct init_declr
+typedef struct init_declr
 {
   struct declarator *declr;     /* mandatory */
   struct initzer *initzer;      /* optional */
   ast_node_t *node;
+  parent_kind_t parent_kind;
+  void *parent;
 } init_declr_t;
 
 typedef enum

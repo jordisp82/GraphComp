@@ -163,7 +163,6 @@ sem_type_spec (type_spec_t * ptr, ast_node_t * ast)
       break;
 
     default:
-      /* TODO */
 #if 0
       if (ast->func_ptr == type_spec_13)
         sem_atomic_spec (ds, ast);

@@ -21,9 +21,9 @@
 #define NULL ((void*)0)
 #endif
 
-#if 0
 static void sem_init_declr_list (declaration_t * decl, ast_node_t * ast);
 static init_declr_t *sem_init_declr (ast_node_t * ast);
+#if 0
 static initializer_t *sem_initializer (ast_node_t * ast);
 static init_list_t *sem_init_list (ast_node_t * ast);
 static init_block_t *sem_init_block1 (ast_node_t * ast);
@@ -50,41 +50,39 @@ sem_declaration (ast_node_t * ast)
   decl->decl_specs->parent_kind = PARENT_DECLARATION;
   decl->decl_specs->parent = decl;
 
-  /* TODO
-     if (ast->func_ptr == declaration_2)
+   if (ast->func_ptr == declaration_2)
      sem_init_declr_list (decl, ast);
-   */
 
   return decl;
 }
 
-#if 0
 static void
 sem_init_declr_list (declaration_t * decl, ast_node_t * ast)
 {
-  assert (ast != NULL);
   assert (decl != NULL);
+  assert (ast != NULL);
   assert (IS_DECLARATION (ast->func_ptr));
   assert (ast->n_children > 0);
   assert (ast->children != NULL);
 
-  decl->n_ideclrs = 1;
+  decl->n_init_declrs = 1;
   ast_node_t *ptr;
 
   for (ptr = ast->children[0]; ptr->n_children > 1; ptr = ptr->children[0])
-    decl->n_ideclrs++;
+    decl->n_init_declrs++;
 
-  decl->ideclrs = calloc (decl->n_ideclrs, sizeof (init_declr_t *));
-  assert (decl->ideclrs != NULL);
+  decl->init_declrs = calloc (decl->n_init_declrs, sizeof (init_declr_t *));
+  assert (decl->init_declrs != NULL);
 
   for (ptr = ast; IS_INIT_DECLARATOR_LIST (ptr->children[0]->func_ptr);
        ptr = ptr->children[0]);
-  decl->ideclrs[0] = sem_init_declr (ptr->children[0]);
+  decl->init_declrs[0] = sem_init_declr (ptr->children[0]);
+  decl->init_declrs[0]->parent_kind = PARENT_DECLARATION;
+  decl->init_declrs[0]->parent = decl;
   ptr = ptr->parent;
   for (int i = 1; IS_INIT_DECLARATOR (ptr->func_ptr); ptr = ptr->parent, i++)
-    decl->ideclrs[i] = sem_init_declr (ptr->children[1]);
+    decl->init_declrs[i] = sem_init_declr (ptr->children[1]);
 }
-
 
 static init_declr_t *
 sem_init_declr (ast_node_t * ast)
@@ -97,13 +95,16 @@ sem_init_declr (ast_node_t * ast)
   init_declr_t *idr = calloc (1, sizeof (init_declr_t));
   assert (idr != NULL);
 
+#if 0
   idr->declr = sem_declarator (ast->children[0]);
   if (ast->n_children > 1)
     idr->initzr = sem_initializer (ast->children[1]);
+#endif
 
   return idr;
 }
 
+#if 0
 static initializer_t *
 sem_initializer (ast_node_t * ast)
 {
