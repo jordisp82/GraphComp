@@ -3,6 +3,7 @@
 
 #include "cast_expression.h"
 #include "unary_expression.h"
+#include "type_name.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -36,8 +37,8 @@ cast_expression_2 (void *ptr1, void *ptr2)
   buff->cast_kind = CAST_NO;
   buff->tn = ptr1;
   buff->unary_ex = ptr2;
-  buff->unary_ex->parent_kind = NODE_CAST_EXPRESSION;
-  buff->unary_ex->parent = buff;
+  buff->tn->parent_kind = buff->unary_ex->parent_kind = NODE_CAST_EXPRESSION;
+  buff->tn->parent = buff->unary_ex->parent = buff;
 
   return buff;
 }

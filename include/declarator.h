@@ -5,8 +5,6 @@
  * declarator:
  *      pointer direct-declarator       (1)
  *      direct-declarator               (2)
- * 
- * So far, so good.
  */
 
 #include "node_kind_t.h"

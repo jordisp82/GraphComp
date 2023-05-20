@@ -4,6 +4,8 @@
 #include "unary_expression.h"
 #include "unary_operator.h"
 #include "cast_expression.h"
+#include "postfix_expression.h"
+#include "type_name.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -20,6 +22,8 @@ unary_expression_1 (void *ptr)
   buff->kind = NODE_UNARY_EXPRESSION;
   buff->unary_kind = UNARY_POSTFIX;
   buff->pex = ptr;
+  buff->pex->parent_kind = NODE_UNARY_EXPRESSION;
+  buff->pex->parent = buff;
 
   return buff;
 }
@@ -105,6 +109,8 @@ unary_expression_6 (void *ptr)
   buff->kind = NODE_UNARY_EXPRESSION;
   buff->unary_kind = UNARY_SIZEOF2;
   buff->tn = ptr;
+  buff->tn->parent_kind = NODE_UNARY_EXPRESSION;
+  buff->tn->parent = buff;
 
   return buff;
 }
@@ -120,6 +126,8 @@ unary_expression_7 (void *ptr)
   buff->kind = NODE_UNARY_EXPRESSION;
   buff->unary_kind = UNARY_ALIGNOF;
   buff->tn = ptr;
+  buff->tn->parent_kind = NODE_UNARY_EXPRESSION;
+  buff->tn->parent = buff;
 
   return buff;
 }
