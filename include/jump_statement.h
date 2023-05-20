@@ -8,14 +8,10 @@
  *      BREAK ';'                       (3)
  *      RETURN ';'                      (4)
  *      RETURN expression ';'           (5)
- * 
- * No problems here.
  */
 
-typedef enum
-{
-  NODE_JUMP_STATEMENT
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
@@ -25,8 +21,6 @@ typedef enum
   JS_RETURN_VOID,
   JS_RETURN_EXP
 } js_kind_t;
-
-struct expression;
 
 struct jump_statement
 {

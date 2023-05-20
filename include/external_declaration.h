@@ -5,24 +5,14 @@
  * external-declaration:
  *      function-definition     (1)
  *      declaration             (2)
- * 
- * No problems here. We have either the one
- * or the other.
  */
 
-typedef enum
-{
-  NODE_EXTERNAL_DECLARATION,
-  NODE_FUNCTION_DEFINITION,
-  NODE_DECLARATION
-} node_kind_t;
-
-struct function_definition;
-struct declaration;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct external_declaration
 {
-  node_kind_t kind;             // NODE_EXTERNAL_DECLARATION
+  node_kind_t kind;
   node_kind_t child_kind;
   union
   {

@@ -11,10 +11,8 @@
  * This is NOT a list.
  */
 
-typedef enum
-{
-  NODE_POINTER
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
@@ -23,8 +21,6 @@ typedef enum
   PTR_PTR,
   PTR_EMPTY
 } pointer_kind_t;
-
-struct type_qualifier_list;
 
 struct pointer
 {

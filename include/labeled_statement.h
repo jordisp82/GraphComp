@@ -6,14 +6,10 @@
  *      IDENTIFIER ':' statement        (1)
  *      CASE constant-expression ':' statement      (2)
  *      DEFAULT ':' statement           (3)
- * 
- * No problems here.
  */
 
-typedef enum
-{
-  NODE_LABELED_STATEMENT
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
@@ -21,9 +17,6 @@ typedef enum
   LABEL_CASE,
   LABEL_DEFAULT
 } ls_kind_t;
-
-struct statement;
-struct constant_expression;
 
 struct labeled_statement
 {

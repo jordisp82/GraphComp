@@ -6,14 +6,10 @@
  *      IF '(' expression ')' statement ELSE statement      (1)
  *      IF '(' expression ')' statement                     (2)
  *      SWITCH '(' expression ')' statement                 (3)
- * 
- * No problems here.
  */
 
-typedef enum
-{
-  NODE_SELECTION_STATEMENT
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
@@ -21,9 +17,6 @@ typedef enum
   SS_IF,
   SS_SWITCH
 } ss_kind_t;
-
-struct expression;
-struct statement;
 
 struct selection_statement
 {

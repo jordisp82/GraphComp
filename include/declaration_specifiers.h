@@ -17,21 +17,8 @@
  * We'll do as it it were a list, but with several kinds of elements.
  */
 
-typedef enum
-{
-  NODE_DECLARATION_SPECIFIERS,
-  NODE_STORAGE_CLASS_SPECIFIER,
-  NODE_TYPE_SPECIFIER,
-  NODE_TYPE_QUALIFIER,
-  NODE_FUNCTION_SPECIFIER,
-  NODE_ALIGNMENT_SPECIFIER
-} node_kind_t;
-
-struct storage_class_specifier;
-struct type_specifier;
-struct type_qualifier;
-struct function_specifier;
-struct alignment_specifier;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct declaration_specifiers
 {

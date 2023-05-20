@@ -7,10 +7,7 @@
  *      NORETURN    (2)
  */
 
-typedef enum
-{
-  NODE_FUNCTION_SPECIFIER
-} node_kind_t;
+#include "node_kind_t.h"
 
 typedef enum
 {

@@ -9,14 +9,10 @@
  *      FOR '(' expression-statement expression-statement expression ')' statement      (4)
  *      FOR '(' declaration expression-statement ')' statement              (5)
  *      FOR '(' declaration expression-statement expression ')' statement       (6)
- * 
- * No problems here.
  */
 
-typedef enum
-{
-  NODE_ITERATION_STATEMENT
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
@@ -27,11 +23,6 @@ typedef enum
   IS_FOR_DECL_ES,
   IS_FOR_DECL_ES_EX
 } is_kind_t;
-
-struct expression;
-struct expression_statement;
-struct statement;
-struct declaration;
 
 struct iteration_statement
 {

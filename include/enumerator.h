@@ -7,19 +7,14 @@
  *      enumeration-constant        (2)
  */
 
-typedef enum
-{
-  NODE_ENUMERATOR
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
   ENUM_WITH_CONST_EXPR,
   ENUM_NO_CONST_EXPR
 } enum_kind_t;
-
-struct enumeration_constant;
-struct constant_expression;
 
 struct enumerator
 {

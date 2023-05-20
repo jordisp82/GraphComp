@@ -10,10 +10,8 @@
  * This is not a list.
  */
 
-typedef enum
-{
-  NODE_PARAMETER_DECLARATION
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
@@ -21,11 +19,6 @@ typedef enum
   PD_DS_ABS_DECLR,
   PD_DS
 } pd_kind_t;
-
-struct declaration_specifiers;
-struct declarator;
-struct abstract_declarator;
-struct declaration_specifiers;
 
 struct parameter_declaration
 {

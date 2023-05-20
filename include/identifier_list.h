@@ -9,10 +9,7 @@
  * As the other lists.
  */
 
-typedef enum
-{
-  NODE_IDENTIFIER_LIST
-} node_kind_t;
+#include "node_kind_t.h"
 
 struct identifier_list
 {

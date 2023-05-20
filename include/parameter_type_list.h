@@ -7,12 +7,8 @@
  *      parameter-list                  (2)
  */
 
-typedef enum
-{
-  NODE_PARAMETER_TYPE_LIST
-} node_kind_t;
-
-struct parameter_list;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct parameter_type_list
 {

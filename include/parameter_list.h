@@ -5,16 +5,10 @@
  * parameter-list:
  *      parameter-declaration       (1)
  *      parameter-list ',' parameter-declaration        (2)
- * 
- * This is a list.
  */
 
-typedef enum
-{
-  NODE_PARAMETER_LIST
-} node_kind_t;
-
-struct parameter_declaration;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct parameter_list
 {

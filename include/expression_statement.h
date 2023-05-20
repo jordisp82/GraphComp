@@ -9,18 +9,14 @@
  * No problems here.
  */
 
-typedef enum
-{
-  NODE_EXPRESSION_STATEMENT
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
   ES_EMPTY,
   ES_EXPRESSION
 } es_kind_t;
-
-struct expression;
 
 struct expression_statement
 {

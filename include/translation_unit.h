@@ -13,16 +13,12 @@
  * translation unit and 50 nodes of external declarations.
  */
 
-typedef enum
-{
-  NODE_TRANSLATION_UNIT
-} node_kind_t;
-
-struct external_declaration;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct translation_unit
 {
-  node_kind_t kind;             // NODE_TRANSLATION_UNIT
+  node_kind_t kind;
   struct tu_node
   {
     struct external_declaration *ed;

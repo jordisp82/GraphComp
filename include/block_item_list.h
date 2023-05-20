@@ -5,21 +5,14 @@
  * block-item-list:
  *      block-item      (1)
  *      block-item-list block-item      (2)
- * 
- * We're going to apply the same technique
- * as in the case of the translation-unit
  */
 
-typedef enum
-{
-  NODE_BLOCK_ITEM_LIST
-} node_kind_t;
-
-struct block_item;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct block_item_list
 {
-  node_kind_t kind;             // NODE_BLOCK_ITEM_LIST
+  node_kind_t kind;
   struct bil_node
   {
     struct block_item *block_item;

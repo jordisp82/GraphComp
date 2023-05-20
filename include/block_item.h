@@ -5,23 +5,14 @@
  * block-item:
  *      declaration     (1)
  *      statement       (2)
- * 
- * No problems here.
  */
 
-typedef enum
-{
-  NODE_BLOCK_ITEM,
-  NODE_DECLARATION,
-  NODE_STATEMENT
-} node_kind_t;
-
-struct declaration;
-struct statement;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct block_item
 {
-  node_kind_t kind;             // NODE_BLOCK_ITEM
+  node_kind_t kind;
   node_kind_t child_kind;
   union
   {

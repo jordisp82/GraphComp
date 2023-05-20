@@ -6,12 +6,8 @@
  *      ATOMIC '(' type-name ')'
  */
 
-typedef enum
-{
-  NODE_ATOMIC_TYPE_SPECIFIER
-} node_kind_t;
-
-struct type_name;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct atomic_type_specifier
 {

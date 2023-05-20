@@ -10,12 +10,8 @@
  * block-item-list.
  */
 
-typedef enum
-{
-  NODE_DECLARATION_LIST
-} node_kind_t;
-
-struct declaration;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct declaration_list
 {

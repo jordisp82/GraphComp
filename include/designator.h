@@ -9,18 +9,14 @@
  * No problems here.
  */
 
-typedef enum
-{
-  NODE_DESIGNATOR
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
   DESIGNATOR_ARRAY,
   DESIGNATOR_FIELD
 } designator_kind_t;
-
-struct constant_expression;
 
 struct designator
 {

@@ -9,12 +9,8 @@
  * We'll do as in the declaration-list and so on.
  */
 
-typedef enum
-{
-  NODE_DESIGNATOR_LIST
-} node_kind_t;
-
-struct designator;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct designator_list
 {

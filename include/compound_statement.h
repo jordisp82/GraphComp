@@ -12,19 +12,14 @@
  * in the same way as a translation unit.
  */
 
-typedef enum
-{
-  NODE_COMPOUND_STATEMENT,
-  NODE_BLOCK_ITEM_LIST
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
   CS_EMPTY,
   CS_BLOCK_ITEM_LIST
 } cs_kind_t;
-
-struct block_item_list;
 
 struct compound_statement
 {

@@ -7,25 +7,16 @@
  *      initializer             (2)
  *      initializer-list ',' designation initializer        (3)
  *      initializer-list ',' initializer        (4)
- * 
- * A somewhat more complicated list.
  */
 
-typedef enum
-{
-  NODE_INITIALIZER_LIST,
-  NODE_DESIGNATION,
-  NODE_INITIALIZER
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
   IL_D_I,
   IL_I
 } il_node_kind_t;
-
-struct designation;
-struct initializer;
 
 struct initializer_list
 {

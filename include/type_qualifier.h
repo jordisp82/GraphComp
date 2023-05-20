@@ -9,10 +9,7 @@
  *      ATOMIC      (4)
  */
 
-typedef enum
-{
-  NODE_TYPE_QUALIFIER
-} node_kind_t;
+#include "node_kind_t.h"
 
 typedef enum
 {

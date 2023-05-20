@@ -9,19 +9,14 @@
  * So far, so good.
  */
 
-typedef enum
-{
-  NODE_DECLARATOR
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
   DCLR_WITH_POINTER,
   DCLR_NO_POINTER
 } dclr_kind_t;
-
-struct pointer;
-struct direct_declarator;
 
 struct declarator
 {

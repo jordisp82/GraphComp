@@ -9,27 +9,10 @@
  *      selection-statement         (4)
  *      iteration-statement         (5)
  *      jump-statement              (6)
- * 
- * No problems here.
  */
 
-typedef enum
-{
-  NODE_STATEMENT,
-  NODE_LABELED_STATEMENT,
-  NODE_COMPOUND_STATEMENT,
-  NODE_EXPRESSION_STATEMENT,
-  NODE_SELECTION_STATEMENT,
-  NODE_ITERATION_STATEMENT,
-  NODE_JUMP_STATEMENT
-} node_kind_t;
-
-struct labeled_statement;
-struct compound_statement;
-struct expression_statement;
-struct selection_statement;
-struct iteration_statement;
-struct jump_statement;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct statement
 {

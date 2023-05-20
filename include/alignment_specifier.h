@@ -5,23 +5,16 @@
  * alignment-specifier:
  *      ALIGNAS '(' type-name ')'       (1)
  *      ALIGNAS '(' constant-expression ')'     (2)
- * 
- * No problem.
  */
 
-typedef enum
-{
-  NODE_ALIGNMENT_SPECIFIER
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
   ALIGN_TYPE_NAME,
   ALIGN_CONST_EXPR
 } align_kind_t;
-
-struct type_name;
-struct constant_expression;
 
 struct alignment_specifier
 {

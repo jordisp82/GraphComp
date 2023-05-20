@@ -8,12 +8,8 @@
  * Trivial.
  */
 
-typedef enum
-{
-  NODE_DESIGNATION
-} node_kind_t;
-
-struct designator_list;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct designation
 {

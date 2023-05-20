@@ -5,16 +5,10 @@
  * type-qualifier-list:
  *      type-qualifier          (1)
  *      type-qualifier-list type-qualifier      (2)
- * 
- * This is a list.
  */
 
-typedef enum
-{
-  NODE_TYPE_QUALIFIER_LIST
-} node_kind_t;
-
-struct type_qualifier;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct type_qualifier_list
 {

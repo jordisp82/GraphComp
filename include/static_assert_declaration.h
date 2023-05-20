@@ -4,16 +4,10 @@
 /**
  * static_assert-declaration:
  *      STATIC_ASSERT '(' constant-expression ',' STRING_LITERAL ')' ';'
- * 
- * No problems here.
  */
 
-typedef enum
-{
-  NODE_STATIC_ASSERT_DECLARATION
-} node_kind_t;
-
-struct constant_expression;
+#include "node_kind_t.h"
+#include "structs.h"
 
 struct static_assert_declaration
 {

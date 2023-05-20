@@ -6,23 +6,16 @@
  *      '{' initializer-list '}'        (1)
  *      '{' initializer-list ',' '}'    (2)
  *      assignment-expression           (3)
- * 
- * No problems here.
  */
 
-typedef enum
-{
-  NODE_INITIALIZER
-} node_kind_t;
+#include "node_kind_t.h"
+#include "structs.h"
 
 typedef enum
 {
   IN_LIST,
   IN_ASS_EXPR
 } in_kind_t;
-
-struct initializer_list;
-struct assignment_expression;
 
 struct initializer
 {
