@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "designator_list.h"
+#include "designator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -19,10 +20,8 @@ designator_list_1 (void *ptr)
   assert (buff->first != NULL);
   buff->last = buff->first;
   buff->first->ds = ptr;
-#if 0
   buff->first->ds->parent_kind = NODE_DESIGNATOR_LIST;
   buff->first->ds->parent = buff;
-#endif
 
   return buff;
 }
@@ -40,10 +39,8 @@ designator_list_2 (void *ptr1, void *ptr2)
   assert (buff->last->next != NULL);
   buff->last = buff->last->next;
   buff->last->ds = ds;
-#if 0
   ds->parent_kind = NODE_DESIGNATOR_LIST;
   ds->parent = buff;
-#endif
 
   return buff;
 }

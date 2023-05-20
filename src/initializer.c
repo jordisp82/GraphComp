@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "initializer.h"
+#include "initializer_list.h"
+#include "assignment_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -17,10 +19,8 @@ initializer_1 (void *ptr)
   buff->kind = NODE_INITIALIZER;
   buff->child_kind = IN_LIST;
   buff->il = ptr;
-#if 0
   buff->il->parent_kind = NODE_INITIALIZER;
   buff->il->parent = buff;
-#endif
 
   return buff;
 }
@@ -35,10 +35,8 @@ initializer_2 (void *ptr)
   buff->kind = NODE_INITIALIZER;
   buff->child_kind = IN_LIST;
   buff->il = ptr;
-#if 0
   buff->il->parent_kind = NODE_INITIALIZER;
   buff->il->parent = buff;
-#endif
 
   return buff;
 }
@@ -53,10 +51,8 @@ initializer_3 (void *ptr)
   buff->kind = NODE_INITIALIZER;
   buff->child_kind = IN_ASS_EXPR;
   buff->ae = ptr;
-#if 0
   buff->ae->parent_kind = NODE_INITIALIZER;
   buff->ae->parent = buff;
-#endif
 
   return buff;
 }

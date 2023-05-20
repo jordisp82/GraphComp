@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "initializer_list.h"
+#include "designation.h"
+#include "initializer.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -23,11 +25,9 @@ initializer_list_1 (void *ptr1, void *ptr2)
   buff->first->il_kind = IL_D_I;
   buff->first->d = ptr1;
   buff->first->i = ptr2;
-#if 0
   buff->first->d->parent_kind = buff->first->i->parent_kind =
     NODE_INITIALIZER_LIST;
   buff->first->d->parent = buff->first->i->parent = buff;
-#endif
 
   return buff;
 }
@@ -46,10 +46,8 @@ initializer_list_2 (void *ptr)
   buff->last = buff->first;
   buff->first->il_kind = IL_I;
   buff->first->i = ptr;
-#if 0
   buff->first->i->parent_kind = NODE_INITIALIZER_LIST;
   buff->first->i->parent = buff;
-#endif
 
   return buff;
 }
@@ -71,10 +69,8 @@ initializer_list_3 (void *ptr1, void *ptr2, void *ptr3)
   buff->last->il_kind = IL_D_I;
   buff->last->d = d;
   buff->last->i = i;
-#if 0
   d->parent_kind = i->parent_kind = NODE_INITIALIZER_LIST;
   d->parent = i->parent = buff;
-#endif
 
   return buff;
 }
@@ -93,10 +89,8 @@ initializer_list_4 (void *ptr1, void *ptr2)
   buff->last = buff->last->next;
   buff->last->il_kind = IL_I;
   buff->last->i = i;
-#if 0
   i->parent_kind = NODE_INITIALIZER_LIST;
   i->parent = buff;
-#endif
 
   return buff;
 }

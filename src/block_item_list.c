@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "block_item_list.h"
+#include "block_item.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -19,10 +20,8 @@ block_item_list_1 (void *ptr)
   assert (buff->first != NULL);
   buff->last = buff->first;
   buff->first->block_item = ptr;
-#if 0
   buff->first->block_item->parent_kind = NODE_BLOCK_ITEM_LIST;
   buff->first->block_item->parent = buff;
-#endif
 
   return buff;
 }
@@ -40,10 +39,8 @@ block_item_list_2 (void *ptr1, void *ptr2)
   assert (buff->last->next);
   buff->last = buff->last->next;
   buff->last->block_item = bi;
-#if 0
   bi->parent_kind = NODE_BLOCK_ITEM_LIST;
   bi->parent = buff;
-#endif
 
   return buff;
 }

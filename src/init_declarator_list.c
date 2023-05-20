@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "init_declarator_list.h"
+#include "init_declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -20,10 +21,8 @@ init_declarator_list_1 (void *ptr)
   assert (buff->first != NULL);
   buff->last = buff->first;
   buff->first->id = ptr;
-#if 0
   buff->first->id->parent_kind = NODE_INIT_DECLARATOR_LIST;
   buff->first->id->parent = buff;
-#endif
 
   return buff;
 }
@@ -41,10 +40,8 @@ init_declarator_list_2 (void *ptr1, void *ptr2)
   assert (buff->last->next != NULL);
   buff->last = buff->last->next;
   buff->last->id = id;
-#if 0
   id->parent_kind = NODE_INIT_DECLARATOR_LIST;
   id->parent = buff;
-#endif
 
   return buff;
 }

@@ -2,6 +2,10 @@
 #include <stdlib.h>
 
 #include "iteration_statement.h"
+#include "expression.h"
+#include "statement.h"
+#include "expression_statement.h"
+#include "declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -20,11 +24,9 @@ iteration_statement_1 (void *ptr1, void *ptr2)
   buff->is_kind = IS_WHILE;
   buff->is_while.ex = ptr1;
   buff->is_while.st = ptr2;
-#if 0
   buff->is_while.ex->parent_kind = buff->is_while.st->parent_kind =
     NODE_ITERATION_STATEMENT;
   buff->is_while.ex->parent = buff->is_while.st->parent = buff;
-#endif
 
   return buff;
 }
@@ -42,11 +44,9 @@ iteration_statement_2 (void *ptr1, void *ptr2)
   buff->is_kind = IS_DO;
   buff->is_do.st = ptr1;
   buff->is_do.ex = ptr2;
-#if 0
   buff->is_do.st->parent_kind = buff->is_do.ex->parent_kind =
     NODE_ITERATION_STATEMENT;
   buff->is_do.st->parent = buff->is_do.ex->parent = buff;
-#endif
 
   return buff;
 }
@@ -66,12 +66,10 @@ iteration_statement_3 (void *ptr1, void *ptr2, void *ptr3)
   buff->is_for_es_es.es1 = ptr1;
   buff->is_for_es_es.es2 = ptr2;
   buff->is_for_es_es.st = ptr3;
-#if 0
   buff->is_for_es_es.es1->parent_kind = buff->is_for_es_es.es2->parent_kind =
     buff->is_for_es_es.st->parent_kind = NODE_ITERATION_STATEMENT;
   buff->is_for_es_es.es1->parent = buff->is_for_es_es.es2->parent =
     buff->is_for_es_es.st->parent = buff;
-#endif
 
   return buff;
 }
@@ -93,7 +91,6 @@ iteration_statement_4 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
   buff->is_for_es_es_ex.es2 = ptr2;
   buff->is_for_es_es_ex.ex = ptr3;
   buff->is_for_es_es_ex.st = ptr4;
-#if 0
   buff->is_for_es_es_ex.es1->parent_kind =
     buff->is_for_es_es_ex.es2->parent_kind =
     buff->is_for_es_es_ex.ex->parent_kind =
@@ -101,7 +98,6 @@ iteration_statement_4 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
   buff->is_for_es_es_ex.es1->parent = buff->is_for_es_es_ex.es2->parent =
     buff->is_for_es_es_ex.ex->parent = buff->is_for_es_es_ex.st->parent =
     buff;
-#endif
 
   return buff;
 }
@@ -121,13 +117,11 @@ iteration_statement_5 (void *ptr1, void *ptr2, void *ptr3)
   buff->is_for_decl_es.dl = ptr1;
   buff->is_for_decl_es.es = ptr2;
   buff->is_for_decl_es.st = ptr3;
-#if 0
   buff->is_for_decl_es.dl->parent_kind =
     buff->is_for_decl_es.es->parent_kind =
     buff->is_for_decl_es.st->parent_kind = NODE_ITERATION_STATEMENT;
   buff->is_for_decl_es.dl->parent = buff->is_for_decl_es.es->parent =
     buff->is_for_decl_es.st->parent = buff;
-#endif
 
   return buff;
 }
@@ -149,7 +143,6 @@ iteration_statement_6 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
   buff->is_for_decl_es_ex.es = ptr2;
   buff->is_for_decl_es_ex.ex = ptr3;
   buff->is_for_decl_es_ex.st = ptr4;
-#if 0
   buff->is_for_decl_es_ex.dl->parent_kind =
     buff->is_for_decl_es_ex.es->parent_kind =
     buff->is_for_decl_es_ex.ex->parent_kind =
@@ -157,7 +150,6 @@ iteration_statement_6 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
   buff->is_for_decl_es_ex.dl->parent = buff->is_for_decl_es_ex.es->parent =
     buff->is_for_decl_es_ex.ex->parent = buff->is_for_decl_es_ex.st->parent =
     buff;
-#endif
 
   return buff;
 }

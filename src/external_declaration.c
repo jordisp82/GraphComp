@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "external_declaration.h"
+#include "function_definition.h"
+#include "declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -18,10 +20,8 @@ external_declaration_1 (void *ptr)
   buff->kind = NODE_EXTERNAL_DECLARATION;
   buff->child_kind = NODE_FUNCTION_DEFINITION;
   buff->fd = ptr;
-#if 0
   buff->fd->parent_kind = NODE_EXTERNAL_DECLARATION;
   buff->fd->parent = buff;
-#endif
 
   return buff;
 }
@@ -37,10 +37,8 @@ external_declaration_2 (void *ptr)
   buff->kind = NODE_EXTERNAL_DECLARATION;
   buff->child_kind = NODE_DECLARATION;
   buff->d = ptr;
-#if 0
   buff->d->parent_kind = NODE_EXTERNAL_DECLARATION;
   buff->d->parent = buff;
-#endif
 
   return buff;
 }

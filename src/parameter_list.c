@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "parameter_list.h"
+#include "parameter_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -19,10 +20,8 @@ parameter_list_1 (void *ptr)
   assert (buff->first != NULL);
   buff->last = buff->first;
   buff->first->pd = ptr;
-#if 0
   buff->first->pd->parent_kind = NODE_PARAMETER_LIST;
   buff->first->pd->parent = buff;
-#endif
 
   return buff;
 }
@@ -40,10 +39,8 @@ parameter_list_2 (void *ptr1, void *ptr2)
   assert (buff->last->next != NULL);
   buff->last = buff->last->next;
   buff->last->pd = pd;
-#if 0
   pd->parent_kind = NODE_PARAMETER_LIST;
   pd->parent = buff;
-#endif
 
   return buff;
 }

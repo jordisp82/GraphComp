@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "labeled_statement.h"
+#include "statement.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -22,10 +23,8 @@ labeled_statement_1 (const char *str, void *ptr2)
   buff->id = strdup (str);
   assert (buff->id != NULL);
   buff->s = ptr2;
-#if 0
   buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->s->parent = buff;
-#endif
 
   return buff;
 }
@@ -62,10 +61,8 @@ labeled_statement_3 (void *ptr)
   buff->kind = NODE_LABELED_STATEMENT;
   buff->ls_kind = LABEL_DEFAULT;
   buff->s = ptr;
-#if 0
   buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->s->parent = buff;
-#endif
 
   return buff;
 }

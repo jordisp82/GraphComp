@@ -2,6 +2,10 @@
 #include <stdlib.h>
 
 #include "declaration_specifiers.h"
+#include "storage_class_specifier.h"
+#include "type_qualifier.h"
+#include "function_specifier.h"
+#include "alignment_specifier.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -21,10 +25,8 @@ declaration_specifiers_1 (void *ptr1, void *ptr2)
   buff->last = buff->last->next;
   buff->last->ds_kind = NODE_STORAGE_CLASS_SPECIFIER;
   buff->last->stg = stg;
-#if 0
   stg->parent_kind = NODE_DECLARATION_SPECIFIERS;
   stg->parent = buff;
-#endif
 
   return buff;
 }
@@ -43,10 +45,8 @@ declaration_specifiers_2 (void *ptr)
   buff->last = buff->first;
   buff->first->ds_kind = NODE_STORAGE_CLASS_SPECIFIER;
   buff->first->stg = ptr;
-#if 0
   buff->first->stg->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->stg->parent = buff;
-#endif
 
   return buff;
 }
@@ -109,10 +109,8 @@ declaration_specifiers_5 (void *ptr1, void *ptr2)
   buff->last = buff->last->next;
   buff->last->ds_kind = NODE_TYPE_QUALIFIER;
   buff->last->tq = tq;
-#if 0
   tq->parent_kind = NODE_DECLARATION_SPECIFIERS;
   tq->parent = buff;
-#endif
 
   return buff;
 }
@@ -131,10 +129,8 @@ declaration_specifiers_6 (void *ptr)
   buff->last = buff->first;
   buff->first->ds_kind = NODE_TYPE_QUALIFIER;
   buff->first->tq = ptr;
-#if 0
   buff->first->tq->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->tq->parent = buff;
-#endif
 
   return buff;
 }
@@ -153,10 +149,8 @@ declaration_specifiers_7 (void *ptr1, void *ptr2)
   buff->last = buff->last->next;
   buff->last->ds_kind = NODE_FUNCTION_SPECIFIER;
   buff->last->fs = fs;
-#if 0
   fs->parent_kind = NODE_DECLARATION_SPECIFIERS;
   fs->parent = buff;
-#endif
 
   return buff;
 }
@@ -175,10 +169,8 @@ declaration_specifiers_8 (void *ptr)
   buff->last = buff->first;
   buff->first->ds_kind = NODE_FUNCTION_SPECIFIER;
   buff->first->fs = ptr;
-#if 0
   buff->first->fs->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->fs->parent = buff;
-#endif
 
   return buff;
 }
@@ -197,10 +189,8 @@ declaration_specifiers_9 (void *ptr1, void *ptr2)
   buff->last = buff->last->next;
   buff->last->ds_kind = NODE_ALIGNMENT_SPECIFIER;
   buff->last->as = as;
-#if 0
   as->parent_kind = NODE_DECLARATION_SPECIFIERS;
   as->parent = buff;
-#endif
 
   return buff;
 }
@@ -219,10 +209,8 @@ declaration_specifiers_10 (void *ptr)
   buff->last = buff->first;
   buff->first->ds_kind = NODE_ALIGNMENT_SPECIFIER;
   buff->first->as = ptr;
-#if 0
   buff->first->as->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->as->parent = buff;
-#endif
 
   return buff;
 }

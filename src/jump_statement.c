@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "jump_statement.h"
+#include "expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -66,10 +67,8 @@ jump_statement_5 (void *ptr)
   buff->kind = NODE_JUMP_STATEMENT;
   buff->js_kind = JS_RETURN_EXP;
   buff->exp = ptr;
-#if 0
   buff->exp->parent_kind = NODE_JUMP_STATEMENT;
   buff->exp->parent = buff;
-#endif
 
   return buff;
 }

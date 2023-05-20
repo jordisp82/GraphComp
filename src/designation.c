@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "designation.h"
+#include "designator_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -16,10 +17,8 @@ designation_1 (void *ptr)
   assert (buff != NULL);
   buff->kind = NODE_DESIGNATION;
   buff->dl = ptr;
-#if 0
   buff->dl->parent_kind = NODE_DESIGNATION;
   buff->dl->parent = buff;
-#endif
 
   return buff;
 }

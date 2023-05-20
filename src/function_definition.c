@@ -2,6 +2,10 @@
 #include <stdlib.h>
 
 #include "function_definition.h"
+#include "declaration_specifiers.h"
+#include "declarator.h"
+#include "declaration_list.h"
+#include "compound_statement.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -24,12 +28,10 @@ function_definition_1 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
   buff->dr = ptr2;
   buff->dl = ptr3;
   buff->cs = ptr4;
-#if 0
   buff->ds->parent_kind = buff->dr->parent_kind = buff->dl->parent_kind =
     buff->cs->parent_kind = NODE_FUNCTION_DEFINITION;
   buff->ds->parent = buff->dr->parent = buff->dl->parent = buff->cs->parent =
     buff;
-#endif
 
   return buff;
 }
@@ -48,11 +50,9 @@ function_definition_2 (void *ptr1, void *ptr2, void *ptr3)
   buff->ds = ptr1;
   buff->dr = ptr2;
   buff->cs = ptr3;
-#if 0
   buff->ds->parent_kind = buff->dr->parent_kind = buff->cs->parent_kind =
     NODE_FUNCTION_DEFINITION;
   buff->ds->parent = buff->dr->parent = buff->cs->parent = buff;
-#endif
 
   return buff;
 }

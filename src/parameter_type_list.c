@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "parameter_type_list.h"
+#include "parameter_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -18,10 +19,8 @@ parameter_type_list_1 (void *ptr)
   buff->kind = NODE_PARAMETER_TYPE_LIST;
   buff->pl = ptr;
   buff->ellipsis = 1;
-#if 0
   buff->pl->parent_kind = NODE_PARAMETER_TYPE_LIST;
   buff->pl->parent = buff;
-#endif
 
   return buff;
 }
@@ -37,10 +36,8 @@ parameter_type_list_2 (void *ptr)
   buff->kind = NODE_PARAMETER_TYPE_LIST;
   buff->pl = ptr;
   buff->ellipsis = 0;
-#if 0
   buff->pl->parent_kind = NODE_PARAMETER_TYPE_LIST;
   buff->pl->parent = buff;
-#endif
 
   return buff;
 }

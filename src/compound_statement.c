@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "compound_statement.h"
+#include "block_item_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -30,10 +31,8 @@ compound_statement_2 (void *ptr)
   buff->kind = NODE_COMPOUND_STATEMENT;
   buff->cs_kind = CS_BLOCK_ITEM_LIST;
   buff->bil = ptr;
-#if 0
   buff->bil->parent_kind = NODE_COMPOUND_STATEMENT;
   buff->bil->parent = buff;
-#endif
 
   return buff;
 }

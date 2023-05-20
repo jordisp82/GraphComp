@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "translation_unit.h"
+#include "external_declaration.h"
+#include "function_definition.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -20,10 +22,8 @@ translation_unit_1 (void *ptr)
   assert (buff->first != NULL);
   buff->last = buff->first;
   buff->first->ed = ptr;
-#if 0
   buff->first->ed->parent = buff;
   buff->first->ed->parent_kind = NODE_TRANSLATION_UNIT;
-#endif
 
   return buff;
 }
@@ -41,10 +41,8 @@ translation_unit_2 (void *ptr1, void *ptr2)
   assert (buff->last->next != NULL);
   buff->last = buff->last->next;
   buff->last->ed = ed;
-#if 0
   ed->parent = buff;
   ed->parent_kind = NODE_TRANSLATION_UNIT;
-#endif
 
   return buff;
 }

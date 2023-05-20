@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "enum_specifier.h"
+#include "enumerator_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -17,10 +18,8 @@ enum_specifier_1 (void *ptr)
   assert (buff != NULL);
   buff->kind = NODE_ENUM_SPECIFIER;
   buff->el = ptr;
-#if 0
-  buff->el->parent_node = NODE_ENUM_SPECIFIER;
+  buff->el->parent_kind = NODE_ENUM_SPECIFIER;
   buff->el->parent = buff;
-#endif
 
   return buff;
 }
@@ -34,10 +33,8 @@ enum_specifier_2 (void *ptr)
   assert (buff != NULL);
   buff->kind = NODE_ENUM_SPECIFIER;
   buff->el = ptr;
-#if 0
-  buff->el->parent_node = NODE_ENUM_SPECIFIER;
+  buff->el->parent_kind = NODE_ENUM_SPECIFIER;
   buff->el->parent = buff;
-#endif
 
   return buff;
 }
@@ -53,10 +50,8 @@ enum_specifier_3 (const char *str, void *ptr2)
   buff->kind = NODE_ENUM_SPECIFIER;
   buff->tag = strdup (str);
   buff->el = ptr2;
-#if 0
-  buff->el->parent_node = NODE_ENUM_SPECIFIER;
+  buff->el->parent_kind = NODE_ENUM_SPECIFIER;
   buff->el->parent = buff;
-#endif
 
   return buff;
 }
@@ -72,10 +67,8 @@ enum_specifier_4 (const char *str, void *ptr2)
   buff->kind = NODE_ENUM_SPECIFIER;
   buff->tag = strdup (str);
   buff->el = ptr2;
-#if 0
-  buff->el->parent_node = NODE_ENUM_SPECIFIER;
+  buff->el->parent_kind = NODE_ENUM_SPECIFIER;
   buff->el->parent = buff;
-#endif
 
   return buff;
 }

@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "parameter_declaration.h"
+#include "declaration_specifiers.h"
+#include "declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -20,10 +22,8 @@ parameter_declaration_1 (void *ptr1, void *ptr2)
   buff->pd_kind = PD_DS_DECLR;
   buff->ds = ptr1;
   buff->dr = ptr2;
-#if 0
   buff->ds->parent_kind = buff->dr->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff->dr->parent = buff;
-#endif
 
   return buff;
 }
@@ -60,10 +60,8 @@ parameter_declaration_3 (void *ptr)
   buff->kind = NODE_PARAMETER_DECLARATION;
   buff->pd_kind = PD_DS;
   buff->ds = ptr;
-#if 0
   buff->ds->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff;
-#endif
 
   return buff;
 }

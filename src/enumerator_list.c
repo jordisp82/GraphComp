@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "enumerator_list.h"
+#include "enumerator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -19,10 +20,8 @@ enumerator_list_1 (void *ptr)
   assert (buff->first != NULL);
   buff->last = buff->first;
   buff->first->en = ptr;
-#if 0
   buff->first->en->parent_kind = NODE_ENUMERATOR_LIST;
   buff->first->en->parent = buff;
-#endif
 
   return buff;
 }
@@ -40,10 +39,8 @@ enumerator_list_2 (void *ptr1, void *ptr2)
   assert (buff->last->next != NULL);
   buff->last = buff->last->next;
   buff->last->en = en;
-#if 0
   en->parent_kind = NODE_ENUMERATOR_LIST;
   en->parent = buff;
-#endif
 
   return buff;
 }

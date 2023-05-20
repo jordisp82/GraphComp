@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "init_declarator.h"
+#include "declarator.h"
+#include "initializer.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -18,10 +20,8 @@ init_declarator_1 (void *ptr1, void *ptr2)
   buff->kind = NODE_INIT_DECLARATOR;
   buff->dclr = ptr1;
   buff->itz = ptr2;
-#if 0
   buff->dclr->parent_kind = buff->itz->parent_kind = NODE_INIT_DECLARATOR;
   buff->dclr->parent = buff->itz->parent = buff;
-#endif
 
   return buff;
 }
@@ -35,10 +35,8 @@ init_declarator_2 (void *ptr)
   assert (buff);
   buff->kind = NODE_INIT_DECLARATOR;
   buff->dclr = ptr;
-#if 0
   buff->dclr->parent_kind = NODE_INIT_DECLARATOR;
   buff->dclr->parent = buff;
-#endif
 
   return buff;
 }

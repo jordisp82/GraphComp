@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "pointer.h"
+#include "type_qualifier_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -19,10 +20,8 @@ pointer_1 (void *ptr1, void *ptr2)
   buff->ptr_kind = PTR_TQ_PTR;
   buff->tql = ptr1;
   buff->ptr = ptr2;
-#if 0
   buff->tql->parent_kind = buff->ptr->parent_kind = NODE_POINTER;
   buff->tql->parent = buff->ptr->parent = buff;
-#endif
 
   return buff;
 }
@@ -37,10 +36,8 @@ pointer_2 (void *ptr)
   buff->kind = NODE_POINTER;
   buff->ptr_kind = PTR_TQ;
   buff->tql = ptr;
-#if 0
   buff->tql->parent_kind = NODE_POINTER;
   buff->tql->parent = buff;
-#endif
 
   return buff;
 }
@@ -55,10 +52,8 @@ pointer_3 (void *ptr)
   buff->kind = NODE_POINTER;
   buff->ptr_kind = PTR_PTR;
   buff->ptr = ptr;
-#if 0
   buff->ptr->parent_kind = NODE_POINTER;
   buff->ptr->parent = buff;
-#endif
 
   return buff;
 }
