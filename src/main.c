@@ -7,7 +7,7 @@
 
 #include "grammar.tab.h"
 #include "ast.h"
-//#include "semantic.h"
+#include "structs.h"
 
 extern FILE *yyin;
 
@@ -21,8 +21,7 @@ main (int argc, char *argv[])
   if (yyin == NULL)
     return -1;
 
-  ast_node_t *ast = NULL;
+  struct translation_unit*ast = NULL;
 
   yyparse ((void **) &ast);
-  //semantic_analysis (ast);
 }
