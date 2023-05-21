@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "atomic_type_specifier.h"
+#include "type_name.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -17,10 +18,8 @@ atomic_type_specifier_1 (void *ptr)
   assert (buff != NULL);
   buff->kind = NODE_ATOMIC_TYPE_SPECIFIER;
   buff->tn = ptr;
-#if 0
   buff->tn->parent_kind = NODE_ATOMIC_TYPE_SPECIFIER;
   buff->tn->parent = buff;
-#endif
 
   return buff;
 }

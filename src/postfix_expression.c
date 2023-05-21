@@ -7,6 +7,7 @@
 #include "argument_expression_list.h"
 #include "type_name.h"
 #include "initializer_list.h"
+#include "primary_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -23,6 +24,8 @@ postfix_expression_1 (void *ptr)
   buff->kind = NODE_POSTFIX_EXPRESSION;
   buff->pf_kind = POSTFIX_PRIMARY;
   buff->pex = ptr;
+  buff->pex->parent_kind = NODE_POSTFIX_EXPRESSION;
+  buff->pex->parent = buff;
 
   return buff;
 }

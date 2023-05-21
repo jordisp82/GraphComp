@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "struct_declarator.h"
+#include "declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -55,10 +56,8 @@ struct_declarator_3 (void *ptr)
   assert (buff != NULL);
   buff->kind = NODE_STRUCT_DECLARATOR;
   buff->dclr = ptr;
-#if 0
   buff->dclr->parent_kind = NODE_STRUCT_DECLARATOR;
   buff->dclr->parent = buff;
-#endif
 
   return buff;
 }

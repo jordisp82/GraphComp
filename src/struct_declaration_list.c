@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "struct_declaration_list.h"
+#include "struct_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -20,10 +21,8 @@ struct_declaration_list_1 (void *ptr)
   assert (buff->first != NULL);
   buff->last = buff->first;
   buff->first->sd = ptr;
-#if 0
   buff->first->sd->parent_kind = NODE_STRUCT_DECLARATION_LIST;
   buff->first->sd->parent = buff;
-#endif
 
   return buff;
 }
@@ -41,10 +40,8 @@ struct_declaration_list_2 (void *ptr1, void *ptr2)
   assert (buff->last->next != NULL);
   buff->last = buff->last->next;
   buff->last->sd = sd;
-#if 0
   sd->parent_kind = NODE_STRUCT_DECLARATION_LIST;
   sd->parent = sd;
-#endif
 
   return buff;
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "additive_expression.h"
+#include "multiplicative_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -18,10 +19,8 @@ additive_expression_1 (void *ptr)
   buff->kind = NODE_ADDITIVE_EXPRESSION;
   buff->add_kind = ADD_NONE;
   buff->mult_ex = ptr;
-#if 0
   buff->mult_ex->parent_kind = NODE_ADDITIVE_EXPRESSION;
   buff->mult_ex->parent = buff;
-#endif
 
   return buff;
 }
@@ -39,11 +38,9 @@ additive_expression_2 (void *ptr1, void *ptr2)
   buff->add_kind = ADD_PLUS;
   buff->add_ex = ptr1;
   buff->mult_ex = ptr2;
-#if 0
   buff->add_ex->parent_kind = buff->mult_ex->parent_kind =
     NODE_ADDITIVE_EXPRESSION;
   buff->add_ex->parent = buff->mult_ex->parent = buff;
-#endif
 
   return buff;
 }
@@ -61,11 +58,9 @@ additive_expression_3 (void *ptr1, void *ptr2)
   buff->add_kind = ADD_MINUS;
   buff->add_ex = ptr1;
   buff->mult_ex = ptr2;
-#if 0
   buff->add_ex->parent_kind = buff->mult_ex->parent_kind =
     NODE_ADDITIVE_EXPRESSION;
   buff->add_ex->parent = buff->mult_ex->parent = buff;
-#endif
 
   return buff;
 }

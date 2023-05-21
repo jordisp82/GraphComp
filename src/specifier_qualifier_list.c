@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "specifier_qualifier_list.h"
+#include "type_qualifier.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -65,10 +66,8 @@ specifier_qualifier_list_3 (void *ptr1, void *ptr2)
   buff->last = buff->last->next;
   buff->last->sq_kind = SQ_TYPE_QUAL;
   buff->last->tq = tq;
-#if 0
   tq->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   tq->parent = buff;
-#endif
 
   return buff;
 }
@@ -87,10 +86,8 @@ specifier_qualifier_list_4 (void *ptr)
   buff->last = buff->first;
   buff->first->sq_kind = SQ_TYPE_QUAL;
   buff->first->tq = ptr;
-#if 0
   buff->first->tq->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   buff->first->tq->parent = buff;
-#endif
 
   return buff;
 }

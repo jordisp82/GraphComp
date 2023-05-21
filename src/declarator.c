@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "declarator.h"
+#include "pointer.h"
+#include "direct_declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -19,10 +21,8 @@ declarator_1 (void *ptr1, void *ptr2)
   buff->dclr_kind = DCLR_WITH_POINTER;
   buff->ptr = ptr1;
   buff->ddclr = ptr2;
-#if 0
   buff->ptr->parent_kind = buff->ddclr->parent_kind = NODE_DECLARATOR;
   buff->ptr->parent = buff->ddclr->parent = buff;
-#endif
 
   return buff;
 }
@@ -37,10 +37,8 @@ declarator_2 (void *ptr)
   buff->kind = NODE_DECLARATOR;
   buff->dclr_kind = DCLR_NO_POINTER;
   buff->ddclr = ptr;
-#if 0
   buff->ddclr->parent_kind = NODE_DECLARATOR;
   buff->ddclr->parent = buff;
-#endif
 
   return buff;
 }

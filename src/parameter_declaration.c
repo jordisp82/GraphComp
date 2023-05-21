@@ -4,6 +4,7 @@
 #include "parameter_declaration.h"
 #include "declaration_specifiers.h"
 #include "declarator.h"
+#include "abstract_declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -41,10 +42,8 @@ parameter_declaration_2 (void *ptr1, void *ptr2)
   buff->pd_kind = PD_DS_ABS_DECLR;
   buff->ds = ptr1;
   buff->adr = ptr2;
-#if 0
   buff->ds->parent_kind = buff->adr->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff->adr->parent = buff;
-#endif
 
   return buff;
 }

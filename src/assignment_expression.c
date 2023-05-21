@@ -3,6 +3,8 @@
 
 #include "assignment_expression.h"
 #include "conditional_expression.h"
+#include "unary_expression.h"
+#include "assignment_operator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -38,11 +40,9 @@ assignment_expression_2 (void *ptr1, void *ptr2, void *ptr3)
   buff->un_expr = ptr1;
   buff->ass_op = ptr2;
   buff->ass_e = ptr3;
-#if 0
   buff->un_expr->parent_kind = buff->ass_op->parent_kind =
     buff->ass_e->parent_kind = NODE_ASSIGNMENT_EXPRESSION;
   buff->un_expr->parent = buff->ass_op->parent = buff->ass_e->parent = buff;
-#endif
 
   return buff;
 }

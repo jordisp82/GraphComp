@@ -2,6 +2,9 @@
 #include <stdlib.h>
 
 #include "struct_declaration.h"
+#include "specifier_qualifier_list.h"
+#include "struct_declarator_list.h"
+#include "static_assert_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -17,10 +20,8 @@ struct_declaration_1 (void *ptr)
   assert (buff != NULL);
   buff->kind = NODE_STRUCT_DECLARATION;
   buff->sql = ptr;
-#if 0
   buff->sql->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sql->parent = buff;
-#endif
 
   return buff;
 }
@@ -37,10 +38,8 @@ struct_declaration_2 (void *ptr1, void *ptr2)
   buff->kind = NODE_STRUCT_DECLARATION;
   buff->sql = ptr1;
   buff->sdl = ptr2;
-#if 0
   buff->sql->parent_kind = buff->sdl->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sql->parent = buff->sdl->parent = buff;
-#endif
 
   return buff;
 }
@@ -55,10 +54,8 @@ struct_declaration_3 (void *ptr)
   assert (buff != NULL);
   buff->kind = NODE_STRUCT_DECLARATION;
   buff->sad = ptr;
-#if 0
   buff->sad->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sad->parent = buff;
-#endif
 
   return buff;
 }

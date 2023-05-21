@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "expression_statement.h"
+#include "expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -28,10 +29,8 @@ expression_statement_2 (void *ptr)
   buff->kind = NODE_EXPRESSION_STATEMENT;
   buff->es_kind = ES_EXPRESSION;
   buff->expr = ptr;
-#if 0
   buff->expr->parent_kind = NODE_EXPRESSION_STATEMENT;
   buff->expr->parent = buff;
-#endif
 
   return buff;
 }
