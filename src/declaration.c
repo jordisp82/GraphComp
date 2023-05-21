@@ -38,6 +38,11 @@ declaration_2 (void *ptr1, void *ptr2)
   buff->idl = ptr2;
   buff->ds->parent_kind = buff->idl->parent_kind = NODE_DECLARATION;
   buff->ds->parent = buff->idl->parent = buff;
+  
+  /* TODO
+   * look for typedef in ptr1
+   * then register it from ptr2
+   */
 
   return buff;
 }

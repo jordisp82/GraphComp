@@ -66,7 +66,7 @@ string
 	;
 
 generic_selection
-	: GENERIC '(' assignment_expression ',' generic_assoc_list ')'     { $$ = generic_selection_1 ($3, $5); }
+	: GENERIC '(' assignment_expression ',' generic_assoc_list ')'     { $$ = NULL; /*generic_selection_1 ($3, $5);*/ }
 	;
 
 generic_assoc_list

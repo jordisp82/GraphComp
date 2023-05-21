@@ -349,11 +349,8 @@ struct unary_operator *unary_operator_4 (void);
 struct unary_operator *unary_operator_5 (void);
 struct unary_operator *unary_operator_6 (void);
 
-#if 0
 int sym_type (const char *str);
 void push_scope (void);
 void pull_scope (void);
-int look_for_typedef (ast_node_t * node);
-#endif
 
 #endif
