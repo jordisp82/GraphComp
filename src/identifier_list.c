@@ -18,7 +18,7 @@ identifier_list_1 (const char *str)
   buff->kind = NODE_IDENTIFIER_LIST;
   buff->first = calloc (1, sizeof (struct idl_node));
   assert (buff->first != NULL);
-  buff->first = buff->last;
+  buff->last = buff->first;
   buff->first->str = strdup (str);
   assert (buff->first->str != NULL);
 
