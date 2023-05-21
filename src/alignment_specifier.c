@@ -3,6 +3,7 @@
 
 #include "alignment_specifier.h"
 #include "type_name.h"
+#include "constant_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -36,10 +37,8 @@ alignment_specifier_2 (void *ptr)
   buff->kind = NODE_ALIGNMENT_SPECIFIER;
   buff->a_kind = ALIGN_CONST_EXPR;
   buff->expr = ptr;
-#if 0
   buff->expr->parent_kind = NODE_ALIGNMENT_SPECIFIER;
   buff->expr->parent = buff;
-#endif
 
   return buff;
 }

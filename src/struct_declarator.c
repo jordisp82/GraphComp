@@ -3,6 +3,7 @@
 
 #include "struct_declarator.h"
 #include "declarator.h"
+#include "constant_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -18,10 +19,8 @@ struct_declarator_1 (void *ptr)
   assert (buff != NULL);
   buff->kind = NODE_STRUCT_DECLARATOR;
   buff->expr = ptr;
-#if 0
   buff->expr->parent_kind = NODE_STRUCT_DECLARATOR;
   buff->expr->parent = buff;
-#endif
 
   return buff;
 }
@@ -38,10 +37,8 @@ struct_declarator_2 (void *ptr1, void *ptr2)
   buff->kind = NODE_STRUCT_DECLARATOR;
   buff->dclr = ptr1;
   buff->expr = ptr2;
-#if 0
   buff->dclr->parent_kind = buff->expr->parent_kind = NODE_STRUCT_DECLARATOR;
   buff->dclr->parent = buff->expr->parent = buff;
-#endif
 
   return buff;
 }

@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "designator.h"
+#include "constant_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -18,10 +19,8 @@ designator_1 (void *ptr)
   buff->kind = NODE_DESIGNATOR;
   buff->d_kind = DESIGNATOR_ARRAY;
   buff->ex = ptr;
-#if 0
   buff->ex->parent_kind = NODE_DESIGNATOR;
   buff->ex->parent = buff;
-#endif
 
   return buff;
 }

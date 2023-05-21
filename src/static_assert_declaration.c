@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "static_assert_declaration.h"
+#include "constant_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -21,10 +22,8 @@ static_assert_declaration_1 (void *ptr1, const char *str)
   buff->expr = ptr1;
   buff->str = strdup (str);
   assert (buff->str != NULL);
-#if 0
   buff->expr->parent_kind = NODE_STATIC_ASSERT_DECLARATION;
   buff->expr->parent = buff;
-#endif
 
   return buff;
 }

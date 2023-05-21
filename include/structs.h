@@ -25,6 +25,7 @@ struct designator;
 struct designator_list;
 struct direct_abstract_declarator;
 struct direct_declarator;
+struct enumeration_constant;
 struct enumerator;
 struct enumerator_list;
 struct enum_specifier;

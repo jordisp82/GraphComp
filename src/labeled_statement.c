@@ -4,6 +4,7 @@
 
 #include "labeled_statement.h"
 #include "statement.h"
+#include "constant_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -42,10 +43,8 @@ labeled_statement_2 (void *ptr1, void *ptr2)
   buff->ls_kind = LABEL_CASE;
   buff->ce = ptr1;
   buff->s = ptr2;
-#if 0
   buff->ce->parent_kind = buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->ce->parent = buff->s->parent = buff;
-#endif
 
   return buff;
 }

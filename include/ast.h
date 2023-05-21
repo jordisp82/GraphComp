@@ -61,6 +61,7 @@ struct conditional_expression *conditional_expression_1 (void *ptr);
 struct conditional_expression *conditional_expression_2 (void *ptr1,
                                                          void *ptr2,
                                                          void *ptr3);
+struct constant_expression *constant_expression_1 (void *ptr);
 struct constant *constant_1 (int value);
 struct constant *constant_2 (double value);
 struct constant *constant_3 (const char *str);
@@ -147,6 +148,7 @@ struct enum_specifier *enum_specifier_2 (void *ptr);
 struct enum_specifier *enum_specifier_3 (const char *str, void *ptr2);
 struct enum_specifier *enum_specifier_4 (const char *str, void *ptr2);
 struct enum_specifier *enum_specifier_5 (const char *str);
+struct enumeration_constant *enumeration_constant_1 (const char *str);
 struct enumerator_list *enumerator_list_1 (void *ptr);
 struct enumerator_list *enumerator_list_2 (void *ptr1, void *ptr2);
 struct enumerator *enumerator_1 (void *ptr1, void *ptr2);

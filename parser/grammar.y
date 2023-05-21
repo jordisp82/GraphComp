@@ -3,7 +3,6 @@ void yyerror(void **, const char *);
 extern int yylex (void);
 #include "ast.h"
 %}
-//%define api.value.type union
 %parse-param {void ** ast}
 %union
 {
@@ -252,22 +251,22 @@ storage_class_specifier
 	;
 
 type_specifier
-	: VOID                     { $$ = type_spec_1 (); }
-	| CHAR                     { $$ = type_spec_2 (); }
-	| SHORT                    { $$ = type_spec_3 (); }
-	| INT                      { $$ = type_spec_4 (); }
-	| LONG                     { $$ = type_spec_5 (); }
-	| FLOAT                    { $$ = type_spec_6 (); }
-	| DOUBLE                   { $$ = type_spec_7 (); }
-	| SIGNED                   { $$ = type_spec_8 (); }
-	| UNSIGNED                 { $$ = type_spec_9 (); }
-	| BOOL                     { $$ = type_spec_10 (); }
-	| COMPLEX                  { $$ = type_spec_11 (); }
-	| IMAGINARY	  	           { $$ = type_spec_12 (); } /* non-mandated extension */
-	| atomic_type_specifier    { $$ = type_spec_13 ($1); }
-	| struct_or_union_specifier    { $$ = type_spec_14 ($1); }
-	| enum_specifier           { $$ = type_spec_15 ($1); }
-	| TYPEDEF_NAME             { $$ = type_spec_16 ($1); }		/* after it has been defined as such */
+	: VOID                     { $$ = type_specifier_1 (); }
+	| CHAR                     { $$ = type_specifier_2 (); }
+	| SHORT                    { $$ = type_specifier_3 (); }
+	| INT                      { $$ = type_specifier_4 (); }
+	| LONG                     { $$ = type_specifier_5 (); }
+	| FLOAT                    { $$ = type_specifier_6 (); }
+	| DOUBLE                   { $$ = type_specifier_7 (); }
+	| SIGNED                   { $$ = type_specifier_8 (); }
+	| UNSIGNED                 { $$ = type_specifier_9 (); }
+	| BOOL                     { $$ = type_specifier_10 (); }
+	| COMPLEX                  { $$ = type_specifier_11 (); }
+	| IMAGINARY	  	           { $$ = type_specifier_12 (); } /* non-mandated extension */
+	| atomic_type_specifier    { $$ = type_specifier_13 ($1); }
+	| struct_or_union_specifier    { $$ = type_specifier_14 ($1); }
+	| enum_specifier           { $$ = type_specifier_15 ($1); }
+	| TYPEDEF_NAME             { $$ = type_specifier_16 ($1); }		/* after it has been defined as such */
 	;
 
 struct_or_union_specifier
