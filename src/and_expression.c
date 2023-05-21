@@ -24,11 +24,10 @@ and_expression_1 (void *ptr)
 }
 
 struct and_expression *
-and_expression_2 (void *ptr1, void *ptr2, void *ptr3)
+and_expression_2 (void *ptr1, void *ptr2)
 {
   assert (ptr1 != NULL);
   assert (ptr2 != NULL);
-  assert (ptr3 != NULL);
 
   struct and_expression *buff = calloc (1, sizeof (struct and_expression));
   assert (buff != NULL);

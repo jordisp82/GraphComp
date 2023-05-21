@@ -41,6 +41,7 @@ struct init_declarator_list;
 struct init_declarator;
 struct initializer;
 struct initializer_list;
+struct iteration_statement;
 struct jump_statement;
 struct labeled_statement;
 struct logical_and_expression;

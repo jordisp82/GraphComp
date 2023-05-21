@@ -25,11 +25,10 @@ logical_and_expression_1 (void *ptr)
 }
 
 struct logical_and_expression *
-logical_and_expression_2 (void *ptr1, void *ptr2, void *ptr3)
+logical_and_expression_2 (void *ptr1, void *ptr2)
 {
   assert (ptr1 != NULL);
   assert (ptr2 != NULL);
-  assert (ptr3 != NULL);
 
   struct logical_and_expression *buff =
     calloc (1, sizeof (struct logical_and_expression));

@@ -6,6 +6,7 @@
 #include "type_qualifier.h"
 #include "function_specifier.h"
 #include "alignment_specifier.h"
+#include "type_specifier.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -65,10 +66,8 @@ declaration_specifiers_3 (void *ptr1, void *ptr2)
   buff->last = buff->last->next;
   buff->last->ds_kind = NODE_TYPE_SPECIFIER;
   buff->last->ts = ts;
-#if 0
   ts->parent_kind = NODE_DECLARATION_SPECIFIERS;
   ts->parent = buff;
-#endif
 
   return buff;
 }
@@ -87,10 +86,8 @@ declaration_specifiers_4 (void *ptr)
   buff->last = buff->first;
   buff->first->ds_kind = NODE_TYPE_SPECIFIER;
   buff->first->ts = ptr;
-#if 0
   buff->first->ts->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->ts->parent = buff;
-#endif
 
   return buff;
 }

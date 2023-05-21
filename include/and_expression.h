@@ -4,7 +4,7 @@
 /**
  * and-expression:
  *      equality-expression           (1)
- *      and-expression '^' equality-expression (2)
+ *      and-expression '&' equality-expression (2)
  */
 
 #include "node_kind_t.h"

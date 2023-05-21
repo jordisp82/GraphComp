@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "alignment_specifier.h"
+#include "type_name.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -18,10 +19,8 @@ alignment_specifier_1 (void *ptr)
   buff->kind = NODE_ALIGNMENT_SPECIFIER;
   buff->a_kind = ALIGN_TYPE_NAME;
   buff->tn = ptr;
-#if 0
   buff->tn->parent_kind = NODE_ALIGNMENT_SPECIFIER;
   buff->tn->parent = buff;
-#endif
 
   return buff;
 }

@@ -25,11 +25,10 @@ inclusive_or_expression_1 (void *ptr)
 }
 
 struct inclusive_or_expression *
-inclusive_or_expression_2 (void *ptr1, void *ptr2, void *ptr3)
+inclusive_or_expression_2 (void *ptr1, void *ptr2)
 {
   assert (ptr1 != NULL);
   assert (ptr2 != NULL);
-  assert (ptr3 != NULL);
 
   struct inclusive_or_expression *buff =
     calloc (1, sizeof (struct inclusive_or_expression));
