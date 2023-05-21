@@ -17,4 +17,6 @@ struct enumeration_constant
   void *parent;
 };
 
+extern void add_enumeration_constant (const char *str);
+
 #endif

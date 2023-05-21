@@ -9,11 +9,21 @@
 
 #include "ast.h"
 #include "grammar.tab.h"
+#include "structs.h"
+#include "declaration_specifiers.h"
+#include "storage_class_specifier.h"
+#include "init_declarator_list.h"
+#include "init_declarator.h"
+#include "declarator.h"
+#include "direct_declarator.h"
 
 ast_id_t ghost1 = { NULL, NULL };
 ast_id_t ghost2 = { NULL, NULL };
 ast_scope_t root_scope = { &ghost1, &ghost2, NULL };
 ast_scope_t *current_scope = &root_scope;
+
+static void add_typedef (const char *str);
+static void register_id_as_typedef (struct direct_declarator *dd);
 
 int
 sym_type (const char *str)
@@ -84,9 +94,8 @@ pull_scope (void)
   free (ptr);
 }
 
-#if 0
-static void
-scope_add_enumeration_constant (const char *str)
+void
+add_enumeration_constant (const char *str)
 {
   assert (str != NULL);
 
@@ -102,7 +111,7 @@ scope_add_enumeration_constant (const char *str)
 }
 
 static void
-scope_add_typedef (const char *str)
+add_typedef (const char *str)
 {
   assert (str != NULL);
 
@@ -118,32 +127,39 @@ scope_add_typedef (const char *str)
 }
 
 int
-look_for_typedef (ast_node_t * node)
+look_for_typedef (struct declaration_specifiers *ds)
 {
-  assert (node != NULL);
-
-  if (IS_STORAGE_CLASS_SPEC (node->func_ptr) && node->token == TYPEDEF)
-    return 1;
-
-  if (node->n_children == 0)
-    return 0;
-
-  for (int i = 0; i < node->n_children; i++)
-    if (look_for_typedef (node->children[i]) == 1)
-      return 1;
+  assert (ds != NULL);
+  
+  struct ds_node *ptr;
+  
+  for (ptr = ds->first; ptr != NULL; ptr = ptr->next)
+      if (ptr->ds_kind == NODE_STORAGE_CLASS_SPECIFIER)
+          if (ptr->stg->value == STG_TYPEDEF)
+              return 1;
 
   return 0;
 }
 
-static void
-register_id_as_typedef (ast_node_t * node)
+void
+register_ids_as_typedef (struct init_declarator_list *idl)
 {
-  assert (node != NULL);
-
-  if (node->func_ptr == direct_declarator_1 && node->token == IDENTIFIER)
-    scope_add_typedef (node->data);
-  else
-    for (int i = 0; i < node->n_children; i++)
-      register_id_as_typedef (node->children[i]);
+    assert (idl != NULL);
+    
+    struct idl_node *ptr;
+    
+    for (ptr = idl->first; ptr != NULL; ptr = ptr->next)
+        register_id_as_typedef (ptr->id->dclr->ddclr);
 }
-#endif
+
+static void register_id_as_typedef (struct direct_declarator *dd)
+{
+    assert (dd != NULL);
+    
+    if (dd->id != NULL)
+        add_typedef (dd->id);
+    else if (dd->declr != NULL)
+        register_id_as_typedef (dd->declr->ddclr);
+    else if (dd->ddeclr != NULL)
+        register_id_as_typedef (dd->ddeclr);
+}

@@ -21,4 +21,7 @@ struct declaration
   void *parent;
 };
 
+int look_for_typedef (struct declaration_specifiers *ds);
+void register_ids_as_typedef (struct init_declarator_list *idl);
+
 #endif
