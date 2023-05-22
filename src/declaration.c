@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "declaration.h"
 #include "declaration_specifiers.h"
@@ -38,9 +39,9 @@ declaration_2 (void *ptr1, void *ptr2)
   buff->idl = ptr2;
   buff->ds->parent_kind = buff->idl->parent_kind = NODE_DECLARATION;
   buff->ds->parent = buff->idl->parent = buff;
-  
+
   if (look_for_typedef (buff->ds) == 1)
-      register_ids_as_typedef (buff->idl);
+    register_ids_as_typedef (buff->idl);
 
   return buff;
 }

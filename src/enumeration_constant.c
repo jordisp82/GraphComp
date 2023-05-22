@@ -19,7 +19,7 @@ enumeration_constant_1 (const char *str)
   buff->kind = NODE_ENUMERATION_CONSTANT;
   buff->str = strdup (str);
   assert (buff->str != NULL);
-  
+
   add_enumeration_constant (str);
 
   return buff;

@@ -20,6 +20,7 @@
 ast_id_t ghost1 = { NULL, NULL };
 ast_id_t ghost2 = { NULL, NULL };
 ast_scope_t root_scope = { &ghost1, &ghost2, NULL };
+
 ast_scope_t *current_scope = &root_scope;
 
 static void add_typedef (const char *str);
@@ -130,13 +131,13 @@ int
 look_for_typedef (struct declaration_specifiers *ds)
 {
   assert (ds != NULL);
-  
+
   struct ds_node *ptr;
-  
+
   for (ptr = ds->first; ptr != NULL; ptr = ptr->next)
-      if (ptr->ds_kind == NODE_STORAGE_CLASS_SPECIFIER)
-          if (ptr->stg->value == STG_TYPEDEF)
-              return 1;
+    if (ptr->ds_kind == NODE_STORAGE_CLASS_SPECIFIER)
+      if (ptr->stg->value == STG_TYPEDEF)
+        return 1;
 
   return 0;
 }
@@ -144,22 +145,23 @@ look_for_typedef (struct declaration_specifiers *ds)
 void
 register_ids_as_typedef (struct init_declarator_list *idl)
 {
-    assert (idl != NULL);
-    
-    struct idl_node *ptr;
-    
-    for (ptr = idl->first; ptr != NULL; ptr = ptr->next)
-        register_id_as_typedef (ptr->id->dclr->ddclr);
+  assert (idl != NULL);
+
+  struct idl_node *ptr;
+
+  for (ptr = idl->first; ptr != NULL; ptr = ptr->next)
+    register_id_as_typedef (ptr->id->dclr->ddclr);
 }
 
-static void register_id_as_typedef (struct direct_declarator *dd)
+static void
+register_id_as_typedef (struct direct_declarator *dd)
 {
-    assert (dd != NULL);
-    
-    if (dd->id != NULL)
-        add_typedef (dd->id);
-    else if (dd->declr != NULL)
-        register_id_as_typedef (dd->declr->ddclr);
-    else if (dd->ddeclr != NULL)
-        register_id_as_typedef (dd->ddeclr);
+  assert (dd != NULL);
+
+  if (dd->id != NULL)
+    add_typedef (dd->id);
+  else if (dd->declr != NULL)
+    register_id_as_typedef (dd->declr->ddclr);
+  else if (dd->ddeclr != NULL)
+    register_id_as_typedef (dd->ddeclr);
 }

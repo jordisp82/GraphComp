@@ -21,7 +21,7 @@ main (int argc, char *argv[])
   if (yyin == NULL)
     return -1;
 
-  struct translation_unit*ast = NULL;
+  struct translation_unit *ast = NULL;
 
   yyparse ((void **) &ast);
 }
