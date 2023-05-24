@@ -6,9 +6,9 @@
 #if 0
 typedef enum
 {
-    NS_LABELS,
-    NS_TAGS,
-    NS_ORDINARY
+  NS_LABELS,
+  NS_TAGS,
+  NS_ORDINARY
 } namespace_t;
 #endif
 
@@ -26,13 +26,13 @@ typedef enum
  * or a function definition, or a label.
  */
 
-struct symbol
+typedef struct symbol
 {
-    const char *name;
-    node_kind_t scope_kind;
-    void *scope;
-    node_kind_t declaration_kind;
-    void *declaration;
-};
+  const char *name;
+  node_kind_t scope_kind;
+  void *scope;
+  node_kind_t declaration_kind;
+  void *declaration;
+} symbol_t;
 
 #endif

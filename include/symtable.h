@@ -2,6 +2,7 @@
 #define SYMTABLE_H
 
 #include "symbol.h"
+#include "avl_tree.h"
 
 /*
  * struct and union fields won't be stored into
@@ -9,15 +10,11 @@
  * definition.
  */
 
-/*
- * TODO replace void * for tree *
- * when the AVL tree is implemented
- */
 struct symtable
 {
-    void *ns_labels;
-    void *ns_tags;
-    void *ns_ordinary;
+  avl_node *ns_labels;
+  avl_node *ns_tags;
+  avl_node *ns_ordinary;
 };
 
 #endif

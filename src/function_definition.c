@@ -1,12 +1,12 @@
 #include <assert.h>
 #include <stdlib.h>
-#include <stdio.h>              // temporarily
 
 #include "function_definition.h"
 #include "declaration_specifiers.h"
 #include "declarator.h"
 #include "declaration_list.h"
 #include "compound_statement.h"
+#include "direct_declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -56,4 +56,26 @@ function_definition_2 (void *ptr1, void *ptr2, void *ptr3)
   buff->ds->parent = buff->dr->parent = buff->cs->parent = buff;
 
   return buff;
+}
+
+const char *
+get_function_definition_name (struct function_definition *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind = NODE_FUNCTION_DEFINITION);
+
+  switch (buff->dr->ddclr->n_prod)
+    {
+    case 12:
+    case 13:
+    case 14:
+      if (buff->dr->ddclr->ddeclr->n_prod == 1)
+        return buff->dr->ddclr->ddeclr->id;
+      break;
+
+    default:
+      return NULL;
+    }
+
+  return NULL;
 }
