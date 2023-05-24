@@ -38,8 +38,6 @@ semantic_analysis (struct translation_unit *buff)
      * analysis for each external declaration.
      */
 
-  buff->symtable = symtable_create ();
-
   for (struct tu_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     sem_external_declaration (ptr->ed);
 }
