@@ -29,5 +29,6 @@ struct declaration
 
 int look_for_typedef (struct declaration_specifiers *ds);
 void register_ids_as_typedef (struct init_declarator_list *idl);
+void sem_declaration (struct declaration *buff);
 
 #endif

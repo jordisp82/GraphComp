@@ -28,6 +28,6 @@ struct function_definition
   void *parent;                 /* void * for now */
 };
 
-const char *get_function_definition_name (struct function_definition *buff);
+void sem_function_definition (struct function_definition *buff);
 
 #endif

@@ -59,4 +59,6 @@ struct type_specifier
   void *parent;
 };
 
+sem_type_specifier (struct type_specifier *buff);
+
 #endif

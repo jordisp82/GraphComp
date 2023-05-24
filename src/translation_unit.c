@@ -4,6 +4,7 @@
 #include "translation_unit.h"
 #include "external_declaration.h"
 #include "function_definition.h"
+#include "external_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -45,4 +46,19 @@ translation_unit_2 (void *ptr1, void *ptr2)
   ed->parent_kind = NODE_TRANSLATION_UNIT;
 
   return buff;
+}
+
+void
+sem_translation_unit (struct translation_unit *buff)
+{
+  assert (buff != NULL);
+
+  /*
+   * TODO creation of the symbol table
+   * associated to the translation unit,
+   * for identifiers with file scope.
+   */
+
+  for (struct tu_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    sem_external_declaration (ptr->ed);
 }

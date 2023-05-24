@@ -205,3 +205,15 @@ type_specifier_16 (const char *str)
 
   return buff;
 }
+
+sem_type_specifier (struct type_specifier *buff)
+{
+  assert (buff != NULL);
+
+  /*
+   * TODO
+   * section 6.7.2.1, clauses 2, 3, 4 and 5
+   * section 6.7.2.2, clause 2
+   * section 6.7.2.3, clauses 1, 2 and 3
+   */
+}

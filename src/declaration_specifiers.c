@@ -211,3 +211,43 @@ declaration_specifiers_10 (void *ptr)
 
   return buff;
 }
+
+void
+sem_declaration_specifiers (struct declaration_specifiers *buff)
+{
+  assert (buff != NULL);
+
+  for (struct ds_node * ptr = buff->first; ptr != NULL; ptr)
+    switch (ptr->ds_kind)
+      {
+      case NODE_STORAGE_CLASS_SPECIFIER:
+        ;
+
+      case NODE_TYPE_SPECIFIER:
+        sem_type_specifier (ptr->ts);
+        break;
+
+      case NODE_TYPE_QUALIFIER:
+        ;
+
+      case NODE_FUNCTION_SPECIFIER:
+        ;
+
+      case NODE_ALIGNMENT_SPECIFIER:
+        ;
+
+      default:
+        ;                       /* BUG! */
+      }
+
+  /*
+   * TODO but we're not done yet!
+   * we need to check all the specifiers
+   * as a whole.
+   */
+
+  /*
+   * TODO section 6.7.1, clauses 2, 3, 4 and 7.
+   * section 6.7.2, clause 2.
+   */
+}

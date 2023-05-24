@@ -23,4 +23,6 @@ struct external_declaration
   void *parent;
 };
 
+void sem_external_declaration (struct external_declaration *buff);
+
 #endif

@@ -26,4 +26,6 @@ struct translation_unit
   } *first, *last;
 };
 
+void sem_translation_unit (struct translation_unit *buff);
+
 #endif

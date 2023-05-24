@@ -60,3 +60,9 @@ declaration_3 (void *ptr)
 
   return buff;
 }
+
+void
+sem_declaration (struct declaration *buff)
+{
+  assert (buff != NULL);
+}

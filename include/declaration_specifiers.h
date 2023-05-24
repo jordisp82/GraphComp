@@ -40,4 +40,6 @@ struct declaration_specifiers
   void *parent;
 };
 
+void sem_declaration_specifiers (struct declaration_specifiers *buff);
+
 #endif
