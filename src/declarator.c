@@ -42,3 +42,11 @@ declarator_2 (void *ptr)
 
   return buff;
 }
+
+symbol_t *
+create_symbol_for_declarator (struct declarator *buff)
+{
+  assert (buff);
+
+  return create_symbol_for_direct_declarator (buff->ddclr);
+}

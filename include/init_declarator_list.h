@@ -9,6 +9,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 struct init_declarator_list
 {
@@ -21,5 +22,8 @@ struct init_declarator_list
   node_kind_t parent_kind;
   void *parent;
 };
+
+int create_symbols_for_init_declarator_list (struct init_declarator_list
+                                             *buff, symbol_t ** syms);
 
 #endif

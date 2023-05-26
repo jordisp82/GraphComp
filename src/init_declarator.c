@@ -40,3 +40,11 @@ init_declarator_2 (void *ptr)
 
   return buff;
 }
+
+symbol_t *
+create_symbol_from_init_declarator (struct init_declarator *buff)
+{
+  assert (buff != NULL);
+
+  return create_symbol_for_declarator (buff->dclr);
+}

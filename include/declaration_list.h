@@ -6,6 +6,9 @@
  *      declaration         (1)
  *      declaration-list declaration        (2)
  * 
+ * parents:
+ *      function-definition (1)
+ * 
  * As in the case of the translation-unit and
  * block-item-list.
  */

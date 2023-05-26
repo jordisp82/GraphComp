@@ -85,3 +85,30 @@ enum_specifier_5 (const char *str)
 
   return buff;
 }
+
+symbol_t *
+create_symbol_from_enum_specifier (struct enum_specifier *buff)
+{
+  assert (buff != NULL);
+
+  if (buff->tag == NULL)
+    return NULL;
+
+  symbol_t *sym = calloc (1, sizeof (symbol_t));
+  assert (sym != NULL);
+
+  sym->name = buff->tag;
+  sym->sym_ns = SYM_NS_TAG;
+  /* the other fields to be filled in by callers */
+
+  return sym;
+}
+
+void
+sem_enum_specifier (struct enum_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ENUM_SPECIFIER);
+
+  /* NOTE to be removed */
+}

@@ -51,7 +51,7 @@ sem_external_declaration (struct external_declaration *buff)
   /*
    * TODO
    * Section 6.9, clauses 2 and 3 (difficult).
-   * Beware clause 5
+   * Beware clause 5.
    */
 
   switch (buff->child_kind)

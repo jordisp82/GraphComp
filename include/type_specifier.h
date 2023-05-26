@@ -23,6 +23,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 typedef enum
 {
@@ -59,6 +60,7 @@ struct type_specifier
   void *parent;
 };
 
-sem_type_specifier (struct type_specifier *buff);
+void sem_type_specifier (struct type_specifier *buff);  /* to be removed */
+symbol_t *create_symbol_from_type_specifier (struct type_specifier *buff);
 
 #endif

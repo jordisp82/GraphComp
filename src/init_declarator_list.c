@@ -45,3 +45,24 @@ init_declarator_list_2 (void *ptr1, void *ptr2)
 
   return buff;
 }
+
+int
+create_symbols_for_init_declarator_list (struct init_declarator_list *buff,
+                                         symbol_t ** syms)
+{
+  assert (buff != NULL);
+  assert (syms != NULL);
+
+  int n = 0;
+  for (struct idl_node * ptr = buff->first; ptr != NULL;
+       n++, ptr = ptr->next);
+
+  *syms = calloc (n, sizeof (symbol_t));
+  assert (*syms != NULL);
+
+  int i = 0;
+  for (struct idl_node * ptr = buff->first; ptr != NULL; i++, ptr = ptr->next)
+    syms[i] = create_symbol_from_init_declarator (ptr->id);
+
+  return n;
+}

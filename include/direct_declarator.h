@@ -17,10 +17,14 @@
  *      direct-declarator '(' parameter-type-list ')'           (12)
  *      direct-declarator '(' ')'           (13)
  *      direct-declarator '(' identifier-list ')'               (14)
+ * 
+ * parents:
+ *      declarator (1), (2)
  */
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 struct direct_declarator
 {
@@ -36,5 +40,8 @@ struct direct_declarator
   node_kind_t parent_kind;
   void *parent;
 };
+
+symbol_t *create_symbol_for_direct_declarator (struct direct_declarator
+                                               *buff);
 
 #endif

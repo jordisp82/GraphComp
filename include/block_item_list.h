@@ -5,6 +5,9 @@
  * block-item-list:
  *      block-item      (1)
  *      block-item-list block-item      (2)
+ * 
+ * parents:
+ *      compount-statement (2)
  */
 
 #include "node_kind_t.h"

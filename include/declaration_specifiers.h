@@ -14,11 +14,17 @@
  *      alignment-specifier declaration-specifiers              (9)
  *      alignment-specifier                 (10)
  * 
+ * parents:
+ *      declaration (1), (2)
+ *      parameter-declaration (1), (2), (3)
+ *      function-definition (1), (2)
+ * 
  * We'll do as it it were a list, but with several kinds of elements.
  */
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 struct declaration_specifiers
 {
@@ -40,6 +46,10 @@ struct declaration_specifiers
   void *parent;
 };
 
-void sem_declaration_specifiers (struct declaration_specifiers *buff);
+void sem_declaration_specifiers (struct declaration_specifiers *buff);  /* to be removed */
+symbol_t *create_symbol_from_declaration_specifiers (struct
+                                                     declaration_specifiers
+                                                     *buff);
+int is_there_typedef (struct declaration_specifiers *buff);
 
 #endif

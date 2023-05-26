@@ -78,7 +78,7 @@ const char *
 get_function_definition_name (struct function_definition *buff)
 {
   assert (buff != NULL);
-  assert (buff->kind = NODE_FUNCTION_DEFINITION);
+  assert (buff->kind == NODE_FUNCTION_DEFINITION);
 
   switch (buff->dr->ddclr->n_prod)
     {

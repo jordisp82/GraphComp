@@ -9,6 +9,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 typedef enum
 {
@@ -25,5 +26,7 @@ struct declarator
   node_kind_t parent_kind;
   void *parent;
 };
+
+symbol_t *create_symbol_for_declarator (struct declarator *buff);
 
 #endif
