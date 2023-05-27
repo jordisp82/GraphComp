@@ -83,6 +83,8 @@ create_symbol_from_sus (struct struct_or_union_specifier *buff)
 
   sym->name = buff->tag;
   sym->sym_ns = SYM_NS_TAG;
+  sym->sus = buff;
+  sym->tag_kind = NODE_STRUCT_OR_UNION_SPECIFIER;
   /* the other fields to be filled in by callers */
 
   return sym;

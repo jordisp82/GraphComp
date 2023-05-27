@@ -26,4 +26,6 @@ struct translation_unit
   } *first, *last;
 };
 
+void TU_symbols (struct translation_unit *buff);
+
 #endif

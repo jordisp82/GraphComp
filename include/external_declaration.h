@@ -23,4 +23,6 @@ struct external_declaration
   void *parent;
 };
 
+void ED_symbols (struct external_declaration *buff);
+
 #endif

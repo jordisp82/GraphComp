@@ -42,3 +42,18 @@ external_declaration_2 (void *ptr)
 
   return buff;
 }
+
+void
+ED_symbols (struct external_declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_EXTERNAL_DECLARATION);
+
+  int n = 0;
+  symbol_t *s1 = NULL, *s2 = NULL, *s3 = NULL;
+
+  if (buff->child_kind == NODE_FUNCTION_DEFINITION)
+    n = create_symbols_for_function_definition (buff->fd, &s1, &s2);
+  else if (buff->child_kind == NODE_DECLARATION)
+    n = create_symbols_from_declaration (buff->d, &s3);
+}

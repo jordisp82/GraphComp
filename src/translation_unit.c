@@ -47,3 +47,13 @@ translation_unit_2 (void *ptr1, void *ptr2)
 
   return buff;
 }
+
+void
+TU_symbols (struct translation_unit *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_TRANSLATION_UNIT);
+
+  for (struct tu_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ED_symbols (ptr->ed);
+}

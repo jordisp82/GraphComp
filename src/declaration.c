@@ -100,8 +100,10 @@ create_symbol_one_for_ds (struct declaration *buff, symbol_t ** syms)
   assert (buff != NULL);
   assert (syms != NULL);
 
+#if 0
   *syms = calloc (1, sizeof (symbol_t));
   assert (*syms != NULL);
+#endif
 
   *syms = create_symbol_from_declaration_specifiers (buff->ds);
   if (*syms == NULL)
@@ -183,7 +185,7 @@ create_symbols_for_list (struct declaration *buff, symbol_t ** syms)
   for (i = 0; i < n; i++)
     {
       create_symbol_adjust_scope (buff, syms[i]);
-      syms[i]->sym_ns = (is_typedef == 1) ? SYM_NS_TYPEDEF : SYM_NS_ORDINARY;
+      //syms[i]->sym_ns = (is_typedef == 1) ? SYM_NS_TYPEDEF : SYM_NS_ORDINARY;
     }
 
   return (extra == NULL) ? n : n + 1;
