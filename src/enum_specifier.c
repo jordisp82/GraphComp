@@ -99,6 +99,8 @@ create_symbol_from_enum_specifier (struct enum_specifier *buff)
 
   sym->name = buff->tag;
   sym->sym_ns = SYM_NS_TAG;
+  sym->tag_kind = NODE_ENUM_SPECIFIER;
+  sym->es = buff;
   /* the other fields to be filled in by callers */
 
   return sym;

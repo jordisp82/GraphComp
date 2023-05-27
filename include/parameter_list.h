@@ -9,6 +9,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 struct parameter_list
 {
@@ -21,5 +22,8 @@ struct parameter_list
   node_kind_t parent_kind;
   void *parent;
 };
+
+int create_symbols_for_param_list (struct parameter_list *buff,
+                                   symbol_t ** sym_pars);
 
 #endif

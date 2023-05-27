@@ -28,5 +28,7 @@ struct declarator
 };
 
 symbol_t *create_symbol_for_declarator (struct declarator *buff);
+int create_symbols_for_parameters (struct declarator *buff,
+                                   symbol_t ** sym_pars);
 
 #endif

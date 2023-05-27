@@ -64,3 +64,24 @@ parameter_declaration_3 (void *ptr)
 
   return buff;
 }
+
+symbol_t *
+create_symbol_for_param_declaration (struct parameter_declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_PARAMETER_DECLARATION);
+
+  /*
+   * Since this function is used to create
+   * a symbol table, we're not interested in
+   * abstract declarators.
+   */
+
+  if (buff->pd_kind != PD_DS_DECLR)
+    return NULL;
+
+  symbol_t *sym = create_symbol_for_declarator (buff->dr);
+  sym->dclr = buff->dr;
+  sym->sym_ns = SYM_NS_ORDINARY;
+  return sym;
+}

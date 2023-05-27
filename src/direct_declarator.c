@@ -13,9 +13,6 @@
 #define NULL ((void*)0)
 #endif
 
-static void create_symbol_set_declarator (struct direct_declarator *buff,
-                                          symbol_t * sym);
-
 struct direct_declarator *
 direct_declarator_1 (const char *str)
 {
@@ -289,7 +286,6 @@ create_symbol_for_direct_declarator (struct direct_declarator *buff)
       symbol_t *sym = calloc (1, sizeof (symbol_t));
       assert (sym != NULL);
       sym->name = buff->id;
-      create_symbol_set_declarator (buff, sym);
       return sym;
     }
   else if (buff->n_prod == 2)
@@ -298,20 +294,19 @@ create_symbol_for_direct_declarator (struct direct_declarator *buff)
     return create_symbol_for_direct_declarator (buff->ddeclr);
 }
 
-static void
-create_symbol_set_declarator (struct direct_declarator *buff, symbol_t * sym)
+int
+create_symbols_for_func_pars (struct direct_declarator *buff,
+                              symbol_t ** sym_pars)
 {
   assert (buff != NULL);
-  assert (sym != NULL);
+  assert (sym_pars != NULL);
+  assert (buff->kind == NODE_DIRECT_DECLARATOR);
 
-  struct direct_declarator *aux = buff;
-  sym->declarator = NULL;
-
-  while (sym->declarator == NULL)
+  if (buff->n_prod != 12)
     {
-      if (aux->parent_kind == NODE_DECLARATOR)
-        sym->declarator = aux->parent;
-      else
-        aux = aux->parent;
+      *sym_pars = NULL;
+      return 0;
     }
+
+  return create_symbols_for_param_tlist (buff->ptl, sym_pars);
 }

@@ -9,6 +9,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 typedef enum
 {
@@ -25,7 +26,16 @@ struct function_definition
   struct declaration_list *dl;  // only non-NULL if fd_kind is FD_K_AND_R */
   struct compound_statement *cs;
   node_kind_t parent_kind;
-  void *parent;                 /* void * for now */
+  void *parent;
 };
+
+/*
+ * sym_fd: symbol for the function itself - at file scope.
+ * sym_pars: symbols for the parameters - at block scope.
+ * return value: how many symbols in sym_pars.
+ */
+int create_symbols_for_function_definition (struct function_definition *buff,
+                                            symbol_t ** sym_fd,
+                                            symbol_t ** sym_pars);
 
 #endif

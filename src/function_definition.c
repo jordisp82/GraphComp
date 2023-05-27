@@ -58,6 +58,30 @@ function_definition_2 (void *ptr1, void *ptr2, void *ptr3)
   return buff;
 }
 
+int
+create_symbols_for_function_definition (struct function_definition *buff,
+                                        symbol_t ** sym_fd,
+                                        symbol_t ** sym_pars)
+{
+  assert (buff != NULL);
+  assert (sym_fd != NULL);
+  assert (sym_pars != NULL);
+  assert (buff->kind == NODE_FUNCTION_DEFINITION);
+
+  *sym_fd = create_symbol_for_declarator (buff->dr);
+  (*sym_fd)->scope = buff->parent;
+  (*sym_fd)->scope_kind = NODE_TRANSLATION_UNIT;
+  int n = create_symbols_for_parameters (buff->dr, sym_pars);
+  for (int i = 0; i < n; i++)
+    if (sym_pars[i] != NULL)
+      {
+        sym_pars[i]->scope = buff->cs;
+        sym_pars[i]->scope_kind = NODE_COMPOUND_STATEMENT;
+      }
+
+  return n;
+}
+
 #if 0
 /* currently unused */
 const char *

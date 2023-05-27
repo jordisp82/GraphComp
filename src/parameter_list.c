@@ -44,3 +44,25 @@ parameter_list_2 (void *ptr1, void *ptr2)
 
   return buff;
 }
+
+int
+create_symbols_for_param_list (struct parameter_list *buff,
+                               symbol_t ** sym_pars)
+{
+  assert (buff != NULL);
+  assert (sym_pars != NULL);
+  assert (buff->kind == NODE_PARAMETER_LIST);
+
+  int n = 0;
+  struct pl_node *ptr;
+  for (ptr = buff->first; ptr != NULL; n++, ptr = ptr->next);
+
+  *sym_pars = calloc (n, sizeof (symbol_t *));
+  assert (sym_pars != NULL);
+
+  int i = 0;
+  for (ptr = buff->first; ptr != NULL; i++, ptr = ptr->next)
+    sym_pars[i] = create_symbol_for_param_declaration (ptr->pd);
+
+  return n;
+}

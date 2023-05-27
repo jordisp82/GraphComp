@@ -41,3 +41,14 @@ parameter_type_list_2 (void *ptr)
 
   return buff;
 }
+
+int
+create_symbols_for_param_tlist (struct parameter_type_list *buff,
+                                symbol_t ** sym_pars)
+{
+  assert (buff != NULL);
+  assert (sym_pars != NULL);
+  assert (buff->kind == NODE_PARAMETER_TYPE_LIST);
+
+  return create_symbols_for_param_list (buff->pl, sym_pars);
+}

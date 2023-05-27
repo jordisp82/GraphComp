@@ -2,6 +2,7 @@
 #define SYMBOL_H
 
 #include "node_kind_t.h"
+#include "structs.h"
 
 /*
  * A name can be declared by a declaration,
@@ -28,9 +29,13 @@ typedef struct symbol
   sym_ns_t sym_ns;
   node_kind_t scope_kind;
   void *scope;
-  node_kind_t declaration_kind;
-  void *declaration;
-  void *declarator;             /* only for SYM_NS_ORDINARY */
+  node_kind_t tag_kind;         /* to distinguish between struct/union and enum */
+  union
+  {
+    struct declarator *dclr;
+    struct struct_or_union_specifier *sus;
+    struct enum_specifier *es;
+  };
 } symbol_t;
 
 #endif

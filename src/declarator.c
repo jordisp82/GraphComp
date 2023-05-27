@@ -47,6 +47,17 @@ symbol_t *
 create_symbol_for_declarator (struct declarator *buff)
 {
   assert (buff);
+  assert (buff->kind == NODE_DECLARATOR);
 
   return create_symbol_for_direct_declarator (buff->ddclr);
+}
+
+int
+create_symbols_for_parameters (struct declarator *buff, symbol_t ** sym_pars)
+{
+  assert (buff != NULL);
+  assert (sym_pars != NULL);
+  assert (buff->kind == NODE_DECLARATOR);
+
+  return create_symbols_for_func_pars (buff->ddclr, sym_pars);
 }

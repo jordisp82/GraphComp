@@ -11,6 +11,7 @@
 #include "block_item_list.h"
 #include "declaration_list.h"
 #include "function_definition.h"
+#include "ast.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -110,8 +111,6 @@ create_symbol_one_for_ds (struct declaration *buff, symbol_t ** syms)
     }
 
   create_symbol_adjust_scope (buff, *syms);
-  (*syms)->declaration_kind = NODE_DECLARATION;
-  (*syms)->declaration = buff;
   return 1;
 }
 
@@ -178,16 +177,12 @@ create_symbols_for_list (struct declaration *buff, symbol_t ** syms)
       *syms = realloc (*syms, (n + 1) * sizeof (symbol_t *));
       assert (*syms != NULL);
       syms[n] = extra;
-      extra->declaration_kind = NODE_DECLARATION;
-      extra->declaration = buff;
       /* sym_ns has already been set */
     }
 
   for (i = 0; i < n; i++)
     {
       create_symbol_adjust_scope (buff, syms[i]);
-      syms[i]->declaration_kind = NODE_DECLARATION;
-      syms[i]->declaration = buff;
       syms[i]->sym_ns = (is_typedef == 1) ? SYM_NS_TYPEDEF : SYM_NS_ORDINARY;
     }
 
