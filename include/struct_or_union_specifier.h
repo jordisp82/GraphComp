@@ -22,7 +22,6 @@ struct struct_or_union_specifier
   void *parent;
 };
 
-void sem_struct_union_specifier (struct struct_or_union_specifier *buff);       /* to be removed */
 symbol_t *create_symbol_from_sus (struct struct_or_union_specifier *buff);
 
 #endif

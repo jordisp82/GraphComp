@@ -23,7 +23,6 @@ struct enum_specifier
   void *parent;
 };
 
-void sem_enum_specifier (struct enum_specifier *buff);  /* to be removed */
 symbol_t *create_symbol_from_enum_specifier (struct enum_specifier *buff);
 
 #endif

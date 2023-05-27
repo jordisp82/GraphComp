@@ -193,10 +193,3 @@ create_symbols_for_list (struct declaration *buff, symbol_t ** syms)
 
   return (extra == NULL) ? n : n + 1;
 }
-
-void
-sem_declaration (struct declaration *buff)
-{
-  assert (buff != NULL);
-  /* NOTE function to be removed */
-}

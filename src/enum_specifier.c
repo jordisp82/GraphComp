@@ -103,12 +103,3 @@ create_symbol_from_enum_specifier (struct enum_specifier *buff)
 
   return sym;
 }
-
-void
-sem_enum_specifier (struct enum_specifier *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_ENUM_SPECIFIER);
-
-  /* NOTE to be removed */
-}

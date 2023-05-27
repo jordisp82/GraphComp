@@ -349,6 +349,8 @@ struct unary_operator *unary_operator_4 (void);
 struct unary_operator *unary_operator_5 (void);
 struct unary_operator *unary_operator_6 (void);
 
+int look_for_typedef (struct declaration_specifiers *ds);
+void register_ids_as_typedef (struct init_declarator_list *idl);
 int sym_type (const char *str);
 void push_scope (void);
 void pull_scope (void);

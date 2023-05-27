@@ -231,31 +231,3 @@ create_symbol_from_type_specifier (struct type_specifier *buff)
       return NULL;
     }
 }
-
-void
-sem_type_specifier (struct type_specifier *buff)
-{
-  assert (buff != NULL);
-
-  /*
-   * NOTE to be removed
-   * TODO
-   * section 6.7.2.1, clauses 2, 3, 4 and 5
-   * section 6.7.2.2, clause 2
-   * section 6.7.2.3, clauses 1, 2 and 3
-   */
-
-  switch (buff->ts_kind)
-    {
-    case TS_STRUCT_UNION:
-      sem_struct_union_specifier (buff->sus);
-      break;
-
-    case TS_ENUM:
-      sem_enum_specifier (buff->es);
-      break;
-
-    default:
-      ;
-    }
-}

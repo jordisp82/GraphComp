@@ -28,9 +28,6 @@ struct declaration
   void *parent;
 };
 
-int look_for_typedef (struct declaration_specifiers *ds);       /* defined in ast.c */
-void register_ids_as_typedef (struct init_declarator_list *idl);        /* defined in ast.c */
-void sem_declaration (struct declaration *buff);        /* to be removed */
 int create_symbols_from_declaration (struct declaration *buff,
                                      symbol_t ** syms);
 

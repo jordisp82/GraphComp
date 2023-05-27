@@ -42,29 +42,3 @@ external_declaration_2 (void *ptr)
 
   return buff;
 }
-
-void
-sem_external_declaration (struct external_declaration *buff)
-{
-  assert (buff != NULL);
-
-  /*
-   * TODO
-   * Section 6.9, clauses 2 and 3 (difficult).
-   * Beware clause 5.
-   */
-
-  switch (buff->child_kind)
-    {
-    case NODE_FUNCTION_DEFINITION:
-      sem_function_definition (buff->fd);
-      break;
-
-    case NODE_DECLARATION:
-      sem_declaration (buff->d);
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
-}

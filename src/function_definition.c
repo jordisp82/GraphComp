@@ -58,22 +58,8 @@ function_definition_2 (void *ptr1, void *ptr2, void *ptr3)
   return buff;
 }
 
-void
-sem_function_definition (struct function_definition *buff)
-{
-  assert (buff != NULL);
-
-  /*
-   * TODO
-   * Section 6.9.1, clauses 2, 3, 4, 5 and 6.
-   * Clause 3 not easy. Clause 5 only for standard
-   * definitions; clause 6 only for K&R definitions.
-   */
-
-  sem_declaration_specifiers (buff->ds);
-  /* TODO buff->dr, buff->dl, buff->cs */
-}
-
+#if 0
+/* currently unused */
 const char *
 get_function_definition_name (struct function_definition *buff)
 {
@@ -95,3 +81,4 @@ get_function_definition_name (struct function_definition *buff)
 
   return NULL;
 }
+#endif

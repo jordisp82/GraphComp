@@ -28,6 +28,4 @@ struct function_definition
   void *parent;                 /* void * for now */
 };
 
-void sem_function_definition (struct function_definition *buff);
-
 #endif

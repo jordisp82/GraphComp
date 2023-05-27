@@ -87,16 +87,3 @@ create_symbol_from_sus (struct struct_or_union_specifier *buff)
 
   return sym;
 }
-
-void
-sem_struct_union_specifier (struct struct_or_union_specifier *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_STRUCT_OR_UNION_SPECIFIER);
-
-  /*
-   * NOTE to be removed
-   * TODO
-   * section 6.7.2.1, clauses 2, 3, 4 and 5
-   */
-}

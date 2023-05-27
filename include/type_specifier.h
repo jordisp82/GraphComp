@@ -60,7 +60,6 @@ struct type_specifier
   void *parent;
 };
 
-void sem_type_specifier (struct type_specifier *buff);  /* to be removed */
 symbol_t *create_symbol_from_type_specifier (struct type_specifier *buff);
 
 #endif
