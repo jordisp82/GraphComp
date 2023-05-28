@@ -15,6 +15,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "avl_tree.h"
 
 struct translation_unit
 {
@@ -24,8 +25,10 @@ struct translation_unit
     struct external_declaration *ed;
     struct tu_node *next;
   } *first, *last;
+  avl_node_t *ordinary;
+  avl_node_t *tags;
 };
 
-void TU_symbols (struct translation_unit *buff);
+void create_symbol_table (struct translation_unit *buff);
 
 #endif

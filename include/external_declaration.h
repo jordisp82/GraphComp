@@ -5,6 +5,9 @@
  * external-declaration:
  *      function-definition     (1)
  *      declaration             (2)
+ * 
+ * parents:
+ *      translation-unit (1), (2)
  */
 
 #include "node_kind_t.h"
@@ -22,7 +25,5 @@ struct external_declaration
   node_kind_t parent_kind;
   void *parent;
 };
-
-void ED_symbols (struct external_declaration *buff);
 
 #endif

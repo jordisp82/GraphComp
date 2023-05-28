@@ -1,10 +1,11 @@
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>              // temp!
 
 #include "translation_unit.h"
 #include "external_declaration.h"
 #include "function_definition.h"
-#include "external_declaration.h"
+#include "declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -49,11 +50,70 @@ translation_unit_2 (void *ptr1, void *ptr2)
 }
 
 void
-TU_symbols (struct translation_unit *buff)
+create_symbol_table (struct translation_unit *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_TRANSLATION_UNIT);
 
+  buff->ordinary = NULL;
+  buff->tags = NULL;
+
   for (struct tu_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    ED_symbols (ptr->ed);
+    switch (ptr->ed->child_kind)
+      {
+      case NODE_FUNCTION_DEFINITION:
+        {
+          /*
+           * TODO els paràmetres s'han d'afegir al compount statement;
+           * si la funció ja està definida -> error;
+           * si la funció ja està declarada, comprovar.
+           */
+          symbol_t *fd_itself;
+          symbol_t **params;
+          (void) create_symbols_for_function_definition (ptr->ed->fd,
+                                                         &fd_itself, &params);
+          free (params);        /* NOTE to be fixed later on */
+          printf ("[%s] Adding '%s', ordinary namespace\n", __func__,
+                  fd_itself->name);
+          if (buff->ordinary == NULL)
+            buff->ordinary = avl_create (fd_itself);
+          else
+            avl_add (buff->ordinary, fd_itself);
+        }
+        break;
+
+      case NODE_DECLARATION:
+        {
+          symbol_t **syms;
+          int n = create_symbols_from_declaration (ptr->ed->d, &syms);
+          for (int i = 0; i < n; i++)
+            switch (syms[i]->sym_ns)
+              {
+              case SYM_NS_ORDINARY:
+                printf ("[%s] Adding '%s', ordinary namespace\n", __func__,
+                        syms[i]->name);
+                if (buff->ordinary == NULL)
+                  buff->ordinary = avl_create (syms[i]);
+                else
+                  avl_add (buff->ordinary, syms[i]);
+                break;
+
+              case SYM_NS_TAG:
+                printf ("[%s] Adding '%s', tag namespace\n", __func__,
+                        syms[i]->name);
+                if (buff->tags == NULL)
+                  buff->tags = avl_create (syms[i]);
+                else
+                  avl_add (buff->tags, syms[i]);
+                break;
+
+              default:
+                ;               /* BUG! */
+              }
+        }
+        break;
+
+      default:
+        ;                       /* BUG! */
+      }
 }

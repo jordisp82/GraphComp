@@ -43,6 +43,7 @@ external_declaration_2 (void *ptr)
   return buff;
 }
 
+#if 0
 void
 ED_symbols (struct external_declaration *buff)
 {
@@ -57,3 +58,4 @@ ED_symbols (struct external_declaration *buff)
   else if (buff->child_kind == NODE_DECLARATION)
     n = create_symbols_from_declaration (buff->d, &s3);
 }
+#endif
