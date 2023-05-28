@@ -24,6 +24,6 @@ struct parameter_list
 };
 
 int create_symbols_for_param_list (struct parameter_list *buff,
-                                   symbol_t ** sym_pars);
+                                   symbol_t *** sym_pars);
 
 #endif

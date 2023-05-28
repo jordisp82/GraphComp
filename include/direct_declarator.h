@@ -44,6 +44,6 @@ struct direct_declarator
 symbol_t *create_symbol_for_direct_declarator (struct direct_declarator
                                                *buff);
 int create_symbols_for_func_pars (struct direct_declarator *buff,
-                                  symbol_t ** sym_pars);
+                                  symbol_t *** sym_pars);
 
 #endif

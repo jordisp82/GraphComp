@@ -36,6 +36,6 @@ struct function_definition
  */
 int create_symbols_for_function_definition (struct function_definition *buff,
                                             symbol_t ** sym_fd,
-                                            symbol_t ** sym_pars);
+                                            symbol_t *** sym_pars);
 
 #endif

@@ -21,6 +21,6 @@ struct parameter_type_list
 };
 
 int create_symbols_for_param_tlist (struct parameter_type_list *buff,
-                                    symbol_t ** sym_pars);
+                                    symbol_t *** sym_pars);
 
 #endif
