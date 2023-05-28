@@ -24,6 +24,6 @@ struct init_declarator_list
 };
 
 int create_symbols_for_init_declarator_list (struct init_declarator_list
-                                             *buff, symbol_t ** syms);
+                                             *buff, symbol_t *** syms);
 
 #endif

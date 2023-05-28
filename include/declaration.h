@@ -29,6 +29,6 @@ struct declaration
 };
 
 int create_symbols_from_declaration (struct declaration *buff,
-                                     symbol_t ** syms);
+                                     symbol_t *** syms);
 
 #endif

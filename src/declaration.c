@@ -18,9 +18,9 @@
 #endif
 
 static int create_symbol_one_for_ds (struct declaration *buff,
-                                     symbol_t ** syms);
+                                     symbol_t *** syms);
 static int create_symbols_for_list (struct declaration *buff,
-                                    symbol_t ** syms);
+                                    symbol_t *** syms);
 static void create_symbol_adjust_scope (struct declaration *buff,
                                         symbol_t * sym);
 
@@ -75,7 +75,7 @@ declaration_3 (void *ptr)
 }
 
 int
-create_symbols_from_declaration (struct declaration *buff, symbol_t ** syms)
+create_symbols_from_declaration (struct declaration *buff, symbol_t *** syms)
 {
   assert (buff != NULL);
   assert (syms != NULL);
@@ -95,24 +95,22 @@ create_symbols_from_declaration (struct declaration *buff, symbol_t ** syms)
 }
 
 static int
-create_symbol_one_for_ds (struct declaration *buff, symbol_t ** syms)
+create_symbol_one_for_ds (struct declaration *buff, symbol_t *** syms)
 {
   assert (buff != NULL);
   assert (syms != NULL);
 
-#if 0
-  *syms = calloc (1, sizeof (symbol_t));
+  *syms = calloc (1, sizeof (symbol_t *));
   assert (*syms != NULL);
-#endif
 
-  *syms = create_symbol_from_declaration_specifiers (buff->ds);
-  if (*syms == NULL)
+  (*syms)[0] = create_symbol_from_declaration_specifiers (buff->ds);
+  if ((*syms)[0] == NULL)
     {
-      free (syms);
+      free (*syms);
       return 0;
     }
 
-  create_symbol_adjust_scope (buff, *syms);
+  create_symbol_adjust_scope (buff, (*syms)[0]);
   return 1;
 }
 
@@ -158,13 +156,14 @@ create_symbol_adjust_scope (struct declaration *buff, symbol_t * sym)
 }
 
 static int
-create_symbols_for_list (struct declaration *buff, symbol_t ** syms)
+create_symbols_for_list (struct declaration *buff, symbol_t *** syms)
 {
   assert (buff != NULL);
   assert (syms != NULL);
 
-  int is_typedef = is_there_typedef (buff->ds);
-  int i = 0, n = create_symbols_for_init_declarator_list (buff->idl, syms);
+  //int is_typedef = is_there_typedef (buff->ds);
+  symbol_t **aux;
+  int i = 0, n = create_symbols_for_init_declarator_list (buff->idl, &aux);
 
   /*
    * Achtung! A declaration may declare two things at once:
@@ -175,18 +174,21 @@ create_symbols_for_list (struct declaration *buff, symbol_t ** syms)
 
   symbol_t *extra = create_symbol_from_declaration_specifiers (buff->ds);
   if (extra != NULL)
-    {
-      *syms = realloc (*syms, (n + 1) * sizeof (symbol_t *));
-      assert (*syms != NULL);
-      syms[n] = extra;
-      /* sym_ns has already been set */
-    }
+    n++;
+  *syms = calloc (n, sizeof (symbol_t *));
+  assert (*syms != NULL);
+  if (extra == NULL)
+    for (int i = 0; i < n; i++)
+      (*syms)[i] = aux[i];
+  else
+    for (int i = 0; i < n - 1; i++)
+      (*syms)[i] = aux[i];
+  if (extra != NULL)
+    (*syms)[n - 1] = extra;
+  free (aux);
 
   for (i = 0; i < n; i++)
-    {
-      create_symbol_adjust_scope (buff, syms[i]);
-      //syms[i]->sym_ns = (is_typedef == 1) ? SYM_NS_TYPEDEF : SYM_NS_ORDINARY;
-    }
+    create_symbol_adjust_scope (buff, (*syms)[i]);
 
-  return (extra == NULL) ? n : n + 1;
+  return n;
 }
