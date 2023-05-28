@@ -14,6 +14,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "avl_tree.h"
 
 typedef enum
 {
@@ -26,8 +27,12 @@ struct compound_statement
   node_kind_t kind;
   cs_kind_t cs_kind;
   struct block_item_list *bil;  /* only for CS_BLOCK_ITEM_LIST */
+  avl_node_t *ordinary;
+  avl_node_t *tags;
   node_kind_t parent_kind;
   void *parent;                 /* void * for now */
 };
+
+void create_symbol_table_cs (struct compound_statement *buff);
 
 #endif

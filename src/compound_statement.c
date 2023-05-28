@@ -3,6 +3,9 @@
 
 #include "compound_statement.h"
 #include "block_item_list.h"
+#include "block_item.h"
+#include "declaration.h"
+#include "statement.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -35,4 +38,48 @@ compound_statement_2 (void *ptr)
   buff->bil->parent = buff;
 
   return buff;
+}
+
+void
+create_symbol_table_cs (struct compound_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_COMPOUND_STATEMENT);
+
+  if (buff->cs_kind == CS_EMPTY)        // buff->bil == NULL
+    return;
+
+  for (struct bil_node * ptr = buff->bil->first; ptr != NULL; ptr = ptr->next)
+    if (ptr->block_item->child_kind == NODE_DECLARATION)
+      {
+        symbol_t **syms = NULL;
+        int n = create_symbols_from_declaration (ptr->block_item->d, &syms);
+        for (int i = 0; i < n; i++)
+          switch (syms[i]->sym_ns)
+            {
+            case SYM_NS_ORDINARY:
+            case SYM_NS_TYPEDEF:
+              if (buff->ordinary == NULL)
+                buff->ordinary = avl_create (syms[i]);
+              else
+                avl_add (buff->ordinary, syms[i]);
+              break;
+
+            case SYM_NS_TAG:
+              if (buff->tags == NULL)
+                buff->tags = avl_create (syms[i]);
+              else
+                avl_add (buff->tags, syms[i]);
+              break;
+
+            default:
+              ;                 /* BUG! */
+            }
+      }
+    else if (ptr->block_item->child_kind == NODE_STATEMENT)
+      {
+        if (ptr->block_item->s->child_kind == NODE_COMPOUND_STATEMENT)
+          create_symbol_table_cs (ptr->block_item->s->cs);
+        /* TODO iteration statement: for */
+      }
 }

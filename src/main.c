@@ -25,5 +25,5 @@ main (int argc, char *argv[])
   struct translation_unit *ast = NULL;
 
   yyparse ((void **) &ast);
-  create_symbol_table (ast);
+  create_symbol_table_file (ast);
 }

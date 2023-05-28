@@ -83,6 +83,24 @@ create_symbols_for_function_definition (struct function_definition *buff,
   return n;
 }
 
+void
+create_symbol_table_fd (struct function_definition *buff, int n,
+                        symbol_t ** sym_pars)
+{
+  assert (buff != NULL);
+  assert (sym_pars != NULL);
+  assert (buff->kind == NODE_FUNCTION_DEFINITION);
+
+  if (n > 0)
+    {
+      buff->cs->ordinary = avl_create (sym_pars[0]);
+      for (int i = 1; i < n; i++)
+        avl_add (buff->cs->ordinary, sym_pars[i]);
+    }
+
+  create_symbol_table_cs (buff->cs);
+}
+
 #if 0
 /* currently unused */
 const char *

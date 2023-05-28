@@ -29,6 +29,6 @@ struct translation_unit
   avl_node_t *tags;
 };
 
-void create_symbol_table (struct translation_unit *buff);
+void create_symbol_table_file (struct translation_unit *buff);
 
 #endif

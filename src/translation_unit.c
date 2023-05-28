@@ -49,8 +49,14 @@ translation_unit_2 (void *ptr1, void *ptr2)
   return buff;
 }
 
+/*
+ * NOTE beware function definitions after a declaration,
+ * or the other way around.
+ * Beware what the standard says about redeclaring things,
+ * especially regarding the linkage.
+ */
 void
-create_symbol_table (struct translation_unit *buff)
+create_symbol_table_file (struct translation_unit *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_TRANSLATION_UNIT);
@@ -63,16 +69,13 @@ create_symbol_table (struct translation_unit *buff)
       {
       case NODE_FUNCTION_DEFINITION:
         {
-          /*
-           * TODO els paràmetres s'han d'afegir al compount statement;
-           * si la funció ja està definida -> error;
-           * si la funció ja està declarada, comprovar.
-           */
           symbol_t *fd_itself;
           symbol_t **params;
-          (void) create_symbols_for_function_definition (ptr->ed->fd,
-                                                         &fd_itself, &params);
-          free (params);        /* NOTE to be fixed later on */
+          int n = create_symbols_for_function_definition (ptr->ed->fd,
+                                                          &fd_itself,
+                                                          &params);
+          create_symbol_table_fd (ptr->ed->fd, n, params);
+          free (params);
           printf ("[%s] Adding '%s', ordinary namespace\n", __func__,
                   fd_itself->name);
           if (buff->ordinary == NULL)
