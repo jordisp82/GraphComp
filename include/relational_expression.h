@@ -8,6 +8,9 @@
  *      relational-expression '>' shift-expression      (3)
  *      relational-expression LE_OP shift-expression    (4)
  *      relational-expression GE_OP shift-expression    (5)
+ * 
+ * parents:
+ *      equality-expression (1)(2)(3)
  */
 
 #include "node_kind_t.h"
@@ -28,8 +31,12 @@ struct relational_expression
   rel_kind_t rel_kind;
   struct shift_expression *sh_ex;
   struct relational_expression *relex;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_rel_expression_scope (struct relational_expression *buff);
 
 #endif

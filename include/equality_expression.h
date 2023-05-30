@@ -6,6 +6,9 @@
  *      relational-expression           (1)
  *      equality-expression EQ_OP relational-expression     (2)
  *      equality-expression NE_OP relational-expression     (3)
+ * 
+ * parents:
+ *      and-expression (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -24,8 +27,12 @@ struct equality_expression
   eq_kind_t eq_kind;
   struct relational_expression *rexp;
   struct equality_expression *eqex;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_equality_expression_scope (struct equality_expression *buff);
 
 #endif

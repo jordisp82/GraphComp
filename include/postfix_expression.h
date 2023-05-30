@@ -13,6 +13,9 @@
  *      postfix-expression DEC_OP                   (8)
  *      '(' type-name ')' '{' initializer-list '}'  (9)
  *      '(' type-name ')' '{' initializer-list ',' '}'          (10)
+ * 
+ * parents:
+ *      unary-expression (1)
  */
 
 #include "node_kind_t.h"
@@ -47,8 +50,12 @@ struct postfix_expression
       struct initializer_list *il;
     } comp_lit;
   };
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_postfix_expression_scope (struct postfix_expression *buff);
 
 #endif

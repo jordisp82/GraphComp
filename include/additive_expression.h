@@ -6,6 +6,9 @@
  *      multiplicative-expression       (1)
  *      additive-expression '+' multiplicative-expression       (2)
  *      additive-expression '-' multiplicative-expression       (3)
+ * 
+ * parents:
+ *      shift-expression (1)(2)(3)
  */
 
 #include "node_kind_t.h"
@@ -24,8 +27,12 @@ struct additive_expression
   add_kind_t add_kind;
   struct multiplicative_expression *mult_ex;
   struct additive_expression *add_ex;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_add_expression_scope (struct additive_expression *buff);
 
 #endif

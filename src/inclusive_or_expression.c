@@ -3,6 +3,7 @@
 
 #include "inclusive_or_expression.h"
 #include "exclusive_or_expression.h"
+#include "logical_and_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -41,4 +42,32 @@ inclusive_or_expression_2 (void *ptr1, void *ptr2)
   buff->or_e->parent = buff->xor_e->parent = buff;
 
   return buff;
+}
+
+void
+set_or_expression_scope (struct inclusive_or_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INCLUSIVE_OR_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_INCLUSIVE_OR_EXPRESSION:
+      set_or_expression_scope (buff->parent);
+      buff->scope =
+        ((struct inclusive_or_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct inclusive_or_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_LOGICAL_AND_EXPRESSION:
+      set_logic_and_expression_scope (buff->parent);
+      buff->scope = ((struct logical_and_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct logical_and_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

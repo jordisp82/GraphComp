@@ -21,8 +21,12 @@ struct block_item_list
     struct block_item *block_item;
     struct bil_node *next;
   } *first, *last;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_block_item_list_scope (struct block_item_list *buff);
 
 #endif

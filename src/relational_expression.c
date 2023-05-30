@@ -3,6 +3,7 @@
 
 #include "relational_expression.h"
 #include "shift_expression.h"
+#include "equality_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -103,4 +104,31 @@ relational_expression_5 (void *ptr1, void *ptr2)
   buff->relex->parent = buff->sh_ex->parent = buff;
 
   return buff;
+}
+
+void
+set_rel_expression_scope (struct relational_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_RELATIONAL_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_RELATIONAL_EXPRESSION:
+      set_rel_expression_scope (buff->parent);
+      buff->scope = ((struct relational_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct relational_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_EQUALITY_EXPRESSION:
+      set_equality_expression_scope (buff->parent);
+      buff->scope = ((struct equality_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct equality_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

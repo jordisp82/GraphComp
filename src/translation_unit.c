@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
-#include <stdio.h>              // temp!
+//#include <stdio.h>              // temp!
 
 #include "translation_unit.h"
 #include "external_declaration.h"
@@ -10,6 +10,11 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void cst_file_fd (struct translation_unit *buff,
+                         struct function_definition *fd);
+static void cst_file_dl (struct translation_unit *buff,
+                         struct declaration *dl);
 
 struct translation_unit *
 translation_unit_1 (void *ptr)
@@ -68,55 +73,80 @@ create_symbol_table_file (struct translation_unit *buff)
     switch (ptr->ed->child_kind)
       {
       case NODE_FUNCTION_DEFINITION:
-        {
-          symbol_t *fd_itself;
-          symbol_t **params;
-          int n = create_symbols_for_function_definition (ptr->ed->fd,
-                                                          &fd_itself,
-                                                          &params);
-          create_symbol_table_fd (ptr->ed->fd, n, params);
-          free (params);
-          printf ("[%s] Adding '%s', ordinary namespace\n", __func__,
-                  fd_itself->name);
-          if (buff->ordinary == NULL)
-            buff->ordinary = avl_create (fd_itself);
-          else
-            avl_add (buff->ordinary, fd_itself);
-        }
+        cst_file_fd (buff, ptr->ed->fd);
         break;
 
       case NODE_DECLARATION:
-        {
-          symbol_t **syms;
-          int n = create_symbols_from_declaration (ptr->ed->d, &syms);
-          for (int i = 0; i < n; i++)
-            switch (syms[i]->sym_ns)
-              {
-              case SYM_NS_ORDINARY:
-                printf ("[%s] Adding '%s', ordinary namespace\n", __func__,
-                        syms[i]->name);
-                if (buff->ordinary == NULL)
-                  buff->ordinary = avl_create (syms[i]);
-                else
-                  avl_add (buff->ordinary, syms[i]);
-                break;
-
-              case SYM_NS_TAG:
-                printf ("[%s] Adding '%s', tag namespace\n", __func__,
-                        syms[i]->name);
-                if (buff->tags == NULL)
-                  buff->tags = avl_create (syms[i]);
-                else
-                  avl_add (buff->tags, syms[i]);
-                break;
-
-              default:
-                ;               /* BUG! */
-              }
-        }
+        cst_file_dl (buff, ptr->ed->d);
         break;
 
       default:
         ;                       /* BUG! */
       }
+}
+
+static void
+cst_file_fd (struct translation_unit *buff, struct function_definition *fd)
+{
+  assert (buff != NULL);
+  assert (fd != NULL);
+  assert (buff->kind == NODE_TRANSLATION_UNIT);
+  assert (fd->kind == NODE_FUNCTION_DEFINITION);
+
+  symbol_t *fd_itself;
+  symbol_t **params;
+  int n = create_symbols_for_function_definition (fd, &fd_itself, &params);
+  create_symbol_table_fd (fd, n, params);
+  free (params);
+
+#if 0
+  printf ("[%s] Adding '%s', ordinary namespace\n", __func__,
+          fd_itself->name);
+#endif
+  if (buff->ordinary == NULL)
+    buff->ordinary = avl_create (fd_itself);
+  else
+    avl_add (buff->ordinary, fd_itself);
+}
+
+static void
+cst_file_dl (struct translation_unit *buff, struct declaration *dl)
+{
+  assert (buff != NULL);
+  assert (dl != NULL);
+  assert (buff->kind == NODE_TRANSLATION_UNIT);
+  assert (dl->kind == NODE_DECLARATION);
+
+  symbol_t **syms;
+  int n = create_symbols_from_declaration (dl, &syms);
+  for (int i = 0; i < n; i++)
+    {
+      switch (syms[i]->sym_ns)
+        {
+        case SYM_NS_ORDINARY:
+#if 0
+          printf ("[%s] Adding '%s', ordinary namespace\n", __func__,
+                  syms[i]->name);
+#endif
+          if (buff->ordinary == NULL)
+            buff->ordinary = avl_create (syms[i]);
+          else
+            avl_add (buff->ordinary, syms[i]);
+          break;
+
+        case SYM_NS_TAG:
+#if 0
+          printf ("[%s] Adding '%s', tag namespace\n", __func__,
+                  syms[i]->name);
+#endif
+          if (buff->tags == NULL)
+            buff->tags = avl_create (syms[i]);
+          else
+            avl_add (buff->tags, syms[i]);
+          break;
+
+        default:
+          ;                     /* BUG! */
+        }
+    }
 }

@@ -9,6 +9,9 @@
  *      FOR '(' expression-statement expression-statement expression ')' statement      (4)
  *      FOR '(' declaration expression-statement ')' statement              (5)
  *      FOR '(' declaration expression-statement expression ')' statement       (6)
+ * 
+ * parents:
+ *      statement (5)
  */
 
 #include "node_kind_t.h"
@@ -67,8 +70,12 @@ struct iteration_statement
       struct statement *st;
     } is_for_decl_es_ex;
   };
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_iteration_stmt_scope (struct iteration_statement *buff);
 
 #endif

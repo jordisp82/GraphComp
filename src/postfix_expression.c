@@ -8,6 +8,7 @@
 #include "type_name.h"
 #include "initializer_list.h"
 #include "primary_expression.h"
+#include "unary_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -199,4 +200,31 @@ postfix_expression_10 (void *ptr1, void *ptr2)
     buff;
 
   return buff;
+}
+
+void
+set_postfix_expression_scope (struct postfix_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_POSTFIX_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_UNARY_EXPRESSION:
+      set_unary_expression_scope (buff->parent);
+      buff->scope = ((struct unary_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct unary_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_POSTFIX_EXPRESSION:
+      set_postfix_expression_scope (buff->parent);
+      buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct postfix_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

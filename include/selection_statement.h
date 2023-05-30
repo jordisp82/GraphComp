@@ -6,6 +6,9 @@
  *      IF '(' expression ')' statement ELSE statement      (1)
  *      IF '(' expression ')' statement                     (2)
  *      SWITCH '(' expression ')' statement                 (3)
+ * 
+ * parents:
+ *      statement (4)
  */
 
 #include "node_kind_t.h"
@@ -25,8 +28,12 @@ struct selection_statement
   struct expression *ex;
   struct statement *st1;
   struct statement *st2;        // only if SS_IF_ELSE
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_selection_stmt_scope (struct selection_statement *buff);
 
 #endif

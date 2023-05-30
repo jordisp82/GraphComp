@@ -5,6 +5,7 @@
 #include "conditional_expression.h"
 #include "unary_expression.h"
 #include "assignment_operator.h"
+#include "expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -45,4 +46,35 @@ assignment_expression_2 (void *ptr1, void *ptr2, void *ptr3)
   buff->un_expr->parent = buff->ass_op->parent = buff->ass_e->parent = buff;
 
   return buff;
+}
+
+void
+set_assignment_expression_scope (struct assignment_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ASSIGNMENT_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_ARGUMENT_EXPRESSION_LIST:
+      ;
+
+    case NODE_EXPRESSION:
+      set_expression_scope (buff->parent);
+      buff->scope = ((struct expression *) (buff->parent))->scope;
+      buff->scope_kind = ((struct expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_DIRECT_DECLARATOR:
+      ;
+
+    case NODE_DIRECT_ABSTRACT_DECLARATOR:
+      ;
+
+    case NODE_INITIALIZER:
+      ;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

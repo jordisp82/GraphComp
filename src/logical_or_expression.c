@@ -3,6 +3,7 @@
 
 #include "logical_or_expression.h"
 #include "logical_and_expression.h"
+#include "conditional_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -41,4 +42,31 @@ logical_or_expression_2 (void *ptr1, void *ptr2)
   buff->or_e->parent = buff->and_e->parent = buff;
 
   return buff;
+}
+
+void
+set_logic_or_expression_scope (struct logical_or_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_LOGICAL_OR_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_LOGICAL_OR_EXPRESSION:
+      set_logic_or_expression_scope (buff->parent);
+      buff->scope = ((struct logical_or_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct logical_or_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_CONDITIONAL_EXPRESSION:
+      set_cond_expression_scope (buff->parent);
+      buff->scope = ((struct conditional_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct conditional_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

@@ -3,6 +3,8 @@
 
 #include "expression_statement.h"
 #include "expression.h"
+#include "statement.h"
+#include "iteration_statement.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -33,4 +35,30 @@ expression_statement_2 (void *ptr)
   buff->expr->parent = buff;
 
   return buff;
+}
+
+void
+set_expression_stmt_scope (struct expression_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_EXPRESSION_STATEMENT);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_STATEMENT:
+      set_statement_scope (buff->parent);
+      buff->scope = ((struct statement *) (buff->parent))->scope;
+      buff->scope_kind = ((struct statement *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_ITERATION_STATEMENT:
+      set_iteration_stmt_scope (buff->parent);
+      buff->scope = ((struct iteration_statement *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct iteration_statement *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

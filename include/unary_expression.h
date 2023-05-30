@@ -10,6 +10,10 @@
  *      SIZEOF unary-expression             (5)
  *      SIZEOF '(' type-name ')'            (6)
  *      ALIGNOF '(' type-name ')'           (7)
+ * 
+ * parents:
+ *      cast-expression (1)
+ *      assignment-expression (2)
  */
 
 #include "node_kind_t.h"
@@ -35,8 +39,12 @@ struct unary_expression
   struct unary_operator *unop;
   struct cast_expression *cex;
   struct type_name *tn;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_unary_expression_scope (struct unary_expression *buff);
 
 #endif

@@ -4,6 +4,7 @@
 #include "block_item.h"
 #include "declaration.h"
 #include "statement.h"
+#include "block_item_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -39,4 +40,25 @@ block_item_2 (void *ptr)
   buff->s->parent = buff;
 
   return buff;
+}
+
+void
+set_block_item_scope (struct block_item *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_BLOCK_ITEM);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_BLOCK_ITEM_LIST:
+      set_block_item_list_scope (buff->parent);
+      buff->scope = ((struct block_item_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct block_item_list *) (buff->parent))->scope_kind;
+      break;
+      ;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

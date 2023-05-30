@@ -153,3 +153,22 @@ iteration_statement_6 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
 
   return buff;
 }
+
+void
+set_iteration_stmt_scope (struct iteration_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ITERATION_STATEMENT);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_STATEMENT:
+      set_statement_scope (buff->parent);
+      buff->scope = ((struct statement *) (buff->parent))->scope;
+      buff->scope_kind = ((struct statement *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

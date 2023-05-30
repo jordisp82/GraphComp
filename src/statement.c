@@ -8,6 +8,7 @@
 #include "selection_statement.h"
 #include "iteration_statement.h"
 #include "jump_statement.h"
+#include "block_item.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -107,4 +108,44 @@ statement_6 (void *ptr)
   buff->js->parent = buff;
 
   return buff;
+}
+
+void
+set_statement_scope (struct statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STATEMENT);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_LABELED_STATEMENT:
+      set_labeled_stmt_scope (buff->parent);
+      buff->scope = ((struct labeled_statement *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct labeled_statement *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_BLOCK_ITEM:
+      set_block_item_scope (buff->parent);
+      buff->scope = ((struct block_item *) (buff->parent))->scope;
+      buff->scope_kind = ((struct block_item *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_SELECTION_STATEMENT:
+      set_selection_stmt_scope (buff->parent);
+      buff->scope = ((struct selection_statement *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct selection_statement *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_ITERATION_STATEMENT:
+      set_iteration_stmt_scope (buff->parent);
+      buff->scope = ((struct iteration_statement *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct iteration_statement *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

@@ -3,6 +3,7 @@
 
 #include "block_item_list.h"
 #include "block_item.h"
+#include "compound_statement.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -43,4 +44,23 @@ block_item_list_2 (void *ptr1, void *ptr2)
   bi->parent = buff;
 
   return buff;
+}
+
+void
+set_block_item_list_scope (struct block_item_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_BLOCK_ITEM_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_COMPOUND_STATEMENT:
+      buff->scope = ((struct compound_statement *) (buff->parent))->parent;
+      buff->scope_kind =
+        ((struct compound_statement *) (buff->parent))->parent_kind;
+      ;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

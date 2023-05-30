@@ -23,3 +23,34 @@ constant_expression_1 (void *ptr)
 
   return buff;
 }
+
+void
+set_const_expression_scope (struct constant_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_CONSTANT_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_STRUCT_DECLARATOR:
+      ;
+
+    case NODE_ENUMERATOR:
+      ;
+
+    case NODE_ALIGNMENT_SPECIFIER:
+      ;
+
+    case NODE_DESIGNATOR:
+      ;
+
+    case NODE_STATIC_ASSERT_DECLARATION:
+      ;
+
+    case NODE_LABELED_STATEMENT:
+      ;
+
+    default:
+      ;                         /* BUG */
+    }
+}

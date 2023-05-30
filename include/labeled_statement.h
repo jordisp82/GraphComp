@@ -6,6 +6,9 @@
  *      IDENTIFIER ':' statement        (1)
  *      CASE constant-expression ':' statement      (2)
  *      DEFAULT ':' statement           (3)
+ * 
+ * parents:
+ *      statement (1)
  */
 
 #include "node_kind_t.h"
@@ -28,8 +31,12 @@ struct labeled_statement
     struct constant_expression *ce;     // only for LABEL_CASE
   };
   struct statement *s;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_labeled_stmt_scope (struct labeled_statement *buff);
 
 #endif

@@ -4,6 +4,8 @@
 #include "conditional_expression.h"
 #include "logical_or_expression.h"
 #include "expression.h"
+#include "assignment_expression.h"
+#include "constant_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -44,4 +46,38 @@ conditional_expression_2 (void *ptr1, void *ptr2, void *ptr3)
   buff->l_expr->parent = buff->expr->parent = buff->cond_e->parent = buff;
 
   return buff;
+}
+
+void
+set_cond_expression_scope (struct conditional_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_CONDITIONAL_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_CONDITIONAL_EXPRESSION:
+      set_cond_expression_scope (buff->parent);
+      buff->scope = ((struct conditional_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct conditional_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_ASSIGNMENT_EXPRESSION:
+      set_assignment_expression_scope (buff->parent);
+      buff->scope = ((struct assignment_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct assignment_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_CONSTANT_EXPRESSION:
+      set_const_expression_scope (buff->parent);
+      buff->scope = ((struct constant_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct constant_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

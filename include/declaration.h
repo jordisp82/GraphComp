@@ -24,6 +24,8 @@ struct declaration
   struct declaration_specifiers *ds;
   struct init_declarator_list *idl;
   struct static_assert_declaration *sad;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };

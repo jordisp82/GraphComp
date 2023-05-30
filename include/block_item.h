@@ -22,8 +22,12 @@ struct block_item
     struct declaration *d;
     struct statement *s;
   };
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_block_item_scope (struct block_item *buff);
 
 #endif

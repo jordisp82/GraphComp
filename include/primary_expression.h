@@ -9,11 +9,15 @@
  *      '(' expression ')'      (4)
  *      generic-selection       (5)
  * 
+ * parents:
+ *      postfix-expression (1)
+ * 
  * We're going to ignore generic-selection.
  */
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 typedef enum
 {
@@ -35,8 +39,13 @@ struct primary_expression
     struct string *s;
     struct expression *e;
   };
+  symbol_t *sym;                /* only for an identifier */
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_primary_expression_scope (struct primary_expression *buff);
 
 #endif

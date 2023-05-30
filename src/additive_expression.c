@@ -3,6 +3,7 @@
 
 #include "additive_expression.h"
 #include "multiplicative_expression.h"
+#include "shift_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -63,4 +64,31 @@ additive_expression_3 (void *ptr1, void *ptr2)
   buff->add_ex->parent = buff->mult_ex->parent = buff;
 
   return buff;
+}
+
+void
+set_add_expression_scope (struct additive_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ADDITIVE_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_ADDITIVE_EXPRESSION:
+      set_add_expression_scope (buff->parent);
+      buff->scope = ((struct additive_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct additive_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_SHIFT_EXPRESSION:
+      set_shift_expression_scope (buff->parent);
+      buff->scope = ((struct shift_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct shift_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

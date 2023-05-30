@@ -3,6 +3,7 @@
 
 #include "multiplicative_expression.h"
 #include "cast_expression.h"
+#include "additive_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -83,4 +84,32 @@ multiplicative_expression_4 (void *ptr1, void *ptr2)
   buff->mult_ex->parent = buff->cast_ex->parent = buff;
 
   return buff;
+}
+
+void
+set_mult_expression_scope (struct multiplicative_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_MULTIPLICATIVE_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_MULTIPLICATIVE_EXPRESSION:
+      set_mult_expression_scope (buff->parent);
+      buff->scope =
+        ((struct multiplicative_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct multiplicative_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_ADDITIVE_EXPRESSION:
+      set_add_expression_scope (buff->parent);
+      buff->scope = ((struct additive_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct additive_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

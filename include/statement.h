@@ -9,6 +9,12 @@
  *      selection-statement         (4)
  *      iteration-statement         (5)
  *      jump-statement              (6)
+ * 
+ * parents:
+ *      labeled-statement (1)(2)(3)
+ *      block-item (2)
+ *      selection-statement (1)(2)(3)
+ *      iteration-statement (1)(2)(3)(4)(5)(6)
  */
 
 #include "node_kind_t.h"
@@ -27,8 +33,12 @@ struct statement
     struct iteration_statement *is;
     struct jump_statement *js;
   };
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_statement_scope (struct statement *buff);
 
 #endif

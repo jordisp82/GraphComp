@@ -6,6 +6,7 @@
 #include "cast_expression.h"
 #include "postfix_expression.h"
 #include "type_name.h"
+#include "assignment_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -130,4 +131,38 @@ unary_expression_7 (void *ptr)
   buff->tn->parent = buff;
 
   return buff;
+}
+
+void
+set_unary_expression_scope (struct unary_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_UNARY_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_CAST_EXPRESSION:
+      set_cast_expression_scope (buff->parent);
+      buff->scope = ((struct cast_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct cast_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_ASSIGNMENT_EXPRESSION:
+      set_assignment_expression_scope (buff->parent);
+      buff->scope = ((struct assignment_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct assignment_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_UNARY_EXPRESSION:
+      set_unary_expression_scope (buff->parent);
+      buff->scope = ((struct unary_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct unary_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

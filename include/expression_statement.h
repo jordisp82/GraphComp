@@ -6,7 +6,9 @@
  *      ';'         (1)
  *      expression ';'      (2)
  * 
- * No problems here.
+ * parents:
+ *      statement (3)
+ *      iteration-statement (3)(4)(5)(6)
  */
 
 #include "node_kind_t.h"
@@ -23,8 +25,12 @@ struct expression_statement
   node_kind_t kind;             // NODE_EXPRESSION_STATEMENT
   es_kind_t es_kind;
   struct expression *expr;      // only for ES_EXPRESSION
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_expression_stmt_scope (struct expression_statement *buff);
 
 #endif

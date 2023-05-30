@@ -3,6 +3,7 @@
 
 #include "equality_expression.h"
 #include "relational_expression.h"
+#include "and_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -63,4 +64,31 @@ equality_expression_3 (void *ptr1, void *ptr2)
   buff->eqex->parent = buff->rexp->parent = buff;
 
   return buff;
+}
+
+void
+set_equality_expression_scope (struct equality_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_EQUALITY_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_EQUALITY_EXPRESSION:
+      set_equality_expression_scope (buff->parent);
+      buff->scope = ((struct equality_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct equality_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_AND_EXPRESSION:
+      set_and_expression_scope (buff->parent);
+      buff->scope = ((struct and_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct and_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

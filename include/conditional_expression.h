@@ -5,6 +5,10 @@
  * conditional-expression:
  *      logical-or-expression           (1)
  *      logical-or-expression '?' expression ':' conditional-expression (2)
+ * 
+ * parents:
+ *      assignment-expression (1)
+ *      constant-expression (1)
  */
 
 #include "node_kind_t.h"
@@ -16,8 +20,12 @@ struct conditional_expression
   struct logical_or_expression *l_expr;
   struct expression *expr;
   struct conditional_expression *cond_e;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_cond_expression_scope (struct conditional_expression *buff);
 
 #endif
