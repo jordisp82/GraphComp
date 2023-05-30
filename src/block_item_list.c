@@ -58,7 +58,7 @@ set_block_item_list_scope (struct block_item_list *buff)
       buff->scope = ((struct compound_statement *) (buff->parent))->parent;
       buff->scope_kind =
         ((struct compound_statement *) (buff->parent))->parent_kind;
-      ;
+      break;
 
     default:
       ;                         /* BUG! */

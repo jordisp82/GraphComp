@@ -95,6 +95,16 @@ cst_file_fd (struct translation_unit *buff, struct function_definition *fd)
 
   symbol_t *fd_itself;
   symbol_t **params;
+
+  /*
+   * Function create_symbols_for_function_definition
+   * creates all symbols, those that have file-scope
+   * and also those who have block-scope (its parameters).
+   * file-scope symbols: the name of the function
+   * (fd_itself). Added here. The parameters are added
+   * by create_symbol_table_fd.
+   */
+
   int n = create_symbols_for_function_definition (fd, &fd_itself, &params);
   create_symbol_table_fd (fd, n, params);
   free (params);

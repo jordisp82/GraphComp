@@ -29,8 +29,6 @@ primary_expression_1 (const char *str)
   buff->id = strdup (str);
   assert (buff->id != NULL);
 
-  /* TODO look for it in the symbol table */
-
   return buff;
 }
 

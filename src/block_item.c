@@ -56,7 +56,6 @@ set_block_item_scope (struct block_item *buff)
       buff->scope_kind =
         ((struct block_item_list *) (buff->parent))->scope_kind;
       break;
-      ;
 
     default:
       ;                         /* BUG! */

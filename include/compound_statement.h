@@ -10,6 +10,10 @@
  * or not. Rule (2) has something with "list" in its name, but
  * is it really a list? Oh yes it is. No problem, we'll treat it
  * in the same way as a translation unit.
+ * 
+ * parents:
+ *      statement (2)
+ *      function-definition (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -29,10 +33,13 @@ struct compound_statement
   struct block_item_list *bil;  /* only for CS_BLOCK_ITEM_LIST */
   avl_node_t *ordinary;
   avl_node_t *tags;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;                 /* void * for now */
 };
 
 void create_symbol_table_cs (struct compound_statement *buff);
+void set_compound_stmt_scope (struct compound_statement *buff);
 
 #endif
