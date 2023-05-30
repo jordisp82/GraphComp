@@ -6,6 +6,8 @@
 #include "unary_expression.h"
 #include "assignment_operator.h"
 #include "expression.h"
+#include "argument_expression_list.h"
+#include "initializer.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -57,7 +59,12 @@ set_assignment_expression_scope (struct assignment_expression *buff)
   switch (buff->parent_kind)
     {
     case NODE_ARGUMENT_EXPRESSION_LIST:
-      ;
+      set_argument_expression_list_scope (buff->parent);
+      buff->scope =
+        ((struct argument_expression_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct argument_expression_list *) (buff->parent))->scope_kind;
+      break;
 
     case NODE_EXPRESSION:
       set_expression_scope (buff->parent);
@@ -72,7 +79,10 @@ set_assignment_expression_scope (struct assignment_expression *buff)
       ;
 
     case NODE_INITIALIZER:
-      ;
+      set_initializer_scope (buff->parent);
+      buff->scope = ((struct initializer *) (buff->parent))->scope;
+      buff->scope_kind = ((struct initializer *) (buff->parent))->scope_kind;
+      break;
 
     default:
       ;                         /* BUG! */

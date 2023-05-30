@@ -3,6 +3,7 @@
 
 #include "argument_expression_list.h"
 #include "assignment_expression.h"
+#include "postfix_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -44,4 +45,32 @@ argument_expression_list_2 (void *ptr1, void *ptr2)
   ass->parent = buff;
 
   return buff;
+}
+
+void
+set_argument_expression_list_scope (struct argument_expression_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ARGUMENT_EXPRESSION_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_ARGUMENT_EXPRESSION_LIST:
+      set_argument_expression_list_scope (buff->parent);
+      buff->scope =
+        ((struct argument_expression_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct argument_expression_list *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_POSTFIX_EXPRESSION:
+      set_postfix_expression_scope (buff->parent);
+      buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct postfix_expression *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

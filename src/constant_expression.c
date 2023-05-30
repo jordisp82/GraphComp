@@ -3,6 +3,8 @@
 
 #include "constant_expression.h"
 #include "conditional_expression.h"
+#include "labeled_statement.h"
+#include "static_assert_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -45,10 +47,19 @@ set_const_expression_scope (struct constant_expression *buff)
       ;
 
     case NODE_STATIC_ASSERT_DECLARATION:
-      ;
+      set_static_assert_scope (buff->parent);
+      buff->scope =
+        ((struct static_assert_declaration *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct static_assert_declaration *) (buff->parent))->scope_kind;
+      break;
 
     case NODE_LABELED_STATEMENT:
-      ;
+      set_labeled_stmt_scope (buff->parent);
+      buff->scope = ((struct labeled_statement *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct labeled_statement *) (buff->parent))->scope_kind;
+      break;
 
     default:
       ;                         /* BUG */

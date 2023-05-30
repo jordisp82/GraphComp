@@ -32,5 +32,6 @@ struct declaration
 
 int create_symbols_from_declaration (struct declaration *buff,
                                      symbol_t *** syms);
+void set_declaration_scope (struct declaration *buff);
 
 #endif

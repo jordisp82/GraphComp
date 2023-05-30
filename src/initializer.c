@@ -56,3 +56,22 @@ initializer_3 (void *ptr)
 
   return buff;
 }
+
+void
+set_initializer_scope (struct initializer *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INITIALIZER);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_INIT_DECLARATOR:
+      break;
+
+    case NODE_INITIALIZER_LIST:
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

@@ -23,7 +23,7 @@ static int create_symbols_for_list (struct declaration *buff,
                                     symbol_t *** syms);
 static void create_symbol_adjust_scope (struct declaration *buff,
                                         symbol_t * sym);
-static void set_declaration_scope (struct declaration *buff);
+void set_declaration_scope (struct declaration *buff);
 
 struct declaration *
 declaration_1 (void *ptr)
@@ -196,7 +196,7 @@ create_symbols_for_list (struct declaration *buff, symbol_t *** syms)
   return n;
 }
 
-static void
+void
 set_declaration_scope (struct declaration *buff)
 {
   assert (buff != NULL);
