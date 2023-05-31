@@ -54,6 +54,9 @@ set_cond_expression_scope (struct conditional_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_CONDITIONAL_EXPRESSION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_CONDITIONAL_EXPRESSION:

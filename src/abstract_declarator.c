@@ -68,6 +68,9 @@ set_abstract_declarator_scope (struct abstract_declarator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ABSTRACT_DECLARATOR);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_PARAMETER_DECLARATION:

@@ -160,6 +160,9 @@ set_iteration_stmt_scope (struct iteration_statement *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ITERATION_STATEMENT);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_STATEMENT:

@@ -6,6 +6,9 @@
  *      ':' constant-expression         (1)
  *      declarator ':' constant-expression      (2)
  *      declarator                      (3)
+ * 
+ * parents:
+ *      struct-declarator-list (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -16,8 +19,12 @@ struct struct_declarator
   node_kind_t kind;
   struct constant_expression *expr;
   struct declarator *dclr;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_struct_declarator_scope (struct struct_declarator *buff);
 
 #endif

@@ -317,6 +317,9 @@ set_direct_declarator_scope (struct direct_declarator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DIRECT_DECLARATOR);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_DECLARATOR:

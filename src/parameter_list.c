@@ -75,6 +75,9 @@ set_parameter_list (struct parameter_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_PARAMETER_LIST);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_PARAMETER_LIST:

@@ -97,6 +97,9 @@ set_struct_or_union_specifier_scope (struct struct_or_union_specifier *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_STRUCT_OR_UNION_SPECIFIER);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_TYPE_SPECIFIER:

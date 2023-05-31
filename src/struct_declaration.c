@@ -67,6 +67,9 @@ set_struct_declaration_scope (struct struct_declaration *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_STRUCT_DECLARATION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_STRUCT_DECLARATION_LIST:

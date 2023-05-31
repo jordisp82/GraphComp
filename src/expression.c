@@ -52,6 +52,9 @@ set_expression_scope (struct expression *buff)
 {
   assert (buff != NULL);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_EXPRESSION:

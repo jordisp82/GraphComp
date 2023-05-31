@@ -72,6 +72,9 @@ set_shift_expression_scope (struct shift_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_SHIFT_EXPRESSION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_SHIFT_EXPRESSION:

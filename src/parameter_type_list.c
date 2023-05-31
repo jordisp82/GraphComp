@@ -61,6 +61,9 @@ set_parameter_type_list_scope (struct parameter_type_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_PARAMETER_TYPE_LIST);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_DIRECT_DECLARATOR:

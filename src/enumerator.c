@@ -42,3 +42,19 @@ enumerator_2 (void *ptr)
 
   return buff;
 }
+
+void
+set_enumerator_scope (struct enumerator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ENUMERATOR);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_ENUMERATOR_LIST:
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

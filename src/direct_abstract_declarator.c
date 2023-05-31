@@ -396,6 +396,9 @@ set_direct_abs_declarator_scope (struct direct_abstract_declarator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DIRECT_ABSTRACT_DECLARATOR);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_ABSTRACT_DECLARATOR:

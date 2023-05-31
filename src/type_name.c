@@ -53,6 +53,9 @@ set_type_name_scope (struct type_name *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_TYPE_NAME);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_POSTFIX_EXPRESSION:

@@ -31,6 +31,9 @@ set_atomic_specifier_scope (struct atomic_type_specifier *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ATOMIC_TYPE_SPECIFIER);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_TYPE_SPECIFIER:

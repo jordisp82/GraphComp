@@ -58,6 +58,9 @@ set_assignment_expression_scope (struct assignment_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ASSIGNMENT_EXPRESSION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_ARGUMENT_EXPRESSION_LIST:

@@ -43,6 +43,9 @@ set_expression_stmt_scope (struct expression_statement *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_EXPRESSION_STATEMENT);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_STATEMENT:

@@ -65,6 +65,9 @@ set_initializer_scope (struct initializer *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_INIT_DECLARATOR:

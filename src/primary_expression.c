@@ -123,6 +123,9 @@ set_primary_expression_scope (struct primary_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_PRIMARY_EXPRESSION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_POSTFIX_EXPRESSION:

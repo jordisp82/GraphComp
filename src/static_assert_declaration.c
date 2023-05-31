@@ -5,6 +5,7 @@
 #include "static_assert_declaration.h"
 #include "constant_expression.h"
 #include "declaration.h"
+#include "struct_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -35,6 +36,9 @@ set_static_assert_scope (struct static_assert_declaration *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_STATIC_ASSERT_DECLARATION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_DECLARATION:
@@ -44,7 +48,10 @@ set_static_assert_scope (struct static_assert_declaration *buff)
       break;
 
     case NODE_STRUCT_DECLARATION:
-      /* TODO */
+      set_struct_declaration_scope (buff->parent);
+      buff->scope = ((struct struct_declaration *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct struct_declaration *) (buff->parent))->scope_kind;
       break;
 
     default:

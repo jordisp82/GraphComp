@@ -5,6 +5,9 @@
  * enumerator:
  *      enumeration-constant '=' constant-expression        (1)
  *      enumeration-constant        (2)
+ * 
+ * parents:
+ *      enumerator-list (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -22,8 +25,12 @@ struct enumerator
   enum_kind_t e_kind;
   struct enumeration_constant *ec;
   struct constant_expression *expr;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_enumerator_scope (struct enumerator *buff);
 
 #endif

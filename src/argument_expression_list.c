@@ -53,6 +53,9 @@ set_argument_expression_list_scope (struct argument_expression_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ARGUMENT_EXPRESSION_LIST);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_ARGUMENT_EXPRESSION_LIST:

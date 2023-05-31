@@ -50,6 +50,9 @@ set_alignment_specifier_scope (struct alignment_specifier *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ALIGNMENT_SPECIFIER);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_DECLARATION_SPECIFIERS:

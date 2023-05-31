@@ -57,6 +57,9 @@ set_init_declarator_scope (struct init_declarator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INIT_DECLARATOR);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_DECLARATION:

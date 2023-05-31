@@ -102,6 +102,9 @@ set_initializer_list_scope (struct initializer_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER_LIST);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_POSTFIX_EXPRESSION:

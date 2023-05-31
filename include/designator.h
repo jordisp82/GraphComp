@@ -6,7 +6,8 @@
  *      '[' constant-expression ']'         (1)
  *      '.' IDENTIFIER                      (2)
  * 
- * No problems here.
+ * parents:
+ *      designator-list (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -27,8 +28,12 @@ struct designator
     struct constant_expression *ex;
     const char *str;
   };
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_designator_scope (struct designator *buff);
 
 #endif

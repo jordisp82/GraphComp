@@ -72,6 +72,9 @@ set_labeled_stmt_scope (struct labeled_statement *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_LABELED_STATEMENT);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_STATEMENT:

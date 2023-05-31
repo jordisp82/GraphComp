@@ -208,6 +208,9 @@ set_postfix_expression_scope (struct postfix_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_POSTFIX_EXPRESSION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_UNARY_EXPRESSION:

@@ -72,6 +72,9 @@ set_equality_expression_scope (struct equality_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_EQUALITY_EXPRESSION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_EQUALITY_EXPRESSION:

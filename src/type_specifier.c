@@ -240,6 +240,9 @@ set_type_specifier_scope (struct type_specifier *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_TYPE_SPECIFIER);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_DECLARATION_SPECIFIERS:

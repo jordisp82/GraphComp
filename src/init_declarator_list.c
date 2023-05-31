@@ -70,10 +70,13 @@ create_symbols_for_init_declarator_list (struct init_declarator_list *buff,
 }
 
 void
-set_init_declarator_list (struct init_declarator_list *buff)
+set_init_declarator_list_scope (struct init_declarator_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INIT_DECLARATOR_LIST);
+
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
 
   switch (buff->parent_kind)
     {
@@ -84,7 +87,7 @@ set_init_declarator_list (struct init_declarator_list *buff)
       break;
 
     case NODE_INIT_DECLARATOR_LIST:
-      set_init_declarator_list (buff->parent);
+      set_init_declarator_list_scope (buff->parent);
       buff->scope = ((struct init_declarator_list *) (buff->parent))->scope;
       buff->scope_kind =
         ((struct init_declarator_list *) (buff->parent))->scope_kind;

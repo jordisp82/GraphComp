@@ -58,3 +58,19 @@ struct_declarator_3 (void *ptr)
 
   return buff;
 }
+
+void
+set_struct_declarator_scope (struct struct_declarator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STRUCT_DECLARATOR);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_STRUCT_DECLARATOR_LIST:
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

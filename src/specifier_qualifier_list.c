@@ -97,6 +97,9 @@ set_specifier_qualifier_list_scope (struct specifier_qualifier_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_SPECIFIER_QUALIFIER_LIST);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_SPECIFIER_QUALIFIER_LIST:

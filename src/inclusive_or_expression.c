@@ -50,6 +50,9 @@ set_or_expression_scope (struct inclusive_or_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INCLUSIVE_OR_EXPRESSION);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_INCLUSIVE_OR_EXPRESSION:

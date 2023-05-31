@@ -39,3 +39,19 @@ designator_2 (const char *str)
 
   return buff;
 }
+
+void
+set_designator_scope (struct designator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DESIGNATOR);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DESIGNATOR_LIST:
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

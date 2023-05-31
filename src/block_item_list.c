@@ -52,6 +52,9 @@ set_block_item_list_scope (struct block_item_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_BLOCK_ITEM_LIST);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_COMPOUND_STATEMENT:

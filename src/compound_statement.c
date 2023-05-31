@@ -91,6 +91,9 @@ set_compound_stmt_scope (struct compound_statement *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_COMPOUND_STATEMENT);
 
+  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
+    return;
+
   switch (buff->parent_kind)
     {
     case NODE_STATEMENT:
