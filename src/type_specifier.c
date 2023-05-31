@@ -6,6 +6,8 @@
 #include "atomic_type_specifier.h"
 #include "struct_or_union_specifier.h"
 #include "enum_specifier.h"
+#include "declaration_specifiers.h"
+#include "specifier_qualifier_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -229,5 +231,33 @@ create_symbol_from_type_specifier (struct type_specifier *buff)
 
     default:
       return NULL;
+    }
+}
+
+void
+set_type_specifier_scope (struct type_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_TYPE_SPECIFIER);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DECLARATION_SPECIFIERS:
+      set_declaration_specifiers_scope (buff->parent);
+      buff->scope = ((struct declaration_specifiers *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct declaration_specifiers *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_SPECIFIER_QUALIFIER_LIST:
+      set_specifier_qualifier_list_scope (buff->parent);
+      buff->scope =
+        ((struct specifier_qualifier_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct specifier_qualifier_list *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
     }
 }

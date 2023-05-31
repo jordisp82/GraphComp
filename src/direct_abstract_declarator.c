@@ -6,6 +6,7 @@
 #include "type_qualifier_list.h"
 #include "assignment_expression.h"
 #include "parameter_type_list.h"
+#include "abstract_declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -387,4 +388,32 @@ direct_abstract_declarator_21 (void *ptr1, void *ptr2)
   buff->dad->parent = buff->ptl->parent = buff;
 
   return buff;
+}
+
+void
+set_direct_abs_declarator_scope (struct direct_abstract_declarator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DIRECT_ABSTRACT_DECLARATOR);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_ABSTRACT_DECLARATOR:
+      set_abstract_declarator_scope (buff->parent);
+      buff->scope = ((struct abstract_declarator *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct abstract_declarator *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_DIRECT_ABSTRACT_DECLARATOR:
+      set_direct_abs_declarator_scope (buff->parent);
+      buff->scope =
+        ((struct direct_abstract_declarator *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct direct_abstract_declarator *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

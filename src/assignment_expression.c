@@ -8,6 +8,8 @@
 #include "expression.h"
 #include "argument_expression_list.h"
 #include "initializer.h"
+#include "direct_declarator.h"
+#include "direct_abstract_declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -73,10 +75,19 @@ set_assignment_expression_scope (struct assignment_expression *buff)
       break;
 
     case NODE_DIRECT_DECLARATOR:
-      ;
+      set_direct_declarator_scope (buff->parent);
+      buff->scope = ((struct direct_declarator *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct direct_declarator *) (buff->parent))->scope_kind;
+      break;
 
     case NODE_DIRECT_ABSTRACT_DECLARATOR:
-      ;
+      set_direct_abs_declarator_scope (buff->parent);
+      buff->scope =
+        ((struct direct_abstract_declarator *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct direct_abstract_declarator *) (buff->parent))->scope_kind;
+      break;
 
     case NODE_INITIALIZER:
       set_initializer_scope (buff->parent);

@@ -5,6 +5,7 @@
 #include "declaration_specifiers.h"
 #include "declarator.h"
 #include "abstract_declarator.h"
+#include "parameter_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -84,4 +85,24 @@ create_symbol_for_param_declaration (struct parameter_declaration *buff)
   sym->dclr = buff->dr;
   sym->sym_ns = SYM_NS_ORDINARY;
   return sym;
+}
+
+void
+set_parameter_declaration_scope (struct parameter_declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_PARAMETER_DECLARATION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_PARAMETER_LIST:
+      set_parameter_list (buff->parent);
+      buff->scope = ((struct parameter_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct parameter_list *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

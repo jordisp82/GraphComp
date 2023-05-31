@@ -19,6 +19,10 @@
  *      struct-or-union-specifier
  *      enum-specifier
  *      TYPEDEF_NAME
+ * 
+ * parents:
+ *      declaration-specifiers (3)(4)
+ *      specifier-qualifier-list (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -56,10 +60,13 @@ struct type_specifier
     struct enum_specifier *es;
     const char *typedef_name;
   };
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
 
 symbol_t *create_symbol_from_type_specifier (struct type_specifier *buff);
+void set_type_specifier_scope (struct type_specifier *buff);
 
 #endif

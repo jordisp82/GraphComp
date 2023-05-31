@@ -3,6 +3,7 @@
 
 #include "init_declarator_list.h"
 #include "init_declarator.h"
+#include "declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -66,4 +67,30 @@ create_symbols_for_init_declarator_list (struct init_declarator_list *buff,
   *syms = aux;
 
   return n;
+}
+
+void
+set_init_declarator_list (struct init_declarator_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INIT_DECLARATOR_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DECLARATION:
+      set_declaration_scope (buff->parent);
+      buff->scope = ((struct declaration *) (buff->parent))->scope;
+      buff->scope_kind = ((struct declaration *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_INIT_DECLARATOR_LIST:
+      set_init_declarator_list (buff->parent);
+      buff->scope = ((struct init_declarator_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct init_declarator_list *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

@@ -8,6 +8,9 @@
  *      declaration-specifiers                      (3)
  * 
  * This is not a list.
+ * 
+ * parents:
+ *      parameter-list (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -31,11 +34,14 @@ struct parameter_declaration
     struct declarator *dr;
     struct abstract_declarator *adr;
   };
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
 
 symbol_t *create_symbol_for_param_declaration (struct parameter_declaration
                                                *buff);
+void set_parameter_declaration_scope (struct parameter_declaration *buff);
 
 #endif

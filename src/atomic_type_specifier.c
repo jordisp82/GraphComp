@@ -3,6 +3,7 @@
 
 #include "atomic_type_specifier.h"
 #include "type_name.h"
+#include "type_specifier.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -22,4 +23,24 @@ atomic_type_specifier_1 (void *ptr)
   buff->tn->parent = buff;
 
   return buff;
+}
+
+void
+set_atomic_specifier_scope (struct atomic_type_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ATOMIC_TYPE_SPECIFIER);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_TYPE_SPECIFIER:
+      set_type_specifier_scope (buff->parent);
+      buff->scope = ((struct type_specifier *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct type_specifier *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

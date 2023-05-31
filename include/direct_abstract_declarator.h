@@ -24,6 +24,9 @@
  *      '(' parameter-type-list ')'                 (19)
  *      direct-abstract-declarator '(' ')'          (20)
  *      direct-abstract-declarator '(' parameter-type-list ')'          (21)
+ * 
+ * parents:
+ *      abstract-declarator (1)(3)
  */
 
 #include "node_kind_t.h"
@@ -38,8 +41,13 @@ struct direct_abstract_declarator
   struct assignment_expression *ass;
   struct parameter_type_list *ptl;
   struct direct_abstract_declarator *dad;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_direct_abs_declarator_scope (struct direct_abstract_declarator
+                                      *buff);
 
 #endif

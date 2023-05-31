@@ -310,3 +310,23 @@ create_symbols_for_func_pars (struct direct_declarator *buff,
 
   return create_symbols_for_param_tlist (buff->ptl, sym_pars);
 }
+
+void
+set_direct_declarator_scope (struct direct_declarator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DIRECT_DECLARATOR);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DECLARATOR:
+      break;
+
+    case NODE_DIRECT_DECLARATOR:
+      set_direct_declarator_scope (buff->parent);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

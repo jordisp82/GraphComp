@@ -3,6 +3,7 @@
 
 #include "parameter_list.h"
 #include "parameter_declaration.h"
+#include "parameter_type_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -66,4 +67,31 @@ create_symbols_for_param_list (struct parameter_list *buff,
 
   *sym_pars = aux;
   return n;
+}
+
+void
+set_parameter_list (struct parameter_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_PARAMETER_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_PARAMETER_LIST:
+      set_parameter_list (buff->parent);
+      buff->scope = ((struct parameter_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct parameter_list *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_PARAMETER_TYPE_LIST:
+      set_parameter_type_list_scope (buff->parent);
+      buff->scope = ((struct parameter_type_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct parameter_type_list *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

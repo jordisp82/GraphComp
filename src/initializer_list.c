@@ -4,6 +4,7 @@
 #include "initializer_list.h"
 #include "designation.h"
 #include "initializer.h"
+#include "postfix_expression.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -93,4 +94,37 @@ initializer_list_4 (void *ptr1, void *ptr2)
   i->parent = buff;
 
   return buff;
+}
+
+void
+set_initializer_list_scope (struct initializer_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INITIALIZER_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_POSTFIX_EXPRESSION:
+      set_postfix_expression_scope (buff->parent);
+      buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct postfix_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_INITIALIZER:
+      set_initializer_scope (buff->parent);
+      buff->scope = ((struct initializer *) (buff->parent))->scope;
+      buff->scope_kind = ((struct initializer *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_INITIALIZER_LIST:
+      set_initializer_list_scope (buff->parent);
+      buff->scope = ((struct initializer_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct initializer_list *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

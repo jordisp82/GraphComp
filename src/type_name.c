@@ -5,6 +5,11 @@
 #include "type_name.h"
 #include "specifier_qualifier_list.h"
 #include "abstract_declarator.h"
+#include "postfix_expression.h"
+#include "unary_expression.h"
+#include "cast_expression.h"
+#include "atomic_type_specifier.h"
+#include "alignment_specifier.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -40,4 +45,52 @@ type_name_2 (void *ptr)
   buff->sql->parent = buff;
 
   return buff;
+}
+
+void
+set_type_name_scope (struct type_name *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_TYPE_NAME);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_POSTFIX_EXPRESSION:
+      set_postfix_expression_scope (buff->parent);
+      buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct postfix_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_UNARY_EXPRESSION:
+      set_unary_expression_scope (buff->parent);
+      buff->scope = ((struct unary_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct unary_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_CAST_EXPRESSION:
+      set_cast_expression_scope (buff->parent);
+      buff->scope = ((struct cast_expression *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct cast_expression *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_ATOMIC_TYPE_SPECIFIER:
+      set_atomic_specifier_scope (buff->parent);
+      buff->scope = ((struct atomic_type_specifier *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct atomic_type_specifier *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_ALIGNMENT_SPECIFIER:
+      set_alignment_specifier_scope (buff->parent);
+      buff->scope = ((struct alignment_specifier *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct alignment_specifier *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

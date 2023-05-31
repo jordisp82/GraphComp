@@ -5,6 +5,9 @@
  * struct-declaration-list:
  *      struct-declaration              (1)
  *      struct-declaration-list struct-declaration      (2)
+ * 
+ * parents:
+ *      struct-or-union-specifier (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -13,13 +16,17 @@
 struct struct_declaration_list
 {
   node_kind_t kind;
-  struct sdl_node
+  struct sdln_node
   {
     struct struct_declaration *sd;
-    struct sdl_node *next;
+    struct sdln_node *next;
   } *first, *last;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_struct_declaration_list_scope (struct struct_declaration_list *buff);
 
 #endif

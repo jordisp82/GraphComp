@@ -7,6 +7,10 @@
  *      initializer             (2)
  *      initializer-list ',' designation initializer        (3)
  *      initializer-list ',' initializer        (4)
+ * 
+ * parents:
+ *      postfix-expression (9)(10)
+ *      initializer (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -28,8 +32,12 @@ struct initializer_list
     struct initializer *i;
     struct il_node *next;
   } *first, *last;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_initializer_list_scope (struct initializer_list *buff);
 
 #endif

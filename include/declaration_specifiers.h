@@ -42,6 +42,8 @@ struct declaration_specifiers
     };
     struct ds_node *next;
   } *first, *last;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
@@ -50,5 +52,6 @@ symbol_t *create_symbol_from_declaration_specifiers (struct
                                                      declaration_specifiers
                                                      *buff);
 int is_there_typedef (struct declaration_specifiers *buff);
+void set_declaration_specifiers_scope (struct declaration_specifiers *buff);
 
 #endif

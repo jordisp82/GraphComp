@@ -7,6 +7,9 @@
 #include "function_specifier.h"
 #include "alignment_specifier.h"
 #include "type_specifier.h"
+#include "declaration.h"
+#include "parameter_declaration.h"
+#include "function_definition.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -246,4 +249,35 @@ is_there_typedef (struct declaration_specifiers *buff)
         return 1;
 
   return 0;
+}
+
+void
+set_declaration_specifiers_scope (struct declaration_specifiers *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DECLARATION_SPECIFIERS);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DECLARATION:
+      set_declaration_scope (buff->parent);
+      buff->scope = ((struct declaration *) (buff->parent))->scope;
+      buff->scope_kind = ((struct declaration *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_PARAMETER_DECLARATION:
+      set_parameter_declaration_scope (buff->parent);
+      buff->scope = ((struct parameter_declaration *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct parameter_declaration *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_FUNCTION_DEFINITION:
+      buff->scope = buff->parent;
+      buff->scope_kind = NODE_FUNCTION_DEFINITION;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

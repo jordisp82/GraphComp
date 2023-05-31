@@ -5,6 +5,7 @@
 #include "specifier_qualifier_list.h"
 #include "struct_declarator_list.h"
 #include "static_assert_declaration.h"
+#include "struct_declaration_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -58,4 +59,25 @@ struct_declaration_3 (void *ptr)
   buff->sad->parent = buff;
 
   return buff;
+}
+
+void
+set_struct_declaration_scope (struct struct_declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STRUCT_DECLARATION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_STRUCT_DECLARATION_LIST:
+      set_struct_declaration_list_scope (buff->parent);
+      buff->scope =
+        ((struct struct_declaration_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct struct_declaration_list *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

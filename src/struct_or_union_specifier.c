@@ -5,6 +5,7 @@
 #include "struct_or_union_specifier.h"
 #include "struct_or_union.h"
 #include "struct_declaration_list.h"
+#include "type_specifier.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -88,4 +89,24 @@ create_symbol_from_sus (struct struct_or_union_specifier *buff)
   /* the other fields to be filled in by callers */
 
   return sym;
+}
+
+void
+set_struct_or_union_specifier_scope (struct struct_or_union_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STRUCT_OR_UNION_SPECIFIER);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_TYPE_SPECIFIER:
+      set_type_specifier_scope (buff->parent);
+      buff->scope = ((struct type_specifier *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct type_specifier *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

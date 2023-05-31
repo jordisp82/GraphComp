@@ -5,6 +5,9 @@
  * alignment-specifier:
  *      ALIGNAS '(' type-name ')'       (1)
  *      ALIGNAS '(' constant-expression ')'     (2)
+ * 
+ * parents:
+ *      declaration-specifiers (9)(10)
  */
 
 #include "node_kind_t.h"
@@ -25,8 +28,12 @@ struct alignment_specifier
     struct type_name *tn;
     struct constant_expression *expr;
   };
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_alignment_specifier_scope (struct alignment_specifier *buff);
 
 #endif

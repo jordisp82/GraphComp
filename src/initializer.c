@@ -4,6 +4,8 @@
 #include "initializer.h"
 #include "initializer_list.h"
 #include "assignment_expression.h"
+#include "init_declarator.h"
+#include "initializer_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -66,9 +68,17 @@ set_initializer_scope (struct initializer *buff)
   switch (buff->parent_kind)
     {
     case NODE_INIT_DECLARATOR:
+      set_init_declarator_scope (buff->parent);
+      buff->scope = ((struct init_declarator *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct init_declarator *) (buff->parent))->scope_kind;
       break;
 
     case NODE_INITIALIZER_LIST:
+      set_initializer_list_scope (buff->parent);
+      buff->scope = ((struct initializer_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct initializer_list *) (buff->parent))->scope_kind;
       break;
 
     default:

@@ -7,6 +7,10 @@
  *      type-specifier          (2)
  *      type-qualifier specifier-qualifier-list         (3)
  *      type-qualifier          (4)
+ * 
+ * parents:
+ *      struct-declaration (1)(2)
+ *      type-name (1)(2)
  */
 
 #include "node_kind_t.h"
@@ -31,8 +35,13 @@ struct specifier_qualifier_list
     };
     struct sql_node *next;
   } *first, *last;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_specifier_qualifier_list_scope (struct specifier_qualifier_list
+                                         *buff);
 
 #endif

@@ -4,6 +4,7 @@
 #include "alignment_specifier.h"
 #include "type_name.h"
 #include "constant_expression.h"
+#include "declaration_specifiers.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -41,4 +42,24 @@ alignment_specifier_2 (void *ptr)
   buff->expr->parent = buff;
 
   return buff;
+}
+
+void
+set_alignment_specifier_scope (struct alignment_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ALIGNMENT_SPECIFIER);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DECLARATION_SPECIFIERS:
+      set_declaration_specifiers_scope (buff->parent);
+      buff->scope = ((struct declaration_specifiers *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct declaration_specifiers *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }
