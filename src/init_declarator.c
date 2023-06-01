@@ -69,7 +69,7 @@ set_init_declarator_scope (struct init_declarator *buff)
       break;
 
     case NODE_INIT_DECLARATOR_LIST:
-      set_init_declarator_list (buff->parent);
+      set_init_declarator_scope (buff->parent);
       buff->scope = ((struct init_declarator_list *) (buff->parent))->scope;
       buff->scope_kind =
         ((struct init_declarator_list *) (buff->parent))->scope_kind;

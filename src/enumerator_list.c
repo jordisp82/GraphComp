@@ -3,6 +3,7 @@
 
 #include "enumerator_list.h"
 #include "enumerator.h"
+#include "enum_specifier.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -43,4 +44,31 @@ enumerator_list_2 (void *ptr1, void *ptr2)
   en->parent = buff;
 
   return buff;
+}
+
+void
+set_enumerator_list_scope (struct enumerator_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ENUMERATOR_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_ENUMERATOR_LIST:
+      set_enumerator_list_scope (buff->parent);
+      buff->scope = ((struct enumerator_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct enumerator_list *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_ENUM_SPECIFIER:
+      set_enum_specifier_scope (buff->parent);
+      buff->scope = ((struct enum_specifier *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct enum_specifier *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

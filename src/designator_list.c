@@ -3,6 +3,7 @@
 
 #include "designator_list.h"
 #include "designator.h"
+#include "designation.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -43,4 +44,30 @@ designator_list_2 (void *ptr1, void *ptr2)
   ds->parent = buff;
 
   return buff;
+}
+
+void
+set_designator_list_scope (struct designator_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DESIGNATOR_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DESIGNATOR_LIST:
+      set_designator_list_scope (buff->parent);
+      buff->scope = ((struct designator_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct designator_list *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_DESIGNATION:
+      set_designation_scope (buff->parent);
+      buff->scope = ((struct designation *) (buff->parent))->scope;
+      buff->scope_kind = ((struct designation *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

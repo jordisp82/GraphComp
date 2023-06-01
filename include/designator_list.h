@@ -6,7 +6,8 @@
  *      designator          (1)
  *      designator-list designator      (2)
  * 
- * We'll do as in the declaration-list and so on.
+ * parents:
+ *      designation (1)
  */
 
 #include "node_kind_t.h"
@@ -20,8 +21,12 @@ struct designator_list
     struct designator *ds;
     struct ds_node *next;
   } *first, *last;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_designator_list_scope (struct designator_list *buff);
 
 #endif

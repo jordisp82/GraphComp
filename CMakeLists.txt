@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 project(GraphComp LANGUAGES C)
 set(CMAKE_C_STANDARD 99)
-target_include_directories(GraphComp
-    include
-    parser
-)
 add_executable(GraphComp
     src/abstract_declarator.c
     src/additive_expression.c
@@ -60,7 +56,6 @@ add_executable(GraphComp
     src/parameter_list.c
     src/parameter_type_list.c
     src/pointer.c
-    src/pointer_expression.c
     src/postfix_expression.c
     src/preproc.c
     src/primary_expression.c
@@ -87,4 +82,17 @@ add_executable(GraphComp
     src/unary_operator.c
     lexer/lex.yy.c
     parser/grammar.tab.c
+)
+target_include_directories(GraphComp PUBLIC
+    include
+    parser
+)
+add_compile_options(GraphComp PUBLIC
+    -Wall
+    -Wextra
+    -ggdb
+    -pipe
+)
+target_compile_options(GraphComp PUBLIC
+    -ggdb
 )

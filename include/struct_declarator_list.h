@@ -5,6 +5,9 @@
  * struct-declarator-list:
  *      struct-declarator           (1)
  *      struct-declarator-list ',' struct-declarator        (2)
+ * 
+ * parents:
+ *      struct-declaration (2)
  */
 
 #include "node_kind_t.h"
@@ -18,8 +21,12 @@ struct struct_declarator_list
     struct struct_declarator *sd;
     struct sdl_node *next;
   } *first, *last;
+  node_kind_t scope_kind;
+  void *scope;
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_struct_declarator_list_scope (struct struct_declarator_list *buff);
 
 #endif

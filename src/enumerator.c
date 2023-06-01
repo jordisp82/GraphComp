@@ -4,6 +4,7 @@
 #include "enumerator.h"
 #include "enumeration_constant.h"
 #include "constant_expression.h"
+#include "enumerator_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -52,6 +53,10 @@ set_enumerator_scope (struct enumerator *buff)
   switch (buff->parent_kind)
     {
     case NODE_ENUMERATOR_LIST:
+      set_enumerator_list_scope (buff->parent);
+      buff->scope = ((struct enumerator_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct enumerator_list *) (buff->parent))->scope_kind;
       break;
 
     default:

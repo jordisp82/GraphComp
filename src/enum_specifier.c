@@ -4,6 +4,7 @@
 
 #include "enum_specifier.h"
 #include "enumerator_list.h"
+#include "type_specifier.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -104,4 +105,24 @@ create_symbol_from_enum_specifier (struct enum_specifier *buff)
   /* the other fields to be filled in by callers */
 
   return sym;
+}
+
+void
+set_enum_specifier_scope (struct enum_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ENUM_SPECIFIER);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_TYPE_SPECIFIER:
+      set_type_specifier_scope (buff->parent);
+      buff->scope = ((struct type_specifier *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct type_specifier *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

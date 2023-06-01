@@ -4,6 +4,7 @@
 
 #include "designator.h"
 #include "constant_expression.h"
+#include "designator_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -49,6 +50,10 @@ set_designator_scope (struct designator *buff)
   switch (buff->parent_kind)
     {
     case NODE_DESIGNATOR_LIST:
+      set_designator_list_scope (buff->parent);
+      buff->scope = ((struct designator_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct designator_list *) (buff->parent))->scope_kind;
       break;
 
     default:

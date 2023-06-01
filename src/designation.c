@@ -3,6 +3,7 @@
 
 #include "designation.h"
 #include "designator_list.h"
+#include "initializer_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -21,4 +22,24 @@ designation_1 (void *ptr)
   buff->dl->parent = buff;
 
   return buff;
+}
+
+void
+set_designation_scope (struct designation *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DESIGNATION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_INITIALIZER_LIST:
+      set_initializer_list_scope (buff->parent);
+      buff->scope = ((struct initializer_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct initializer_list *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

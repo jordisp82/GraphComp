@@ -3,6 +3,7 @@
 
 #include "struct_declarator_list.h"
 #include "struct_declarator.h"
+#include "struct_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -44,4 +45,31 @@ struct_declarator_list_2 (void *ptr1, void *ptr2)
   d->parent = buff;
 
   return buff;
+}
+
+void
+set_struct_declarator_list_scope (struct struct_declarator_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STRUCT_DECLARATOR_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_STRUCT_DECLARATOR_LIST:
+      set_struct_declarator_list_scope (buff->parent);
+      buff->scope = ((struct struct_declarator_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct struct_declarator_list *) (buff->parent))->scope_kind;
+      break;
+
+    case NODE_STRUCT_DECLARATION:
+      set_struct_declaration_scope (buff->parent);
+      buff->scope = ((struct struct_declaration *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct struct_declaration *) (buff->parent))->scope_kind;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }

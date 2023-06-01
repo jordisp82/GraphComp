@@ -4,6 +4,7 @@
 #include "struct_declarator.h"
 #include "declarator.h"
 #include "constant_expression.h"
+#include "struct_declarator_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -68,6 +69,10 @@ set_struct_declarator_scope (struct struct_declarator *buff)
   switch (buff->parent_kind)
     {
     case NODE_STRUCT_DECLARATOR_LIST:
+      set_struct_declarator_list_scope (buff->parent);
+      buff->scope = ((struct struct_declarator_list *) (buff->parent))->scope;
+      buff->scope_kind =
+        ((struct struct_declarator_list *) (buff->parent))->scope_kind;
       break;
 
     default:
