@@ -91,23 +91,41 @@ set_compound_stmt_scope (struct compound_statement *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_COMPOUND_STATEMENT);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  /*
+   * A compount statement is itself a scope,
+   * but there is a wider scope and we must
+   * point to it.
+   */
 
-  switch (buff->parent_kind)
-    {
-    case NODE_STATEMENT:
-      set_statement_scope (buff->parent);
-      buff->scope = ((struct statement *) (buff->parent))->scope;
-      buff->scope_kind = ((struct statement *) (buff->parent))->scope_kind;
-      break;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_STATEMENT:
+        set_statement_scope (buff->parent);
+        buff->scope = ((struct statement *) (buff->parent))->scope;
+        buff->scope_kind = ((struct statement *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_FUNCTION_DEFINITION:
-      buff->scope = ((struct function_definition *) (buff->parent))->parent;
-      buff->scope_kind = NODE_TRANSLATION_UNIT;
-      break;
+      case NODE_FUNCTION_DEFINITION:
+        buff->scope = ((struct function_definition *) (buff->parent))->parent;
+        buff->scope_kind = NODE_TRANSLATION_UNIT;
+        break;
 
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
+}
+
+symbol_t *
+look_for_id_in_cs (struct compound_statement *buff, const char *name)
+{
+  assert (buff != NULL);
+  assert (name != NULL);
+  assert (buff->kind == NODE_COMPOUND_STATEMENT);
+
+  avl_node_t *node = avl_search (buff->ordinary, name);
+  if (node == NULL)
+    node = avl_search (buff->tags, name);
+
+  return (node != NULL) ? node->value : NULL;
 }

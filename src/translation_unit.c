@@ -54,6 +54,20 @@ translation_unit_2 (void *ptr1, void *ptr2)
   return buff;
 }
 
+symbol_t *
+look_for_id_in_tu (struct translation_unit *buff, const char *name)
+{
+  assert (buff != NULL);
+  assert (name != NULL);
+  assert (buff->kind == NODE_TRANSLATION_UNIT);
+
+  avl_node_t *node = avl_search (buff->ordinary, name);
+  if (node == NULL)
+    node = avl_search (buff->tags, name);
+
+  return (node != NULL) ? node->value : NULL;
+}
+
 /*
  * NOTE beware function definitions after a declaration,
  * or the other way around.

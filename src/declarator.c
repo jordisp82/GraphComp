@@ -4,6 +4,11 @@
 #include "declarator.h"
 #include "pointer.h"
 #include "direct_declarator.h"
+#include "init_declarator.h"
+#include "struct_declarator.h"
+#include "direct_declarator.h"
+#include "parameter_declaration.h"
+#include "function_definition.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -60,4 +65,52 @@ create_symbols_for_parameters (struct declarator *buff, symbol_t *** sym_pars)
   assert (buff->kind == NODE_DECLARATOR);
 
   return create_symbols_for_func_pars (buff->ddclr, sym_pars);
+}
+
+void
+set_declarator_scope (struct declarator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DECLARATOR);
+
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_INIT_DECLARATOR:
+        set_init_declarator_scope (buff->parent);
+        buff->scope = ((struct init_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct init_declarator *) (buff->parent))->scope_kind;
+        break;
+
+      case NODE_STRUCT_DECLARATOR:
+        set_struct_declarator_scope (buff->parent);
+        buff->scope = ((struct struct_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct struct_declarator *) (buff->parent))->scope_kind;
+        break;
+
+      case NODE_DIRECT_DECLARATOR:
+        set_direct_declarator_scope (buff->parent);
+        buff->scope = ((struct direct_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct direct_declarator *) (buff->parent))->scope_kind;
+        break;
+
+      case NODE_PARAMETER_DECLARATION:
+        set_parameter_declaration_scope (buff->parent);
+        buff->scope =
+          ((struct parameter_declaration *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct parameter_declaration *) (buff->parent))->scope_kind;
+        break;
+
+      case NODE_FUNCTION_DEFINITION:
+        buff->scope = ((struct function_definition *) (buff->parent))->parent;
+        buff->scope_kind = NODE_TRANSLATION_UNIT;
+        break;
+
+      default:
+        ;                       /* BUG! */
+      }
 }

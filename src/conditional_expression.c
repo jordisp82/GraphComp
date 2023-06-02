@@ -54,33 +54,33 @@ set_cond_expression_scope (struct conditional_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_CONDITIONAL_EXPRESSION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_CONDITIONAL_EXPRESSION:
+        set_cond_expression_scope (buff->parent);
+        buff->scope =
+          ((struct conditional_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct conditional_expression *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_CONDITIONAL_EXPRESSION:
-      set_cond_expression_scope (buff->parent);
-      buff->scope = ((struct conditional_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct conditional_expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_ASSIGNMENT_EXPRESSION:
+        set_assignment_expression_scope (buff->parent);
+        buff->scope =
+          ((struct assignment_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct assignment_expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_ASSIGNMENT_EXPRESSION:
-      set_assignment_expression_scope (buff->parent);
-      buff->scope = ((struct assignment_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct assignment_expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_CONSTANT_EXPRESSION:
+        set_const_expression_scope (buff->parent);
+        buff->scope = ((struct constant_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct constant_expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_CONSTANT_EXPRESSION:
-      set_const_expression_scope (buff->parent);
-      buff->scope = ((struct constant_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct constant_expression *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

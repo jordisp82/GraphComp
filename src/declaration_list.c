@@ -3,6 +3,7 @@
 
 #include "declaration_list.h"
 #include "declaration.h"
+#include "function_definition.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -44,4 +45,23 @@ declaration_list_2 (void *ptr1, void *ptr2)
   dl->parent = buff;
 
   return buff;
+}
+
+void
+set_declaration_list_scope (struct declaration_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DECLARATION_LIST);
+
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_FUNCTION_DEFINITION:
+        buff->scope = ((struct function_definition *) (buff->parent))->parent;
+        buff->scope_kind = NODE_TRANSLATION_UNIT;
+        break;
+
+      default:
+        ;                       /* BUG! */
+      }
 }

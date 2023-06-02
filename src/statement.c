@@ -116,39 +116,37 @@ set_statement_scope (struct statement *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_STATEMENT);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_LABELED_STATEMENT:
+        set_labeled_stmt_scope (buff->parent);
+        buff->scope = ((struct labeled_statement *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct labeled_statement *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_LABELED_STATEMENT:
-      set_labeled_stmt_scope (buff->parent);
-      buff->scope = ((struct labeled_statement *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct labeled_statement *) (buff->parent))->scope_kind;
-      break;
+      case NODE_BLOCK_ITEM:
+        set_block_item_scope (buff->parent);
+        buff->scope = ((struct block_item *) (buff->parent))->scope;
+        buff->scope_kind = ((struct block_item *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_BLOCK_ITEM:
-      set_block_item_scope (buff->parent);
-      buff->scope = ((struct block_item *) (buff->parent))->scope;
-      buff->scope_kind = ((struct block_item *) (buff->parent))->scope_kind;
-      break;
+      case NODE_SELECTION_STATEMENT:
+        set_selection_stmt_scope (buff->parent);
+        buff->scope = ((struct selection_statement *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct selection_statement *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_SELECTION_STATEMENT:
-      set_selection_stmt_scope (buff->parent);
-      buff->scope = ((struct selection_statement *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct selection_statement *) (buff->parent))->scope_kind;
-      break;
+      case NODE_ITERATION_STATEMENT:
+        set_iteration_stmt_scope (buff->parent);
+        buff->scope = ((struct iteration_statement *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct iteration_statement *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_ITERATION_STATEMENT:
-      set_iteration_stmt_scope (buff->parent);
-      buff->scope = ((struct iteration_statement *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct iteration_statement *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

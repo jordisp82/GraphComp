@@ -48,19 +48,17 @@ set_block_item_scope (struct block_item *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_BLOCK_ITEM);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_BLOCK_ITEM_LIST:
+        set_block_item_list_scope (buff->parent);
+        buff->scope = ((struct block_item_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct block_item_list *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_BLOCK_ITEM_LIST:
-      set_block_item_list_scope (buff->parent);
-      buff->scope = ((struct block_item_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct block_item_list *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

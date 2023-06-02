@@ -50,16 +50,17 @@ set_enumerator_scope (struct enumerator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ENUMERATOR);
 
-  switch (buff->parent_kind)
-    {
-    case NODE_ENUMERATOR_LIST:
-      set_enumerator_list_scope (buff->parent);
-      buff->scope = ((struct enumerator_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct enumerator_list *) (buff->parent))->scope_kind;
-      break;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_ENUMERATOR_LIST:
+        set_enumerator_list_scope (buff->parent);
+        buff->scope = ((struct enumerator_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct enumerator_list *) (buff->parent))->scope_kind;
+        break;
 
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

@@ -50,28 +50,26 @@ set_xor_expression_scope (struct exclusive_or_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_EXCLUSIVE_OR_EXPRESSION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_EXCLUSIVE_OR_EXPRESSION:
+        set_xor_expression_scope (buff->parent);
+        buff->scope =
+          ((struct exclusive_or_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct exclusive_or_expression *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_EXCLUSIVE_OR_EXPRESSION:
-      set_xor_expression_scope (buff->parent);
-      buff->scope =
-        ((struct exclusive_or_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct exclusive_or_expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_INCLUSIVE_OR_EXPRESSION:
+        set_or_expression_scope (buff->parent);
+        buff->scope =
+          ((struct inclusive_or_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct inclusive_or_expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_INCLUSIVE_OR_EXPRESSION:
-      set_or_expression_scope (buff->parent);
-      buff->scope =
-        ((struct inclusive_or_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct inclusive_or_expression *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

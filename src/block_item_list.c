@@ -52,18 +52,16 @@ set_block_item_list_scope (struct block_item_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_BLOCK_ITEM_LIST);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_COMPOUND_STATEMENT:
+        buff->scope = ((struct compound_statement *) (buff->parent))->parent;
+        buff->scope_kind =
+          ((struct compound_statement *) (buff->parent))->parent_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_COMPOUND_STATEMENT:
-      buff->scope = ((struct compound_statement *) (buff->parent))->parent;
-      buff->scope_kind =
-        ((struct compound_statement *) (buff->parent))->parent_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

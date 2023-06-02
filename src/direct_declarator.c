@@ -317,19 +317,23 @@ set_direct_declarator_scope (struct direct_declarator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DIRECT_DECLARATOR);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_DECLARATOR:
+        set_declarator_scope (buff->parent);
+        buff->scope = ((struct declarator *) (buff->parent))->scope;
+        buff->scope_kind = ((struct declarator *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_DECLARATOR:
-      break;
+      case NODE_DIRECT_DECLARATOR:
+        set_direct_declarator_scope (buff->parent);
+        buff->scope = ((struct direct_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct direct_declarator *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_DIRECT_DECLARATOR:
-      set_direct_declarator_scope (buff->parent);
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

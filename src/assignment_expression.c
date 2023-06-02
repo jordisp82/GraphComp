@@ -58,47 +58,46 @@ set_assignment_expression_scope (struct assignment_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ASSIGNMENT_EXPRESSION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_ARGUMENT_EXPRESSION_LIST:
+        set_argument_expression_list_scope (buff->parent);
+        buff->scope =
+          ((struct argument_expression_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct argument_expression_list *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_ARGUMENT_EXPRESSION_LIST:
-      set_argument_expression_list_scope (buff->parent);
-      buff->scope =
-        ((struct argument_expression_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct argument_expression_list *) (buff->parent))->scope_kind;
-      break;
+      case NODE_EXPRESSION:
+        set_expression_scope (buff->parent);
+        buff->scope = ((struct expression *) (buff->parent))->scope;
+        buff->scope_kind = ((struct expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_EXPRESSION:
-      set_expression_scope (buff->parent);
-      buff->scope = ((struct expression *) (buff->parent))->scope;
-      buff->scope_kind = ((struct expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_DIRECT_DECLARATOR:
+        set_direct_declarator_scope (buff->parent);
+        buff->scope = ((struct direct_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct direct_declarator *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_DIRECT_DECLARATOR:
-      set_direct_declarator_scope (buff->parent);
-      buff->scope = ((struct direct_declarator *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct direct_declarator *) (buff->parent))->scope_kind;
-      break;
+      case NODE_DIRECT_ABSTRACT_DECLARATOR:
+        set_direct_abs_declarator_scope (buff->parent);
+        buff->scope =
+          ((struct direct_abstract_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct direct_abstract_declarator *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_DIRECT_ABSTRACT_DECLARATOR:
-      set_direct_abs_declarator_scope (buff->parent);
-      buff->scope =
-        ((struct direct_abstract_declarator *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct direct_abstract_declarator *) (buff->parent))->scope_kind;
-      break;
+      case NODE_INITIALIZER:
+        set_initializer_scope (buff->parent);
+        buff->scope = ((struct initializer *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct initializer *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_INITIALIZER:
-      set_initializer_scope (buff->parent);
-      buff->scope = ((struct initializer *) (buff->parent))->scope;
-      buff->scope_kind = ((struct initializer *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

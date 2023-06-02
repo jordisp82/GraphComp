@@ -53,27 +53,25 @@ set_argument_expression_list_scope (struct argument_expression_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ARGUMENT_EXPRESSION_LIST);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_ARGUMENT_EXPRESSION_LIST:
+        set_argument_expression_list_scope (buff->parent);
+        buff->scope =
+          ((struct argument_expression_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct argument_expression_list *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_ARGUMENT_EXPRESSION_LIST:
-      set_argument_expression_list_scope (buff->parent);
-      buff->scope =
-        ((struct argument_expression_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct argument_expression_list *) (buff->parent))->scope_kind;
-      break;
+      case NODE_POSTFIX_EXPRESSION:
+        set_postfix_expression_scope (buff->parent);
+        buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct postfix_expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_POSTFIX_EXPRESSION:
-      set_postfix_expression_scope (buff->parent);
-      buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct postfix_expression *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

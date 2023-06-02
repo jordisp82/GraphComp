@@ -396,27 +396,25 @@ set_direct_abs_declarator_scope (struct direct_abstract_declarator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DIRECT_ABSTRACT_DECLARATOR);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_ABSTRACT_DECLARATOR:
+        set_abstract_declarator_scope (buff->parent);
+        buff->scope = ((struct abstract_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct abstract_declarator *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_ABSTRACT_DECLARATOR:
-      set_abstract_declarator_scope (buff->parent);
-      buff->scope = ((struct abstract_declarator *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct abstract_declarator *) (buff->parent))->scope_kind;
-      break;
+      case NODE_DIRECT_ABSTRACT_DECLARATOR:
+        set_direct_abs_declarator_scope (buff->parent);
+        buff->scope =
+          ((struct direct_abstract_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct direct_abstract_declarator *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_DIRECT_ABSTRACT_DECLARATOR:
-      set_direct_abs_declarator_scope (buff->parent);
-      buff->scope =
-        ((struct direct_abstract_declarator *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct direct_abstract_declarator *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

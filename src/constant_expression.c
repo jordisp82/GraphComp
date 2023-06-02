@@ -36,53 +36,51 @@ set_const_expression_scope (struct constant_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_CONSTANT_EXPRESSION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_STRUCT_DECLARATOR:
+        set_struct_declarator_scope (buff->parent);
+        buff->scope = ((struct struct_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct struct_declarator *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_STRUCT_DECLARATOR:
-      set_struct_declarator_scope (buff->parent);
-      buff->scope = ((struct struct_declarator *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct struct_declarator *) (buff->parent))->scope_kind;
-      break;
+      case NODE_ENUMERATOR:
+        set_enumerator_scope (buff->parent);
+        buff->scope = ((struct enumerator *) (buff->parent))->scope;
+        buff->scope_kind = ((struct enumerator *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_ENUMERATOR:
-      set_enumerator_scope (buff->parent);
-      buff->scope = ((struct enumerator *) (buff->parent))->scope;
-      buff->scope_kind = ((struct enumerator *) (buff->parent))->scope_kind;
-      break;
+      case NODE_ALIGNMENT_SPECIFIER:
+        set_alignment_specifier_scope (buff->parent);
+        buff->scope = ((struct alignment_specifier *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct alignment_specifier *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_ALIGNMENT_SPECIFIER:
-      set_alignment_specifier_scope (buff->parent);
-      buff->scope = ((struct alignment_specifier *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct alignment_specifier *) (buff->parent))->scope_kind;
-      break;
+      case NODE_DESIGNATOR:
+        set_designator_scope (buff->parent);
+        buff->scope = ((struct designator *) (buff->parent))->scope;
+        buff->scope_kind = ((struct designator *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_DESIGNATOR:
-      set_designator_scope (buff->parent);
-      buff->scope = ((struct designator *) (buff->parent))->scope;
-      buff->scope_kind = ((struct designator *) (buff->parent))->scope_kind;
-      break;
+      case NODE_STATIC_ASSERT_DECLARATION:
+        set_static_assert_scope (buff->parent);
+        buff->scope =
+          ((struct static_assert_declaration *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct static_assert_declaration *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_STATIC_ASSERT_DECLARATION:
-      set_static_assert_scope (buff->parent);
-      buff->scope =
-        ((struct static_assert_declaration *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct static_assert_declaration *) (buff->parent))->scope_kind;
-      break;
+      case NODE_LABELED_STATEMENT:
+        set_labeled_stmt_scope (buff->parent);
+        buff->scope = ((struct labeled_statement *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct labeled_statement *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_LABELED_STATEMENT:
-      set_labeled_stmt_scope (buff->parent);
-      buff->scope = ((struct labeled_statement *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct labeled_statement *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG */
-    }
+      default:
+        ;                       /* BUG */
+      }
 }

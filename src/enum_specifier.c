@@ -113,16 +113,17 @@ set_enum_specifier_scope (struct enum_specifier *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ENUM_SPECIFIER);
 
-  switch (buff->parent_kind)
-    {
-    case NODE_TYPE_SPECIFIER:
-      set_type_specifier_scope (buff->parent);
-      buff->scope = ((struct type_specifier *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct type_specifier *) (buff->parent))->scope_kind;
-      break;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_TYPE_SPECIFIER:
+        set_type_specifier_scope (buff->parent);
+        buff->scope = ((struct type_specifier *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct type_specifier *) (buff->parent))->scope_kind;
+        break;
 
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

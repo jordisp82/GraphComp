@@ -12,6 +12,8 @@
 #include "declaration_list.h"
 #include "function_definition.h"
 #include "ast.h"
+#include "iteration_statement.h"
+#include "declaration_list.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -202,50 +204,34 @@ set_declaration_scope (struct declaration *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DECLARATION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
-
-  switch (buff->parent_kind)
-    {
-    case NODE_BLOCK_ITEM:
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
       {
-        /* 
-         * that's easy because block items
-         * belong to a compound statement.
-         */
-        struct block_item_list *bil =
-          ((struct block_item *) buff->parent)->parent;
-        buff->scope = bil->parent;
-        buff->scope_kind = NODE_COMPOUND_STATEMENT;
-      }
-      break;
+      case NODE_BLOCK_ITEM:
+        set_block_item_list_scope (buff->parent);
+        buff->scope = ((struct block_item *) (buff->parent))->scope;
+        buff->scope_kind = ((struct block_item *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_ITERATION_STATEMENT:
-      /* note only for certain kinds of 'foor' loops */
-      buff->scope = buff->parent;
-      buff->scope_kind = NODE_ITERATION_STATEMENT;
-      break;
+      case NODE_ITERATION_STATEMENT:
+        /* note only for certain kinds of 'foor' loops */
+        buff->scope = buff->parent;
+        buff->scope_kind = NODE_ITERATION_STATEMENT;
+        break;
 
-    case NODE_EXTERNAL_DECLARATION:
-      buff->scope = ((struct external_declaration *) buff->parent)->parent;
-      buff->scope_kind = NODE_TRANSLATION_UNIT;
-      break;
-
-    case NODE_DECLARATION_LIST:
-      {
-        /*
-         * The parent of a declaration-list
-         * is a function definition, whose parent
-         * is an external declaration.
-         */
-        struct function_definition *fd =
-          ((struct declaration_list *) buff->parent)->parent;
-        buff->scope = ((struct external_declaration *) fd->parent)->parent;
+      case NODE_EXTERNAL_DECLARATION:
+        buff->scope = ((struct external_declaration *) buff->parent)->parent;
         buff->scope_kind = NODE_TRANSLATION_UNIT;
-      }
-      break;
+        break;
 
-    default:
-      ;                         /* BUG! */
-    }
+      case NODE_DECLARATION_LIST:
+        set_declaration_list_scope (buff->parent);
+        buff->scope = ((struct declaration_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct declaration_list *) (buff->parent))->scope_kind;
+        break;
+
+      default:
+        ;                       /* BUG! */
+      }
 }

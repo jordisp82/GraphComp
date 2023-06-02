@@ -65,26 +65,24 @@ set_initializer_scope (struct initializer *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_INIT_DECLARATOR:
+        set_init_declarator_scope (buff->parent);
+        buff->scope = ((struct init_declarator *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct init_declarator *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_INIT_DECLARATOR:
-      set_init_declarator_scope (buff->parent);
-      buff->scope = ((struct init_declarator *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct init_declarator *) (buff->parent))->scope_kind;
-      break;
+      case NODE_INITIALIZER_LIST:
+        set_initializer_list_scope (buff->parent);
+        buff->scope = ((struct initializer_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct initializer_list *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_INITIALIZER_LIST:
-      set_initializer_list_scope (buff->parent);
-      buff->scope = ((struct initializer_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct initializer_list *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

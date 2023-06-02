@@ -50,19 +50,18 @@ set_alignment_specifier_scope (struct alignment_specifier *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ALIGNMENT_SPECIFIER);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_DECLARATION_SPECIFIERS:
+        set_declaration_specifiers_scope (buff->parent);
+        buff->scope =
+          ((struct declaration_specifiers *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct declaration_specifiers *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_DECLARATION_SPECIFIERS:
-      set_declaration_specifiers_scope (buff->parent);
-      buff->scope = ((struct declaration_specifiers *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct declaration_specifiers *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

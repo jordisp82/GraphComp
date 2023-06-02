@@ -102,32 +102,31 @@ set_initializer_list_scope (struct initializer_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER_LIST);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_POSTFIX_EXPRESSION:
+        set_postfix_expression_scope (buff->parent);
+        buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct postfix_expression *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_POSTFIX_EXPRESSION:
-      set_postfix_expression_scope (buff->parent);
-      buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct postfix_expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_INITIALIZER:
+        set_initializer_scope (buff->parent);
+        buff->scope = ((struct initializer *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct initializer *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_INITIALIZER:
-      set_initializer_scope (buff->parent);
-      buff->scope = ((struct initializer *) (buff->parent))->scope;
-      buff->scope_kind = ((struct initializer *) (buff->parent))->scope_kind;
-      break;
+      case NODE_INITIALIZER_LIST:
+        set_initializer_list_scope (buff->parent);
+        buff->scope = ((struct initializer_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct initializer_list *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_INITIALIZER_LIST:
-      set_initializer_list_scope (buff->parent);
-      buff->scope = ((struct initializer_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct initializer_list *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

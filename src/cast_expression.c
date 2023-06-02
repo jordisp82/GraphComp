@@ -50,34 +50,32 @@ set_cast_expression_scope (struct cast_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_CAST_EXPRESSION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_CAST_EXPRESSION:
+        set_cast_expression_scope (buff->parent);
+        buff->scope = ((struct cast_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct cast_expression *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_CAST_EXPRESSION:
-      set_cast_expression_scope (buff->parent);
-      buff->scope = ((struct cast_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct cast_expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_UNARY_EXPRESSION:
+        set_unary_expression_scope (buff->parent);
+        buff->scope = ((struct unary_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct unary_expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_UNARY_EXPRESSION:
-      set_unary_expression_scope (buff->parent);
-      buff->scope = ((struct unary_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct unary_expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_MULTIPLICATIVE_EXPRESSION:
+        set_mult_expression_scope (buff->parent);
+        buff->scope =
+          ((struct multiplicative_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct multiplicative_expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_MULTIPLICATIVE_EXPRESSION:
-      set_mult_expression_scope (buff->parent);
-      buff->scope =
-        ((struct multiplicative_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct multiplicative_expression *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

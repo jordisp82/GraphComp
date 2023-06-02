@@ -72,26 +72,24 @@ set_equality_expression_scope (struct equality_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_EQUALITY_EXPRESSION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_EQUALITY_EXPRESSION:
+        set_equality_expression_scope (buff->parent);
+        buff->scope = ((struct equality_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct equality_expression *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_EQUALITY_EXPRESSION:
-      set_equality_expression_scope (buff->parent);
-      buff->scope = ((struct equality_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct equality_expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_AND_EXPRESSION:
+        set_and_expression_scope (buff->parent);
+        buff->scope = ((struct and_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct and_expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_AND_EXPRESSION:
-      set_and_expression_scope (buff->parent);
-      buff->scope = ((struct and_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct and_expression *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

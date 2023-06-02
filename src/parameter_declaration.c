@@ -93,19 +93,17 @@ set_parameter_declaration_scope (struct parameter_declaration *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_PARAMETER_DECLARATION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_PARAMETER_LIST:
+        set_parameter_list (buff->parent);
+        buff->scope = ((struct parameter_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct parameter_list *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_PARAMETER_LIST:
-      set_parameter_list (buff->parent);
-      buff->scope = ((struct parameter_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct parameter_list *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

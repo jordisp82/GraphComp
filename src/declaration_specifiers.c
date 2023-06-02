@@ -257,30 +257,30 @@ set_declaration_specifiers_scope (struct declaration_specifiers *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DECLARATION_SPECIFIERS);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_DECLARATION:
+        set_declaration_scope (buff->parent);
+        buff->scope = ((struct declaration *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct declaration *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_DECLARATION:
-      set_declaration_scope (buff->parent);
-      buff->scope = ((struct declaration *) (buff->parent))->scope;
-      buff->scope_kind = ((struct declaration *) (buff->parent))->scope_kind;
-      break;
+      case NODE_PARAMETER_DECLARATION:
+        set_parameter_declaration_scope (buff->parent);
+        buff->scope =
+          ((struct parameter_declaration *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct parameter_declaration *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_PARAMETER_DECLARATION:
-      set_parameter_declaration_scope (buff->parent);
-      buff->scope = ((struct parameter_declaration *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct parameter_declaration *) (buff->parent))->scope_kind;
-      break;
+      case NODE_FUNCTION_DEFINITION:
+        buff->scope = buff->parent;
+        buff->scope_kind = NODE_FUNCTION_DEFINITION;
+        break;
 
-    case NODE_FUNCTION_DEFINITION:
-      buff->scope = buff->parent;
-      buff->scope_kind = NODE_FUNCTION_DEFINITION;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

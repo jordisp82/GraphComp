@@ -240,27 +240,26 @@ set_type_specifier_scope (struct type_specifier *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_TYPE_SPECIFIER);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_DECLARATION_SPECIFIERS:
+        set_declaration_specifiers_scope (buff->parent);
+        buff->scope =
+          ((struct declaration_specifiers *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct declaration_specifiers *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_DECLARATION_SPECIFIERS:
-      set_declaration_specifiers_scope (buff->parent);
-      buff->scope = ((struct declaration_specifiers *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct declaration_specifiers *) (buff->parent))->scope_kind;
-      break;
+      case NODE_SPECIFIER_QUALIFIER_LIST:
+        set_specifier_qualifier_list_scope (buff->parent);
+        buff->scope =
+          ((struct specifier_qualifier_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct specifier_qualifier_list *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_SPECIFIER_QUALIFIER_LIST:
-      set_specifier_qualifier_list_scope (buff->parent);
-      buff->scope =
-        ((struct specifier_qualifier_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct specifier_qualifier_list *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

@@ -67,20 +67,18 @@ set_struct_declaration_scope (struct struct_declaration *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_STRUCT_DECLARATION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_STRUCT_DECLARATION_LIST:
+        set_struct_declaration_list_scope (buff->parent);
+        buff->scope =
+          ((struct struct_declaration_list *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct struct_declaration_list *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_STRUCT_DECLARATION_LIST:
-      set_struct_declaration_list_scope (buff->parent);
-      buff->scope =
-        ((struct struct_declaration_list *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct struct_declaration_list *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }

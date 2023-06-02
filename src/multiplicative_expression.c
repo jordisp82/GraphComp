@@ -92,27 +92,25 @@ set_mult_expression_scope (struct multiplicative_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_MULTIPLICATIVE_EXPRESSION);
 
-  if (buff->scope != NULL && buff->scope_kind != NODE_UNDEFINED)
-    return;
+  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
+    switch (buff->parent_kind)
+      {
+      case NODE_MULTIPLICATIVE_EXPRESSION:
+        set_mult_expression_scope (buff->parent);
+        buff->scope =
+          ((struct multiplicative_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct multiplicative_expression *) (buff->parent))->scope_kind;
+        break;
 
-  switch (buff->parent_kind)
-    {
-    case NODE_MULTIPLICATIVE_EXPRESSION:
-      set_mult_expression_scope (buff->parent);
-      buff->scope =
-        ((struct multiplicative_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct multiplicative_expression *) (buff->parent))->scope_kind;
-      break;
+      case NODE_ADDITIVE_EXPRESSION:
+        set_add_expression_scope (buff->parent);
+        buff->scope = ((struct additive_expression *) (buff->parent))->scope;
+        buff->scope_kind =
+          ((struct additive_expression *) (buff->parent))->scope_kind;
+        break;
 
-    case NODE_ADDITIVE_EXPRESSION:
-      set_add_expression_scope (buff->parent);
-      buff->scope = ((struct additive_expression *) (buff->parent))->scope;
-      buff->scope_kind =
-        ((struct additive_expression *) (buff->parent))->scope_kind;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
+      default:
+        ;                       /* BUG! */
+      }
 }
