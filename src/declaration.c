@@ -208,7 +208,7 @@ set_declaration_scope (struct declaration *buff)
     switch (buff->parent_kind)
       {
       case NODE_BLOCK_ITEM:
-        set_block_item_list_scope (buff->parent);
+        set_block_item_scope (buff->parent);
         buff->scope = ((struct block_item *) (buff->parent))->scope;
         buff->scope_kind = ((struct block_item *) (buff->parent))->scope_kind;
         break;
