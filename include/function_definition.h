@@ -39,5 +39,6 @@ int create_symbols_for_function_definition (struct function_definition *buff,
                                             symbol_t *** sym_pars);
 void create_symbol_table_fd (struct function_definition *buff, int n,
                              symbol_t ** sym_pars);
+void fill_in_symtable_fd (struct function_definition *buff);
 
 #endif

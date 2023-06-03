@@ -337,3 +337,12 @@ set_direct_declarator_scope (struct direct_declarator *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_direct_declarator (struct direct_declarator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DIRECT_DECLARATOR);
+
+  /* TODO */
+}

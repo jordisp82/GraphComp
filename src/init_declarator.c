@@ -78,3 +78,13 @@ set_init_declarator_scope (struct init_declarator *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_init_declarator (struct init_declarator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INIT_DECLARATOR);
+  assert (buff->dclr != NULL);
+
+  fill_in_symtable_declarator (buff->dclr);
+}

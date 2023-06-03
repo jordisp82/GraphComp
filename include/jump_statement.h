@@ -8,6 +8,9 @@
  *      BREAK ';'                       (3)
  *      RETURN ';'                      (4)
  *      RETURN expression ';'           (5)
+ * 
+ * parents:
+ *      statement (6)
  */
 
 #include "node_kind_t.h"
@@ -36,5 +39,8 @@ struct jump_statement
   node_kind_t parent_kind;
   void *parent;
 };
+
+void set_jump_statetment_scope (struct jump_statement *buff);
+void fill_in_symtable_jump_stmt (struct jump_statement *buff);
 
 #endif

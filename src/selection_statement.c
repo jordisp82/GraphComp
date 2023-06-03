@@ -88,3 +88,17 @@ set_selection_stmt_scope (struct selection_statement *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_select_stmt (struct selection_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_EXPRESSION_STATEMENT);
+  assert (buff->ex != NULL);
+  assert (buff->st1 != NULL);
+
+  /* TODO expression */
+  fill_in_symtable_statement (buff->st1);
+  if (buff->st2 != NULL)
+    fill_in_symtable_statement (buff->st2);
+}

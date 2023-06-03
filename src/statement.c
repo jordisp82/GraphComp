@@ -150,3 +150,40 @@ set_statement_scope (struct statement *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_statement (struct statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STATEMENT);
+
+  switch (buff->child_kind)
+    {
+    case NODE_LABELED_STATEMENT:
+      /* nothing to do */
+      break;
+
+    case NODE_COMPOUND_STATEMENT:
+      fill_in_symtable_cs (buff->cs);
+      break;
+
+    case NODE_EXPRESSION_STATEMENT:
+      fill_in_symtable_expr_stmt (buff->es);
+      break;
+
+    case NODE_SELECTION_STATEMENT:
+      fill_in_symtable_select_stmt (buff->ss);
+      break;
+
+    case NODE_ITERATION_STATEMENT:
+      fill_in_symtable_iter_stmt (buff->is);
+      break;
+
+    case NODE_JUMP_STATEMENT:
+      fill_in_symtable_jump_stmt (buff->js);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

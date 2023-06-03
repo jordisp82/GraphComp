@@ -28,5 +28,6 @@ struct block_item_list
 };
 
 void set_block_item_list_scope (struct block_item_list *buff);
+void fill_in_symtable_block_item_list (struct block_item_list *buff);
 
 #endif

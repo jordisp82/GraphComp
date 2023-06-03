@@ -168,3 +168,17 @@ set_unary_expression_scope (struct unary_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_unary_expr (struct unary_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_UNARY_EXPRESSION);
+
+  if (buff->pex != NULL)
+    fill_in_symtable_postfix_expr (buff->pex);
+  if (buff->unex != NULL)
+    fill_in_symtable_unary_expr (buff->unex);
+  if (buff->cex != NULL)
+    ;
+}

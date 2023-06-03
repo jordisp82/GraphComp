@@ -229,3 +229,45 @@ set_postfix_expression_scope (struct postfix_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_postfix_expr (struct postfix_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_POSTFIX_EXPRESSION);
+
+  switch (buff->pf_kind)
+    {
+    case POSTFIX_PRIMARY:
+      fill_in_symtable_pri_expr (buff->pex);
+      break;
+
+    case POSTFIX_ARRAY:
+      fill_in_symtable_postfix_expr (buff->pfex);
+      fill_in_symtable_expression (buff->ex);
+      break;
+
+    case POSTFIX_FUNCTION:
+      fill_in_symtable_postfix_expr (buff->pfex);
+      if (buff->ael != NULL)
+        ;
+
+    case POSTFIX_FIELD1:
+    case POSTFIX_FIELD2:
+      /* TODO */
+#if 0
+      fill_in_symtable_postfix_expr (buff->pfex);
+      (void) look_for_id_in_symtable (buff);
+#endif
+      break;
+
+    case POSTFIX_INC:
+    case POSTFIX_DEC:
+      fill_in_symtable_postfix_expr (buff->pfex);
+      break;
+
+    case POSTFIX_COMP_LIT:
+      /* nothing to do */
+      break;
+    }
+}

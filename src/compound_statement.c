@@ -129,3 +129,13 @@ look_for_id_in_cs (struct compound_statement *buff, const char *name)
 
   return (node != NULL) ? node->value : NULL;
 }
+
+void
+fill_in_symtable_cs (struct compound_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_COMPOUND_STATEMENT);
+
+  if (buff->bil != NULL)
+    fill_in_symtable_block_item_list (buff->bil);
+}

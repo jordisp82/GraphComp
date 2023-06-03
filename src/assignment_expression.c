@@ -101,3 +101,17 @@ set_assignment_expression_scope (struct assignment_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_ass_expr (struct assignment_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ASSIGNMENT_EXPRESSION);
+
+  if (buff->cond_e != NULL)
+    fill_in_symtable_cond_expr (buff->cond_e);
+  if (buff->un_expr != NULL)
+    fill_in_symtable_unary_expr (buff->un_expr);
+  if (buff->ass_e != NULL)
+    fill_in_symtable_ass_expr (buff->ass_e);
+}

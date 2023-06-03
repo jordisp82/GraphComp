@@ -29,5 +29,6 @@ struct block_item
 };
 
 void set_block_item_scope (struct block_item *buff);
+void fill_in_symtable_block_item (struct block_item *buff);
 
 #endif

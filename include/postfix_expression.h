@@ -20,6 +20,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 typedef enum
 {
@@ -38,18 +39,19 @@ struct postfix_expression
   node_kind_t kind;
   postfix_kind_t pf_kind;
   struct postfix_expression *pfex;
+  const char *id;
   union
   {
     struct primary_expression *pex;
     struct expression *ex;
     struct argument_expression_list *ael;
-    const char *id;
     struct
     {
       struct type_name *tn;
       struct initializer_list *il;
     } comp_lit;
   };
+  symbol_t *sym;
   node_kind_t scope_kind;
   void *scope;
   node_kind_t parent_kind;
@@ -57,5 +59,6 @@ struct postfix_expression
 };
 
 void set_postfix_expression_scope (struct postfix_expression *buff);
+void fill_in_symtable_postfix_expr (struct postfix_expression *buff);
 
 #endif

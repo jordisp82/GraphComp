@@ -31,5 +31,6 @@ struct expression
 };
 
 void set_expression_scope (struct expression *buff);
+void fill_in_symtable_expression (struct expression *buff);
 
 #endif

@@ -95,6 +95,33 @@ primary_expression_5 (void *ptr __attribute__((unused)))
   return buff;
 }
 
+void
+fill_in_symtable_pri_expr (struct primary_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_PRIMARY_EXPRESSION);
+
+  switch (buff->priex_kind)
+    {
+    case PRIEX_IDENT:
+      (void) look_for_id_in_symtable (buff);
+      break;
+
+    case PRIEX_CONST:
+    case PRIEX_STRING:
+    case PRIEX_GS:
+      /* nothing to do */
+      break;
+
+    case PRIEX_EX:
+      fill_in_symtable_expression (buff->e);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}
+
 static int
 look_for_id_in_symtable (struct primary_expression *buff)
 {

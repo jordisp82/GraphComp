@@ -28,5 +28,6 @@ struct init_declarator
 
 symbol_t *create_symbol_from_init_declarator (struct init_declarator *buff);
 void set_init_declarator_scope (struct init_declarator *buff);
+void fill_in_symtable_init_declarator (struct init_declarator *buff);
 
 #endif

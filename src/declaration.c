@@ -235,3 +235,13 @@ set_declaration_scope (struct declaration *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_declaration (struct declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DECLARATION);
+
+  if (buff->idl != NULL)
+    fill_init_symtable_idl (buff->idl);
+}

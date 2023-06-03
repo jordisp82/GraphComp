@@ -173,3 +173,52 @@ set_iteration_stmt_scope (struct iteration_statement *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_iter_stmt (struct iteration_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ITERATION_STATEMENT);
+
+  switch (buff->is_kind)
+    {
+    case IS_WHILE:
+      /* TODO fill in expression */
+      fill_in_symtable_statement (buff->is_while.st);
+      break;
+
+    case IS_DO:
+      /* TODO fill in expression */
+      fill_in_symtable_statement (buff->is_do.st);
+      break;
+
+    case IS_FOR_ES_ES:
+      fill_in_symtable_expr_stmt (buff->is_for_es_es.es1);
+      fill_in_symtable_expr_stmt (buff->is_for_es_es.es2);
+      fill_in_symtable_statement (buff->is_for_es_es.st);
+      break;
+
+    case IS_FOR_ES_ES_EX:
+      /* TODO fill in expression */
+      fill_in_symtable_expr_stmt (buff->is_for_es_es_ex.es1);
+      fill_in_symtable_expr_stmt (buff->is_for_es_es_ex.es2);
+      fill_in_symtable_statement (buff->is_for_es_es_ex.st);
+      break;
+
+    case IS_FOR_DECL_ES:
+      /* TODO fill in for declaration? */
+      fill_in_symtable_expr_stmt (buff->is_for_decl_es.es);
+      fill_in_symtable_statement (buff->is_for_decl_es.st);
+      break;
+
+    case IS_FOR_DECL_ES_EX:
+      /* TODO fill in for declaration? */
+      /* TODO fill in expression */
+      fill_in_symtable_expr_stmt (buff->is_for_decl_es_ex.es);
+      fill_in_symtable_statement (buff->is_for_decl_es_ex.st);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

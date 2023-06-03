@@ -26,4 +26,6 @@ struct external_declaration
   void *parent;
 };
 
+void fill_in_symtable_ed (struct external_declaration *ed);
+
 #endif

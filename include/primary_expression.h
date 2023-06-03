@@ -47,5 +47,6 @@ struct primary_expression
 };
 
 void set_primary_expression_scope (struct primary_expression *buff);
+void fill_in_symtable_pri_expr (struct primary_expression *buff);
 
 #endif

@@ -27,5 +27,6 @@ struct conditional_expression
 };
 
 void set_cond_expression_scope (struct conditional_expression *buff);
+void fill_in_symtable_cond_expr (struct conditional_expression *buff);
 
 #endif

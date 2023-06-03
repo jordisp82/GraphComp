@@ -43,6 +43,27 @@ external_declaration_2 (void *ptr)
   return buff;
 }
 
+void
+fill_in_symtable_ed (struct external_declaration *ed)
+{
+  assert (ed != NULL);
+  assert (ed->kind == NODE_EXTERNAL_DECLARATION);
+
+  switch (ed->child_kind)
+    {
+    case NODE_FUNCTION_DEFINITION:
+      fill_in_symtable_fd (ed->fd);
+      break;
+
+    case NODE_DECLARATION:
+      fill_in_symtable_declaration (ed->d);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}
+
 #if 0
 void
 ED_symbols (struct external_declaration *buff)

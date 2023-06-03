@@ -77,5 +77,6 @@ struct iteration_statement
 };
 
 void set_iteration_stmt_scope (struct iteration_statement *buff);
+void fill_in_symtable_iter_stmt (struct iteration_statement *buff);
 
 #endif

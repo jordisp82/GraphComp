@@ -4,6 +4,7 @@
 #include "init_declarator_list.h"
 #include "init_declarator.h"
 #include "declaration.h"
+#include "declarator.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -95,4 +96,14 @@ set_init_declarator_list_scope (struct init_declarator_list *buff)
       default:
         ;                       /* BUG! */
       }
+}
+
+void
+fill_init_symtable_idl (struct init_declarator_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INIT_DECLARATOR_LIST);
+
+  for (struct idl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    fill_in_symtable_init_declarator (ptr->id);
 }
