@@ -25,5 +25,6 @@ struct and_expression
 };
 
 void set_and_expression_scope (struct and_expression *buff);
+void fill_in_symtable_and_expr (struct and_expression *buff);
 
 #endif

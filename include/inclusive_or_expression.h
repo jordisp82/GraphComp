@@ -25,5 +25,6 @@ struct inclusive_or_expression
 };
 
 void set_or_expression_scope (struct inclusive_or_expression *buff);
+void fill_in_symtable_or_expr (struct inclusive_or_expression *buff);
 
 #endif

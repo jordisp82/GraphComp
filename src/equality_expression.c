@@ -93,3 +93,15 @@ set_equality_expression_scope (struct equality_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_eq_expr (struct equality_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_EQUALITY_EXPRESSION);
+  assert (buff->rexp != NULL);
+
+  fill_in_symtable_rel_expr (buff->rexp);
+  if (buff->eqex != NULL)
+    fill_in_symtable_eq_expr (buff->eqex);
+}

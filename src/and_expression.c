@@ -69,3 +69,15 @@ set_and_expression_scope (struct and_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_and_expr (struct and_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_AND_EXPRESSION);
+  assert (buff->eq != NULL);
+
+  fill_in_symtable_eq_expr (buff->eq);
+  if (buff->and_e != NULL)
+    fill_in_symtable_and_expr (buff->and_e);
+}

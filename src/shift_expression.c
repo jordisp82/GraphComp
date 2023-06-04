@@ -94,3 +94,15 @@ set_shift_expression_scope (struct shift_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_shift_expr (struct shift_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_SHIFT_EXPRESSION);
+  assert (buff->add_ex != NULL);
+
+  fill_in_symtable_add_expr (buff->add_ex);
+  if (buff->sh_ex != NULL)
+    fill_in_symtable_shift_expr (buff->sh_ex);
+}

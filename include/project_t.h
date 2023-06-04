@@ -30,4 +30,6 @@ typedef struct
   macro_t *macros;              /* optional */
 } project_t;
 
+#define PROJECT_ZERO    {(const char *)0, (cfile_t *)0, (ipath_t *)0, (macro_t *)0}
+
 #endif

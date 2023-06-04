@@ -73,3 +73,15 @@ set_xor_expression_scope (struct exclusive_or_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_xor_expr (struct exclusive_or_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_EXCLUSIVE_OR_EXPRESSION);
+  assert (buff->and_e != NULL);
+
+  fill_in_symtable_and_expr (buff->and_e);
+  if (buff->xor_e != NULL)
+    fill_in_symtable_xor_expr (buff->xor_e);
+}

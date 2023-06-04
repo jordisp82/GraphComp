@@ -25,5 +25,6 @@ struct logical_or_expression
 };
 
 void set_logic_or_expression_scope (struct logical_or_expression *buff);
+void fill_in_symtable_lor_expr (struct logical_or_expression *buff);
 
 #endif

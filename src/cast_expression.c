@@ -37,7 +37,7 @@ cast_expression_2 (void *ptr1, void *ptr2)
   buff->kind = NODE_CAST_EXPRESSION;
   buff->cast_kind = CAST_NO;
   buff->tn = ptr1;
-  buff->unary_ex = ptr2;
+  buff->cast_ex = ptr2;
   buff->tn->parent_kind = buff->unary_ex->parent_kind = NODE_CAST_EXPRESSION;
   buff->tn->parent = buff->unary_ex->parent = buff;
 
@@ -78,4 +78,16 @@ set_cast_expression_scope (struct cast_expression *buff)
       default:
         ;                       /* BUG! */
       }
+}
+
+void
+fill_in_symtable_cast_expr (struct cast_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_CAST_EXPRESSION);
+
+  if (buff->unary_ex != NULL)
+    fill_in_symtable_unary_expr (buff->unary_ex);
+  if (buff->cast_ex != NULL)
+    fill_in_symtable_cast_expr (buff->cast_ex);
 }

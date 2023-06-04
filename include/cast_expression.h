@@ -24,7 +24,11 @@ struct cast_expression
 {
   node_kind_t kind;
   cast_kind_t cast_kind;
-  struct unary_expression *unary_ex;
+  union
+  {
+    struct unary_expression *unary_ex;
+    struct cast_expression *cast_ex;
+  };
   struct type_name *tn;
   node_kind_t scope_kind;
   void *scope;
@@ -33,5 +37,6 @@ struct cast_expression
 };
 
 void set_cast_expression_scope (struct cast_expression *buff);
+void fill_in_symtable_cast_expr (struct cast_expression *buff);
 
 #endif

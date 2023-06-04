@@ -93,3 +93,15 @@ set_add_expression_scope (struct additive_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_add_expr (struct additive_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ADDITIVE_EXPRESSION);
+  assert (buff->mult_ex != NULL);
+
+  fill_in_symtable_mult_expr (buff->mult_ex);
+  if (buff->add_ex != NULL)
+    fill_in_symtable_add_expr (buff->add_ex);
+}

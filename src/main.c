@@ -5,6 +5,9 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include "project_t.h"
+#include "parse_cmd_line.h"
+#include "preproc.h"
 #include "grammar.tab.h"
 #include "ast.h"
 #include "structs.h"
@@ -15,15 +18,23 @@ extern FILE *yyin;
 int
 main (int argc, char *argv[])
 {
-  if (argc < 2)
+  project_t project = PROJECT_ZERO;
+  if (parse_cmd_line (argc, argv, &project) < 0)
     return -1;
 
-  yyin = fopen (argv[1], "r");
-  if (yyin == NULL)
-    return -1;
+  assert (project.files != NULL);
+  for (cfile_t * ptr = project.files->next; ptr != NULL; ptr = ptr->next)
+    {
+      char *dst = NULL;
+      if (preproc (ptr->fname, &dst, project.ipaths, project.macros) == 0)
+        {
+          struct translation_unit *ast = NULL;
+          yyin = fopen (dst, "r");
+          yyparse ((void **) &ast);
+          create_symbol_table_file (ast);
+          fill_in_symtable_tu (ast);
+        }
+    }
 
-  struct translation_unit *ast = NULL;
-
-  yyparse ((void **) &ast);
-  create_symbol_table_file (ast);
+  return 0;
 }

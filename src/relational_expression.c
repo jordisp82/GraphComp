@@ -134,3 +134,15 @@ set_rel_expression_scope (struct relational_expression *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+fill_in_symtable_rel_expr (struct relational_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_RELATIONAL_EXPRESSION);
+  assert (buff->sh_ex != NULL);
+
+  fill_in_symtable_shift_expr (buff->sh_ex);
+  if (buff->relex != NULL)
+    fill_in_symtable_rel_expr (buff->relex);
+}
