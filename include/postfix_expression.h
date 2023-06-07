@@ -59,6 +59,5 @@ struct postfix_expression
 };
 
 void set_postfix_expression_scope (struct postfix_expression *buff);
-void fill_in_symtable_postfix_expr (struct postfix_expression *buff);
 
 #endif

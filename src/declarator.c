@@ -114,13 +114,3 @@ set_declarator_scope (struct declarator *buff)
         ;                       /* BUG! */
       }
 }
-
-void
-fill_in_symtable_declarator (struct declarator *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DECLARATOR);
-  assert (buff->ddclr != NULL);
-
-  fill_in_symtable_direct_declarator (buff->ddclr);
-}

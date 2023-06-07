@@ -115,6 +115,7 @@ set_mult_expression_scope (struct multiplicative_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_mult_expr (struct multiplicative_expression *buff)
 {
@@ -126,3 +127,4 @@ fill_in_symtable_mult_expr (struct multiplicative_expression *buff)
   if (buff->mult_ex != NULL)
     fill_in_symtable_mult_expr (buff->mult_ex);
 }
+#endif

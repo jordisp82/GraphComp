@@ -79,6 +79,7 @@ set_init_declarator_scope (struct init_declarator *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_init_declarator (struct init_declarator *buff)
 {
@@ -86,5 +87,9 @@ fill_in_symtable_init_declarator (struct init_declarator *buff)
   assert (buff->kind == NODE_INIT_DECLARATOR);
   assert (buff->dclr != NULL);
 
+#if 0
   fill_in_symtable_declarator (buff->dclr);
+#endif
+  fill_in_symtable_initializer (buff->itz);
 }
+#endif

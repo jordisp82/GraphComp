@@ -98,8 +98,9 @@ set_init_declarator_list_scope (struct init_declarator_list *buff)
       }
 }
 
+#if 0
 void
-fill_init_symtable_idl (struct init_declarator_list *buff)
+fill_in_symtable_idl (struct init_declarator_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INIT_DECLARATOR_LIST);
@@ -107,3 +108,4 @@ fill_init_symtable_idl (struct init_declarator_list *buff)
   for (struct idl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     fill_in_symtable_init_declarator (ptr->id);
 }
+#endif

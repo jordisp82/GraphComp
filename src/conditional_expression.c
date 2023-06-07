@@ -85,6 +85,7 @@ set_cond_expression_scope (struct conditional_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_cond_expr (struct conditional_expression *buff)
 {
@@ -98,3 +99,4 @@ fill_in_symtable_cond_expr (struct conditional_expression *buff)
   if (buff->cond_e != NULL)
     fill_in_symtable_cond_expr (buff->cond_e);
 }
+#endif

@@ -43,6 +43,7 @@ external_declaration_2 (void *ptr)
   return buff;
 }
 
+#if 0
 void
 fill_in_symtable_ed (struct external_declaration *ed)
 {
@@ -63,6 +64,7 @@ fill_in_symtable_ed (struct external_declaration *ed)
       ;                         /* BUG! */
     }
 }
+#endif
 
 #if 0
 void

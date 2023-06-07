@@ -114,6 +114,7 @@ set_expression_scope (struct expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_expression (struct expression *buff)
 {
@@ -125,3 +126,4 @@ fill_in_symtable_expression (struct expression *buff)
     fill_in_symtable_expression (buff->expr);
   fill_in_symtable_ass_expr (buff->ass);
 }
+#endif

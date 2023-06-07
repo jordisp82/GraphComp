@@ -32,7 +32,9 @@ main (int argc, char *argv[])
           yyin = fopen (dst, "r");
           yyparse ((void **) &ast);
           create_symbol_table_file (ast);
+#if 0
           fill_in_symtable_tu (ast);
+#endif
         }
     }
 

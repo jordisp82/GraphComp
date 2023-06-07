@@ -74,6 +74,7 @@ set_xor_expression_scope (struct exclusive_or_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_xor_expr (struct exclusive_or_expression *buff)
 {
@@ -85,3 +86,4 @@ fill_in_symtable_xor_expr (struct exclusive_or_expression *buff)
   if (buff->xor_e != NULL)
     fill_in_symtable_xor_expr (buff->xor_e);
 }
+#endif

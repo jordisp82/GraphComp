@@ -74,6 +74,7 @@ set_or_expression_scope (struct inclusive_or_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_or_expr (struct inclusive_or_expression *buff)
 {
@@ -85,3 +86,4 @@ fill_in_symtable_or_expr (struct inclusive_or_expression *buff)
   if (buff->or_e != NULL)
     fill_in_symtable_or_expr (buff->or_e);
 }
+#endif

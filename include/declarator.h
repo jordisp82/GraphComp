@@ -40,6 +40,5 @@ symbol_t *create_symbol_for_declarator (struct declarator *buff);
 int create_symbols_for_parameters (struct declarator *buff,
                                    symbol_t *** sym_pars);
 void set_declarator_scope (struct declarator *buff);
-void fill_in_symtable_declarator (struct declarator *buff);
 
 #endif

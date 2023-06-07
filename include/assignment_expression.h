@@ -32,6 +32,5 @@ struct assignment_expression
 };
 
 void set_assignment_expression_scope (struct assignment_expression *buff);
-void fill_in_symtable_ass_expr (struct assignment_expression *buff);
 
 #endif

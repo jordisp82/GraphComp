@@ -31,6 +31,5 @@ struct translation_unit
 
 void create_symbol_table_file (struct translation_unit *buff);
 symbol_t *look_for_id_in_tu (struct translation_unit *buff, const char *name);
-void fill_in_symtable_tu (struct translation_unit *buff);
 
 #endif

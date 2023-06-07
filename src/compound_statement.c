@@ -130,6 +130,7 @@ look_for_id_in_cs (struct compound_statement *buff, const char *name)
   return (node != NULL) ? node->value : NULL;
 }
 
+#if 0
 void
 fill_in_symtable_cs (struct compound_statement *buff)
 {
@@ -139,3 +140,4 @@ fill_in_symtable_cs (struct compound_statement *buff)
   if (buff->bil != NULL)
     fill_in_symtable_block_item_list (buff->bil);
 }
+#endif

@@ -66,6 +66,7 @@ set_block_item_list_scope (struct block_item_list *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_block_item_list (struct block_item_list *buff)
 {
@@ -75,3 +76,4 @@ fill_in_symtable_block_item_list (struct block_item_list *buff)
   for (struct bil_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     fill_in_symtable_block_item (ptr->block_item);
 }
+#endif

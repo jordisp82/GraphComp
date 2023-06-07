@@ -70,7 +70,7 @@ create_symbols_for_param_list (struct parameter_list *buff,
 }
 
 void
-set_parameter_list (struct parameter_list *buff)
+set_parameter_list_scope (struct parameter_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_PARAMETER_LIST);
@@ -79,7 +79,7 @@ set_parameter_list (struct parameter_list *buff)
     switch (buff->parent_kind)
       {
       case NODE_PARAMETER_LIST:
-        set_parameter_list (buff->parent);
+        set_parameter_list_scope (buff->parent);
         buff->scope = ((struct parameter_list *) (buff->parent))->scope;
         buff->scope_kind =
           ((struct parameter_list *) (buff->parent))->scope_kind;

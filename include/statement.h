@@ -40,6 +40,5 @@ struct statement
 };
 
 void set_statement_scope (struct statement *buff);
-void fill_in_symtable_statement (struct statement *buff);
 
 #endif

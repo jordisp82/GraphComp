@@ -94,6 +94,7 @@ set_add_expression_scope (struct additive_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_add_expr (struct additive_expression *buff)
 {
@@ -105,3 +106,4 @@ fill_in_symtable_add_expr (struct additive_expression *buff)
   if (buff->add_ex != NULL)
     fill_in_symtable_add_expr (buff->add_ex);
 }
+#endif

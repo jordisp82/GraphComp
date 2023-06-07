@@ -37,6 +37,5 @@ struct cast_expression
 };
 
 void set_cast_expression_scope (struct cast_expression *buff);
-void fill_in_symtable_cast_expr (struct cast_expression *buff);
 
 #endif

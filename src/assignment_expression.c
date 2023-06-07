@@ -102,6 +102,7 @@ set_assignment_expression_scope (struct assignment_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_ass_expr (struct assignment_expression *buff)
 {
@@ -115,3 +116,4 @@ fill_in_symtable_ass_expr (struct assignment_expression *buff)
   if (buff->ass_e != NULL)
     fill_in_symtable_ass_expr (buff->ass_e);
 }
+#endif

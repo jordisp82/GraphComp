@@ -86,3 +86,15 @@ set_initializer_scope (struct initializer *buff)
         ;                       /* BUG! */
       }
 }
+
+#if 0
+void
+fill_in_symtable_initializer (struct initializer *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INITIALIZER);
+
+  if (buff->child_kind == IN_LIST)
+    fill_in_symtable_initializer_list (buff->il);
+}
+#endif

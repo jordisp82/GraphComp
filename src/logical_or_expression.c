@@ -74,6 +74,7 @@ set_logic_or_expression_scope (struct logical_or_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_lor_expr (struct logical_or_expression *buff)
 {
@@ -85,3 +86,4 @@ fill_in_symtable_lor_expr (struct logical_or_expression *buff)
   if (buff->or_e != NULL)
     fill_in_symtable_lor_expr (buff->or_e);
 }
+#endif

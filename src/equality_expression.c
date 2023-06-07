@@ -94,6 +94,7 @@ set_equality_expression_scope (struct equality_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_eq_expr (struct equality_expression *buff)
 {
@@ -105,3 +106,4 @@ fill_in_symtable_eq_expr (struct equality_expression *buff)
   if (buff->eqex != NULL)
     fill_in_symtable_eq_expr (buff->eqex);
 }
+#endif

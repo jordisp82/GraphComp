@@ -114,7 +114,9 @@ fill_in_symtable_pri_expr (struct primary_expression *buff)
       break;
 
     case PRIEX_EX:
+#if 0
       fill_in_symtable_expression (buff->e);
+#endif
       break;
 
     default:

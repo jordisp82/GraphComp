@@ -46,6 +46,5 @@ struct unary_expression
 };
 
 void set_unary_expression_scope (struct unary_expression *buff);
-void fill_in_symtable_unary_expr (struct unary_expression *buff);
 
 #endif

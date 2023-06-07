@@ -97,7 +97,7 @@ set_parameter_declaration_scope (struct parameter_declaration *buff)
     switch (buff->parent_kind)
       {
       case NODE_PARAMETER_LIST:
-        set_parameter_list (buff->parent);
+        set_parameter_list_scope (buff->parent);
         buff->scope = ((struct parameter_list *) (buff->parent))->scope;
         buff->scope_kind =
           ((struct parameter_list *) (buff->parent))->scope_kind;

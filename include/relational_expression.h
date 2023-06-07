@@ -38,6 +38,5 @@ struct relational_expression
 };
 
 void set_rel_expression_scope (struct relational_expression *buff);
-void fill_in_symtable_rel_expr (struct relational_expression *buff);
 
 #endif

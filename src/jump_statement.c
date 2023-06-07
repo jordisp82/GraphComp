@@ -94,6 +94,7 @@ set_jump_statetment_scope (struct jump_statement *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_jump_stmt (struct jump_statement *buff)
 {
@@ -101,5 +102,6 @@ fill_in_symtable_jump_stmt (struct jump_statement *buff)
   assert (buff->kind == NODE_JUMP_STATEMENT);
 
   if (buff->js_kind == JS_RETURN_EXP)
-    ;                           /* TODO expression */
+    fill_in_symtable_expression (buff->exp);
 }
+#endif

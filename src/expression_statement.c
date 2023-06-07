@@ -64,6 +64,7 @@ set_expression_stmt_scope (struct expression_statement *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_expr_stmt (struct expression_statement *buff)
 {
@@ -73,3 +74,4 @@ fill_in_symtable_expr_stmt (struct expression_statement *buff)
   if (buff->expr != NULL)
     fill_in_symtable_expression (buff->expr);
 }
+#endif

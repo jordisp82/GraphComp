@@ -230,6 +230,7 @@ set_postfix_expression_scope (struct postfix_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_postfix_expr (struct postfix_expression *buff)
 {
@@ -271,3 +272,4 @@ fill_in_symtable_postfix_expr (struct postfix_expression *buff)
       break;
     }
 }
+#endif

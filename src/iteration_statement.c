@@ -174,6 +174,7 @@ set_iteration_stmt_scope (struct iteration_statement *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_iter_stmt (struct iteration_statement *buff)
 {
@@ -183,12 +184,12 @@ fill_in_symtable_iter_stmt (struct iteration_statement *buff)
   switch (buff->is_kind)
     {
     case IS_WHILE:
-      /* TODO fill in expression */
+      fill_in_symtable_expression (buff->is_while.ex);
       fill_in_symtable_statement (buff->is_while.st);
       break;
 
     case IS_DO:
-      /* TODO fill in expression */
+      fill_in_symtable_expression (buff->is_do.ex);
       fill_in_symtable_statement (buff->is_do.st);
       break;
 
@@ -199,21 +200,21 @@ fill_in_symtable_iter_stmt (struct iteration_statement *buff)
       break;
 
     case IS_FOR_ES_ES_EX:
-      /* TODO fill in expression */
+      fill_in_symtable_expression (buff->is_for_es_es_ex.ex);
       fill_in_symtable_expr_stmt (buff->is_for_es_es_ex.es1);
       fill_in_symtable_expr_stmt (buff->is_for_es_es_ex.es2);
       fill_in_symtable_statement (buff->is_for_es_es_ex.st);
       break;
 
     case IS_FOR_DECL_ES:
-      /* TODO fill in for declaration? */
+      fill_in_symtable_declaration (buff->is_for_decl_es.dl);
       fill_in_symtable_expr_stmt (buff->is_for_decl_es.es);
       fill_in_symtable_statement (buff->is_for_decl_es.st);
       break;
 
     case IS_FOR_DECL_ES_EX:
-      /* TODO fill in for declaration? */
-      /* TODO fill in expression */
+      fill_in_symtable_declaration (buff->is_for_decl_es_ex.dl);
+      fill_in_symtable_expression (buff->is_for_decl_es_ex.ex);
       fill_in_symtable_expr_stmt (buff->is_for_decl_es_ex.es);
       fill_in_symtable_statement (buff->is_for_decl_es_ex.st);
       break;
@@ -222,3 +223,4 @@ fill_in_symtable_iter_stmt (struct iteration_statement *buff)
       ;                         /* BUG! */
     }
 }
+#endif

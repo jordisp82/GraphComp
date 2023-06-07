@@ -41,6 +41,5 @@ struct jump_statement
 };
 
 void set_jump_statetment_scope (struct jump_statement *buff);
-void fill_in_symtable_jump_stmt (struct jump_statement *buff);
 
 #endif

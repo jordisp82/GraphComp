@@ -169,6 +169,7 @@ set_unary_expression_scope (struct unary_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_unary_expr (struct unary_expression *buff)
 {
@@ -182,3 +183,4 @@ fill_in_symtable_unary_expr (struct unary_expression *buff)
   if (buff->cex != NULL)
     ;
 }
+#endif

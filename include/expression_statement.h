@@ -32,6 +32,5 @@ struct expression_statement
 };
 
 void set_expression_stmt_scope (struct expression_statement *buff);
-void fill_in_symtable_expr_stmt (struct expression_statement *buff);
 
 #endif

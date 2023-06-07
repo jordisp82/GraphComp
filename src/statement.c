@@ -151,6 +151,7 @@ set_statement_scope (struct statement *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_statement (struct statement *buff)
 {
@@ -187,3 +188,4 @@ fill_in_symtable_statement (struct statement *buff)
       ;                         /* BUG! */
     }
 }
+#endif

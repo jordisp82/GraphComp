@@ -74,6 +74,7 @@ set_logic_and_expression_scope (struct logical_and_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_land_expr (struct logical_and_expression *buff)
 {
@@ -85,3 +86,4 @@ fill_in_symtable_land_expr (struct logical_and_expression *buff)
   if (buff->log_and != NULL)
     fill_in_symtable_land_expr (buff->log_and);
 }
+#endif

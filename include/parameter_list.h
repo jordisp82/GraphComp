@@ -30,6 +30,6 @@ struct parameter_list
 
 int create_symbols_for_param_list (struct parameter_list *buff,
                                    symbol_t *** sym_pars);
-void set_parameter_list (struct parameter_list *buff);
+void set_parameter_list_scope (struct parameter_list *buff);
 
 #endif

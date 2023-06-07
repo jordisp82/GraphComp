@@ -25,6 +25,5 @@ struct exclusive_or_expression
 };
 
 void set_xor_expression_scope (struct exclusive_or_expression *buff);
-void fill_in_symtable_xor_expr (struct exclusive_or_expression *buff);
 
 #endif

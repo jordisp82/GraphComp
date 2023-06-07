@@ -70,6 +70,7 @@ set_and_expression_scope (struct and_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_and_expr (struct and_expression *buff)
 {
@@ -81,3 +82,4 @@ fill_in_symtable_and_expr (struct and_expression *buff)
   if (buff->and_e != NULL)
     fill_in_symtable_and_expr (buff->and_e);
 }
+#endif

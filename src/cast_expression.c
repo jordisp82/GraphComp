@@ -80,6 +80,7 @@ set_cast_expression_scope (struct cast_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_cast_expr (struct cast_expression *buff)
 {
@@ -91,3 +92,4 @@ fill_in_symtable_cast_expr (struct cast_expression *buff)
   if (buff->cast_ex != NULL)
     fill_in_symtable_cast_expr (buff->cast_ex);
 }
+#endif

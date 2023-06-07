@@ -135,6 +135,7 @@ set_rel_expression_scope (struct relational_expression *buff)
       }
 }
 
+#if 0
 void
 fill_in_symtable_rel_expr (struct relational_expression *buff)
 {
@@ -146,3 +147,4 @@ fill_in_symtable_rel_expr (struct relational_expression *buff)
   if (buff->relex != NULL)
     fill_in_symtable_rel_expr (buff->relex);
 }
+#endif

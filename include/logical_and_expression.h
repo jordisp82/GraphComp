@@ -25,6 +25,5 @@ struct logical_and_expression
 };
 
 void set_logic_and_expression_scope (struct logical_and_expression *buff);
-void fill_in_symtable_land_expr (struct logical_and_expression *buff);
 
 #endif

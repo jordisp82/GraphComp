@@ -43,6 +43,5 @@ void create_symbol_table_cs (struct compound_statement *buff);
 void set_compound_stmt_scope (struct compound_statement *buff);
 symbol_t *look_for_id_in_cs (struct compound_statement *buff,
                              const char *name);
-void fill_in_symtable_cs (struct compound_statement *buff);
 
 #endif
