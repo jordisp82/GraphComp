@@ -28,5 +28,6 @@ struct designator_list
 };
 
 void set_designator_list_scope (struct designator_list *buff);
+void set_symbol_for_designator_list (struct designator_list *buff);
 
 #endif

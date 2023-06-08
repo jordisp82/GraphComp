@@ -34,5 +34,6 @@ struct additive_expression
 };
 
 void set_add_expression_scope (struct additive_expression *buff);
+void set_symbol_for_additive_expression (struct additive_expression *buff);
 
 #endif

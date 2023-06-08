@@ -32,5 +32,7 @@ struct assignment_expression
 };
 
 void set_assignment_expression_scope (struct assignment_expression *buff);
+void set_symbol_for_assignment_expression (struct assignment_expression
+                                           *buff);
 
 #endif

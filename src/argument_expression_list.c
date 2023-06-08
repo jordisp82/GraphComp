@@ -75,3 +75,14 @@ set_argument_expression_list_scope (struct argument_expression_list *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+set_symbol_for_argument_expression_list (struct argument_expression_list
+                                         *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ARGUMENT_EXPRESSION_LIST);
+
+  for (struct ael_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    set_symbol_for_assignment_expression (ptr->ass);
+}

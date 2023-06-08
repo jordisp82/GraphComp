@@ -65,3 +65,13 @@ set_declaration_list_scope (struct declaration_list *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+set_symbol_for_declaration_list (struct declaration_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DECLARATION_LIST);
+
+  for (struct dl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    set_symbol_for_declaration (ptr->dl);
+}

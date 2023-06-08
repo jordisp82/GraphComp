@@ -38,5 +38,6 @@ struct labeled_statement
 };
 
 void set_labeled_stmt_scope (struct labeled_statement *buff);
+void set_symbol_for_labeled_statement (struct labeled_statement *buff);
 
 #endif

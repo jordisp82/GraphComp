@@ -25,5 +25,6 @@ struct logical_or_expression
 };
 
 void set_logic_or_expression_scope (struct logical_or_expression *buff);
+void set_symbol_for_logic_or_expression (struct logical_or_expression *buff);
 
 #endif

@@ -175,14 +175,12 @@ cst_file_dl (struct translation_unit *buff, struct declaration *dl)
     }
 }
 
-#if 0
 void
-fill_in_symtable_tu (struct translation_unit *buff)
+set_symbol_for_translation_unit (struct translation_unit *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_TRANSLATION_UNIT);
 
   for (struct tu_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    fill_in_symtable_ed (ptr->ed);
+    set_symbol_for_external_declaration (ptr->ed);
 }
-#endif

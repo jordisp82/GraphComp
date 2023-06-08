@@ -84,3 +84,13 @@ set_const_expression_scope (struct constant_expression *buff)
         ;                       /* BUG */
       }
 }
+
+void
+set_symbol_for_constant_expression (struct constant_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_CONSTANT_EXPRESSION);
+  assert (buff->expr != NULL);
+
+  set_symbol_for_cond_expression (buff->expr);
+}

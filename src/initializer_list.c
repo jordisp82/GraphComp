@@ -131,11 +131,9 @@ set_initializer_list_scope (struct initializer_list *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_initializer_list (struct initializer_list *buff)
+set_symbol_for_initializer_list (struct initializer_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER_LIST);
 }
-#endif

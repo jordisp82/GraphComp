@@ -25,5 +25,6 @@ struct and_expression
 };
 
 void set_and_expression_scope (struct and_expression *buff);
+void set_symbol_for_and_expression (struct and_expression *buff);
 
 #endif

@@ -28,5 +28,6 @@ struct declaration_list
 };
 
 void set_declaration_list_scope (struct declaration_list *buff);
+void set_symbol_for_declaration_list (struct declaration_list *buff);
 
 #endif

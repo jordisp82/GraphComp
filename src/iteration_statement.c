@@ -174,9 +174,8 @@ set_iteration_stmt_scope (struct iteration_statement *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_iter_stmt (struct iteration_statement *buff)
+set_symbol_for_iteration_stmt (struct iteration_statement *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_ITERATION_STATEMENT);
@@ -184,43 +183,42 @@ fill_in_symtable_iter_stmt (struct iteration_statement *buff)
   switch (buff->is_kind)
     {
     case IS_WHILE:
-      fill_in_symtable_expression (buff->is_while.ex);
-      fill_in_symtable_statement (buff->is_while.st);
+      set_symbol_for_expression (buff->is_while.ex);
+      set_symbol_for_statement (buff->is_while.st);
       break;
 
     case IS_DO:
-      fill_in_symtable_expression (buff->is_do.ex);
-      fill_in_symtable_statement (buff->is_do.st);
+      set_symbol_for_expression (buff->is_do.ex);
+      set_symbol_for_statement (buff->is_do.st);
       break;
 
     case IS_FOR_ES_ES:
-      fill_in_symtable_expr_stmt (buff->is_for_es_es.es1);
-      fill_in_symtable_expr_stmt (buff->is_for_es_es.es2);
-      fill_in_symtable_statement (buff->is_for_es_es.st);
+      set_symbol_for_statement (buff->is_for_es_es.st);
+      set_symbol_for_expression_stmt (buff->is_for_es_es.es1);
+      set_symbol_for_expression_stmt (buff->is_for_es_es.es2);
       break;
 
     case IS_FOR_ES_ES_EX:
-      fill_in_symtable_expression (buff->is_for_es_es_ex.ex);
-      fill_in_symtable_expr_stmt (buff->is_for_es_es_ex.es1);
-      fill_in_symtable_expr_stmt (buff->is_for_es_es_ex.es2);
-      fill_in_symtable_statement (buff->is_for_es_es_ex.st);
+      set_symbol_for_expression (buff->is_for_es_es_ex.ex);
+      set_symbol_for_statement (buff->is_for_es_es_ex.st);
+      set_symbol_for_expression_stmt (buff->is_for_es_es_ex.es1);
+      set_symbol_for_expression_stmt (buff->is_for_es_es_ex.es2);
       break;
 
     case IS_FOR_DECL_ES:
-      fill_in_symtable_declaration (buff->is_for_decl_es.dl);
-      fill_in_symtable_expr_stmt (buff->is_for_decl_es.es);
-      fill_in_symtable_statement (buff->is_for_decl_es.st);
+      set_symbol_for_declaration (buff->is_for_decl_es.dl);
+      set_symbol_for_statement (buff->is_for_decl_es.st);
+      set_symbol_for_expression_stmt (buff->is_for_decl_es.es);
       break;
 
     case IS_FOR_DECL_ES_EX:
-      fill_in_symtable_declaration (buff->is_for_decl_es_ex.dl);
-      fill_in_symtable_expression (buff->is_for_decl_es_ex.ex);
-      fill_in_symtable_expr_stmt (buff->is_for_decl_es_ex.es);
-      fill_in_symtable_statement (buff->is_for_decl_es_ex.st);
+      set_symbol_for_expression (buff->is_for_decl_es_ex.ex);
+      set_symbol_for_declaration (buff->is_for_decl_es_ex.dl);
+      set_symbol_for_statement (buff->is_for_decl_es_ex.st);
+      set_symbol_for_expression_stmt (buff->is_for_decl_es_ex.es);
       break;
 
     default:
       ;                         /* BUG! */
     }
 }
-#endif

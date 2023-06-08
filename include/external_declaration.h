@@ -26,4 +26,6 @@ struct external_declaration
   void *parent;
 };
 
+void set_symbol_for_external_declaration (struct external_declaration *buff);
+
 #endif

@@ -41,5 +41,6 @@ struct jump_statement
 };
 
 void set_jump_statetment_scope (struct jump_statement *buff);
+void set_symbol_for_jump_stmt (struct jump_statement *buff);
 
 #endif

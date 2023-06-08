@@ -70,16 +70,14 @@ set_and_expression_scope (struct and_expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_and_expr (struct and_expression *buff)
+set_symbol_for_and_expression (struct and_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_AND_EXPRESSION);
   assert (buff->eq != NULL);
 
-  fill_in_symtable_eq_expr (buff->eq);
+  set_symbol_for_equality_expression (buff->eq);
   if (buff->and_e != NULL)
-    fill_in_symtable_and_expr (buff->and_e);
+    set_symbol_for_and_expression (buff->and_e);
 }
-#endif

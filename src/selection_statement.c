@@ -89,18 +89,16 @@ set_selection_stmt_scope (struct selection_statement *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_select_stmt (struct selection_statement *buff)
+set_symbol_for_selection_stmt (struct selection_statement *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_SELECTION_STATEMENT);
   assert (buff->ex != NULL);
   assert (buff->st1 != NULL);
 
-  fill_in_symtable_expression (buff->ex);
-  fill_in_symtable_statement (buff->st1);
+  set_symbol_for_expression (buff->ex);
+  set_symbol_for_statement (buff->st1);
   if (buff->st2 != NULL)
-    fill_in_symtable_statement (buff->st2);
+    set_symbol_for_statement (buff->st2);
 }
-#endif

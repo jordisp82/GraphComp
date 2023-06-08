@@ -27,5 +27,6 @@ struct conditional_expression
 };
 
 void set_cond_expression_scope (struct conditional_expression *buff);
+void set_symbol_for_cond_expression (struct conditional_expression *buff);
 
 #endif

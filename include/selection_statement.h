@@ -35,6 +35,6 @@ struct selection_statement
 };
 
 void set_selection_stmt_scope (struct selection_statement *buff);
-void fill_in_symtable_select_stmt (struct selection_statement *buff);
+void set_symbol_for_selection_stmt (struct selection_statement *buff);
 
 #endif

@@ -85,18 +85,16 @@ set_cond_expression_scope (struct conditional_expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_cond_expr (struct conditional_expression *buff)
+set_symbol_for_cond_expression (struct conditional_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_CONDITIONAL_EXPRESSION);
+  assert (buff->l_expr != NULL);
 
-  if (buff->l_expr != NULL)
-    ;
+  set_symbol_for_logic_or_expression (buff->l_expr);
   if (buff->expr != NULL)
-    fill_in_symtable_expression (buff->expr);
+    set_symbol_for_expression (buff->expr);
   if (buff->cond_e != NULL)
-    fill_in_symtable_cond_expr (buff->cond_e);
+    set_symbol_for_cond_expression (buff->cond_e);
 }
-#endif

@@ -101,21 +101,15 @@ create_symbol_table_fd (struct function_definition *buff, int n,
   create_symbol_table_cs (buff->cs);
 }
 
-#if 0
 void
-fill_in_symtable_fd (struct function_definition *buff)
+set_symbol_for_function_definition (struct function_definition *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_FUNCTION_DEFINITION);
-  assert (buff->dr != NULL);
   assert (buff->cs != NULL);
 
-#if 0
-  fill_in_symtable_declarator (buff->dr);
-#endif
-  fill_in_symtable_cs (buff->cs);
+  set_symbol_for_compound_stmt (buff->cs);
 }
-#endif
 
 #if 0
 /* currently unused */

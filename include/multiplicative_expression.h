@@ -36,6 +36,6 @@ struct multiplicative_expression
 };
 
 void set_mult_expression_scope (struct multiplicative_expression *buff);
-void fill_in_symtable_mult_expr (struct multiplicative_expression *buff);
+void set_symbol_for_mult_expression (struct multiplicative_expression *buff);
 
 #endif

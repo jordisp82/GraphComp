@@ -37,5 +37,6 @@ struct initializer
 };
 
 void set_initializer_scope (struct initializer *buff);
+void set_symbol_for_initializer (struct initializer *buff);
 
 #endif

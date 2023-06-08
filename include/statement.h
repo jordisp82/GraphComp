@@ -40,5 +40,6 @@ struct statement
 };
 
 void set_statement_scope (struct statement *buff);
+void set_symbol_for_statement (struct statement *buff);
 
 #endif

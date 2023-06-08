@@ -34,5 +34,6 @@ struct shift_expression
 };
 
 void set_shift_expression_scope (struct shift_expression *buff);
+void set_symbol_for_shift_expression (struct shift_expression *buff);
 
 #endif

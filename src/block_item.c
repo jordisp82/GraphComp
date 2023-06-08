@@ -63,9 +63,8 @@ set_block_item_scope (struct block_item *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_block_item (struct block_item *buff)
+set_symbol_for_block_item (struct block_item *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_BLOCK_ITEM);
@@ -73,15 +72,14 @@ fill_in_symtable_block_item (struct block_item *buff)
   switch (buff->child_kind)
     {
     case NODE_DECLARATION:
-      fill_in_symtable_declaration (buff->d);
+      set_symbol_for_declaration (buff->d);
       break;
 
     case NODE_STATEMENT:
-      fill_in_symtable_statement (buff->s);
+      set_symbol_for_statement (buff->s);
       break;
 
     default:
       ;                         /* BUG! */
     }
 }
-#endif

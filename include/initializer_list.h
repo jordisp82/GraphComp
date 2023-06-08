@@ -39,5 +39,6 @@ struct initializer_list
 };
 
 void set_initializer_list_scope (struct initializer_list *buff);
+void set_symbol_for_initializer_list (struct initializer_list *buff);
 
 #endif

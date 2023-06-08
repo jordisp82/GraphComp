@@ -25,5 +25,6 @@ struct inclusive_or_expression
 };
 
 void set_or_expression_scope (struct inclusive_or_expression *buff);
+void set_symbol_for_or_expression (struct inclusive_or_expression *buff);
 
 #endif

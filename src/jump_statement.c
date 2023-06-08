@@ -94,14 +94,12 @@ set_jump_statetment_scope (struct jump_statement *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_jump_stmt (struct jump_statement *buff)
+set_symbol_for_jump_stmt (struct jump_statement *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_JUMP_STATEMENT);
 
   if (buff->js_kind == JS_RETURN_EXP)
-    fill_in_symtable_expression (buff->exp);
+    set_symbol_for_expression (buff->exp);
 }
-#endif

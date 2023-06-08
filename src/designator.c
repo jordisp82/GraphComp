@@ -61,3 +61,13 @@ set_designator_scope (struct designator *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+set_symbol_for_designator (struct designator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DESIGNATOR);
+
+  if (buff->d_kind == DESIGNATOR_ARRAY)
+    set_symbol_for_constant_expression (buff->ex);
+}

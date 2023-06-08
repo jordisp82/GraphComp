@@ -44,3 +44,13 @@ set_designation_scope (struct designation *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+set_symbol_for_designation (struct designation *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DESIGNATION);
+  assert (buff->dl != NULL);
+
+  set_symbol_for_designator_list (buff->dl);
+}

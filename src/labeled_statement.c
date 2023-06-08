@@ -85,3 +85,25 @@ set_labeled_stmt_scope (struct labeled_statement *buff)
         ;                       /* BUG! */
       }
 }
+
+void
+set_symbol_for_labeled_statement (struct labeled_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_LABELED_STATEMENT);
+
+  switch (buff->ls_kind)
+    {
+    case LABEL_CASE:
+      set_symbol_for_constant_expression (buff->ce);
+      break;
+
+    case LABEL_IDENTIFIER:
+    case LABEL_DEFAULT:
+      /* nothing to do */
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

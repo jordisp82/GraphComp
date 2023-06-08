@@ -25,5 +25,6 @@ struct exclusive_or_expression
 };
 
 void set_xor_expression_scope (struct exclusive_or_expression *buff);
+void set_symbol_for_xor_expression (struct exclusive_or_expression *buff);
 
 #endif

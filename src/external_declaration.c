@@ -43,42 +43,23 @@ external_declaration_2 (void *ptr)
   return buff;
 }
 
-#if 0
 void
-fill_in_symtable_ed (struct external_declaration *ed)
+set_symbol_for_external_declaration (struct external_declaration *buff)
 {
-  assert (ed != NULL);
-  assert (ed->kind == NODE_EXTERNAL_DECLARATION);
+  assert (buff != NULL);
+  assert (buff->kind == NODE_EXTERNAL_DECLARATION);
 
-  switch (ed->child_kind)
+  switch (buff->child_kind)
     {
     case NODE_FUNCTION_DEFINITION:
-      fill_in_symtable_fd (ed->fd);
+      set_symbol_for_function_definition (buff->fd);
       break;
 
     case NODE_DECLARATION:
-      fill_in_symtable_declaration (ed->d);
+      set_symbol_for_declaration (buff->d);
       break;
 
     default:
       ;                         /* BUG! */
     }
 }
-#endif
-
-#if 0
-void
-ED_symbols (struct external_declaration *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_EXTERNAL_DECLARATION);
-
-  int n = 0;
-  symbol_t *s1 = NULL, **s2 = NULL, **s3 = NULL;
-
-  if (buff->child_kind == NODE_FUNCTION_DEFINITION)
-    n = create_symbols_for_function_definition (buff->fd, &s1, &s2);
-  else if (buff->child_kind == NODE_DECLARATION)
-    n = create_symbols_from_declaration (buff->d, &s3);
-}
-#endif

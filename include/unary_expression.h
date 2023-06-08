@@ -46,5 +46,6 @@ struct unary_expression
 };
 
 void set_unary_expression_scope (struct unary_expression *buff);
+void set_symbol_for_unary_expression (struct unary_expression *buff);
 
 #endif

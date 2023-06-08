@@ -35,5 +35,6 @@ struct designator
 };
 
 void set_designator_scope (struct designator *buff);
+void set_symbol_for_designator (struct designator *buff);
 
 #endif

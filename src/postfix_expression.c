@@ -9,10 +9,14 @@
 #include "initializer_list.h"
 #include "primary_expression.h"
 #include "unary_expression.h"
+#include "compound_statement.h"
+#include "translation_unit.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static int pfexpr_set_symbol_for_id (struct postfix_expression *buff);
 
 struct postfix_expression *
 postfix_expression_1 (void *ptr)
@@ -230,9 +234,8 @@ set_postfix_expression_scope (struct postfix_expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_postfix_expr (struct postfix_expression *buff)
+set_symbol_for_postfix_expression (struct postfix_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_POSTFIX_EXPRESSION);
@@ -240,36 +243,65 @@ fill_in_symtable_postfix_expr (struct postfix_expression *buff)
   switch (buff->pf_kind)
     {
     case POSTFIX_PRIMARY:
-      fill_in_symtable_pri_expr (buff->pex);
+      set_symbol_for_primary_expression (buff->pex);
       break;
 
     case POSTFIX_ARRAY:
-      fill_in_symtable_postfix_expr (buff->pfex);
-      fill_in_symtable_expression (buff->ex);
+      set_symbol_for_expression (buff->ex);
       break;
 
     case POSTFIX_FUNCTION:
-      fill_in_symtable_postfix_expr (buff->pfex);
       if (buff->ael != NULL)
-        ;
+        set_symbol_for_argument_expression_list (buff->ael);
+      break;
 
     case POSTFIX_FIELD1:
     case POSTFIX_FIELD2:
-      /* TODO */
-#if 0
-      fill_in_symtable_postfix_expr (buff->pfex);
-      (void) look_for_id_in_symtable (buff);
-#endif
+      (void) pfexpr_set_symbol_for_id (buff);
       break;
 
     case POSTFIX_INC:
     case POSTFIX_DEC:
-      fill_in_symtable_postfix_expr (buff->pfex);
+      set_symbol_for_postfix_expression (buff->pfex);
       break;
 
     case POSTFIX_COMP_LIT:
       /* nothing to do */
       break;
+
+    default:
+      ;                         /* BUG! */
     }
 }
-#endif
+
+static int
+pfexpr_set_symbol_for_id (struct postfix_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_POSTFIX_EXPRESSION);
+  assert (buff->pf_kind == POSTFIX_FIELD1 || buff->pf_kind == POSTFIX_FIELD2);
+
+  if (buff->sym != NULL)
+    return 1;
+
+  /*
+   * Since we assume that the code compiles,
+   * we're not going to check that the ID
+   * is an ordinary identifier and not a tag.
+   */
+  switch (buff->scope_kind)
+    {
+    case NODE_TRANSLATION_UNIT:
+      buff->sym = look_for_id_in_tu (buff->scope, buff->id);
+      break;
+
+    case NODE_COMPOUND_STATEMENT:
+      buff->sym = look_for_id_in_cs (buff->scope, buff->id);
+      break;
+
+    default:
+      ;                         /* either TODO or BUG */
+    }
+
+  return (buff->sym == NULL) ? -1 : 0;
+}

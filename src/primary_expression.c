@@ -14,7 +14,7 @@
 #define NULL ((void*)0)
 #endif
 
-static int look_for_id_in_symtable (struct primary_expression *buff);
+static int priex_set_symbol_for_id (struct primary_expression *buff);
 
 struct primary_expression *
 primary_expression_1 (const char *str)
@@ -96,7 +96,7 @@ primary_expression_5 (void *ptr __attribute__((unused)))
 }
 
 void
-fill_in_symtable_pri_expr (struct primary_expression *buff)
+set_symbol_for_primary_expression (struct primary_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_PRIMARY_EXPRESSION);
@@ -104,7 +104,7 @@ fill_in_symtable_pri_expr (struct primary_expression *buff)
   switch (buff->priex_kind)
     {
     case PRIEX_IDENT:
-      (void) look_for_id_in_symtable (buff);
+      (void) priex_set_symbol_for_id (buff);
       break;
 
     case PRIEX_CONST:
@@ -125,7 +125,7 @@ fill_in_symtable_pri_expr (struct primary_expression *buff)
 }
 
 static int
-look_for_id_in_symtable (struct primary_expression *buff)
+priex_set_symbol_for_id (struct primary_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_PRIMARY_EXPRESSION);

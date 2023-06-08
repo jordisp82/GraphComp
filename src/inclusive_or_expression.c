@@ -74,16 +74,14 @@ set_or_expression_scope (struct inclusive_or_expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_or_expr (struct inclusive_or_expression *buff)
+set_symbol_for_or_expression (struct inclusive_or_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INCLUSIVE_OR_EXPRESSION);
   assert (buff->xor_e != NULL);
 
-  fill_in_symtable_xor_expr (buff->xor_e);
+  set_symbol_for_xor_expression (buff->xor_e);
   if (buff->or_e != NULL)
-    fill_in_symtable_or_expr (buff->or_e);
+    set_symbol_for_or_expression (buff->or_e);
 }
-#endif

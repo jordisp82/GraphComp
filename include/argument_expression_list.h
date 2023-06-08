@@ -29,5 +29,7 @@ struct argument_expression_list
 
 void set_argument_expression_list_scope (struct argument_expression_list
                                          *buff);
+void set_symbol_for_argument_expression_list (struct argument_expression_list
+                                              *buff);
 
 #endif

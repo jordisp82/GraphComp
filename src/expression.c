@@ -114,16 +114,14 @@ set_expression_scope (struct expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_expression (struct expression *buff)
+set_symbol_for_expression (struct expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_EXPRESSION);
   assert (buff->ass != NULL);
 
+  set_symbol_for_assignment_expression (buff->ass);
   if (buff->expr != NULL)
-    fill_in_symtable_expression (buff->expr);
-  fill_in_symtable_ass_expr (buff->ass);
+    set_symbol_for_expression (buff->expr);
 }
-#endif

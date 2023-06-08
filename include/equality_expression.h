@@ -34,5 +34,6 @@ struct equality_expression
 };
 
 void set_equality_expression_scope (struct equality_expression *buff);
+void set_symbol_for_equality_expression (struct equality_expression *buff);
 
 #endif

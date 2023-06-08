@@ -169,18 +169,34 @@ set_unary_expression_scope (struct unary_expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_unary_expr (struct unary_expression *buff)
+set_symbol_for_unary_expression (struct unary_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_UNARY_EXPRESSION);
 
-  if (buff->pex != NULL)
-    fill_in_symtable_postfix_expr (buff->pex);
-  if (buff->unex != NULL)
-    fill_in_symtable_unary_expr (buff->unex);
-  if (buff->cex != NULL)
-    ;
+  switch (buff->unary_kind)
+    {
+    case UNARY_POSTFIX:
+      set_symbol_for_postfix_expression (buff->pex);
+      break;
+
+    case UNARY_INC:
+    case UNARY_DEC:
+    case UNARY_SIZEOF1:
+      set_symbol_for_unary_expression (buff->unex);
+      break;
+
+    case UNARY_OP:
+      /* TODO cast expression */
+      break;
+
+    case UNARY_SIZEOF2:
+    case UNARY_ALIGNOF:
+      /* nothing to do */
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }
-#endif

@@ -87,14 +87,23 @@ set_initializer_scope (struct initializer *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_initializer (struct initializer *buff)
+set_symbol_for_initializer (struct initializer *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER);
 
-  if (buff->child_kind == IN_LIST)
-    fill_in_symtable_initializer_list (buff->il);
+  switch (buff->child_kind)
+    {
+    case IN_LIST:
+      set_symbol_for_initializer_list (buff->il);
+      break;
+
+    case IN_ASS_EXPR:
+      set_symbol_for_assignment_expression (buff->ae);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }
-#endif

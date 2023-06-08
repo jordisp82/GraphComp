@@ -23,5 +23,6 @@ struct designation
 };
 
 void set_designation_scope (struct designation *buff);
+void set_symbol_for_designation (struct designation *buff);
 
 #endif

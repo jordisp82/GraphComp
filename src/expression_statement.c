@@ -64,14 +64,12 @@ set_expression_stmt_scope (struct expression_statement *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_expr_stmt (struct expression_statement *buff)
+set_symbol_for_expression_stmt (struct expression_statement *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_EXPRESSION_STATEMENT);
 
   if (buff->expr != NULL)
-    fill_in_symtable_expression (buff->expr);
+    set_symbol_for_expression (buff->expr);
 }
-#endif

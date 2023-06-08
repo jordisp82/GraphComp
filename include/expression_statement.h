@@ -32,5 +32,6 @@ struct expression_statement
 };
 
 void set_expression_stmt_scope (struct expression_statement *buff);
+void set_symbol_for_expression_stmt (struct expression_statement *buff);
 
 #endif

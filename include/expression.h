@@ -31,5 +31,6 @@ struct expression
 };
 
 void set_expression_scope (struct expression *buff);
+void set_symbol_for_expression (struct expression *buff);
 
 #endif

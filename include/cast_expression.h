@@ -37,5 +37,6 @@ struct cast_expression
 };
 
 void set_cast_expression_scope (struct cast_expression *buff);
+void set_symbol_for_cast_expression (struct cast_expression *buff);
 
 #endif

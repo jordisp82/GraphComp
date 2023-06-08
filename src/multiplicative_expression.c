@@ -115,16 +115,14 @@ set_mult_expression_scope (struct multiplicative_expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_mult_expr (struct multiplicative_expression *buff)
+set_symbol_for_mult_expression (struct multiplicative_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_MULTIPLICATIVE_EXPRESSION);
+  assert (buff->cast_ex != NULL);
 
-  if (buff->cast_ex != NULL)
-    fill_in_symtable_cast_expr (buff->cast_ex);
+  set_symbol_for_cast_expression (buff->cast_ex);
   if (buff->mult_ex != NULL)
-    fill_in_symtable_mult_expr (buff->mult_ex);
+    set_symbol_for_mult_expression (buff->mult_ex);
 }
-#endif

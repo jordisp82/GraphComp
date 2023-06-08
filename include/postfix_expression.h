@@ -59,5 +59,6 @@ struct postfix_expression
 };
 
 void set_postfix_expression_scope (struct postfix_expression *buff);
+void set_symbol_for_postfix_expression (struct postfix_expression *buff);
 
 #endif

@@ -74,16 +74,14 @@ set_logic_or_expression_scope (struct logical_or_expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_lor_expr (struct logical_or_expression *buff)
+set_symbol_for_logic_or_expression (struct logical_or_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_LOGICAL_OR_EXPRESSION);
   assert (buff->and_e != NULL);
 
-  fill_in_symtable_land_expr (buff->and_e);
+  set_symbol_for_logic_and_expression (buff->and_e);
   if (buff->or_e != NULL)
-    fill_in_symtable_lor_expr (buff->or_e);
+    set_symbol_for_logic_or_expression (buff->or_e);
 }
-#endif

@@ -28,5 +28,6 @@ struct constant_expression
 };
 
 void set_const_expression_scope (struct constant_expression *buff);
+void set_symbol_for_constant_expression (struct constant_expression *buff);
 
 #endif

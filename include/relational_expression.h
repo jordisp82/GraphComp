@@ -38,5 +38,7 @@ struct relational_expression
 };
 
 void set_rel_expression_scope (struct relational_expression *buff);
+void set_symbol_for_relational_expression (struct relational_expression
+                                           *buff);
 
 #endif

@@ -80,16 +80,14 @@ set_cast_expression_scope (struct cast_expression *buff)
       }
 }
 
-#if 0
 void
-fill_in_symtable_cast_expr (struct cast_expression *buff)
+set_symbol_for_cast_expression (struct cast_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_CAST_EXPRESSION);
 
-  if (buff->unary_ex != NULL)
-    fill_in_symtable_unary_expr (buff->unary_ex);
-  if (buff->cast_ex != NULL)
-    fill_in_symtable_cast_expr (buff->cast_ex);
+  if (buff->cast_kind == CAST_YES)
+    set_symbol_for_cast_expression (buff->cast_ex);
+  else
+    set_symbol_for_unary_expression (buff->unary_ex);
 }
-#endif
