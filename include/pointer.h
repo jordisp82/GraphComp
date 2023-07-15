@@ -13,6 +13,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symbol.h"
 
 typedef enum
 {
@@ -28,6 +29,8 @@ struct pointer
   pointer_kind_t ptr_kind;
   struct type_qualifier_list *tql;
   struct pointer *ptr;
+  struct symtable *sym_table;
+  void (*create_symtable) (struct pointer * buff);
   node_kind_t parent_kind;
   void *parent;
 };

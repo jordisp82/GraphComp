@@ -9,6 +9,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void eq_create_symtable (struct equality_expression *buff);
+
 struct equality_expression *
 equality_expression_1 (void *ptr)
 {
@@ -22,6 +24,7 @@ equality_expression_1 (void *ptr)
   buff->rexp = ptr;
   buff->rexp->parent_kind = NODE_EQUALITY_EXPRESSION;
   buff->rexp->parent = buff;
+  buff->create_symtable = eq_create_symtable;
 
   return buff;
 }
@@ -42,6 +45,7 @@ equality_expression_2 (void *ptr1, void *ptr2)
   buff->eqex->parent_kind = buff->rexp->parent_kind =
     NODE_EQUALITY_EXPRESSION;
   buff->eqex->parent = buff->rexp->parent = buff;
+  buff->create_symtable = eq_create_symtable;
 
   return buff;
 }
@@ -62,10 +66,25 @@ equality_expression_3 (void *ptr1, void *ptr2)
   buff->eqex->parent_kind = buff->rexp->parent_kind =
     NODE_EQUALITY_EXPRESSION;
   buff->eqex->parent = buff->rexp->parent = buff;
+  buff->create_symtable = eq_create_symtable;
 
   return buff;
 }
 
+static void
+eq_create_symtable (struct equality_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_EQUALITY_EXPRESSION);
+
+  buff->sym_table = ((struct and_expression *) (buff->parent))->sym_table;
+  if (buff->rexp != NULL)
+    buff->rexp->create_symtable (buff->rexp);
+  if (buff->eqex != NULL)
+    buff->eqex->create_symtable (buff->eqex);
+}
+
+#if 0
 void
 set_equality_expression_scope (struct equality_expression *buff)
 {
@@ -105,3 +124,4 @@ set_symbol_for_equality_expression (struct equality_expression *buff)
   if (buff->eqex != NULL)
     set_symbol_for_equality_expression (buff->eqex);
 }
+#endif

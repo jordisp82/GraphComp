@@ -10,6 +10,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void idl_create_symtable (struct init_declarator_list *buff);
+
 struct init_declarator_list *
 init_declarator_list_1 (void *ptr)
 {
@@ -25,6 +27,7 @@ init_declarator_list_1 (void *ptr)
   buff->first->id = ptr;
   buff->first->id->parent_kind = NODE_INIT_DECLARATOR_LIST;
   buff->first->id->parent = buff;
+  buff->create_symtable = idl_create_symtable;
 
   return buff;
 }
@@ -44,10 +47,23 @@ init_declarator_list_2 (void *ptr1, void *ptr2)
   buff->last->id = id;
   id->parent_kind = NODE_INIT_DECLARATOR_LIST;
   id->parent = buff;
+  buff->create_symtable = idl_create_symtable;
 
   return buff;
 }
 
+static void
+idl_create_symtable (struct init_declarator_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INIT_DECLARATOR_LIST);
+
+  buff->sym_table = ((struct declaration *) (buff->parent))->sym_table;
+  for (struct idl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->id->create_symtable (ptr->id);
+}
+
+#if 0
 int
 create_symbols_for_init_declarator_list (struct init_declarator_list *buff,
                                          symbol_t *** syms)
@@ -107,3 +123,4 @@ set_symbol_for_init_declarator_list (struct init_declarator_list *buff)
   for (struct idl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     set_symbol_for_init_declarator (ptr->id);
 }
+#endif

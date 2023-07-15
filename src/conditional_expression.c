@@ -11,6 +11,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void ce_create_symtable (struct conditional_expression *buff);
+
 struct conditional_expression *
 conditional_expression_1 (void *ptr)
 {
@@ -23,6 +25,7 @@ conditional_expression_1 (void *ptr)
   buff->l_expr = ptr;
   buff->l_expr->parent_kind = NODE_CONDITIONAL_EXPRESSION;
   buff->l_expr->parent = buff;
+  buff->create_symtable = ce_create_symtable;
 
   return buff;
 }
@@ -44,10 +47,42 @@ conditional_expression_2 (void *ptr1, void *ptr2, void *ptr3)
   buff->l_expr->parent_kind = buff->expr->parent_kind =
     buff->cond_e->parent_kind = NODE_CONDITIONAL_EXPRESSION;
   buff->l_expr->parent = buff->expr->parent = buff->cond_e->parent = buff;
+  buff->create_symtable = ce_create_symtable;
 
   return buff;
 }
 
+static void
+ce_create_symtable (struct conditional_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_CONDITIONAL_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_ASSIGNMENT_EXPRESSION:
+      buff->sym_table =
+        ((struct assignment_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_CONSTANT_EXPRESSION:
+      buff->sym_table =
+        ((struct constant_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  if (buff->l_expr != NULL)
+    buff->l_expr->create_symtable (buff->l_expr);
+  if (buff->expr != NULL)
+    buff->expr->create_symtable (buff->expr);
+  if (buff->cond_e != NULL)
+    buff->cond_e->create_symtable (buff->cond_e);
+}
+
+#if 0
 void
 set_cond_expression_scope (struct conditional_expression *buff)
 {
@@ -98,3 +133,4 @@ set_symbol_for_cond_expression (struct conditional_expression *buff)
   if (buff->cond_e != NULL)
     set_symbol_for_cond_expression (buff->cond_e);
 }
+#endif

@@ -19,6 +19,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 struct statement
 {
@@ -33,13 +34,19 @@ struct statement
     struct iteration_statement *is;
     struct jump_statement *js;
   };
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct statement * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 void set_statement_scope (struct statement *buff);
 void set_symbol_for_statement (struct statement *buff);
+#endif
 
 #endif

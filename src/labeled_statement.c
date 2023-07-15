@@ -10,6 +10,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void ls_create_symtable (struct labeled_statement *buff);
+
 struct labeled_statement *
 labeled_statement_1 (const char *str, void *ptr2)
 {
@@ -26,6 +28,7 @@ labeled_statement_1 (const char *str, void *ptr2)
   buff->s = ptr2;
   buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->s->parent = buff;
+  buff->create_symtable = ls_create_symtable;
 
   return buff;
 }
@@ -45,6 +48,7 @@ labeled_statement_2 (void *ptr1, void *ptr2)
   buff->s = ptr2;
   buff->ce->parent_kind = buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->ce->parent = buff->s->parent = buff;
+  buff->create_symtable = ls_create_symtable;
 
   return buff;
 }
@@ -62,10 +66,22 @@ labeled_statement_3 (void *ptr)
   buff->s = ptr;
   buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->s->parent = buff;
+  buff->create_symtable = ls_create_symtable;
 
   return buff;
 }
 
+static void
+ls_create_symtable (struct labeled_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_LABELED_STATEMENT);
+
+  buff->sym_table = ((struct statement *) (buff->parent))->sym_table;
+  /* nothing else to do, since MISRA doesn't like gotos */
+}
+
+#if 0
 void
 set_labeled_stmt_scope (struct labeled_statement *buff)
 {
@@ -107,3 +123,4 @@ set_symbol_for_labeled_statement (struct labeled_statement *buff)
       ;                         /* BUG! */
     }
 }
+#endif

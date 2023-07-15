@@ -19,6 +19,7 @@
 #define NULL ((void*)0)
 #endif
 
+#if 0
 static int create_symbol_one_for_ds (struct declaration *buff,
                                      symbol_t *** syms);
 static int create_symbols_for_list (struct declaration *buff,
@@ -26,6 +27,8 @@ static int create_symbols_for_list (struct declaration *buff,
 static void create_symbol_adjust_scope (struct declaration *buff,
                                         symbol_t * sym);
 void set_declaration_scope (struct declaration *buff);
+#endif
+static void d_create_symtable (struct declaration *buff);
 
 struct declaration *
 declaration_1 (void *ptr)
@@ -38,6 +41,7 @@ declaration_1 (void *ptr)
   buff->ds = ptr;
   buff->ds->parent_kind = NODE_DECLARATION;
   buff->ds->parent = buff;
+  buff->create_symtable = d_create_symtable;
 
   return buff;
 }
@@ -55,6 +59,7 @@ declaration_2 (void *ptr1, void *ptr2)
   buff->idl = ptr2;
   buff->ds->parent_kind = buff->idl->parent_kind = NODE_DECLARATION;
   buff->ds->parent = buff->idl->parent = buff;
+  buff->create_symtable = d_create_symtable;
 
   if (look_for_typedef (buff->ds) == 1)
     register_ids_as_typedef (buff->idl);
@@ -73,10 +78,50 @@ declaration_3 (void *ptr)
   buff->sad = ptr;
   buff->sad->parent_kind = NODE_DECLARATION;
   buff->sad->parent = buff;
+  buff->create_symtable = d_create_symtable;
 
   return buff;
 }
 
+static void
+d_create_symtable (struct declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DECLARATION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_BLOCK_ITEM:
+      buff->sym_table = ((struct block_item *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_ITERATION_STATEMENT:
+      buff->sym_table =
+        ((struct iteration_statement *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_EXTERNAL_DECLARATION:
+      buff->sym_table =
+        ((struct external_declaration *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_DECLARATION_LIST:
+      buff->sym_table =
+        ((struct declaration_list *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  if (buff->ds != NULL)
+    buff->ds->create_symtable (buff->ds);
+  if (buff->idl != NULL)
+    buff->idl->create_symtable (buff->idl);
+  /* fuck off static assert declarations */
+}
+
+#if 0
 int
 create_symbols_from_declaration (struct declaration *buff, symbol_t *** syms)
 {
@@ -214,7 +259,7 @@ set_declaration_scope (struct declaration *buff)
         break;
 
       case NODE_ITERATION_STATEMENT:
-        /* note only for certain kinds of 'foor' loops */
+        /* note only for certain kinds of 'for' loops */
         buff->scope = buff->parent;
         buff->scope_kind = NODE_ITERATION_STATEMENT;
         break;
@@ -245,3 +290,4 @@ set_symbol_for_declaration (struct declaration *buff)
   if (buff->idl != NULL)
     set_symbol_for_init_declarator_list (buff->idl);
 }
+#endif

@@ -10,6 +10,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void d_create_symtable (struct designator *buff);
+
 struct designator *
 designator_1 (void *ptr)
 {
@@ -22,6 +24,7 @@ designator_1 (void *ptr)
   buff->ex = ptr;
   buff->ex->parent_kind = NODE_DESIGNATOR;
   buff->ex->parent = buff;
+  buff->create_symtable = d_create_symtable;
 
   return buff;
 }
@@ -37,10 +40,23 @@ designator_2 (const char *str)
   buff->d_kind = DESIGNATOR_FIELD;
   buff->str = strdup (str);
   assert (buff->str != NULL);
+  buff->create_symtable = d_create_symtable;
 
   return buff;
 }
 
+static void
+d_create_symtable (struct designator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DESIGNATOR);
+
+  buff->sym_table = ((struct designator_list *) (buff->parent))->sym_table;
+  if (buff->ex != NULL)
+    buff->ex->create_symtable (buff->ex);
+}
+
+#if 0
 void
 set_designator_scope (struct designator *buff)
 {
@@ -71,3 +87,4 @@ set_symbol_for_designator (struct designator *buff)
   if (buff->d_kind == DESIGNATOR_ARRAY)
     set_symbol_for_constant_expression (buff->ex);
 }
+#endif

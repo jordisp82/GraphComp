@@ -15,7 +15,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-
+#include "symtable.h"
 typedef enum
 {
   REL_SHIFT,
@@ -31,14 +31,20 @@ struct relational_expression
   rel_kind_t rel_kind;
   struct shift_expression *sh_ex;
   struct relational_expression *relex;
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct relational_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 void set_rel_expression_scope (struct relational_expression *buff);
 void set_symbol_for_relational_expression (struct relational_expression
                                            *buff);
+#endif
 
 #endif

@@ -12,6 +12,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -25,12 +26,18 @@ struct enumerator
   enum_kind_t e_kind;
   struct enumeration_constant *ec;
   struct constant_expression *expr;
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct enumerator * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 void set_enumerator_scope (struct enumerator *buff);
+#endif
 
 #endif

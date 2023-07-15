@@ -16,6 +16,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -70,13 +71,19 @@ struct iteration_statement
       struct statement *st;
     } is_for_decl_es_ex;
   };
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct iteration_statement * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 void set_iteration_stmt_scope (struct iteration_statement *buff);
 void set_symbol_for_iteration_stmt (struct iteration_statement *buff);
+#endif
 
 #endif

@@ -7,10 +7,13 @@
 #include "declaration_list.h"
 #include "compound_statement.h"
 #include "direct_declarator.h"
+#include "external_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void fd_create_symtable (struct function_definition *buff);
 
 struct function_definition *
 function_definition_1 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
@@ -33,6 +36,7 @@ function_definition_1 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
     buff->cs->parent_kind = NODE_FUNCTION_DEFINITION;
   buff->ds->parent = buff->dr->parent = buff->dl->parent = buff->cs->parent =
     buff;
+  buff->create_symtable = fd_create_symtable;
 
   return buff;
 }
@@ -54,10 +58,31 @@ function_definition_2 (void *ptr1, void *ptr2, void *ptr3)
   buff->ds->parent_kind = buff->dr->parent_kind = buff->cs->parent_kind =
     NODE_FUNCTION_DEFINITION;
   buff->ds->parent = buff->dr->parent = buff->cs->parent = buff;
+  buff->create_symtable = fd_create_symtable;
 
   return buff;
 }
 
+static void
+fd_create_symtable (struct function_definition *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_FUNCTION_DEFINITION);
+
+  buff->sym_table =
+    ((struct external_declaration *) (buff->parent))->sym_table;
+
+  if (buff->ds != NULL)
+    buff->ds->create_symtable (buff->ds);
+  if (buff->dr != NULL)
+    buff->dr->create_symtable (buff->dr);
+  if (buff->dl != NULL)
+    buff->dl->create_symtable (buff->dl);
+  if (buff->cs != NULL)
+    buff->cs->create_symtable (buff->cs);
+}
+
+#if 0
 int
 create_symbols_for_function_definition (struct function_definition *buff,
                                         symbol_t ** sym_fd,
@@ -134,4 +159,5 @@ get_function_definition_name (struct function_definition *buff)
 
   return NULL;
 }
+#endif
 #endif

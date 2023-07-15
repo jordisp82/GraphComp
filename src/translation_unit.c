@@ -11,10 +11,13 @@
 #define NULL ((void*)0)
 #endif
 
+#if 0
 static void cst_file_fd (struct translation_unit *buff,
                          struct function_definition *fd);
 static void cst_file_dl (struct translation_unit *buff,
                          struct declaration *dl);
+#endif
+static void tu_create_symtable (struct translation_unit *buff);
 
 struct translation_unit *
 translation_unit_1 (void *ptr)
@@ -31,6 +34,7 @@ translation_unit_1 (void *ptr)
   buff->first->ed = ptr;
   buff->first->ed->parent = buff;
   buff->first->ed->parent_kind = NODE_TRANSLATION_UNIT;
+  buff->create_symtable = tu_create_symtable;
 
   return buff;
 }
@@ -50,10 +54,29 @@ translation_unit_2 (void *ptr1, void *ptr2)
   buff->last->ed = ed;
   ed->parent = buff;
   ed->parent_kind = NODE_TRANSLATION_UNIT;
+  buff->create_symtable = tu_create_symtable;
 
   return buff;
 }
 
+static void
+tu_create_symtable (struct translation_unit *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_TRANSLATION_UNIT);
+
+  buff->sym_table = calloc (1, sizeof (struct symtable));
+  assert (buff->sym_table != NULL);
+  buff->sym_table->parent = NULL;
+  buff->sym_table->node = buff;
+  buff->sym_table->node_kind = NODE_TRANSLATION_UNIT;
+  buff->sym_table->n_children = 0;
+  for (struct tu_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->ed->create_symtable (ptr->ed);
+  /* TODO crear els dos AVL */
+}
+
+#if 0
 symbol_t *
 look_for_id_in_tu (struct translation_unit *buff, const char *name)
 {
@@ -184,3 +207,4 @@ set_symbol_for_translation_unit (struct translation_unit *buff)
   for (struct tu_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     set_symbol_for_external_declaration (ptr->ed);
 }
+#endif

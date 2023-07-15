@@ -14,6 +14,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void s_create_symtable (struct statement *buff);
+
 struct statement *
 statement_1 (void *ptr)
 {
@@ -26,6 +28,7 @@ statement_1 (void *ptr)
   buff->ls = ptr;
   buff->ls->parent_kind = NODE_STATEMENT;
   buff->ls->parent = buff;
+  buff->create_symtable = s_create_symtable;
 
   return buff;
 }
@@ -42,6 +45,7 @@ statement_2 (void *ptr)
   buff->cs = ptr;
   buff->cs->parent_kind = NODE_STATEMENT;
   buff->cs->parent = buff;
+  buff->create_symtable = s_create_symtable;
 
   return buff;
 }
@@ -58,6 +62,7 @@ statement_3 (void *ptr)
   buff->es = ptr;
   buff->es->parent_kind = NODE_STATEMENT;
   buff->es->parent = buff;
+  buff->create_symtable = s_create_symtable;
 
   return buff;
 }
@@ -74,6 +79,7 @@ statement_4 (void *ptr)
   buff->ss = ptr;
   buff->ss->parent_kind = NODE_STATEMENT;
   buff->ss->parent = buff;
+  buff->create_symtable = s_create_symtable;
 
   return buff;
 }
@@ -90,6 +96,7 @@ statement_5 (void *ptr)
   buff->is = ptr;
   buff->is->parent_kind = NODE_STATEMENT;
   buff->is->parent = buff;
+  buff->create_symtable = s_create_symtable;
 
   return buff;
 }
@@ -106,10 +113,74 @@ statement_6 (void *ptr)
   buff->js = ptr;
   buff->js->parent_kind = NODE_STATEMENT;
   buff->js->parent = buff;
+  buff->create_symtable = s_create_symtable;
 
   return buff;
 }
 
+static void
+s_create_symtable (struct statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STATEMENT);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_LABELED_STATEMENT:
+      buff->sym_table =
+        ((struct labeled_statement *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_BLOCK_ITEM:
+      buff->sym_table = ((struct block_item *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_SELECTION_STATEMENT:
+      buff->sym_table =
+        ((struct selection_statement *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_ITERATION_STATEMENT:
+      buff->sym_table =
+        ((struct iteration_statement *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  switch (buff->child_kind)
+    {
+    case NODE_LABELED_STATEMENT:
+      buff->ls->create_symtable (buff->ls);
+      break;
+
+    case NODE_COMPOUND_STATEMENT:
+      buff->cs->create_symtable (buff->cs);
+      break;
+
+    case NODE_EXPRESSION_STATEMENT:
+      buff->es->create_symtable (buff->es);
+      break;
+
+    case NODE_SELECTION_STATEMENT:
+      buff->ss->create_symtable (buff->ss);
+      break;
+
+    case NODE_ITERATION_STATEMENT:
+      buff->is->create_symtable (buff->is);
+      break;
+
+    case NODE_JUMP_STATEMENT:
+      buff->js->create_symtable (buff->js);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}
+
+#if 0
 void
 set_statement_scope (struct statement *buff)
 {
@@ -187,3 +258,4 @@ set_symbol_for_statement (struct statement *buff)
       ;                         /* BUG! */
     }
 }
+#endif

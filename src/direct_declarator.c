@@ -13,6 +13,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void dd_create_symtable (struct direct_declarator *buff);
+
 struct direct_declarator *
 direct_declarator_1 (const char *str)
 {
@@ -24,6 +26,7 @@ direct_declarator_1 (const char *str)
   buff->kind = NODE_DIRECT_DECLARATOR;
   buff->n_prod = 1;
   buff->id = strdup (str);
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -41,6 +44,7 @@ direct_declarator_2 (void *ptr)
   buff->declr = ptr;
   buff->declr->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->declr->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -58,6 +62,7 @@ direct_declarator_3 (void *ptr)
   buff->ddeclr = ptr;
   buff->ddeclr->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -75,6 +80,7 @@ direct_declarator_4 (void *ptr)
   buff->ddeclr = ptr;
   buff->ddeclr->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -97,6 +103,7 @@ direct_declarator_5 (void *ptr1, void *ptr2, void *ptr3)
   buff->ddeclr->parent_kind = buff->tql->parent_kind =
     buff->ass->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->tql->parent = buff->ass->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -116,6 +123,7 @@ direct_declarator_6 (void *ptr1, void *ptr2)
   buff->ass = ptr2;
   buff->ddeclr->parent_kind = buff->ass->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->ass->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -135,6 +143,7 @@ direct_declarator_7 (void *ptr1, void *ptr2)
   buff->tql = ptr2;
   buff->ddeclr->parent_kind = buff->tql->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->tql->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -157,6 +166,7 @@ direct_declarator_8 (void *ptr1, void *ptr2, void *ptr3)
   buff->ddeclr->parent_kind = buff->tql->parent_kind =
     buff->ass->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->tql->parent = buff->ass->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -179,6 +189,7 @@ direct_declarator_9 (void *ptr1, void *ptr2, void *ptr3)
   buff->ddeclr->parent_kind = buff->tql->parent_kind =
     buff->ass->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->tql->parent = buff->ass->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -198,6 +209,7 @@ direct_declarator_10 (void *ptr1, void *ptr2)
   buff->tql = ptr2;
   buff->ddeclr->parent_kind = buff->tql->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->tql->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -217,6 +229,7 @@ direct_declarator_11 (void *ptr1, void *ptr2)
   buff->ass = ptr2;
   buff->ddeclr->parent_kind = buff->ass->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->ass->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -236,6 +249,7 @@ direct_declarator_12 (void *ptr1, void *ptr2)
   buff->ptl = ptr2;
   buff->ddeclr->parent_kind = buff->ptl->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->ptl->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -253,6 +267,7 @@ direct_declarator_13 (void *ptr)
   buff->ddeclr = ptr;
   buff->ddeclr->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
@@ -272,10 +287,33 @@ direct_declarator_14 (void *ptr1, void *ptr2)
   buff->il = ptr2;
   buff->ddeclr->parent_kind = buff->il->parent_kind = NODE_DIRECT_DECLARATOR;
   buff->ddeclr->parent = buff->il->parent = buff;
+  buff->create_symtable = dd_create_symtable;
 
   return buff;
 }
 
+static void
+dd_create_symtable (struct direct_declarator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DIRECT_DECLARATOR);
+
+  buff->sym_table = ((struct declarator *) (buff->parent))->sym_table;
+  if (buff->declr != NULL)
+    buff->declr->create_symtable (buff->declr);
+  if (buff->ddeclr != NULL)
+    buff->ddeclr->create_symtable (buff->ddeclr);
+  if (buff->tql != NULL)
+    buff->tql->create_symtable (buff->tql);
+  if (buff->ass != NULL)
+    buff->ass->create_symtable (buff->ass);
+  if (buff->ptl != NULL)
+    buff->ptl->create_symtable (buff->ptl);
+  if (buff->il != NULL)
+    buff->il->create_symtable (buff->il);
+}
+
+#if 0
 symbol_t *
 create_symbol_for_direct_declarator (struct direct_declarator *buff)
 {
@@ -337,3 +375,4 @@ set_direct_declarator_scope (struct direct_declarator *buff)
         ;                       /* BUG! */
       }
 }
+#endif

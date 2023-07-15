@@ -12,6 +12,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 struct external_declaration
 {
@@ -22,10 +23,14 @@ struct external_declaration
     struct function_definition *fd;
     struct declaration *d;
   };
+  struct symtable *sym_table;
+  void (*create_symtable) (struct external_declaration * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 void set_symbol_for_external_declaration (struct external_declaration *buff);
+#endif
 
 #endif

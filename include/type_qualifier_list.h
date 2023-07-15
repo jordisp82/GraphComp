@@ -9,6 +9,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 struct type_qualifier_list
 {
@@ -18,6 +19,8 @@ struct type_qualifier_list
     struct type_qualifier *tq;
     struct tql_node *next;
   } *first, *last;
+  struct symtable *sym_table;
+  void (*create_symtable) (struct type_qualifier_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

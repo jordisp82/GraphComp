@@ -5,6 +5,8 @@
 #include "type_name.h"
 #include "type_specifier.h"
 
+static void ats_create_symtable (struct atomic_type_specifier *buff);
+
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
@@ -21,10 +23,23 @@ atomic_type_specifier_1 (void *ptr)
   buff->tn = ptr;
   buff->tn->parent_kind = NODE_ATOMIC_TYPE_SPECIFIER;
   buff->tn->parent = buff;
+  buff->create_symtable = ats_create_symtable;
 
   return buff;
 }
 
+static void
+ats_create_symtable (struct atomic_type_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ATOMIC_TYPE_SPECIFIER);
+
+  buff->sym_table = ((struct type_specifier *) (buff->parent))->sym_table;
+  if (buff->tn != NULL)
+    buff->tn->create_symtable (buff->tn);
+}
+
+#if 0
 void
 set_atomic_specifier_scope (struct atomic_type_specifier *buff)
 {
@@ -45,3 +60,4 @@ set_atomic_specifier_scope (struct atomic_type_specifier *buff)
         ;                       /* BUG! */
       }
 }
+#endif

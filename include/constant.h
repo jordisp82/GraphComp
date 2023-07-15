@@ -6,10 +6,14 @@
  *      I_CONSTANT      (1)
  *      F_CONSTANT      (2)
  *      ENUMERATION_CONSTANT        (3)
+ * 
+ * parents:
+ *      primary-expression (2)
  */
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -28,6 +32,8 @@ struct constant
     int integer;
     double floating;
   };
+  struct symtable *sym_table;
+  void (*create_symtable) (struct constant * buff);
   node_kind_t parent_kind;
   void *parent;
 };

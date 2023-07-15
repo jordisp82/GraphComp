@@ -13,15 +13,20 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symbol.h"
+//#include "symbol.h"
+#include "symtable.h"
 
 struct parameter_type_list
 {
   node_kind_t kind;
   struct parameter_list *pl;
   int ellipsis;
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct parameter_type_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

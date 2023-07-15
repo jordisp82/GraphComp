@@ -13,6 +13,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -28,6 +29,8 @@ struct storage_class_specifier
 {
   node_kind_t kind;
   stg_kind_t value;
+  struct symtable *sym_table;
+  void (*create_symtable) (struct storage_class_specifier * buff);
   node_kind_t parent_kind;
   void *parent;
 };

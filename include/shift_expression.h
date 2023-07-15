@@ -13,6 +13,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -27,13 +28,19 @@ struct shift_expression
   sh_kind_t sh_kind;
   struct additive_expression *add_ex;
   struct shift_expression *sh_ex;
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct shift_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 void set_shift_expression_scope (struct shift_expression *buff);
 void set_symbol_for_shift_expression (struct shift_expression *buff);
+#endif
 
 #endif

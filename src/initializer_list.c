@@ -10,6 +10,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void il_create_symtable (struct initializer_list *buff);
+
 struct initializer_list *
 initializer_list_1 (void *ptr1, void *ptr2)
 {
@@ -29,6 +31,7 @@ initializer_list_1 (void *ptr1, void *ptr2)
   buff->first->d->parent_kind = buff->first->i->parent_kind =
     NODE_INITIALIZER_LIST;
   buff->first->d->parent = buff->first->i->parent = buff;
+  buff->create_symtable = il_create_symtable;
 
   return buff;
 }
@@ -49,6 +52,7 @@ initializer_list_2 (void *ptr)
   buff->first->i = ptr;
   buff->first->i->parent_kind = NODE_INITIALIZER_LIST;
   buff->first->i->parent = buff;
+  buff->create_symtable = il_create_symtable;
 
   return buff;
 }
@@ -72,6 +76,7 @@ initializer_list_3 (void *ptr1, void *ptr2, void *ptr3)
   buff->last->i = i;
   d->parent_kind = i->parent_kind = NODE_INITIALIZER_LIST;
   d->parent = i->parent = buff;
+  buff->create_symtable = il_create_symtable;
 
   return buff;
 }
@@ -92,10 +97,47 @@ initializer_list_4 (void *ptr1, void *ptr2)
   buff->last->i = i;
   i->parent_kind = NODE_INITIALIZER_LIST;
   i->parent = buff;
+  buff->create_symtable = il_create_symtable;
 
   return buff;
 }
 
+static void
+il_create_symtable (struct initializer_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_INITIALIZER_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_POSTFIX_EXPRESSION:
+      buff->sym_table =
+        ((struct postfix_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_INITIALIZER:
+      buff->sym_table = ((struct initializer *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_INITIALIZER_LIST:
+      buff->sym_table =
+        ((struct initializer_list *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  for (struct il_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    {
+      if (ptr->d != NULL)
+        ptr->d->create_symtable (ptr->d);
+      if (ptr->i != NULL)
+        ptr->i->create_symtable (ptr->i);
+    }
+}
+
+#if 0
 void
 set_initializer_list_scope (struct initializer_list *buff)
 {
@@ -137,3 +179,4 @@ set_symbol_for_initializer_list (struct initializer_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER_LIST);
 }
+#endif

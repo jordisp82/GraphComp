@@ -9,6 +9,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void land_create_symtable (struct logical_and_expression *buff);
+
 struct logical_and_expression *
 logical_and_expression_1 (void *ptr)
 {
@@ -21,6 +23,7 @@ logical_and_expression_1 (void *ptr)
   buff->inc_or = ptr;
   buff->inc_or->parent_kind = NODE_LOGICAL_AND_EXPRESSION;
   buff->inc_or->parent = buff;
+  buff->create_symtable = land_create_symtable;
 
   return buff;
 }
@@ -40,10 +43,26 @@ logical_and_expression_2 (void *ptr1, void *ptr2)
   buff->log_and->parent_kind = buff->inc_or->parent_kind =
     NODE_LOGICAL_AND_EXPRESSION;
   buff->log_and->parent = buff->inc_or->parent = buff;
+  buff->create_symtable = land_create_symtable;
 
   return buff;
 }
 
+static void
+land_create_symtable (struct logical_and_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_LOGICAL_AND_EXPRESSION);
+
+  buff->sym_table =
+    ((struct logical_or_expression *) (buff->parent))->sym_table;
+  if (buff->inc_or != NULL)
+    buff->inc_or->create_symtable (buff->inc_or);
+  if (buff->log_and != NULL)
+    buff->log_and->create_symtable (buff->log_and);
+}
+
+#if 0
 void
 set_logic_and_expression_scope (struct logical_and_expression *buff)
 {
@@ -85,3 +104,4 @@ set_symbol_for_logic_and_expression (struct logical_and_expression *buff)
   if (buff->log_and != NULL)
     set_symbol_for_logic_and_expression (buff->log_and);
 }
+#endif

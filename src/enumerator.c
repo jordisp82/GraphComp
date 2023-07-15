@@ -10,6 +10,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void e_create_symtable (struct enumerator *buff);
+
 struct enumerator *
 enumerator_1 (void *ptr1, void *ptr2)
 {
@@ -24,6 +26,7 @@ enumerator_1 (void *ptr1, void *ptr2)
   buff->expr = ptr2;
   buff->ec->parent_kind = buff->expr->parent_kind = NODE_ENUMERATOR;
   buff->ec->parent = buff->expr->parent = buff;
+  buff->create_symtable = e_create_symtable;
 
   return buff;
 }
@@ -40,10 +43,25 @@ enumerator_2 (void *ptr)
   buff->ec = ptr;
   buff->ec->parent_kind = NODE_ENUMERATOR;
   buff->ec->parent = buff;
+  buff->create_symtable = e_create_symtable;
 
   return buff;
 }
 
+static void
+e_create_symtable (struct enumerator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ENUMERATOR);
+
+  buff->sym_table = ((struct enumerator_list *) (buff->parent))->sym_table;
+  if (buff->ec != NULL)
+    buff->ec->create_symtable (buff->ec);
+  if (buff->expr != NULL)
+    buff->expr->create_symtable (buff->expr);
+}
+
+#if 0
 void
 set_enumerator_scope (struct enumerator *buff)
 {
@@ -64,3 +82,4 @@ set_enumerator_scope (struct enumerator *buff)
         ;                       /* BUG! */
       }
 }
+#endif

@@ -5,11 +5,15 @@
  * function-definition:
  *      declaration-specifiers declarator declaration-list compound-statement       (1)
  *      declaration-specifiers declarator compound-statement        (2)
+ * 
+ * parent:
+ *      external-declaration (?)
  */
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symbol.h"
+//#include "symbol.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -25,10 +29,13 @@ struct function_definition
   struct declarator *dr;
   struct declaration_list *dl;  // only non-NULL if fd_kind is FD_K_AND_R */
   struct compound_statement *cs;
+  struct symtable *sym_table;
+  void (*create_symtable) (struct function_definition * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 /*
  * sym_fd: symbol for the function itself - at file scope.
  * sym_pars: symbols for the parameters - at block scope.
@@ -40,5 +47,6 @@ int create_symbols_for_function_definition (struct function_definition *buff,
 void create_symbol_table_fd (struct function_definition *buff, int n,
                              symbol_t ** sym_pars);
 void set_symbol_for_function_definition (struct function_definition *buff);
+#endif
 
 #endif

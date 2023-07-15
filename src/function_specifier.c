@@ -2,10 +2,13 @@
 #include <stdlib.h>
 
 #include "function_specifier.h"
+#include "declaration_specifiers.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+void fs_create_symtable (struct function_specifier *buff);
 
 struct function_specifier *
 function_specifier_1 (void)
@@ -15,6 +18,7 @@ function_specifier_1 (void)
   assert (buff != NULL);
   buff->kind = NODE_FUNCTION_SPECIFIER;
   buff->fs_kind = FS_INLINE;
+  buff->create_symtable = fs_create_symtable;
 
   return buff;
 }
@@ -27,6 +31,17 @@ function_specifier_2 (void)
   assert (buff != NULL);
   buff->kind = NODE_FUNCTION_SPECIFIER;
   buff->fs_kind = FS_NORETURN;
+  buff->create_symtable = fs_create_symtable;
 
   return buff;
+}
+
+void
+fs_create_symtable (struct function_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_FUNCTION_SPECIFIER);
+
+  buff->sym_table =
+    ((struct declaration_specifiers *) (buff->parent))->sym_table;
 }

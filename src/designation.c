@@ -9,6 +9,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void d_create_symtable (struct designation *buff);
+
 struct designation *
 designation_1 (void *ptr)
 {
@@ -20,10 +22,23 @@ designation_1 (void *ptr)
   buff->dl = ptr;
   buff->dl->parent_kind = NODE_DESIGNATION;
   buff->dl->parent = buff;
+  buff->create_symtable = d_create_symtable;
 
   return buff;
 }
 
+static void
+d_create_symtable (struct designation *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DESIGNATION);
+
+  buff->sym_table = ((struct initializer_list *) (buff->parent))->sym_table;
+  if (buff->dl != NULL)
+    buff->dl->create_symtable (buff->dl);
+}
+
+#if 0
 void
 set_designation_scope (struct designation *buff)
 {
@@ -54,3 +69,4 @@ set_symbol_for_designation (struct designation *buff)
 
   set_symbol_for_designator_list (buff->dl);
 }
+#endif

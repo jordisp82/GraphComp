@@ -13,6 +13,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -27,8 +28,12 @@ struct equality_expression
   eq_kind_t eq_kind;
   struct relational_expression *rexp;
   struct equality_expression *eqex;
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct equality_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };

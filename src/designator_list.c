@@ -9,6 +9,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void dl_create_symtable (struct designator_list *buff);
+
 struct designator_list *
 designator_list_1 (void *ptr)
 {
@@ -23,6 +25,7 @@ designator_list_1 (void *ptr)
   buff->first->ds = ptr;
   buff->first->ds->parent_kind = NODE_DESIGNATOR_LIST;
   buff->first->ds->parent = buff;
+  buff->create_symtable = dl_create_symtable;
 
   return buff;
 }
@@ -42,10 +45,23 @@ designator_list_2 (void *ptr1, void *ptr2)
   buff->last->ds = ds;
   ds->parent_kind = NODE_DESIGNATOR_LIST;
   ds->parent = buff;
+  buff->create_symtable = dl_create_symtable;
 
   return buff;
 }
 
+static void
+dl_create_symtable (struct designator_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_DESIGNATOR_LIST);
+
+  buff->sym_table = ((struct designation *) (buff->parent))->sym_table;
+  for (struct ds_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->ds->create_symtable (ptr->ds);
+}
+
+#if 0
 void
 set_designator_list_scope (struct designator_list *buff)
 {
@@ -83,3 +99,4 @@ set_symbol_for_designator_list (struct designator_list *buff)
   for (struct ds_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     set_symbol_for_designator (ptr->ds);
 }
+#endif

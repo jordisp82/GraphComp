@@ -10,6 +10,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void ce_create_symtable (struct cast_expression *buff);
+
 struct cast_expression *
 cast_expression_1 (void *ptr)
 {
@@ -22,6 +24,7 @@ cast_expression_1 (void *ptr)
   buff->unary_ex = ptr;
   buff->unary_ex->parent_kind = NODE_CAST_EXPRESSION;
   buff->unary_ex->parent = buff;
+  buff->create_symtable = ce_create_symtable;
 
   return buff;
 }
@@ -40,10 +43,35 @@ cast_expression_2 (void *ptr1, void *ptr2)
   buff->cast_ex = ptr2;
   buff->tn->parent_kind = buff->unary_ex->parent_kind = NODE_CAST_EXPRESSION;
   buff->tn->parent = buff->unary_ex->parent = buff;
+  buff->create_symtable = ce_create_symtable;
 
   return buff;
 }
 
+static void
+ce_create_symtable (struct cast_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_CAST_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_UNARY_EXPRESSION:
+      buff->sym_table =
+        ((struct unary_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_MULTIPLICATIVE_EXPRESSION:
+      buff->sym_table =
+        ((struct multiplicative_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}
+
+#if 0
 void
 set_cast_expression_scope (struct cast_expression *buff)
 {
@@ -91,3 +119,4 @@ set_symbol_for_cast_expression (struct cast_expression *buff)
   else
     set_symbol_for_unary_expression (buff->unary_ex);
 }
+#endif

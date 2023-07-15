@@ -20,7 +20,8 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symbol.h"
+//#include "symbol.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -51,14 +52,20 @@ struct postfix_expression
       struct initializer_list *il;
     } comp_lit;
   };
+#if 0
   symbol_t *sym;
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct postfix_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 void set_postfix_expression_scope (struct postfix_expression *buff);
 void set_symbol_for_postfix_expression (struct postfix_expression *buff);
+#endif
 
 #endif

@@ -12,6 +12,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -28,12 +29,18 @@ struct alignment_specifier
     struct type_name *tn;
     struct constant_expression *expr;
   };
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct alignment_specifier * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 void set_alignment_specifier_scope (struct alignment_specifier *buff);
+#endif
 
 #endif

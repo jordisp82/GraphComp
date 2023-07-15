@@ -14,6 +14,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -29,8 +30,12 @@ struct multiplicative_expression
   mult_kind_t mult_kind;
   struct cast_expression *cast_ex;
   struct multiplicative_expression *mult_ex;
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct multiplicative_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };

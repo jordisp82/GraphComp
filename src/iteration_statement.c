@@ -11,6 +11,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void is_create_symtable (struct iteration_statement *buff);
+
 struct iteration_statement *
 iteration_statement_1 (void *ptr1, void *ptr2)
 {
@@ -27,6 +29,7 @@ iteration_statement_1 (void *ptr1, void *ptr2)
   buff->is_while.ex->parent_kind = buff->is_while.st->parent_kind =
     NODE_ITERATION_STATEMENT;
   buff->is_while.ex->parent = buff->is_while.st->parent = buff;
+  buff->create_symtable = is_create_symtable;
 
   return buff;
 }
@@ -47,6 +50,7 @@ iteration_statement_2 (void *ptr1, void *ptr2)
   buff->is_do.st->parent_kind = buff->is_do.ex->parent_kind =
     NODE_ITERATION_STATEMENT;
   buff->is_do.st->parent = buff->is_do.ex->parent = buff;
+  buff->create_symtable = is_create_symtable;
 
   return buff;
 }
@@ -70,6 +74,7 @@ iteration_statement_3 (void *ptr1, void *ptr2, void *ptr3)
     buff->is_for_es_es.st->parent_kind = NODE_ITERATION_STATEMENT;
   buff->is_for_es_es.es1->parent = buff->is_for_es_es.es2->parent =
     buff->is_for_es_es.st->parent = buff;
+  buff->create_symtable = is_create_symtable;
 
   return buff;
 }
@@ -98,6 +103,7 @@ iteration_statement_4 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
   buff->is_for_es_es_ex.es1->parent = buff->is_for_es_es_ex.es2->parent =
     buff->is_for_es_es_ex.ex->parent = buff->is_for_es_es_ex.st->parent =
     buff;
+  buff->create_symtable = is_create_symtable;
 
   return buff;
 }
@@ -122,6 +128,7 @@ iteration_statement_5 (void *ptr1, void *ptr2, void *ptr3)
     buff->is_for_decl_es.st->parent_kind = NODE_ITERATION_STATEMENT;
   buff->is_for_decl_es.dl->parent = buff->is_for_decl_es.es->parent =
     buff->is_for_decl_es.st->parent = buff;
+  buff->create_symtable = is_create_symtable;
 
   return buff;
 }
@@ -150,10 +157,66 @@ iteration_statement_6 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
   buff->is_for_decl_es_ex.dl->parent = buff->is_for_decl_es_ex.es->parent =
     buff->is_for_decl_es_ex.ex->parent = buff->is_for_decl_es_ex.st->parent =
     buff;
+  buff->create_symtable = is_create_symtable;
 
   return buff;
 }
 
+static void
+is_create_symtable (struct iteration_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ITERATION_STATEMENT);
+
+  buff->sym_table = ((struct statement *) (buff->parent))->sym_table;
+  switch (buff->is_kind)
+    {
+    case IS_WHILE:
+      buff->is_while.st->create_symtable (buff->is_while.st);
+      buff->is_while.ex->create_symtable (buff->is_while.ex);
+      break;
+
+    case IS_DO:
+      buff->is_do.st->create_symtable (buff->is_do.st);
+      buff->is_do.ex->create_symtable (buff->is_do.ex);
+      break;
+
+    case IS_FOR_ES_ES:
+      buff->is_for_es_es.st->create_symtable (buff->is_for_es_es.st);
+      buff->is_for_es_es.es1->create_symtable (buff->is_for_es_es.es1);
+      buff->is_for_es_es.es2->create_symtable (buff->is_for_es_es.es2);
+      break;
+
+    case IS_FOR_ES_ES_EX:
+      buff->is_for_es_es_ex.st->create_symtable (buff->is_for_es_es_ex.st);
+      buff->is_for_es_es_ex.ex->create_symtable (buff->is_for_es_es_ex.ex);
+      buff->is_for_es_es_ex.es1->create_symtable (buff->is_for_es_es_ex.es1);
+      buff->is_for_es_es_ex.es2->create_symtable (buff->is_for_es_es_ex.es2);
+      break;
+
+    case IS_FOR_DECL_ES:
+      buff->is_for_decl_es.st->create_symtable (buff->is_for_decl_es.st);
+      buff->is_for_decl_es.dl->create_symtable (buff->is_for_decl_es.dl);
+      buff->is_for_decl_es.es->create_symtable (buff->is_for_decl_es.es);
+      break;
+
+    case IS_FOR_DECL_ES_EX:
+      buff->is_for_decl_es_ex.st->create_symtable (buff->is_for_decl_es_ex.
+                                                   st);
+      buff->is_for_decl_es_ex.dl->create_symtable (buff->is_for_decl_es_ex.
+                                                   dl);
+      buff->is_for_decl_es_ex.ex->create_symtable (buff->is_for_decl_es_ex.
+                                                   ex);
+      buff->is_for_decl_es_ex.es->create_symtable (buff->is_for_decl_es_ex.
+                                                   es);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}
+
+#if 0
 void
 set_iteration_stmt_scope (struct iteration_statement *buff)
 {
@@ -222,3 +285,4 @@ set_symbol_for_iteration_stmt (struct iteration_statement *buff)
       ;                         /* BUG! */
     }
 }
+#endif

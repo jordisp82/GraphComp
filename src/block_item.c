@@ -10,6 +10,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void bi_create_symtable (struct block_item *buff);
+
 struct block_item *
 block_item_1 (void *ptr)
 {
@@ -22,6 +24,7 @@ block_item_1 (void *ptr)
   buff->d = ptr;
   buff->d->parent_kind = NODE_BLOCK_ITEM;
   buff->d->parent = buff;
+  buff->create_symtable = bi_create_symtable;
 
   return buff;
 }
@@ -38,10 +41,34 @@ block_item_2 (void *ptr)
   buff->s = ptr;
   buff->s->parent_kind = NODE_BLOCK_ITEM;
   buff->s->parent = buff;
+  buff->create_symtable = bi_create_symtable;
 
   return buff;
 }
 
+static void
+bi_create_symtable (struct block_item *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_BLOCK_ITEM);
+
+  buff->sym_table = ((struct block_item_list *) (buff->parent))->sym_table;
+  switch (buff->child_kind)
+    {
+    case NODE_DECLARATION:
+      buff->d->create_symtable (buff->d);
+      break;
+
+    case NODE_STATEMENT:
+      buff->s->create_symtable (buff->s);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}
+
+#if 0
 void
 set_block_item_scope (struct block_item *buff)
 {
@@ -83,3 +110,4 @@ set_symbol_for_block_item (struct block_item *buff)
       ;                         /* BUG! */
     }
 }
+#endif

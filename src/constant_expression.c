@@ -14,6 +14,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void ce_create_symtable (struct constant_expression *buff);
+
 struct constant_expression *
 constant_expression_1 (void *ptr)
 {
@@ -26,10 +28,56 @@ constant_expression_1 (void *ptr)
   buff->expr = ptr;
   buff->expr->parent_kind = NODE_CONSTANT_EXPRESSION;
   buff->expr->parent = buff;
+  buff->create_symtable = ce_create_symtable;
 
   return buff;
 }
 
+static void
+ce_create_symtable (struct constant_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_CONSTANT_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_STRUCT_DECLARATOR:
+      buff->sym_table =
+        ((struct struct_declarator *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_ENUMERATOR:
+      buff->sym_table = ((struct enumerator *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_ALIGNMENT_SPECIFIER:
+      buff->sym_table =
+        ((struct alignment_specifier *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_DESIGNATOR:
+      buff->sym_table = ((struct designator *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_STATIC_ASSERT_DECLARATION:
+      buff->sym_table =
+        ((struct static_assert_declaration *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_LABELED_STATEMENT:
+      buff->sym_table =
+        ((struct labeled_statement *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  if (buff->expr != NULL)
+    buff->expr->create_symtable (buff->expr);
+}
+
+#if 0
 void
 set_const_expression_scope (struct constant_expression *buff)
 {
@@ -94,3 +142,4 @@ set_symbol_for_constant_expression (struct constant_expression *buff)
 
   set_symbol_for_cond_expression (buff->expr);
 }
+#endif
