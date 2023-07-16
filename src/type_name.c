@@ -15,6 +15,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void tn_create_symtable (struct type_name *buff);
+
 struct type_name *
 type_name_1 (void *ptr1, void *ptr2)
 {
@@ -28,6 +30,7 @@ type_name_1 (void *ptr1, void *ptr2)
   buff->adlr = ptr2;
   buff->sql->parent_kind = buff->adlr->parent_kind = NODE_TYPE_NAME;
   buff->sql->parent = buff->adlr->parent = buff;
+  buff->create_symtable = tn_create_symtable;
 
   return buff;
 }
@@ -43,10 +46,55 @@ type_name_2 (void *ptr)
   buff->sql = ptr;
   buff->sql->parent_kind = NODE_TYPE_NAME;
   buff->sql->parent = buff;
+  buff->create_symtable = tn_create_symtable;
 
   return buff;
 }
 
+static void
+tn_create_symtable (struct type_name *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_TYPE_NAME);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_POSTFIX_EXPRESSION:
+      buff->sym_table =
+        ((struct postfix_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_UNARY_EXPRESSION:
+      buff->sym_table =
+        ((struct unary_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_CAST_EXPRESSION:
+      buff->sym_table =
+        ((struct cast_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_ATOMIC_TYPE_SPECIFIER:
+      buff->sym_table =
+        ((struct atomic_type_specifier *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_ALIGNMENT_SPECIFIER:
+      buff->sym_table =
+        ((struct alignment_specifier *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  if (buff->sql != NULL)
+    buff->sql->create_symtable (buff->sql);
+  if (buff->adlr != NULL)
+    buff->adlr->create_symtable (buff->adlr);
+}
+
+#if 0
 void
 set_type_name_scope (struct type_name *buff)
 {
@@ -96,3 +144,4 @@ set_type_name_scope (struct type_name *buff)
         ;                       /* BUG! */
       }
 }
+#endif

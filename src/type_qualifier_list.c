@@ -3,10 +3,15 @@
 
 #include "type_qualifier_list.h"
 #include "type_qualifier.h"
+#include "direct_declarator.h"
+#include "direct_abstract_declarator.h"
+#include "pointer.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void tql_create_symtable (struct type_qualifier_list *buff);
 
 struct type_qualifier_list *
 type_qualifier_list_1 (void *ptr)
@@ -23,6 +28,7 @@ type_qualifier_list_1 (void *ptr)
   buff->first->tq = ptr;
   buff->first->tq->parent_kind = NODE_TYPE_QUALIFIER_LIST;
   buff->first->tq->parent = buff;
+  buff->create_symtable = tql_create_symtable;
 
   return buff;
 }
@@ -42,6 +48,42 @@ type_qualifier_list_2 (void *ptr1, void *ptr2)
   buff->last->tq = tq;
   tq->parent_kind = NODE_TYPE_QUALIFIER_LIST;
   tq->parent = buff;
+  buff->create_symtable = tql_create_symtable;
 
   return buff;
+}
+
+static void
+tql_create_symtable (struct type_qualifier_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_TYPE_QUALIFIER_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_TYPE_QUALIFIER_LIST:
+      buff->sym_table =
+        ((struct type_qualifier_list *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_DIRECT_DECLARATOR:
+      buff->sym_table =
+        ((struct direct_declarator *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_POINTER:
+      buff->sym_table = ((struct pointer *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_DIRECT_ABSTRACT_DECLARATOR:
+      buff->sym_table =
+        ((struct direct_abstract_declarator *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  for (struct tql_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->tq->create_symtable (ptr->tq);
 }

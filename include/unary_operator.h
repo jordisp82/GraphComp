@@ -9,10 +9,14 @@
  *      '-'
  *      '~'
  *      '!'
+ * 
+ * parents:
+ *      unary-expression (4)
  */
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "symtable.h"
 
 typedef enum
 {
@@ -28,6 +32,8 @@ struct unary_operator
 {
   node_kind_t kind;
   unop_kind_t un_op;
+  struct symtable *sym_table;
+  void (*create_symtable) (struct unary_operator * buff);
   node_kind_t parent_kind;
   void *parent;
 };

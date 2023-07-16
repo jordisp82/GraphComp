@@ -7,6 +7,11 @@
  *      RESTRICT    (2)
  *      VOLATILE    (3)
  *      ATOMIC      (4)
+ * 
+ * parents:
+ *      declaration-specifiers (5)(6)
+ *      specifier-qualifier-list (3)(4)
+ *      type-qualifier-list (1)(2)
  */
 
 #include "node_kind_t.h"

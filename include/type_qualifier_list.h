@@ -5,6 +5,11 @@
  * type-qualifier-list:
  *      type-qualifier          (1)
  *      type-qualifier-list type-qualifier      (2)
+ * 
+ * parents:
+ *      direct-declarator (5)(7)(8)(9)(10)
+ *      pointer (1)(2)
+ *      direct-abstract-declarator (4)(6)(7)(8)(12)(14)(15)(16)
  */
 
 #include "node_kind_t.h"
