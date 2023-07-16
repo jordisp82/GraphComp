@@ -56,7 +56,21 @@ dl_create_symtable (struct designator_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DESIGNATOR_LIST);
 
-  buff->sym_table = ((struct designation *) (buff->parent))->sym_table;
+  switch (buff->parent_kind)
+    {
+    case NODE_DESIGNATOR_LIST:
+      buff->sym_table =
+        ((struct designator_list *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_DESIGNATION:
+      buff->sym_table = ((struct designation *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   for (struct ds_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     ptr->ds->create_symtable (ptr->ds);
 }

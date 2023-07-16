@@ -298,7 +298,22 @@ dd_create_symtable (struct direct_declarator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DIRECT_DECLARATOR);
 
-  buff->sym_table = ((struct declarator *) (buff->parent))->sym_table;
+  //
+  switch (buff->parent_kind)
+    {
+    case NODE_DECLARATOR:
+      buff->sym_table = ((struct declarator *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_DIRECT_DECLARATOR:
+      buff->sym_table =
+        ((struct direct_declarator *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   if (buff->declr != NULL)
     buff->declr->create_symtable (buff->declr);
   if (buff->ddeclr != NULL)

@@ -58,7 +58,21 @@ idl_create_symtable (struct init_declarator_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INIT_DECLARATOR_LIST);
 
-  buff->sym_table = ((struct declaration *) (buff->parent))->sym_table;
+  switch (buff->parent_kind)
+    {
+    case NODE_DECLARATION:
+      buff->sym_table = ((struct declaration *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_INIT_DECLARATOR_LIST:
+      buff->sym_table =
+        ((struct init_declarator_list *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   for (struct idl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     ptr->id->create_symtable (ptr->id);
 }

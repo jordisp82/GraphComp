@@ -56,7 +56,21 @@ el_create_symtable (struct enumerator_list *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_ENUMERATOR_LIST);
 
-  buff->sym_table = ((struct enum_specifier *) (buff->parent))->sym_table;
+  switch (buff->parent_kind)
+    {
+    case NODE_ENUMERATOR_LIST:
+      buff->sym_table =
+        ((struct enumerator_list *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_ENUM_SPECIFIER:
+      buff->sym_table = ((struct enum_specifier *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   for (struct enl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     ptr->en->create_symtable (ptr->en);
 }

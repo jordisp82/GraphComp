@@ -54,8 +54,22 @@ land_create_symtable (struct logical_and_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_LOGICAL_AND_EXPRESSION);
 
-  buff->sym_table =
-    ((struct logical_or_expression *) (buff->parent))->sym_table;
+  switch (buff->parent_kind)
+    {
+    case NODE_LOGICAL_AND_EXPRESSION:
+      buff->sym_table =
+        ((struct logical_and_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_LOGICAL_OR_EXPRESSION:
+      buff->sym_table =
+        ((struct logical_or_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   if (buff->inc_or != NULL)
     buff->inc_or->create_symtable (buff->inc_or);
   if (buff->log_and != NULL)

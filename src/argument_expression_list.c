@@ -58,19 +58,21 @@ ael_create_symtable (struct argument_expression_list *buff)
   assert (buff->kind == NODE_ARGUMENT_EXPRESSION_LIST);
 
   switch (buff->parent_kind)
-  {
-      case NODE_ARGUMENT_EXPRESSION_LIST:
-          buff->sym_table = ((struct argument_expression_list *) (buff->parent))->sym_table;
-          break;
-          
-      case NODE_POSTFIX_EXPRESSION:
-          buff->sym_table = ((struct postfix_expression *) (buff->parent))->sym_table;
-          break;
-          
-      default:
-          ;     /* BUG! */
-  }
-  
+    {
+    case NODE_ARGUMENT_EXPRESSION_LIST:
+      buff->sym_table =
+        ((struct argument_expression_list *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_POSTFIX_EXPRESSION:
+      buff->sym_table =
+        ((struct postfix_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   for (struct ael_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     ptr->ass->create_symtable (ptr->ass);
 }

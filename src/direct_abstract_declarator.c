@@ -419,8 +419,22 @@ dad_create_symtable (struct direct_abstract_declarator *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_DIRECT_ABSTRACT_DECLARATOR);
 
-  buff->sym_table =
-    ((struct abstract_declarator *) (buff->parent))->sym_table;
+  switch (buff->parent_kind)
+    {
+    case NODE_ABSTRACT_DECLARATOR:
+      buff->sym_table =
+        ((struct abstract_declarator *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_DIRECT_ABSTRACT_DECLARATOR:
+      buff->sym_table =
+        ((struct direct_abstract_declarator *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   if (buff->adclr != NULL)
     buff->adclr->create_symtable (buff->adclr);
   if (buff->tql != NULL)

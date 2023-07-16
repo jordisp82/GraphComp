@@ -54,8 +54,22 @@ or_create_symtable (struct inclusive_or_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_INCLUSIVE_OR_EXPRESSION);
 
-  buff->sym_table =
-    ((struct logical_and_expression *) (buff->parent))->sym_table;
+  switch (buff->parent_kind)
+    {
+    case NODE_INCLUSIVE_OR_EXPRESSION:
+      buff->sym_table =
+        ((struct inclusive_or_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_LOGICAL_AND_EXPRESSION:
+      buff->sym_table =
+        ((struct logical_and_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   if (buff->xor_e != NULL)
     buff->xor_e->create_symtable (buff->xor_e);
   if (buff->or_e != NULL)

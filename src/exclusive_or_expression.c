@@ -54,8 +54,22 @@ xor_create_symtable (struct exclusive_or_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_EXCLUSIVE_OR_EXPRESSION);
 
-  buff->sym_table =
-    ((struct inclusive_or_expression *) (buff->parent))->sym_table;
+  switch (buff->parent_kind)
+    {
+    case NODE_EXCLUSIVE_OR_EXPRESSION:
+      buff->sym_table =
+        ((struct exclusive_or_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_INCLUSIVE_OR_EXPRESSION:
+      buff->sym_table =
+        ((struct inclusive_or_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   if (buff->and_e != NULL)
     buff->and_e->create_symtable (buff->and_e);
   if (buff->xor_e != NULL)

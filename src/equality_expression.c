@@ -77,7 +77,21 @@ eq_create_symtable (struct equality_expression *buff)
   assert (buff != NULL);
   assert (buff->kind == NODE_EQUALITY_EXPRESSION);
 
-  buff->sym_table = ((struct and_expression *) (buff->parent))->sym_table;
+  switch (buff->parent_kind)
+    {
+    case NODE_EQUALITY_EXPRESSION:
+      buff->sym_table =
+        ((struct equality_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_AND_EXPRESSION:
+      buff->sym_table = ((struct and_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
   if (buff->rexp != NULL)
     buff->rexp->create_symtable (buff->rexp);
   if (buff->eqex != NULL)

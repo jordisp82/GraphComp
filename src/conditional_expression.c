@@ -60,6 +60,11 @@ ce_create_symtable (struct conditional_expression *buff)
 
   switch (buff->parent_kind)
     {
+    case NODE_CONDITIONAL_EXPRESSION:
+      buff->sym_table =
+        ((struct conditional_expression *) (buff->parent))->sym_table;
+      break;
+
     case NODE_ASSIGNMENT_EXPRESSION:
       buff->sym_table =
         ((struct assignment_expression *) (buff->parent))->sym_table;

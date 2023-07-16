@@ -66,6 +66,11 @@ ce_create_symtable (struct cast_expression *buff)
         ((struct multiplicative_expression *) (buff->parent))->sym_table;
       break;
 
+    case NODE_CAST_EXPRESSION:
+      buff->sym_table =
+        ((struct cast_expression *) (buff->parent))->sym_table;
+      break;
+
     default:
       ;                         /* BUG! */
     }
