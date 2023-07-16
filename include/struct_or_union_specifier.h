@@ -13,7 +13,8 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symbol.h"
+//#include "symbol.h"
+#include "symtable.h"
 
 struct struct_or_union_specifier
 {
@@ -21,14 +22,20 @@ struct struct_or_union_specifier
   struct struct_or_union *su;
   const char *tag;
   struct struct_declaration_list *sdl;
+#if 0
   node_kind_t scope_kind;
   void *scope;
+#endif
+  struct symtable *sym_table;
+  void (*create_symtable) (struct struct_or_union_specifier * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
+#if 0
 symbol_t *create_symbol_from_sus (struct struct_or_union_specifier *buff);
 void set_struct_or_union_specifier_scope (struct struct_or_union_specifier
                                           *buff);
+#endif
 
 #endif

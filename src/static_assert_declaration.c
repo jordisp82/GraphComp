@@ -11,6 +11,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void sad_create_symtable (struct static_assert_declaration *buff);
+
 struct static_assert_declaration *
 static_assert_declaration_1 (void *ptr1, const char *str)
 {
@@ -26,10 +28,37 @@ static_assert_declaration_1 (void *ptr1, const char *str)
   assert (buff->str != NULL);
   buff->expr->parent_kind = NODE_STATIC_ASSERT_DECLARATION;
   buff->expr->parent = buff;
+  buff->create_symtable = sad_create_symtable;
 
   return buff;
 }
 
+static void
+sad_create_symtable (struct static_assert_declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STATIC_ASSERT_DECLARATION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DECLARATION:
+      buff->sym_table = ((struct declaration *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_STRUCT_DECLARATION:
+      buff->sym_table =
+        ((struct struct_declaration *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  if (buff->expr != NULL)
+    buff->expr->create_symtable (buff->expr);
+}
+
+#if 0
 void
 set_static_assert_scope (struct static_assert_declaration *buff)
 {
@@ -57,3 +86,4 @@ set_static_assert_scope (struct static_assert_declaration *buff)
         ;                       /* BUG! */
       }
 }
+#endif

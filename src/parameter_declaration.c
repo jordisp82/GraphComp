@@ -11,6 +11,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void pd_create_symtable (struct parameter_declaration *buff);
+
 struct parameter_declaration *
 parameter_declaration_1 (void *ptr1, void *ptr2)
 {
@@ -26,6 +28,7 @@ parameter_declaration_1 (void *ptr1, void *ptr2)
   buff->dr = ptr2;
   buff->ds->parent_kind = buff->dr->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff->dr->parent = buff;
+  buff->create_symtable = pd_create_symtable;
 
   return buff;
 }
@@ -45,6 +48,7 @@ parameter_declaration_2 (void *ptr1, void *ptr2)
   buff->adr = ptr2;
   buff->ds->parent_kind = buff->adr->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff->adr->parent = buff;
+  buff->create_symtable = pd_create_symtable;
 
   return buff;
 }
@@ -62,10 +66,39 @@ parameter_declaration_3 (void *ptr)
   buff->ds = ptr;
   buff->ds->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff;
+  buff->create_symtable = pd_create_symtable;
 
   return buff;
 }
 
+static void
+pd_create_symtable (struct parameter_declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_PARAMETER_DECLARATION);
+
+  buff->sym_table = ((struct parameter_list *) (buff->parent))->sym_table;
+  if (buff->ds != NULL)
+    buff->ds->create_symtable (buff->ds);
+  switch (buff->pd_kind)
+    {
+    case PD_DS_DECLR:
+      buff->dr->create_symtable (buff->dr);
+      break;
+
+    case PD_DS_ABS_DECLR:
+      buff->adr->create_symtable (buff->adr);
+      break;
+
+    case PD_DS:
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}
+
+#if 0
 symbol_t *
 create_symbol_for_param_declaration (struct parameter_declaration *buff)
 {
@@ -107,3 +140,4 @@ set_parameter_declaration_scope (struct parameter_declaration *buff)
         ;                       /* BUG! */
       }
 }
+#endif

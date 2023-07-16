@@ -81,7 +81,12 @@ ss_create_symtable (struct selection_statement *buff)
   assert (buff->kind == NODE_SELECTION_STATEMENT);
 
   buff->sym_table = ((struct statement *) (buff->parent))->sym_table;
-  /* TODO children */
+  if (buff->ex != NULL)
+    buff->ex->create_symtable (buff->ex);
+  if (buff->st1 != NULL)
+    buff->st1->create_symtable (buff->st1);
+  if (buff->st2 != NULL)
+    buff->st2->create_symtable (buff->st2);
 }
 
 #if 0

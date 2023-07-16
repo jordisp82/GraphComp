@@ -8,12 +8,15 @@
  *      '*' pointer
  *      '*'
  * 
- * This is NOT a list.
+ * parents:
+ *      declarator (1)
+ *      abstract-declarator (1)(2)
  */
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symbol.h"
+//#include "symbol.h"
+#include "symtable.h"
 
 typedef enum
 {

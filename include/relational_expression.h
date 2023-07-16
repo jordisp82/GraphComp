@@ -16,6 +16,7 @@
 #include "node_kind_t.h"
 #include "structs.h"
 #include "symtable.h"
+
 typedef enum
 {
   REL_SHIFT,

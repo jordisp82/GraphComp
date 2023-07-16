@@ -11,6 +11,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void sd_create_symtable (struct struct_declaration *buff);
+
 struct struct_declaration *
 struct_declaration_1 (void *ptr)
 {
@@ -23,6 +25,7 @@ struct_declaration_1 (void *ptr)
   buff->sql = ptr;
   buff->sql->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sql->parent = buff;
+  buff->create_symtable = sd_create_symtable;
 
   return buff;
 }
@@ -41,6 +44,7 @@ struct_declaration_2 (void *ptr1, void *ptr2)
   buff->sdl = ptr2;
   buff->sql->parent_kind = buff->sdl->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sql->parent = buff->sdl->parent = buff;
+  buff->create_symtable = sd_create_symtable;
 
   return buff;
 }
@@ -57,10 +61,28 @@ struct_declaration_3 (void *ptr)
   buff->sad = ptr;
   buff->sad->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sad->parent = buff;
+  buff->create_symtable = sd_create_symtable;
 
   return buff;
 }
 
+static void
+sd_create_symtable (struct struct_declaration *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STRUCT_DECLARATION);
+
+  buff->sym_table =
+    ((struct struct_declaration_list *) (buff->parent))->sym_table;
+  if (buff->sql != NULL)
+    buff->sql->create_symtable (buff->sql);
+  if (buff->sdl != NULL)
+    buff->sdl->create_symtable (buff->sdl);
+  if (buff->sad != NULL)
+    buff->sad->create_symtable (buff->sad);
+}
+
+#if 0
 void
 set_struct_declaration_scope (struct struct_declaration *buff)
 {
@@ -82,3 +104,4 @@ set_struct_declaration_scope (struct struct_declaration *buff)
         ;                       /* BUG! */
       }
 }
+#endif

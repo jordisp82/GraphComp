@@ -31,8 +31,10 @@ struct parameter_type_list
   void *parent;
 };
 
+#if 0
 int create_symbols_for_param_tlist (struct parameter_type_list *buff,
                                     symbol_t *** sym_pars);
 void set_parameter_type_list_scope (struct parameter_type_list *buff);
+#endif
 
 #endif

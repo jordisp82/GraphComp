@@ -16,7 +16,11 @@
 #define NULL ((void*)0)
 #endif
 
+#if 0
 static int pfexpr_set_symbol_for_id (struct postfix_expression *buff);
+#endif
+
+static void pe_create_symtable (struct postfix_expression *buff);
 
 struct postfix_expression *
 postfix_expression_1 (void *ptr)
@@ -31,6 +35,7 @@ postfix_expression_1 (void *ptr)
   buff->pex = ptr;
   buff->pex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pex->parent = buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -50,6 +55,7 @@ postfix_expression_2 (void *ptr1, void *ptr2)
   buff->ex = ptr2;
   buff->pfex->parent_kind = buff->ex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff->ex->parent = buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -67,6 +73,7 @@ postfix_expression_3 (void *ptr)
   buff->pfex = ptr;
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -86,6 +93,7 @@ postfix_expression_4 (void *ptr1, void *ptr2)
   buff->ael = ptr2;
   buff->pfex->parent_kind = buff->ael->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff->ael->parent = buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -106,6 +114,7 @@ postfix_expression_5 (void *ptr1, const char *str)
   assert (buff->id != NULL);
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -126,6 +135,7 @@ postfix_expression_6 (void *ptr1, const char *str)
   assert (buff->id != NULL);
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -143,6 +153,7 @@ postfix_expression_7 (void *ptr)
   buff->pfex = ptr;
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -160,6 +171,7 @@ postfix_expression_8 (void *ptr)
   buff->pfex = ptr;
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -181,6 +193,7 @@ postfix_expression_9 (void *ptr1, void *ptr2)
     buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->comp_lit.tn->parent = buff->comp_lit.il->parent = buff->pfex->parent =
     buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
@@ -202,10 +215,73 @@ postfix_expression_10 (void *ptr1, void *ptr2)
     buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->comp_lit.tn->parent = buff->comp_lit.il->parent = buff->pfex->parent =
     buff;
+  buff->create_symtable = pe_create_symtable;
 
   return buff;
 }
 
+static void
+pe_create_symtable (struct postfix_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_POSTFIX_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_UNARY_EXPRESSION:
+      buff->sym_table =
+        ((struct unary_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_POSTFIX_EXPRESSION:
+      buff->sym_table =
+        ((struct postfix_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  if (buff->pf_kind == POSTFIX_PRIMARY && buff->pex != NULL)
+    buff->pex->create_symtable (buff->pex);
+  else
+    switch (buff->pf_kind)
+      {
+      case POSTFIX_ARRAY:
+        if (buff->pfex != NULL)
+          buff->pfex->create_symtable (buff->pfex);
+        if (buff->ex != NULL)
+          buff->ex->create_symtable (buff->ex);
+        break;
+
+      case POSTFIX_FUNCTION:
+        if (buff->pfex != NULL)
+          buff->pfex->create_symtable (buff->pfex);
+        if (buff->ael != NULL)
+          buff->ael->create_symtable (buff->ael);
+        break;
+
+      case POSTFIX_FIELD1:
+      case POSTFIX_FIELD2:
+      case POSTFIX_INC:
+      case POSTFIX_DEC:
+        if (buff->pfex != NULL)
+          buff->pfex->create_symtable (buff->pfex);
+        break;
+
+      case POSTFIX_COMP_LIT:
+        if (buff->comp_lit.tn != NULL)
+          buff->comp_lit.tn->create_symtable (buff->comp_lit.tn);
+        if (buff->comp_lit.il != NULL)
+          buff->comp_lit.il->create_symtable (buff->comp_lit.il);
+        break;
+
+      default:
+        ;                       /* BUG! */
+      }
+}
+
+#if 0
 void
 set_postfix_expression_scope (struct postfix_expression *buff)
 {
@@ -305,3 +381,4 @@ pfexpr_set_symbol_for_id (struct postfix_expression *buff)
 
   return (buff->sym == NULL) ? -1 : 0;
 }
+#endif

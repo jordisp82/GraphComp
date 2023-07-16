@@ -11,6 +11,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void sql_create_symtable (struct specifier_qualifier_list *buff);
+
 struct specifier_qualifier_list *
 specifier_qualifier_list_1 (void *ptr1, void *ptr2)
 {
@@ -27,6 +29,7 @@ specifier_qualifier_list_1 (void *ptr1, void *ptr2)
   buff->last->ts = ts;
   ts->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   ts->parent = buff;
+  buff->create_symtable = sql_create_symtable;
 
   return buff;
 }
@@ -47,6 +50,7 @@ specifier_qualifier_list_2 (void *ptr)
   buff->first->ts = ptr;
   buff->first->ts->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   buff->first->ts->parent = buff;
+  buff->create_symtable = sql_create_symtable;
 
   return buff;
 }
@@ -67,6 +71,7 @@ specifier_qualifier_list_3 (void *ptr1, void *ptr2)
   buff->last->tq = tq;
   tq->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   tq->parent = buff;
+  buff->create_symtable = sql_create_symtable;
 
   return buff;
 }
@@ -87,10 +92,54 @@ specifier_qualifier_list_4 (void *ptr)
   buff->first->tq = ptr;
   buff->first->tq->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   buff->first->tq->parent = buff;
+  buff->create_symtable = sql_create_symtable;
 
   return buff;
 }
 
+static void
+sql_create_symtable (struct specifier_qualifier_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_SPECIFIER_QUALIFIER_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_SPECIFIER_QUALIFIER_LIST:
+      buff->sym_table =
+        ((struct specifier_qualifier_list *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_STRUCT_DECLARATION:
+      buff->sym_table =
+        ((struct struct_declaration *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_TYPE_NAME:
+      buff->sym_table = ((struct type_name *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  for (struct sql_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    switch (ptr->sq_kind)
+      {
+      case SQ_TYPE_SPEC:
+        ptr->ts->create_symtable (ptr->ts);
+        break;
+
+      case SQ_TYPE_QUAL:
+        ptr->tq->create_symtable (ptr->tq);
+        break;
+
+      default:
+        ;                       /* BUG! */
+      }
+}
+
+#if 0
 void
 set_specifier_qualifier_list_scope (struct specifier_qualifier_list *buff)
 {
@@ -125,3 +174,4 @@ set_specifier_qualifier_list_scope (struct specifier_qualifier_list *buff)
         ;                       /* BUG! */
       }
 }
+#endif

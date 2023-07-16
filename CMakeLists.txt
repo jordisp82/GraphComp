@@ -55,6 +55,7 @@ add_executable(GraphComp
     src/parameter_declaration.c
     src/parameter_list.c
     src/parameter_type_list.c
+    src/parse_cmd_line.c
     src/pointer.c
     src/postfix_expression.c
     src/preproc.c

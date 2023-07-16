@@ -201,14 +201,14 @@ is_create_symtable (struct iteration_statement *buff)
       break;
 
     case IS_FOR_DECL_ES_EX:
-      buff->is_for_decl_es_ex.st->create_symtable (buff->is_for_decl_es_ex.
-                                                   st);
-      buff->is_for_decl_es_ex.dl->create_symtable (buff->is_for_decl_es_ex.
-                                                   dl);
-      buff->is_for_decl_es_ex.ex->create_symtable (buff->is_for_decl_es_ex.
-                                                   ex);
-      buff->is_for_decl_es_ex.es->create_symtable (buff->is_for_decl_es_ex.
-                                                   es);
+      buff->is_for_decl_es_ex.st->create_symtable (buff->
+                                                   is_for_decl_es_ex.st);
+      buff->is_for_decl_es_ex.dl->create_symtable (buff->
+                                                   is_for_decl_es_ex.dl);
+      buff->is_for_decl_es_ex.ex->create_symtable (buff->
+                                                   is_for_decl_es_ex.ex);
+      buff->is_for_decl_es_ex.es->create_symtable (buff->
+                                                   is_for_decl_es_ex.es);
       break;
 
     default:

@@ -10,6 +10,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void ptl_create_symtable (struct parameter_type_list *buff);
+
 struct parameter_type_list *
 parameter_type_list_1 (void *ptr)
 {
@@ -23,6 +25,7 @@ parameter_type_list_1 (void *ptr)
   buff->ellipsis = 1;
   buff->pl->parent_kind = NODE_PARAMETER_TYPE_LIST;
   buff->pl->parent = buff;
+  buff->create_symtable = ptl_create_symtable;
 
   return buff;
 }
@@ -40,10 +43,38 @@ parameter_type_list_2 (void *ptr)
   buff->ellipsis = 0;
   buff->pl->parent_kind = NODE_PARAMETER_TYPE_LIST;
   buff->pl->parent = buff;
+  buff->create_symtable = ptl_create_symtable;
 
   return buff;
 }
 
+static void
+ptl_create_symtable (struct parameter_type_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_PARAMETER_TYPE_LIST);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_DIRECT_DECLARATOR:
+      buff->sym_table =
+        ((struct direct_declarator *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_DIRECT_ABSTRACT_DECLARATOR:
+      buff->sym_table =
+        ((struct direct_abstract_declarator *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  if (buff->pl != NULL)
+    buff->pl->create_symtable (buff->pl);
+}
+
+#if 0
 int
 create_symbols_for_param_tlist (struct parameter_type_list *buff,
                                 symbol_t *** sym_pars)
@@ -83,3 +114,4 @@ set_parameter_type_list_scope (struct parameter_type_list *buff)
         ;                       /* BUG! */
       }
 }
+#endif

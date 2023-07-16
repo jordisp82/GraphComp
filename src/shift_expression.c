@@ -9,6 +9,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void sh_create_symtable (struct shift_expression *buff);
+
 struct shift_expression *
 shift_expression_1 (void *ptr)
 {
@@ -22,6 +24,7 @@ shift_expression_1 (void *ptr)
   buff->add_ex = ptr;
   buff->add_ex->parent_kind = NODE_SHIFT_EXPRESSION;
   buff->add_ex->parent = buff;
+  buff->create_symtable = sh_create_symtable;
 
   return buff;
 }
@@ -42,6 +45,7 @@ shift_expression_2 (void *ptr1, void *ptr2)
   buff->sh_ex->parent_kind = buff->add_ex->parent_kind =
     NODE_SHIFT_EXPRESSION;
   buff->sh_ex->parent = buff->add_ex->parent = buff;
+  buff->create_symtable = sh_create_symtable;
 
   return buff;
 }
@@ -62,10 +66,40 @@ shift_expression_3 (void *ptr1, void *ptr2)
   buff->sh_ex->parent_kind = buff->add_ex->parent_kind =
     NODE_SHIFT_EXPRESSION;
   buff->sh_ex->parent = buff->add_ex->parent = buff;
+  buff->create_symtable = sh_create_symtable;
 
   return buff;
 }
 
+static void
+sh_create_symtable (struct shift_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_SHIFT_EXPRESSION);
+
+  switch (buff->parent_kind)
+    {
+    case NODE_SHIFT_EXPRESSION:
+      buff->sym_table =
+        ((struct shift_expression *) (buff->parent))->sym_table;
+      break;
+
+    case NODE_RELATIONAL_EXPRESSION:
+      buff->sym_table =
+        ((struct relational_expression *) (buff->parent))->sym_table;
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+
+  if (buff->add_ex != NULL)
+    buff->add_ex->create_symtable (buff->add_ex);
+  if (buff->sh_ex != NULL)
+    buff->sh_ex->create_symtable (buff->sh_ex);
+}
+
+#if 0
 void
 set_shift_expression_scope (struct shift_expression *buff)
 {
@@ -106,3 +140,4 @@ set_symbol_for_shift_expression (struct shift_expression *buff)
   if (buff->sh_ex != NULL)
     set_symbol_for_shift_expression (buff->sh_ex);
 }
+#endif

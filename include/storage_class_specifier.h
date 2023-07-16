@@ -9,6 +9,9 @@
  *      THREAD_LOCAL    (4)
  *      AUTO            (5)
  *      REGISTER        (6)
+ * 
+ * parents:
+ *      declaration-specifiers (1)(2)
  */
 
 #include "node_kind_t.h"
