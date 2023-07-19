@@ -11,6 +11,7 @@
 #endif
 
 static void idl_create_symtable (struct init_declarator_list *buff);
+static void idl_create_symbol (struct init_declarator_list *buff);
 
 struct init_declarator_list *
 init_declarator_list_1 (void *ptr)
@@ -28,6 +29,7 @@ init_declarator_list_1 (void *ptr)
   buff->first->id->parent_kind = NODE_INIT_DECLARATOR_LIST;
   buff->first->id->parent = buff;
   buff->create_symtable = idl_create_symtable;
+  buff->create_symbol = idl_create_symbol;
 
   return buff;
 }
@@ -48,6 +50,7 @@ init_declarator_list_2 (void *ptr1, void *ptr2)
   id->parent_kind = NODE_INIT_DECLARATOR_LIST;
   id->parent = buff;
   buff->create_symtable = idl_create_symtable;
+  buff->create_symbol = idl_create_symbol;
 
   return buff;
 }
@@ -77,64 +80,13 @@ idl_create_symtable (struct init_declarator_list *buff)
     ptr->id->create_symtable (ptr->id);
 }
 
-#if 0
-int
-create_symbols_for_init_declarator_list (struct init_declarator_list *buff,
-                                         symbol_t *** syms)
-{
-  assert (buff != NULL);
-  assert (syms != NULL);
-
-  int n = 0;
-  for (struct idl_node * ptr = buff->first; ptr != NULL;
-       n++, ptr = ptr->next);
-
-  symbol_t **aux = calloc (n, sizeof (symbol_t *));
-  assert (aux != NULL);
-
-  int i = 0;
-  for (struct idl_node * ptr = buff->first; ptr != NULL; i++, ptr = ptr->next)
-    aux[i] = create_symbol_from_init_declarator (ptr->id);
-  *syms = aux;
-
-  return n;
-}
-
-void
-set_init_declarator_list_scope (struct init_declarator_list *buff)
+static void
+idl_create_symbol (struct init_declarator_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INIT_DECLARATOR_LIST);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_DECLARATION:
-        set_declaration_scope (buff->parent);
-        buff->scope = ((struct declaration *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct declaration *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_INIT_DECLARATOR_LIST:
-        set_init_declarator_list_scope (buff->parent);
-        buff->scope = ((struct init_declarator_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct init_declarator_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_init_declarator_list (struct init_declarator_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_INIT_DECLARATOR_LIST);
+  assert (buff->sym_table != NULL);
 
   for (struct idl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    set_symbol_for_init_declarator (ptr->id);
+    ptr->id->create_symbol (ptr->id);
 }
-#endif

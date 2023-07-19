@@ -26,18 +26,9 @@ struct translation_unit
     struct external_declaration *ed;
     struct tu_node *next;
   } *first, *last;
-#if 0
-  avl_node_t *ordinary;
-  avl_node_t *tags;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct translation_unit * buff);
+  void (*create_symbol) (struct translation_unit * buff);
 };
-
-#if 0
-void create_symbol_table_file (struct translation_unit *buff);
-symbol_t *look_for_id_in_tu (struct translation_unit *buff, const char *name);
-void set_symbol_for_translation_unit (struct translation_unit *buff);
-#endif
 
 #endif

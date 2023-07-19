@@ -10,6 +10,7 @@
 #endif
 
 static void ael_create_symtable (struct argument_expression_list *buff);
+static void ael_create_symbol (struct argument_expression_list *buff);
 
 struct argument_expression_list *
 argument_expression_list_1 (void *ptr)
@@ -27,6 +28,7 @@ argument_expression_list_1 (void *ptr)
   buff->first->ass->parent_kind = NODE_ARGUMENT_EXPRESSION_LIST;
   buff->first->ass->parent = buff;
   buff->create_symtable = ael_create_symtable;
+  buff->create_symbol = ael_create_symbol;
 
   return buff;
 }
@@ -47,6 +49,7 @@ argument_expression_list_2 (void *ptr1, void *ptr2)
   ass->parent_kind = NODE_ARGUMENT_EXPRESSION_LIST;
   ass->parent = buff;
   buff->create_symtable = ael_create_symtable;
+  buff->create_symbol = ael_create_symbol;
 
   return buff;
 }
@@ -77,44 +80,13 @@ ael_create_symtable (struct argument_expression_list *buff)
     ptr->ass->create_symtable (ptr->ass);
 }
 
-#if 0
-void
-set_argument_expression_list_scope (struct argument_expression_list *buff)
+static void
+ael_create_symbol (struct argument_expression_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_ARGUMENT_EXPRESSION_LIST);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_ARGUMENT_EXPRESSION_LIST:
-        set_argument_expression_list_scope (buff->parent);
-        buff->scope =
-          ((struct argument_expression_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct argument_expression_list *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_POSTFIX_EXPRESSION:
-        set_postfix_expression_scope (buff->parent);
-        buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct postfix_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_argument_expression_list (struct argument_expression_list
-                                         *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_ARGUMENT_EXPRESSION_LIST);
+  assert (buff->sym_table != NULL);
 
   for (struct ael_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    set_symbol_for_assignment_expression (ptr->ass);
+    ptr->ass->create_symbol (ptr->ass);
 }
-#endif

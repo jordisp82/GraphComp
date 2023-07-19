@@ -44,6 +44,7 @@ struct assignment_operator
   assop_kind_t ass_op;
   struct symtable *sym_table;
   void (*create_symtable) (struct assignment_operator * buff);
+  void (*create_symbol) (struct assignment_operator * buff);
   node_kind_t parent_kind;
   void *parent;
 };

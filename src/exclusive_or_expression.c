@@ -10,6 +10,7 @@
 #endif
 
 static void xor_create_symtable (struct exclusive_or_expression *buff);
+static void xor_create_symbol (struct exclusive_or_expression *buff);
 
 struct exclusive_or_expression *
 exclusive_or_expression_1 (void *ptr)
@@ -24,6 +25,7 @@ exclusive_or_expression_1 (void *ptr)
   buff->and_e->parent_kind = NODE_EXCLUSIVE_OR_EXPRESSION;
   buff->and_e->parent = buff;
   buff->create_symtable = xor_create_symtable;
+  buff->create_symbol = xor_create_symbol;
 
   return buff;
 }
@@ -44,6 +46,7 @@ exclusive_or_expression_2 (void *ptr1, void *ptr2)
     NODE_EXCLUSIVE_OR_EXPRESSION;
   buff->xor_e->parent = buff->and_e->parent = buff;
   buff->create_symtable = xor_create_symtable;
+  buff->create_symbol = xor_create_symbol;
 
   return buff;
 }
@@ -76,46 +79,15 @@ xor_create_symtable (struct exclusive_or_expression *buff)
     buff->xor_e->create_symtable (buff->xor_e);
 }
 
-#if 0
-void
-set_xor_expression_scope (struct exclusive_or_expression *buff)
+static void
+xor_create_symbol (struct exclusive_or_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_EXCLUSIVE_OR_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_EXCLUSIVE_OR_EXPRESSION:
-        set_xor_expression_scope (buff->parent);
-        buff->scope =
-          ((struct exclusive_or_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct exclusive_or_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_INCLUSIVE_OR_EXPRESSION:
-        set_or_expression_scope (buff->parent);
-        buff->scope =
-          ((struct inclusive_or_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct inclusive_or_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_xor_expression (struct exclusive_or_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_EXCLUSIVE_OR_EXPRESSION);
-  assert (buff->and_e != NULL);
-
-  set_symbol_for_and_expression (buff->and_e);
+  if (buff->and_e != NULL)
+    buff->and_e->create_symbol (buff->and_e);
   if (buff->xor_e != NULL)
-    set_symbol_for_xor_expression (buff->xor_e);
+    buff->xor_e->create_symbol (buff->xor_e);
 }
-#endif

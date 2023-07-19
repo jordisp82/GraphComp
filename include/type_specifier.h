@@ -27,7 +27,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-//#include "symbol.h"
+#include "symbol.h"
 #include "symtable.h"
 
 typedef enum
@@ -61,19 +61,12 @@ struct type_specifier
     struct enum_specifier *es;
     const char *typedef_name;
   };
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct type_specifier * buff);
+  struct symbol *sym;
+  void (*create_symbol) (struct type_specifier * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-symbol_t *create_symbol_from_type_specifier (struct type_specifier *buff);
-void set_type_specifier_scope (struct type_specifier *buff);
-#endif
 
 #endif

@@ -16,6 +16,7 @@
 #endif
 
 static void ex_create_symtable (struct expression *buff);
+static void ex_create_symbol (struct expression *buff);
 
 struct expression *
 expression_1 (void *ptr)
@@ -29,6 +30,7 @@ expression_1 (void *ptr)
   buff->ass->parent_kind = NODE_EXPRESSION;
   buff->ass->parent = buff;
   buff->create_symtable = ex_create_symtable;
+  buff->create_symbol = ex_create_symbol;
 
   return buff;
 }
@@ -47,6 +49,7 @@ expression_2 (void *ptr1, void *ptr2)
   buff->expr->parent_kind = buff->ass->parent_kind = NODE_EXPRESSION;
   buff->expr->parent = buff->ass->parent = buff;
   buff->create_symtable = ex_create_symtable;
+  buff->create_symbol = ex_create_symbol;
 
   return buff;
 }
@@ -107,83 +110,15 @@ ex_create_symtable (struct expression *buff)
     buff->ass->create_symtable (buff->ass);
 }
 
-#if 0
-void
-set_expression_scope (struct expression *buff)
-{
-  assert (buff != NULL);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_EXPRESSION:
-        set_expression_scope (buff->parent);
-        buff->scope = ((struct expression *) (buff->parent))->scope;
-        buff->scope_kind = ((struct expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_PRIMARY_EXPRESSION:
-        set_primary_expression_scope (buff->parent);
-        buff->scope = ((struct primary_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct primary_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_POSTFIX_EXPRESSION:
-        set_postfix_expression_scope (buff->parent);
-        buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct postfix_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_CONDITIONAL_EXPRESSION:
-        set_cond_expression_scope (buff->parent);
-        buff->scope =
-          ((struct conditional_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct conditional_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_EXPRESSION_STATEMENT:
-        set_expression_stmt_scope (buff->parent);
-        buff->scope = ((struct expression_statement *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct expression_statement *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_SELECTION_STATEMENT:
-        set_selection_stmt_scope (buff->parent);
-        buff->scope = ((struct selection_statement *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct selection_statement *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_ITERATION_STATEMENT:
-        set_iteration_stmt_scope (buff->parent);
-        buff->scope = buff->parent;
-        buff->scope_kind = NODE_ITERATION_STATEMENT;
-        break;
-
-      case NODE_JUMP_STATEMENT:
-        buff->scope = ((struct jump_statement *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct jump_statement *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_expression (struct expression *buff)
+static void
+ex_create_symbol (struct expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_EXPRESSION);
-  assert (buff->ass != NULL);
+  assert (buff->sym_table != NULL);
 
-  set_symbol_for_assignment_expression (buff->ass);
   if (buff->expr != NULL)
-    set_symbol_for_expression (buff->expr);
+    buff->expr->create_symbol (buff->expr);
+  if (buff->ass != NULL)
+    buff->ass->create_symbol (buff->ass);
 }
-#endif

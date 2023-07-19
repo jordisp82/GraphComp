@@ -9,6 +9,7 @@
 #include "postfix_expression.h"
 #include "translation_unit.h"
 #include "compound_statement.h"
+#include "avl_tree.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -19,6 +20,7 @@ static int priex_set_symbol_for_id (struct primary_expression *buff);
 #endif
 
 static void p_create_symtable (struct primary_expression *buff);
+static void p_create_symbol (struct primary_expression *buff);
 
 struct primary_expression *
 primary_expression_1 (const char *str)
@@ -33,6 +35,7 @@ primary_expression_1 (const char *str)
   buff->id = strdup (str);
   assert (buff->id != NULL);
   buff->create_symtable = p_create_symtable;
+  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -51,6 +54,7 @@ primary_expression_2 (void *ptr)
   buff->c->parent_kind = NODE_PRIMARY_EXPRESSION;
   buff->c->parent = buff;
   buff->create_symtable = p_create_symtable;
+  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -69,6 +73,7 @@ primary_expression_3 (void *ptr)
   buff->s->parent_kind = NODE_PRIMARY_EXPRESSION;
   buff->s->parent = buff;
   buff->create_symtable = p_create_symtable;
+  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -100,6 +105,7 @@ primary_expression_5 (void *ptr __attribute__((unused)))
   buff->kind = NODE_PRIMARY_EXPRESSION;
   buff->priex_kind = PRIEX_GS;
   buff->create_symtable = p_create_symtable;
+  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -137,86 +143,36 @@ p_create_symtable (struct primary_expression *buff)
     }
 }
 
-#if 0
-void
-set_symbol_for_primary_expression (struct primary_expression *buff)
+static void
+p_create_symbol (struct primary_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_PRIMARY_EXPRESSION);
+  assert (buff->sym_table != NULL);
+
+  avl_node_t *node = NULL;
 
   switch (buff->priex_kind)
     {
     case PRIEX_IDENT:
-      (void) priex_set_symbol_for_id (buff);
+      node = avl_search (buff->sym_table->ord, buff->id);
+      if (node != NULL)
+        buff->sym = node->value;
       break;
 
     case PRIEX_CONST:
-    case PRIEX_STRING:
-    case PRIEX_GS:
-      /* nothing to do */
+      buff->c->create_symbol (buff->c);
       break;
 
+    case PRIEX_STRING:
+    case PRIEX_GS:
+      break;                    /* nothing to do */
+
     case PRIEX_EX:
-#if 0
-      fill_in_symtable_expression (buff->e);
-#endif
+      buff->e->create_symbol (buff->e);
       break;
 
     default:
       ;                         /* BUG! */
     }
 }
-
-static int
-priex_set_symbol_for_id (struct primary_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_PRIMARY_EXPRESSION);
-  assert (buff->priex_kind == PRIEX_IDENT);
-
-  if (buff->sym != NULL)
-    return 1;
-
-  /*
-   * Since we assume that the code compiles,
-   * we're not going to check that the ID
-   * is an ordinary identifier and not a tag.
-   */
-  switch (buff->scope_kind)
-    {
-    case NODE_TRANSLATION_UNIT:
-      buff->sym = look_for_id_in_tu (buff->scope, buff->id);
-      break;
-
-    case NODE_COMPOUND_STATEMENT:
-      buff->sym = look_for_id_in_cs (buff->scope, buff->id);
-      break;
-
-    default:
-      ;                         /* either TODO or BUG */
-    }
-
-  return (buff->sym == NULL) ? -1 : 0;
-}
-
-void
-set_primary_expression_scope (struct primary_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_PRIMARY_EXPRESSION);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_POSTFIX_EXPRESSION:
-        set_postfix_expression_scope (buff->parent);
-        buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct postfix_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-#endif

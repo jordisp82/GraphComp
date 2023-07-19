@@ -12,6 +12,7 @@
 #endif
 
 static void id_create_symtable (struct init_declarator *buff);
+static void id_create_symbol (struct init_declarator *buff);
 
 struct init_declarator *
 init_declarator_1 (void *ptr1, void *ptr2)
@@ -27,6 +28,7 @@ init_declarator_1 (void *ptr1, void *ptr2)
   buff->dclr->parent_kind = buff->itz->parent_kind = NODE_INIT_DECLARATOR;
   buff->dclr->parent = buff->itz->parent = buff;
   buff->create_symtable = id_create_symtable;
+  buff->create_symbol = id_create_symbol;
 
   return buff;
 }
@@ -43,6 +45,7 @@ init_declarator_2 (void *ptr)
   buff->dclr->parent_kind = NODE_INIT_DECLARATOR;
   buff->dclr->parent = buff;
   buff->create_symtable = id_create_symtable;
+  buff->create_symbol = id_create_symbol;
 
   return buff;
 }
@@ -74,50 +77,15 @@ id_create_symtable (struct init_declarator *buff)
     buff->itz->create_symtable (buff->itz);
 }
 
-#if 0
-symbol_t *
-create_symbol_from_init_declarator (struct init_declarator *buff)
-{
-  assert (buff != NULL);
-
-  return create_symbol_for_declarator (buff->dclr);
-}
-
-void
-set_init_declarator_scope (struct init_declarator *buff)
+static void
+id_create_symbol (struct init_declarator *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INIT_DECLARATOR);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_DECLARATION:
-        set_declaration_scope (buff->parent);
-        buff->scope = ((struct declaration *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct declaration *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_INIT_DECLARATOR_LIST:
-        set_init_declarator_scope (buff->parent);
-        buff->scope = ((struct init_declarator_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct init_declarator_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_init_declarator (struct init_declarator *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_INIT_DECLARATOR);
-
+  if (buff->dclr != NULL)
+    buff->dclr->create_symbol (buff->dclr);
   if (buff->itz != NULL)
-    set_symbol_for_initializer (buff->itz);
+    buff->itz->create_symbol (buff->itz);
 }
-#endif

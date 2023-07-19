@@ -19,5 +19,6 @@ avl_node_t *avl_create (symbol_t * value);
 avl_node_t *avl_search (avl_node_t * tree, const char *name);
 void avl_destroy (avl_node_t * tree);
 void avl_add (avl_node_t * tree, symbol_t * value);
+avl_node_t *avl_add_create (avl_node_t * tree, symbol_t * value);
 
 #endif

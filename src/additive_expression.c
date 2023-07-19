@@ -10,6 +10,7 @@
 #endif
 
 static void ae_create_symtable (struct additive_expression *buff);
+static void ae_create_symbol (struct additive_expression *buff);
 
 struct additive_expression *
 additive_expression_1 (void *ptr)
@@ -25,6 +26,7 @@ additive_expression_1 (void *ptr)
   buff->mult_ex->parent_kind = NODE_ADDITIVE_EXPRESSION;
   buff->mult_ex->parent = buff;
   buff->create_symtable = ae_create_symtable;
+  buff->create_symbol = ae_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ additive_expression_2 (void *ptr1, void *ptr2)
     NODE_ADDITIVE_EXPRESSION;
   buff->add_ex->parent = buff->mult_ex->parent = buff;
   buff->create_symtable = ae_create_symtable;
+  buff->create_symbol = ae_create_symbol;
 
   return buff;
 }
@@ -67,6 +70,7 @@ additive_expression_3 (void *ptr1, void *ptr2)
     NODE_ADDITIVE_EXPRESSION;
   buff->add_ex->parent = buff->mult_ex->parent = buff;
   buff->create_symtable = ae_create_symtable;
+  buff->create_symbol = ae_create_symbol;
 
   return buff;
 }
@@ -99,44 +103,15 @@ ae_create_symtable (struct additive_expression *buff)
     buff->add_ex->create_symtable (buff->add_ex);
 }
 
-#if 0
-void
-set_add_expression_scope (struct additive_expression *buff)
+static void
+ae_create_symbol (struct additive_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_ADDITIVE_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_ADDITIVE_EXPRESSION:
-        set_add_expression_scope (buff->parent);
-        buff->scope = ((struct additive_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct additive_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_SHIFT_EXPRESSION:
-        set_shift_expression_scope (buff->parent);
-        buff->scope = ((struct shift_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct shift_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_additive_expression (struct additive_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_ADDITIVE_EXPRESSION);
-  assert (buff->mult_ex != NULL);
-
-  set_symbol_for_mult_expression (buff->mult_ex);
+  if (buff->mult_ex != NULL)
+    buff->mult_ex->create_symbol (buff->mult_ex);
   if (buff->add_ex != NULL)
-    set_symbol_for_additive_expression (buff->add_ex);
+    buff->add_ex->create_symbol (buff->add_ex);
 }
-#endif

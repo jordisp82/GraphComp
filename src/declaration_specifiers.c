@@ -16,6 +16,7 @@
 #endif
 
 static void ds_create_symtable (struct declaration_specifiers *buff);
+static void ds_create_symbol (struct declaration_specifiers *buff);
 
 struct declaration_specifiers *
 declaration_specifiers_1 (void *ptr1, void *ptr2)
@@ -34,6 +35,7 @@ declaration_specifiers_1 (void *ptr1, void *ptr2)
   stg->parent_kind = NODE_DECLARATION_SPECIFIERS;
   stg->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -55,6 +57,7 @@ declaration_specifiers_2 (void *ptr)
   buff->first->stg->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->stg->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -76,6 +79,7 @@ declaration_specifiers_3 (void *ptr1, void *ptr2)
   ts->parent_kind = NODE_DECLARATION_SPECIFIERS;
   ts->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -97,6 +101,7 @@ declaration_specifiers_4 (void *ptr)
   buff->first->ts->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->ts->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -118,6 +123,7 @@ declaration_specifiers_5 (void *ptr1, void *ptr2)
   tq->parent_kind = NODE_DECLARATION_SPECIFIERS;
   tq->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -139,6 +145,7 @@ declaration_specifiers_6 (void *ptr)
   buff->first->tq->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->tq->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -160,6 +167,7 @@ declaration_specifiers_7 (void *ptr1, void *ptr2)
   fs->parent_kind = NODE_DECLARATION_SPECIFIERS;
   fs->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -181,6 +189,7 @@ declaration_specifiers_8 (void *ptr)
   buff->first->fs->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->fs->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -202,6 +211,7 @@ declaration_specifiers_9 (void *ptr1, void *ptr2)
   as->parent_kind = NODE_DECLARATION_SPECIFIERS;
   as->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -223,6 +233,7 @@ declaration_specifiers_10 (void *ptr)
   buff->first->as->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->as->parent = buff;
   buff->create_symtable = ds_create_symtable;
+  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -281,30 +292,40 @@ ds_create_symtable (struct declaration_specifiers *buff)
       }
 }
 
-#if 0
-symbol_t *
-create_symbol_from_declaration_specifiers (struct declaration_specifiers
-                                           *buff)
+static void
+ds_create_symbol (struct declaration_specifiers *buff)
 {
   assert (buff != NULL);
-
-  /*
-   * NOTE this function is called *only* when the
-   * declaration doesn't have declarators.
-   * For the declaration to be "useful", there must be
-   * a struct or union specifier or an enum specifier.
-   * Other things require a name, therefore a declarator,
-   * and we said that this function is called when the
-   * declaration has no declarators.
-   */
+  assert (buff->kind == NODE_DECLARATION_SPECIFIERS);
+  assert (buff->sym_table != NULL);
 
   for (struct ds_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    if (ptr->ds_kind == NODE_TYPE_SPECIFIER)
-      return create_symbol_from_type_specifier (ptr->ts);
+    switch (ptr->ds_kind)
+      {
+      case NODE_STORAGE_CLASS_SPECIFIER:
+        ptr->stg->create_symbol (ptr->stg);
+        break;
 
-  return NULL;
+      case NODE_TYPE_SPECIFIER:
+        ptr->ts->create_symbol (ptr->ts);
+        break;
+
+      case NODE_TYPE_QUALIFIER:
+        ptr->tq->create_symbol (ptr->tq);
+        break;
+
+      case NODE_FUNCTION_SPECIFIER:
+        ptr->fs->create_symbol (ptr->fs);
+        break;
+
+      case NODE_ALIGNMENT_SPECIFIER:
+        ptr->as->create_symbol (ptr->as);
+        break;
+
+      default:
+        ;                       /* BUG! */
+      }
 }
-#endif
 
 int
 is_there_typedef (struct declaration_specifiers *buff)
@@ -318,39 +339,3 @@ is_there_typedef (struct declaration_specifiers *buff)
 
   return 0;
 }
-
-#if 0
-void
-set_declaration_specifiers_scope (struct declaration_specifiers *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DECLARATION_SPECIFIERS);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_DECLARATION:
-        set_declaration_scope (buff->parent);
-        buff->scope = ((struct declaration *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct declaration *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_PARAMETER_DECLARATION:
-        set_parameter_declaration_scope (buff->parent);
-        buff->scope =
-          ((struct parameter_declaration *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct parameter_declaration *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_FUNCTION_DEFINITION:
-        buff->scope = buff->parent;
-        buff->scope_kind = NODE_FUNCTION_DEFINITION;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-#endif

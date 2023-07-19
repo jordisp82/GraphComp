@@ -22,18 +22,11 @@ struct abstract_declarator
   node_kind_t kind;
   struct pointer *ptr;
   struct direct_abstract_declarator *dad;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct abstract_declarator * buff);
+  void (*create_symbol) (struct abstract_declarator * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_abstract_declarator_scope (struct abstract_declarator *buff);
-#endif
 
 #endif

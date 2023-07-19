@@ -10,6 +10,7 @@
 #endif
 
 static void land_create_symtable (struct logical_and_expression *buff);
+static void land_create_symbol (struct logical_and_expression *buff);
 
 struct logical_and_expression *
 logical_and_expression_1 (void *ptr)
@@ -24,6 +25,7 @@ logical_and_expression_1 (void *ptr)
   buff->inc_or->parent_kind = NODE_LOGICAL_AND_EXPRESSION;
   buff->inc_or->parent = buff;
   buff->create_symtable = land_create_symtable;
+  buff->create_symbol = land_create_symbol;
 
   return buff;
 }
@@ -44,6 +46,7 @@ logical_and_expression_2 (void *ptr1, void *ptr2)
     NODE_LOGICAL_AND_EXPRESSION;
   buff->log_and->parent = buff->inc_or->parent = buff;
   buff->create_symtable = land_create_symtable;
+  buff->create_symbol = land_create_symbol;
 
   return buff;
 }
@@ -76,46 +79,15 @@ land_create_symtable (struct logical_and_expression *buff)
     buff->log_and->create_symtable (buff->log_and);
 }
 
-#if 0
-void
-set_logic_and_expression_scope (struct logical_and_expression *buff)
+static void
+land_create_symbol (struct logical_and_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_LOGICAL_AND_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_LOGICAL_AND_EXPRESSION:
-        set_logic_and_expression_scope (buff->parent);
-        buff->scope =
-          ((struct logical_and_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct logical_and_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_LOGICAL_OR_EXPRESSION:
-        set_logic_or_expression_scope (buff->parent);
-        buff->scope =
-          ((struct logical_or_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct logical_or_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_logic_and_expression (struct logical_and_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_LOGICAL_AND_EXPRESSION);
-  assert (buff->inc_or != NULL);
-
-  set_symbol_for_or_expression (buff->inc_or);
+  if (buff->inc_or != NULL)
+    buff->inc_or->create_symbol (buff->inc_or);
   if (buff->log_and != NULL)
-    set_symbol_for_logic_and_expression (buff->log_and);
+    buff->log_and->create_symbol (buff->log_and);
 }
-#endif

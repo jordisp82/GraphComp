@@ -21,19 +21,11 @@ struct block_item_list
     struct block_item *block_item;
     struct bil_node *next;
   } *first, *last;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct block_item_list * buff);
+  void (*create_symbol) (struct block_item_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_block_item_list_scope (struct block_item_list *buff);
-void set_symbol_for_block_item_list (struct block_item_list *buff);
-#endif
 
 #endif

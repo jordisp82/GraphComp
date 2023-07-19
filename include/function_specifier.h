@@ -25,6 +25,7 @@ struct function_specifier
   fs_kind_t fs_kind;
   struct symtable *sym_table;
   void (*create_symtable) (struct function_specifier * buff);
+  void (*create_symbol) (struct function_specifier * buff);
   node_kind_t parent_kind;
   void *parent;
 };

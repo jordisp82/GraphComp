@@ -16,11 +16,9 @@
 #define NULL ((void*)0)
 #endif
 
-#if 0
-static int pfexpr_set_symbol_for_id (struct postfix_expression *buff);
-#endif
-
 static void pe_create_symtable (struct postfix_expression *buff);
+static void pe_create_symbol (struct postfix_expression *buff);
+static void pe_create_symbol_field (struct postfix_expression *buff);
 
 struct postfix_expression *
 postfix_expression_1 (void *ptr)
@@ -36,6 +34,7 @@ postfix_expression_1 (void *ptr)
   buff->pex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pex->parent = buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -56,6 +55,7 @@ postfix_expression_2 (void *ptr1, void *ptr2)
   buff->pfex->parent_kind = buff->ex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff->ex->parent = buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -74,6 +74,7 @@ postfix_expression_3 (void *ptr)
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -94,6 +95,7 @@ postfix_expression_4 (void *ptr1, void *ptr2)
   buff->pfex->parent_kind = buff->ael->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff->ael->parent = buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -115,6 +117,7 @@ postfix_expression_5 (void *ptr1, const char *str)
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -136,6 +139,7 @@ postfix_expression_6 (void *ptr1, const char *str)
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -154,6 +158,7 @@ postfix_expression_7 (void *ptr)
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -172,6 +177,7 @@ postfix_expression_8 (void *ptr)
   buff->pfex->parent_kind = NODE_POSTFIX_EXPRESSION;
   buff->pfex->parent = buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -194,6 +200,7 @@ postfix_expression_9 (void *ptr1, void *ptr2)
   buff->comp_lit.tn->parent = buff->comp_lit.il->parent = buff->pfex->parent =
     buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -216,6 +223,7 @@ postfix_expression_10 (void *ptr1, void *ptr2)
   buff->comp_lit.tn->parent = buff->comp_lit.il->parent = buff->pfex->parent =
     buff;
   buff->create_symtable = pe_create_symtable;
+  buff->create_symbol = pe_create_symbol;
 
   return buff;
 }
@@ -281,68 +289,43 @@ pe_create_symtable (struct postfix_expression *buff)
       }
 }
 
-#if 0
-void
-set_postfix_expression_scope (struct postfix_expression *buff)
+static void
+pe_create_symbol (struct postfix_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_POSTFIX_EXPRESSION);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_UNARY_EXPRESSION:
-        set_unary_expression_scope (buff->parent);
-        buff->scope = ((struct unary_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct unary_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_POSTFIX_EXPRESSION:
-        set_postfix_expression_scope (buff->parent);
-        buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct postfix_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_postfix_expression (struct postfix_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_POSTFIX_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
   switch (buff->pf_kind)
     {
     case POSTFIX_PRIMARY:
-      set_symbol_for_primary_expression (buff->pex);
+      buff->pex->create_symbol (buff->pex);
       break;
 
     case POSTFIX_ARRAY:
-      set_symbol_for_expression (buff->ex);
+      buff->pfex->create_symbol (buff->pfex);
+      /* TODO buff->ex->create_symbol (buff->ex); */
       break;
 
     case POSTFIX_FUNCTION:
-      if (buff->ael != NULL)
-        set_symbol_for_argument_expression_list (buff->ael);
+      buff->pfex->create_symbol (buff->pfex);
+      /* TODO if (buff->ael != NULL) buff->ael->create_symbol (buff->ael); */
       break;
 
     case POSTFIX_FIELD1:
     case POSTFIX_FIELD2:
-      (void) pfexpr_set_symbol_for_id (buff);
+      buff->pfex->create_symbol (buff->pfex);
+      pe_create_symbol_field (buff);
       break;
 
     case POSTFIX_INC:
     case POSTFIX_DEC:
-      set_symbol_for_postfix_expression (buff->pfex);
+      buff->pfex->create_symbol (buff->pfex);
       break;
 
     case POSTFIX_COMP_LIT:
-      /* nothing to do */
+      /* TODO buff->comp_lit.tn->create_symbol (buff->comp_lit->tn); */
+      /* TODO buff->comp_lit.il->create_symbol (buff->comp_lit->il); */
       break;
 
     default:
@@ -350,35 +333,20 @@ set_symbol_for_postfix_expression (struct postfix_expression *buff)
     }
 }
 
-static int
-pfexpr_set_symbol_for_id (struct postfix_expression *buff)
+static void
+pe_create_symbol_field (struct postfix_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_POSTFIX_EXPRESSION);
+  assert (buff->sym_table != NULL);
   assert (buff->pf_kind == POSTFIX_FIELD1 || buff->pf_kind == POSTFIX_FIELD2);
 
-  if (buff->sym != NULL)
-    return 1;
-
   /*
-   * Since we assume that the code compiles,
-   * we're not going to check that the ID
-   * is an ordinary identifier and not a tag.
+   * We need to look for the declaration of the
+   * struct or union and look for its field.
+   * But first we need to look for the type of the
+   * postfix-expression before the . or -> operator.
    */
-  switch (buff->scope_kind)
-    {
-    case NODE_TRANSLATION_UNIT:
-      buff->sym = look_for_id_in_tu (buff->scope, buff->id);
-      break;
 
-    case NODE_COMPOUND_STATEMENT:
-      buff->sym = look_for_id_in_cs (buff->scope, buff->id);
-      break;
-
-    default:
-      ;                         /* either TODO or BUG */
-    }
-
-  return (buff->sym == NULL) ? -1 : 0;
+  /* TODO fucking difficult I'm afraid */
 }
-#endif

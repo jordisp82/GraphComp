@@ -11,6 +11,7 @@
 #endif
 
 static void as_create_symtable (struct alignment_specifier *buff);
+static void as_create_symbol (struct alignment_specifier *buff);
 
 struct alignment_specifier *
 alignment_specifier_1 (void *ptr)
@@ -26,6 +27,7 @@ alignment_specifier_1 (void *ptr)
   buff->tn->parent_kind = NODE_ALIGNMENT_SPECIFIER;
   buff->tn->parent = buff;
   buff->create_symtable = as_create_symtable;
+  buff->create_symbol = as_create_symbol;
 
   return buff;
 }
@@ -44,6 +46,7 @@ alignment_specifier_2 (void *ptr)
   buff->expr->parent_kind = NODE_ALIGNMENT_SPECIFIER;
   buff->expr->parent = buff;
   buff->create_symtable = as_create_symtable;
+  buff->create_symbol = as_create_symbol;
 
   return buff;
 }
@@ -62,26 +65,24 @@ as_create_symtable (struct alignment_specifier *buff)
     buff->expr->create_symtable (buff->expr);
 }
 
-#if 0
-void
-set_alignment_specifier_scope (struct alignment_specifier *buff)
+static void
+as_create_symbol (struct alignment_specifier *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_ALIGNMENT_SPECIFIER);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_DECLARATION_SPECIFIERS:
-        set_declaration_specifiers_scope (buff->parent);
-        buff->scope =
-          ((struct declaration_specifiers *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct declaration_specifiers *) (buff->parent))->scope_kind;
-        break;
+  switch (buff->a_kind)
+    {
+    case ALIGN_TYPE_NAME:
+      buff->tn->create_symbol (buff->tn);
+      break;
 
-      default:
-        ;                       /* BUG! */
-      }
+    case ALIGN_CONST_EXPR:
+      buff->expr->create_symbol (buff->expr);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }
-#endif

@@ -12,23 +12,21 @@
 typedef enum
 {
   SYM_NS_ORDINARY,
-  SYM_NS_TYPEDEF,
   SYM_NS_TAG,
 } sym_ns_t;
 
 /*
- * NOTE FIXME
  * For ordinary namespace, point to the declarator.
  * For tag namespace, point to the struct or union specifier.
- * For typedef namespace, point to the declarator.
  */
 
 typedef struct symbol
 {
   const char *name;
   sym_ns_t sym_ns;
-  node_kind_t scope_kind;
-  void *scope;
+  void *node;
+  node_kind_t node_kind;
+#if 0
   node_kind_t tag_kind;         /* to distinguish between struct/union and enum */
   union
   {
@@ -36,6 +34,10 @@ typedef struct symbol
     struct struct_or_union_specifier *sus;
     struct enum_specifier *es;
   };
+#endif
+  struct symbol *misra_5_3;     /* inner symbol, the one that hides the other symbol */
+  struct symbol *misra_5_6;
+  struct symbol *misra_5_7;
 } symbol_t;
 
 #endif

@@ -11,6 +11,7 @@
 #endif
 
 static void js_create_symtable (struct jump_statement *buff);
+static void js_create_symbol (struct jump_statement *buff);
 
 struct jump_statement *
 jump_statement_1 (const char *str)
@@ -24,6 +25,7 @@ jump_statement_1 (const char *str)
   buff->id = strdup (str);
   assert (buff->id != NULL);
   buff->create_symtable = js_create_symtable;
+  buff->create_symbol = js_create_symbol;
 
   return buff;
 }
@@ -36,6 +38,7 @@ jump_statement_2 (void)
   buff->kind = NODE_JUMP_STATEMENT;
   buff->js_kind = JS_CONTINUE;
   buff->create_symtable = js_create_symtable;
+  buff->create_symbol = js_create_symbol;
 
   return buff;
 }
@@ -48,6 +51,7 @@ jump_statement_3 (void)
   buff->kind = NODE_JUMP_STATEMENT;
   buff->js_kind = JS_BREAK;
   buff->create_symtable = js_create_symtable;
+  buff->create_symbol = js_create_symbol;
 
   return buff;
 }
@@ -60,6 +64,7 @@ jump_statement_4 (void)
   buff->kind = NODE_JUMP_STATEMENT;
   buff->js_kind = JS_RETURN_VOID;
   buff->create_symtable = js_create_symtable;
+  buff->create_symbol = js_create_symbol;
 
   return buff;
 }
@@ -77,6 +82,7 @@ jump_statement_5 (void *ptr)
   buff->exp->parent_kind = NODE_JUMP_STATEMENT;
   buff->exp->parent = buff;
   buff->create_symtable = js_create_symtable;
+  buff->create_symbol = js_create_symbol;
 
   return buff;
 }
@@ -92,34 +98,13 @@ js_create_symtable (struct jump_statement *buff)
     buff->exp->create_symtable (buff->exp);
 }
 
-#if 0
-void
-set_jump_statetment_scope (struct jump_statement *buff)
+static void
+js_create_symbol (struct jump_statement *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_JUMP_STATEMENT);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_STATEMENT:
-        set_statement_scope (buff->parent);
-        buff->scope = ((struct statement *) (buff->parent))->scope;
-        buff->scope_kind = ((struct statement *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG */
-      }
+  if (buff->exp != NULL)
+    buff->exp->create_symbol (buff->exp);
 }
-
-void
-set_symbol_for_jump_stmt (struct jump_statement *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_JUMP_STATEMENT);
-
-  if (buff->js_kind == JS_RETURN_EXP)
-    set_symbol_for_expression (buff->exp);
-}
-#endif

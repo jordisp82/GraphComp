@@ -10,6 +10,7 @@
 #endif
 
 static void eq_create_symtable (struct equality_expression *buff);
+static void eq_create_symbol (struct equality_expression *buff);
 
 struct equality_expression *
 equality_expression_1 (void *ptr)
@@ -25,6 +26,7 @@ equality_expression_1 (void *ptr)
   buff->rexp->parent_kind = NODE_EQUALITY_EXPRESSION;
   buff->rexp->parent = buff;
   buff->create_symtable = eq_create_symtable;
+  buff->create_symbol = eq_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ equality_expression_2 (void *ptr1, void *ptr2)
     NODE_EQUALITY_EXPRESSION;
   buff->eqex->parent = buff->rexp->parent = buff;
   buff->create_symtable = eq_create_symtable;
+  buff->create_symbol = eq_create_symbol;
 
   return buff;
 }
@@ -67,6 +70,7 @@ equality_expression_3 (void *ptr1, void *ptr2)
     NODE_EQUALITY_EXPRESSION;
   buff->eqex->parent = buff->rexp->parent = buff;
   buff->create_symtable = eq_create_symtable;
+  buff->create_symbol = eq_create_symbol;
 
   return buff;
 }
@@ -98,44 +102,15 @@ eq_create_symtable (struct equality_expression *buff)
     buff->eqex->create_symtable (buff->eqex);
 }
 
-#if 0
-void
-set_equality_expression_scope (struct equality_expression *buff)
+static void
+eq_create_symbol (struct equality_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_EQUALITY_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_EQUALITY_EXPRESSION:
-        set_equality_expression_scope (buff->parent);
-        buff->scope = ((struct equality_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct equality_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_AND_EXPRESSION:
-        set_and_expression_scope (buff->parent);
-        buff->scope = ((struct and_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct and_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_equality_expression (struct equality_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_EQUALITY_EXPRESSION);
-  assert (buff->rexp != NULL);
-
-  set_symbol_for_relational_expression (buff->rexp);
+  if (buff->rexp != NULL)
+    buff->rexp->create_symbol (buff->rexp);
   if (buff->eqex != NULL)
-    set_symbol_for_equality_expression (buff->eqex);
+    buff->eqex->create_symbol (buff->eqex);
 }
-#endif

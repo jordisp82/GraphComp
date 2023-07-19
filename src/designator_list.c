@@ -10,6 +10,7 @@
 #endif
 
 static void dl_create_symtable (struct designator_list *buff);
+static void dl_create_symbol (struct designator_list *buff);
 
 struct designator_list *
 designator_list_1 (void *ptr)
@@ -26,6 +27,7 @@ designator_list_1 (void *ptr)
   buff->first->ds->parent_kind = NODE_DESIGNATOR_LIST;
   buff->first->ds->parent = buff;
   buff->create_symtable = dl_create_symtable;
+  buff->create_symbol = dl_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ designator_list_2 (void *ptr1, void *ptr2)
   ds->parent_kind = NODE_DESIGNATOR_LIST;
   ds->parent = buff;
   buff->create_symtable = dl_create_symtable;
+  buff->create_symbol = dl_create_symbol;
 
   return buff;
 }
@@ -75,42 +78,13 @@ dl_create_symtable (struct designator_list *buff)
     ptr->ds->create_symtable (ptr->ds);
 }
 
-#if 0
-void
-set_designator_list_scope (struct designator_list *buff)
+static void
+dl_create_symbol (struct designator_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_DESIGNATOR_LIST);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_DESIGNATOR_LIST:
-        set_designator_list_scope (buff->parent);
-        buff->scope = ((struct designator_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct designator_list *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_DESIGNATION:
-        set_designation_scope (buff->parent);
-        buff->scope = ((struct designation *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct designation *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_designator_list (struct designator_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DESIGNATOR_LIST);
+  assert (buff->sym_table != NULL);
 
   for (struct ds_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    set_symbol_for_designator (ptr->ds);
+    ptr->ds->create_symbol (ptr->ds);
 }
-#endif

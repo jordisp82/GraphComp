@@ -3,132 +3,75 @@
 #endif
 
 #include <assert.h>
+#include <string.h>
 
+#include "misra_5_3.h"
 #include "structs.h"
 #include "node_kind_t.h"
-#include "misra_5_3.h"
-#include "declaration.h"
-#include "function_definition.h"
-#include "parameter_declaration.h"
-#include "init_declarator_list.h"
-#include "init_declarator.h"
-#include "declarator.h"
-#include "direct_declarator.h"
+#include "avl_tree.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
 
-static struct misra_5_3_v *check_misra_5_3_direct_declarator
-  (struct direct_declarator *node);
-static struct misra_5_3_v *check_misra_5_3_function_definition
-  (struct function_definition *node);
-static struct misra_5_3_v *check_misra_5_3_parameter_declaration
-  (struct parameter_declaration *node);
-static struct misra_5_3_v *check_misra_5_3_declarator
-  (struct declarator *node, void *scope, node_kind_t kind_scope);
+static void check_avl_5_3 (avl_node_t * inner, avl_node_t * outer);
+static symbol_t *check_sym_5_3 (symbol_t * sym, avl_node_t * tree);
 
-struct misra_5_3_v *
-check_misra_5_3 (void *node, node_kind_t kind)
+void
+check_misra_5_3 (struct symtable *sym_table)
 {
-  assert (node != NULL);
-
-  switch (kind)
-    {
-    case NODE_DIRECT_DECLARATOR:
-      return check_misra_5_3_direct_declarator (node);
-
-#if 0
-    case NODE_FUNCTION_DEFINITION:
-      return check_misra_5_3_function_definition (node);
-
-    case NODE_PARAMETER_DECLARATION:
-      return check_misra_5_3_parameter_declaration (node);
-#endif
-
-    default:
-      return NULL;
-    }
-}
-
-static struct misra_5_3_v *
-check_misra_5_3_direct_declarator (struct direct_declarator *node)
-{
-  assert (node != NULL);
-  assert (node->kind == NODE_DIRECT_DECLARATOR);
+  assert (sym_table != NULL);
 
   /*
-   * FIXME we need to make sure that this identifier
-   * is worth being checked against this rule,
-   * since maybe not all identifiers are covered
-   * by the rule.
+   * The rule is violated not only when
+   * the current symbol table hides
+   * someting of its parent, but also
+   * when it hides something of its
+   * grand(grand)parents.
    */
 
-  if (node->n_prod != 1)
-    return NULL;
-
-  switch (node->scope_kind)
+  for (struct symtable * parent = sym_table->parent; parent != NULL;
+       parent = parent->parent)
     {
+      check_avl_5_3 (sym_table->ord, parent->ord);
+      check_avl_5_3 (sym_table->tags, parent->tags);
     }
+
+  /* and now the children, if any */
+
+  for (int i = 0; i < sym_table->n_children; i++)
+    check_misra_5_3 (sym_table->children[i]);
 }
 
-#if 0
-static struct misra_5_3_v *
-check_misra_5_3_declaration (struct declaration *node)
+static void
+check_avl_5_3 (avl_node_t * inner, avl_node_t * outer)
 {
-  assert (node != NULL);
-  assert (node->kind == NODE_DECLARATION);
-  /*
-   * The only way this declaration can declare
-   * an identifier of an outer scope is by having
-   * an outer scope. If it doesn't, there is no
-   * identifier that can be hidden.
-   * If the declaration's parent is an external
-   * declaration, then it has no outer scope.
-   */
-  if (node->scope_kind == NODE_EXTERNAL_DECLARATION)
-    return NULL;
-  /*
-   * At this point, we must check, for each identifier
-   * in this declaration, that it does not hide an
-   * outer identifier.
-   * The init-declarator-list has the declaration's
-   * identifiers.
-   */
-  if (node->idl == NULL)
-    return NULL;
-  for (struct idl_node * ptr = node->idl->first; ptr != NULL; ptr = ptr->next)
-    {
-    }
-}
-#endif
+  assert (inner != NULL);
+  assert (outer != NULL);
 
-static struct misra_5_3_v *
-check_misra_5_3_function_definition (struct function_definition *node)
-{
-  assert (node != NULL);
-  assert (node->kind == NODE_FUNCTION_DEFINITION);
-  /* TODO */
-  return NULL;
+  symbol_t *aux = check_sym_5_3 (inner->value, outer);
+
+  if (aux != NULL)
+    inner->value->misra_5_3 = aux;
+  if (inner->left != NULL)
+    check_avl_5_3 (inner->left, outer);
+  if (inner->right != NULL)
+    check_avl_5_3 (inner->right, outer);
 }
 
-static struct misra_5_3_v *
-check_misra_5_3_parameter_declaration (struct parameter_declaration *node)
+static symbol_t *
+check_sym_5_3 (symbol_t * sym, avl_node_t * tree)
 {
-  assert (node != NULL);
-  assert (node->kind == NODE_PARAMETER_DECLARATION);
-  /* TODO */
-  return NULL;
-}
+  assert (sym != NULL);
+  assert (tree != NULL);
 
-static struct misra_5_3_v *
-check_misra_5_3_declarator (struct
-                            declarator
-                            *node, void *scope, node_kind_t kind_scope)
-{
-  assert (node != NULL);
-  assert (scope != NULL);
-  assert (node->kind == NODE_DECLARATOR);
-  /* TODO */
+  int n = strcmp (sym->name, tree->value->name);
+  if (n == 0)
+    return tree->value;
+  else if (n < 0 && tree->left != NULL)
+    return check_sym_5_3 (sym, tree->left);
+  else if (n > 0 && tree->right != NULL)
+    return check_sym_5_3 (sym, tree->right);
+
   return NULL;
 }

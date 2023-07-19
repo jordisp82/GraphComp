@@ -28,17 +28,11 @@ struct equality_expression
   eq_kind_t eq_kind;
   struct relational_expression *rexp;
   struct equality_expression *eqex;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct equality_expression * buff);
+  void (*create_symbol) (struct equality_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-void set_equality_expression_scope (struct equality_expression *buff);
-void set_symbol_for_equality_expression (struct equality_expression *buff);
 
 #endif

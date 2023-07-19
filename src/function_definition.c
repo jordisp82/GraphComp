@@ -14,6 +14,7 @@
 #endif
 
 static void fd_create_symtable (struct function_definition *buff);
+static void fd_create_symbol (struct function_definition *buff);
 
 struct function_definition *
 function_definition_1 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
@@ -37,6 +38,7 @@ function_definition_1 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
   buff->ds->parent = buff->dr->parent = buff->dl->parent = buff->cs->parent =
     buff;
   buff->create_symtable = fd_create_symtable;
+  buff->create_symbol = fd_create_symbol;
 
   return buff;
 }
@@ -59,6 +61,7 @@ function_definition_2 (void *ptr1, void *ptr2, void *ptr3)
     NODE_FUNCTION_DEFINITION;
   buff->ds->parent = buff->dr->parent = buff->cs->parent = buff;
   buff->create_symtable = fd_create_symtable;
+  buff->create_symbol = fd_create_symbol;
 
   return buff;
 }
@@ -80,84 +83,30 @@ fd_create_symtable (struct function_definition *buff)
     buff->dl->create_symtable (buff->dl);
   if (buff->cs != NULL)
     buff->cs->create_symtable (buff->cs);
+
+  /*
+   * NOTE in the case of a K&R-style function definition,
+   * the parameters are declared in the declaration-list
+   * and their scope shall be set as that of the
+   * compound statement.
+   */
+  if (buff->dl != NULL && buff->cs != NULL)
+    buff->dl->sym_table = buff->cs->sym_table;
 }
 
-#if 0
-int
-create_symbols_for_function_definition (struct function_definition *buff,
-                                        symbol_t ** sym_fd,
-                                        symbol_t *** sym_pars)
-{
-  assert (buff != NULL);
-  assert (sym_fd != NULL);
-  assert (sym_pars != NULL);
-  assert (buff->kind == NODE_FUNCTION_DEFINITION);
-
-  *sym_fd = create_symbol_for_declarator (buff->dr);
-  (*sym_fd)->scope = buff->parent;
-  (*sym_fd)->scope_kind = NODE_TRANSLATION_UNIT;
-
-  int n = create_symbols_for_parameters (buff->dr, sym_pars);
-  for (int i = 0; i < n; i++)
-    if ((*sym_pars)[i] != NULL)
-      {
-        (*sym_pars)[i]->scope = buff->cs;
-        (*sym_pars)[i]->scope_kind = NODE_COMPOUND_STATEMENT;
-      }
-
-  return n;
-}
-
-void
-create_symbol_table_fd (struct function_definition *buff, int n,
-                        symbol_t ** sym_pars)
-{
-  assert (buff != NULL);
-  assert (sym_pars != NULL);
-  assert (buff->kind == NODE_FUNCTION_DEFINITION);
-
-  if (n > 0)
-    {
-      buff->cs->ordinary = avl_create (sym_pars[0]);
-      for (int i = 1; i < n; i++)
-        avl_add (buff->cs->ordinary, sym_pars[i]);
-    }
-
-  create_symbol_table_cs (buff->cs);
-}
-
-void
-set_symbol_for_function_definition (struct function_definition *buff)
+static void
+fd_create_symbol (struct function_definition *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_FUNCTION_DEFINITION);
-  assert (buff->cs != NULL);
+  assert (buff->sym_table != NULL);
 
-  set_symbol_for_compound_stmt (buff->cs);
+  if (buff->ds != NULL)
+    buff->ds->create_symbol (buff->ds);
+  if (buff->dr != NULL)
+    buff->dr->create_symbol (buff->dr);
+  if (buff->dl != NULL)
+    buff->dl->create_symbol (buff->dl);
+  if (buff->cs != NULL)
+    buff->cs->create_symbol (buff->cs);
 }
-
-#if 0
-/* currently unused */
-const char *
-get_function_definition_name (struct function_definition *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_FUNCTION_DEFINITION);
-
-  switch (buff->dr->ddclr->n_prod)
-    {
-    case 12:
-    case 13:
-    case 14:
-      if (buff->dr->ddclr->ddeclr->n_prod == 1)
-        return buff->dr->ddclr->ddeclr->id;
-      break;
-
-    default:
-      return NULL;
-    }
-
-  return NULL;
-}
-#endif
-#endif

@@ -23,19 +23,11 @@ struct block_item
     struct declaration *d;
     struct statement *s;
   };
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct block_item * buff);
+  void (*create_symbol) (struct block_item * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_block_item_scope (struct block_item *buff);
-void set_symbol_for_block_item (struct block_item *buff);
-#endif
 
 #endif

@@ -42,19 +42,11 @@ struct direct_abstract_declarator
   struct assignment_expression *ass;
   struct parameter_type_list *ptl;
   struct direct_abstract_declarator *dad;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct direct_abstract_declarator * buff);
+  void (*create_symbol) (struct direct_abstract_declarator * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_direct_abs_declarator_scope (struct direct_abstract_declarator
-                                      *buff);
-#endif
 
 #endif

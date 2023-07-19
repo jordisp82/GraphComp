@@ -11,6 +11,7 @@
 #endif
 
 static void ls_create_symtable (struct labeled_statement *buff);
+static void ls_create_symbol (struct labeled_statement *buff);
 
 struct labeled_statement *
 labeled_statement_1 (const char *str, void *ptr2)
@@ -29,6 +30,7 @@ labeled_statement_1 (const char *str, void *ptr2)
   buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->s->parent = buff;
   buff->create_symtable = ls_create_symtable;
+  buff->create_symbol = ls_create_symbol;
 
   return buff;
 }
@@ -49,6 +51,7 @@ labeled_statement_2 (void *ptr1, void *ptr2)
   buff->ce->parent_kind = buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->ce->parent = buff->s->parent = buff;
   buff->create_symtable = ls_create_symtable;
+  buff->create_symbol = ls_create_symbol;
 
   return buff;
 }
@@ -67,6 +70,7 @@ labeled_statement_3 (void *ptr)
   buff->s->parent_kind = NODE_LABELED_STATEMENT;
   buff->s->parent = buff;
   buff->create_symtable = ls_create_symtable;
+  buff->create_symbol = ls_create_symbol;
 
   return buff;
 }
@@ -78,49 +82,41 @@ ls_create_symtable (struct labeled_statement *buff)
   assert (buff->kind == NODE_LABELED_STATEMENT);
 
   buff->sym_table = ((struct statement *) (buff->parent))->sym_table;
-  /* nothing else to do, since MISRA doesn't like gotos */
-}
-
-#if 0
-void
-set_labeled_stmt_scope (struct labeled_statement *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_LABELED_STATEMENT);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_STATEMENT:
-        set_statement_scope (buff->parent);
-        buff->scope = ((struct statement *) (buff->parent))->scope;
-        buff->scope_kind = ((struct statement *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_labeled_statement (struct labeled_statement *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_LABELED_STATEMENT);
-
+  buff->s->create_symtable (buff->s);
   switch (buff->ls_kind)
     {
-    case LABEL_CASE:
-      set_symbol_for_constant_expression (buff->ce);
-      break;
-
     case LABEL_IDENTIFIER:
     case LABEL_DEFAULT:
-      /* nothing to do */
+      break;
+
+    case LABEL_CASE:
+      buff->ce->create_symtable (buff->ce);
       break;
 
     default:
       ;                         /* BUG! */
     }
 }
-#endif
+
+static void
+ls_create_symbol (struct labeled_statement *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_LABELED_STATEMENT);
+  assert (buff->sym_table != NULL);
+
+  buff->s->create_symbol (buff->s);
+  switch (buff->ls_kind)
+    {
+    case LABEL_IDENTIFIER:
+    case LABEL_DEFAULT:
+      break;
+
+    case LABEL_CASE:
+      buff->ce->create_symbol (buff->ce);
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
+}

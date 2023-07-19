@@ -25,12 +25,9 @@ struct external_declaration
   };
   struct symtable *sym_table;
   void (*create_symtable) (struct external_declaration * buff);
+  void (*create_symbol) (struct external_declaration * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_symbol_for_external_declaration (struct external_declaration *buff);
-#endif
 
 #endif

@@ -16,6 +16,7 @@
 #endif
 
 static void ass_create_symtable (struct assignment_expression *buff);
+static void ass_create_symbol (struct assignment_expression *buff);
 
 struct assignment_expression *
 assignment_expression_1 (void *ptr)
@@ -30,6 +31,7 @@ assignment_expression_1 (void *ptr)
   buff->cond_e->parent_kind = NODE_ASSIGNMENT_EXPRESSION;
   buff->cond_e->parent = buff;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -52,6 +54,7 @@ assignment_expression_2 (void *ptr1, void *ptr2, void *ptr3)
     buff->ass_e->parent_kind = NODE_ASSIGNMENT_EXPRESSION;
   buff->un_expr->parent = buff->ass_op->parent = buff->ass_e->parent = buff;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -99,6 +102,23 @@ ass_create_symtable (struct assignment_expression *buff)
     buff->ass_op->create_symtable (buff->ass_op);
   if (buff->ass_e != NULL)
     buff->ass_e->create_symtable (buff->ass_e);
+}
+
+static void
+ass_create_symbol (struct assignment_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ASSIGNMENT_EXPRESSION);
+  assert (buff->sym_table != NULL);
+
+  if (buff->cond_e != NULL)
+    buff->cond_e->create_symbol (buff->cond_e);
+  if (buff->un_expr != NULL)
+    buff->un_expr->create_symbol (buff->un_expr);
+  if (buff->ass_op != NULL)
+    buff->ass_op->create_symbol (buff->ass_op);
+  if (buff->ass_e != NULL)
+    buff->ass_e->create_symbol (buff->ass_e);
 }
 
 #if 0

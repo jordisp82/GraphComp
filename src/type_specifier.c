@@ -8,12 +8,14 @@
 #include "enum_specifier.h"
 #include "declaration_specifiers.h"
 #include "specifier_qualifier_list.h"
+#include "avl_tree.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
 
 static void ts_create_symtable (struct type_specifier *buff);
+static void ts_create_symbol (struct type_specifier *buff);
 
 struct type_specifier *
 type_specifier_1 (void)
@@ -23,6 +25,7 @@ type_specifier_1 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_VOID;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -35,6 +38,7 @@ type_specifier_2 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_CHAR;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -47,6 +51,7 @@ type_specifier_3 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_SHORT;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -59,6 +64,7 @@ type_specifier_4 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_INT;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -71,6 +77,7 @@ type_specifier_5 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_LONG;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -83,6 +90,7 @@ type_specifier_6 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_FLOAT;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -95,6 +103,7 @@ type_specifier_7 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_DOUBLE;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -107,6 +116,7 @@ type_specifier_8 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_SIGNED;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -119,6 +129,7 @@ type_specifier_9 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_UNSIGNED;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -131,6 +142,7 @@ type_specifier_10 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_BOOL;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -143,6 +155,7 @@ type_specifier_11 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_COMPLEX;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -155,6 +168,7 @@ type_specifier_12 (void)
   buff->kind = NODE_TYPE_SPECIFIER;
   buff->ts_kind = TS_IMAGINARY;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -172,6 +186,7 @@ type_specifier_13 (void *ptr)
   buff->ats->parent_kind = NODE_TYPE_SPECIFIER;
   buff->ats->parent = buff;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -189,6 +204,7 @@ type_specifier_14 (void *ptr)
   buff->sus->parent_kind = NODE_TYPE_SPECIFIER;
   buff->sus->parent = buff;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -206,6 +222,7 @@ type_specifier_15 (void *ptr)
   buff->es->parent_kind = NODE_TYPE_SPECIFIER;
   buff->es->parent = buff;
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -222,6 +239,7 @@ type_specifier_16 (const char *str)
   buff->typedef_name = strdup (str);
   assert (buff->typedef_name != NULL);
   buff->create_symtable = ts_create_symtable;
+  buff->create_symbol = ts_create_symbol;
 
   return buff;
 }
@@ -282,60 +300,41 @@ ts_create_symtable (struct type_specifier *buff)
     }
 }
 
-#if 0
-symbol_t *
-create_symbol_from_type_specifier (struct type_specifier *buff)
+static void
+ts_create_symbol (struct type_specifier *buff)
 {
   assert (buff != NULL);
+  assert (buff->kind == NODE_TYPE_SPECIFIER);
+  assert (buff->sym_table != NULL);
+
+  avl_node_t *node = NULL;
 
   /*
-   * NOTE this function is only called to create
-   * a symbol from a struct, union or enum with
-   * a tag.
+   * It's not a problem if the search into
+   * the AVL tree returns NULL: maybe there
+   * is no tag in the struct or union or enum
+   * specifier, or this declaration is the
+   * one introducing the tag and therefore
+   * it's not yet in the symbol table.
    */
 
   switch (buff->ts_kind)
     {
     case TS_STRUCT_UNION:
-      return create_symbol_from_sus (buff->sus);
+      if (buff->sus->tag != NULL)
+        node = avl_search (buff->sym_table->tags, buff->sus->tag);
+      if (node != NULL)
+        buff->sym = node->value;
       break;
 
     case TS_ENUM:
-      return create_symbol_from_enum_specifier (buff->es);
+      if (buff->es->tag != NULL)
+        node = avl_search (buff->sym_table->tags, buff->es->tag);
+      if (node != NULL)
+        buff->sym = node->value;
       break;
 
     default:
-      return NULL;
+      break;                    /* not necessarily a bug */
     }
 }
-
-void
-set_type_specifier_scope (struct type_specifier *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_TYPE_SPECIFIER);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_DECLARATION_SPECIFIERS:
-        set_declaration_specifiers_scope (buff->parent);
-        buff->scope =
-          ((struct declaration_specifiers *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct declaration_specifiers *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_SPECIFIER_QUALIFIER_LIST:
-        set_specifier_qualifier_list_scope (buff->parent);
-        buff->scope =
-          ((struct specifier_qualifier_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct specifier_qualifier_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-#endif

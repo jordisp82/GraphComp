@@ -10,6 +10,7 @@
 #endif
 
 static void el_create_symtable (struct enumerator_list *buff);
+static void el_create_symbol (struct enumerator_list *buff);
 
 struct enumerator_list *
 enumerator_list_1 (void *ptr)
@@ -26,6 +27,7 @@ enumerator_list_1 (void *ptr)
   buff->first->en->parent_kind = NODE_ENUMERATOR_LIST;
   buff->first->en->parent = buff;
   buff->create_symtable = el_create_symtable;
+  buff->create_symbol = el_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ enumerator_list_2 (void *ptr1, void *ptr2)
   en->parent_kind = NODE_ENUMERATOR_LIST;
   en->parent = buff;
   buff->create_symtable = el_create_symtable;
+  buff->create_symbol = el_create_symbol;
 
   return buff;
 }
@@ -75,32 +78,13 @@ el_create_symtable (struct enumerator_list *buff)
     ptr->en->create_symtable (ptr->en);
 }
 
-#if 0
-void
-set_enumerator_list_scope (struct enumerator_list *buff)
+static void
+el_create_symbol (struct enumerator_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_ENUMERATOR_LIST);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_ENUMERATOR_LIST:
-        set_enumerator_list_scope (buff->parent);
-        buff->scope = ((struct enumerator_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct enumerator_list *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_ENUM_SPECIFIER:
-        set_enum_specifier_scope (buff->parent);
-        buff->scope = ((struct enum_specifier *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct enum_specifier *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  for (struct enl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->en->create_symbol (ptr->en);
 }
-#endif

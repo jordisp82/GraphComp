@@ -13,6 +13,7 @@
 #endif
 
 static void ad_create_symtable (struct abstract_declarator *buff);
+static void ad_create_symbol (struct abstract_declarator *buff);
 
 struct abstract_declarator *
 abstract_declarator_1 (void *ptr1, void *ptr2)
@@ -99,40 +100,13 @@ ad_create_symtable (struct abstract_declarator *buff)
     buff->dad->create_symtable (buff->dad);
 }
 
-#if 0
-void
-set_abstract_declarator_scope (struct abstract_declarator *buff)
+static void
+ad_create_symbol (struct abstract_declarator *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_ABSTRACT_DECLARATOR);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_PARAMETER_DECLARATION:
-        set_parameter_declaration_scope (buff->parent);
-        buff->scope =
-          ((struct parameter_declaration *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct parameter_declaration *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_TYPE_NAME:
-        set_type_name_scope (buff->parent);
-        buff->scope = ((struct type_name *) (buff->parent))->scope;
-        buff->scope_kind = ((struct type_name *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_DIRECT_ABSTRACT_DECLARATOR:
-        set_direct_abs_declarator_scope (buff->parent);
-        buff->scope =
-          ((struct direct_abstract_declarator *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct direct_abstract_declarator *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  if (buff->dad != NULL)
+    buff->dad->create_symbol (buff->dad);
 }
-#endif

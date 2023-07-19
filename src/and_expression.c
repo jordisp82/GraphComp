@@ -10,6 +10,7 @@
 #endif
 
 static void ae_create_symtable (struct and_expression *buff);
+static void ae_create_symbol (struct and_expression *buff);
 
 struct and_expression *
 and_expression_1 (void *ptr)
@@ -23,6 +24,7 @@ and_expression_1 (void *ptr)
   buff->eq->parent_kind = NODE_AND_EXPRESSION;
   buff->eq->parent = buff;
   buff->create_symtable = ae_create_symtable;
+  buff->create_symbol = ae_create_symbol;
 
   return buff;
 }
@@ -41,6 +43,7 @@ and_expression_2 (void *ptr1, void *ptr2)
   buff->and_e->parent_kind = buff->eq->parent_kind = NODE_AND_EXPRESSION;
   buff->and_e->parent = buff->eq->parent = buff;
   buff->create_symtable = ae_create_symtable;
+  buff->create_symbol = ae_create_symbol;
 
   return buff;
 }
@@ -72,45 +75,15 @@ ae_create_symtable (struct and_expression *buff)
     buff->and_e->create_symtable (buff->and_e);
 }
 
-#if 0
-void
-set_and_expression_scope (struct and_expression *buff)
+static void
+ae_create_symbol (struct and_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_AND_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_AND_EXPRESSION:
-        set_and_expression_scope (buff->parent);
-        buff->scope = ((struct and_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct and_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_EXCLUSIVE_OR_EXPRESSION:
-        set_xor_expression_scope (buff->parent);
-        buff->scope =
-          ((struct exclusive_or_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct exclusive_or_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_and_expression (struct and_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_AND_EXPRESSION);
-  assert (buff->eq != NULL);
-
-  set_symbol_for_equality_expression (buff->eq);
+  if (buff->eq != NULL)
+    buff->eq->create_symbol (buff->eq);
   if (buff->and_e != NULL)
-    set_symbol_for_and_expression (buff->and_e);
+    buff->and_e->create_symbol (buff->and_e);
 }
-#endif

@@ -32,19 +32,11 @@ struct labeled_statement
     struct constant_expression *ce;     // only for LABEL_CASE
   };
   struct statement *s;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct labeled_statement * buff);
+  void (*create_symbol) (struct labeled_statement * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_labeled_stmt_scope (struct labeled_statement *buff);
-void set_symbol_for_labeled_statement (struct labeled_statement *buff);
-#endif
 
 #endif

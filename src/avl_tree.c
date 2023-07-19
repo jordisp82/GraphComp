@@ -77,6 +77,16 @@ avl_add (avl_node_t * tree, symbol_t * value)
     avl_add (tree->right, value);
 }
 
+avl_node_t *
+avl_add_create (avl_node_t * tree, symbol_t * value)
+{
+  if (tree == NULL)
+    return avl_create (value);
+  else
+    avl_add (tree, value);
+  return tree;
+}
+
 static void
 avl_add_in_left (avl_node_t * tree, symbol_t * value)
 {

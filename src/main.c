@@ -12,6 +12,7 @@
 #include "ast.h"
 #include "structs.h"
 #include "translation_unit.h"
+#include "misra.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -35,14 +36,8 @@ main (int argc, char *argv[])
           struct translation_unit *ast = NULL;
           yyin = fopen (dst, "r");
           yyparse ((void **) &ast);
-#if 0
-          create_symbol_table_file (ast);
-#else
           ast->create_symtable (ast);
-#endif
-#if 0
-          fill_in_symtable_tu (ast);
-#endif
+          check_misra (ast);
         }
     }
 

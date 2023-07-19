@@ -29,19 +29,11 @@ struct designator
     struct constant_expression *ex;
     const char *str;
   };
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct designator * buff);
+  void (*create_symbol) (struct designator * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_designator_scope (struct designator *buff);
-void set_symbol_for_designator (struct designator *buff);
-#endif
 
 #endif

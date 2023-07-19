@@ -11,6 +11,7 @@
 #endif
 
 static void d_create_symtable (struct designator *buff);
+static void d_create_symbol (struct designator *buff);
 
 struct designator *
 designator_1 (void *ptr)
@@ -25,6 +26,7 @@ designator_1 (void *ptr)
   buff->ex->parent_kind = NODE_DESIGNATOR;
   buff->ex->parent = buff;
   buff->create_symtable = d_create_symtable;
+  buff->create_symbol = d_create_symbol;
 
   return buff;
 }
@@ -41,6 +43,7 @@ designator_2 (const char *str)
   buff->str = strdup (str);
   assert (buff->str != NULL);
   buff->create_symtable = d_create_symtable;
+  buff->create_symbol = d_create_symbol;
 
   return buff;
 }
@@ -56,35 +59,13 @@ d_create_symtable (struct designator *buff)
     buff->ex->create_symtable (buff->ex);
 }
 
-#if 0
-void
-set_designator_scope (struct designator *buff)
+static void
+d_create_symbol (struct designator *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_DESIGNATOR);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_DESIGNATOR_LIST:
-        set_designator_list_scope (buff->parent);
-        buff->scope = ((struct designator_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct designator_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  if (buff->ex != NULL)
+    buff->ex->create_symbol (buff->ex);
 }
-
-void
-set_symbol_for_designator (struct designator *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DESIGNATOR);
-
-  if (buff->d_kind == DESIGNATOR_ARRAY)
-    set_symbol_for_constant_expression (buff->ex);
-}
-#endif

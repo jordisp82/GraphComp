@@ -10,6 +10,7 @@
 #endif
 
 static void dl_create_symtable (struct declaration_list *buff);
+static void dl_create_symbol (struct declaration_list *buff);
 
 struct declaration_list *
 declaration_list_1 (void *ptr)
@@ -27,6 +28,7 @@ declaration_list_1 (void *ptr)
   buff->first->dl->parent_kind = NODE_DECLARATION_LIST;
   buff->first->dl->parent = buff;
   buff->create_symtable = dl_create_symtable;
+  buff->create_symbol = dl_create_symbol;
 
   return buff;
 }
@@ -47,6 +49,7 @@ declaration_list_2 (void *ptr1, void *ptr2)
   dl->parent_kind = NODE_DECLARATION_LIST;
   dl->parent = buff;
   buff->create_symtable = dl_create_symtable;
+  buff->create_symbol = dl_create_symbol;
 
   return buff;
 }
@@ -63,33 +66,15 @@ dl_create_symtable (struct declaration_list *buff)
     ptr->dl->create_symtable (ptr->dl);
 }
 
-#if 0
-void
-set_declaration_list_scope (struct declaration_list *buff)
+static void
+dl_create_symbol (struct declaration_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_DECLARATION_LIST);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_FUNCTION_DEFINITION:
-        buff->scope = ((struct function_definition *) (buff->parent))->parent;
-        buff->scope_kind = NODE_TRANSLATION_UNIT;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_declaration_list (struct declaration_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DECLARATION_LIST);
-
+  buff->sym_table =
+    ((struct function_definition *) (buff->parent))->sym_table;
   for (struct dl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    set_symbol_for_declaration (ptr->dl);
+    ptr->dl->create_symbol (ptr->dl);
 }
-#endif

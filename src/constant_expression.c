@@ -15,6 +15,7 @@
 #endif
 
 static void ce_create_symtable (struct constant_expression *buff);
+static void ce_create_symbol (struct constant_expression *buff);
 
 struct constant_expression *
 constant_expression_1 (void *ptr)
@@ -29,6 +30,7 @@ constant_expression_1 (void *ptr)
   buff->expr->parent_kind = NODE_CONSTANT_EXPRESSION;
   buff->expr->parent = buff;
   buff->create_symtable = ce_create_symtable;
+  buff->create_symbol = ce_create_symbol;
 
   return buff;
 }
@@ -75,6 +77,17 @@ ce_create_symtable (struct constant_expression *buff)
 
   if (buff->expr != NULL)
     buff->expr->create_symtable (buff->expr);
+}
+
+static void
+ce_create_symbol (struct constant_expression *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_CONSTANT_EXPRESSION);
+  assert (buff->sym_table != NULL);
+
+  if (buff->expr != NULL)
+    buff->expr->create_symbol (buff->expr);
 }
 
 #if 0

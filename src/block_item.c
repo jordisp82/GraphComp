@@ -11,6 +11,7 @@
 #endif
 
 static void bi_create_symtable (struct block_item *buff);
+static void bi_create_symbol (struct block_item *buff);
 
 struct block_item *
 block_item_1 (void *ptr)
@@ -25,6 +26,7 @@ block_item_1 (void *ptr)
   buff->d->parent_kind = NODE_BLOCK_ITEM;
   buff->d->parent = buff;
   buff->create_symtable = bi_create_symtable;
+  buff->create_symbol = bi_create_symbol;
 
   return buff;
 }
@@ -42,6 +44,7 @@ block_item_2 (void *ptr)
   buff->s->parent_kind = NODE_BLOCK_ITEM;
   buff->s->parent = buff;
   buff->create_symtable = bi_create_symtable;
+  buff->create_symbol = bi_create_symbol;
 
   return buff;
 }
@@ -68,46 +71,24 @@ bi_create_symtable (struct block_item *buff)
     }
 }
 
-#if 0
-void
-set_block_item_scope (struct block_item *buff)
+static void
+bi_create_symbol (struct block_item *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_BLOCK_ITEM);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_BLOCK_ITEM_LIST:
-        set_block_item_list_scope (buff->parent);
-        buff->scope = ((struct block_item_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct block_item_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_block_item (struct block_item *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_BLOCK_ITEM);
+  assert (buff->sym_table != NULL);
 
   switch (buff->child_kind)
     {
     case NODE_DECLARATION:
-      set_symbol_for_declaration (buff->d);
+      buff->d->create_symbol (buff->d);
       break;
 
     case NODE_STATEMENT:
-      set_symbol_for_statement (buff->s);
+      buff->s->create_symbol (buff->s);
       break;
 
     default:
       ;                         /* BUG! */
     }
 }
-#endif

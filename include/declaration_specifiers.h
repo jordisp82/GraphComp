@@ -24,7 +24,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-//#include "symbol.h"
 #include "symtable.h"
 
 struct declaration_specifiers
@@ -43,24 +42,13 @@ struct declaration_specifiers
     };
     struct ds_node *next;
   } *first, *last;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct declaration_specifiers * buff);
+  void (*create_symbol) (struct declaration_specifiers * buff);
   node_kind_t parent_kind;
   void *parent;
 };
 
-#if 0
-symbol_t *create_symbol_from_declaration_specifiers (struct
-                                                     declaration_specifiers
-                                                     *buff);
-#endif
 int is_there_typedef (struct declaration_specifiers *buff);
-#if 0
-void set_declaration_specifiers_scope (struct declaration_specifiers *buff);
-#endif
 
 #endif

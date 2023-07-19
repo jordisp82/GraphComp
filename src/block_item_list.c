@@ -10,6 +10,7 @@
 #endif
 
 static void bil_create_symtable (struct block_item_list *buff);
+static void bil_create_symbol (struct block_item_list *buff);
 
 struct block_item_list *
 block_item_list_1 (void *ptr)
@@ -26,6 +27,7 @@ block_item_list_1 (void *ptr)
   buff->first->block_item->parent_kind = NODE_BLOCK_ITEM_LIST;
   buff->first->block_item->parent = buff;
   buff->create_symtable = bil_create_symtable;
+  buff->create_symbol = bil_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ block_item_list_2 (void *ptr1, void *ptr2)
   bi->parent_kind = NODE_BLOCK_ITEM_LIST;
   bi->parent = buff;
   buff->create_symtable = bil_create_symtable;
+  buff->create_symbol = bil_create_symbol;
 
   return buff;
 }
@@ -61,34 +64,13 @@ bil_create_symtable (struct block_item_list *buff)
     ptr->block_item->create_symtable (ptr->block_item);
 }
 
-#if 0
-void
-set_block_item_list_scope (struct block_item_list *buff)
+static void
+bil_create_symbol (struct block_item_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_BLOCK_ITEM_LIST);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_COMPOUND_STATEMENT:
-        buff->scope = ((struct compound_statement *) (buff->parent))->parent;
-        buff->scope_kind =
-          ((struct compound_statement *) (buff->parent))->parent_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_block_item_list (struct block_item_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_BLOCK_ITEM_LIST);
+  assert (buff->sym_table != NULL);
 
   for (struct bil_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    set_symbol_for_block_item (ptr->block_item);
+    ptr->block_item->create_symbol (ptr->block_item);
 }
-#endif

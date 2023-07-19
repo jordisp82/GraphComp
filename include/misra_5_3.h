@@ -7,16 +7,8 @@
  * an outer scope.
  */
 
-#include "structs.h"
+#include "symtable.h"
 
-struct misra_5_3_v
-{
-  void *inner;                  /* pointer to the inner declaration */
-  node_kind_t kind_inner;
-  void *outer;                  /* pointer to the outer declaration, the one hidden by the inner one */
-  node_kind_t kind_outer;
-};
-
-struct misra_5_3_v *check_misra_5_3 (void *node, node_kind_t kind);
+void check_misra_5_3 (struct symtable *sym_table);
 
 #endif

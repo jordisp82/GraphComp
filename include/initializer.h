@@ -31,19 +31,11 @@ struct initializer
     struct initializer_list *il;
     struct assignment_expression *ae;
   };
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct initializer * buff);
+  void (*create_symbol) (struct initializer * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_initializer_scope (struct initializer *buff);
-void set_symbol_for_initializer (struct initializer *buff);
-#endif
 
 #endif

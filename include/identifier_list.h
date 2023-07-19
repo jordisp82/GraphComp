@@ -13,17 +13,20 @@
 
 #include "node_kind_t.h"
 #include "symtable.h"
+#include "symbol.h"
 
 struct identifier_list
 {
   node_kind_t kind;
-  struct idl_node
+  struct il_node
   {
     const char *str;
-    struct idl_node *next;
+    struct symbol *sym;
+    struct il_node *next;
   } *first, *last;
   struct symtable *sym_table;
   void (*create_symtable) (struct identifier_list * buff);
+  void (*create_symbol) (struct identifier_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

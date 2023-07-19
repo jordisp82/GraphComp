@@ -9,6 +9,7 @@
 #endif
 
 static void ass_create_symtable (struct assignment_operator *buff);
+static void ass_create_symbol (struct assignment_operator *buff);
 
 struct assignment_operator *
 assignment_operator_1 (void)
@@ -19,6 +20,7 @@ assignment_operator_1 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_EQUAL;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -32,6 +34,7 @@ assignment_operator_2 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_MUL_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -45,6 +48,7 @@ assignment_operator_3 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_DIV_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -58,6 +62,7 @@ assignment_operator_4 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_MOD_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -71,6 +76,7 @@ assignment_operator_5 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_ADD_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -84,6 +90,7 @@ assignment_operator_6 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_SUB_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -97,6 +104,7 @@ assignment_operator_7 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_LEFT_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -110,6 +118,7 @@ assignment_operator_8 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_RIGHT_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -123,6 +132,7 @@ assignment_operator_9 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_AND_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -136,6 +146,7 @@ assignment_operator_10 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_XOR_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -149,6 +160,7 @@ assignment_operator_11 (void)
   buff->kind = NODE_ASSIGNMENT_OPERATOR;
   buff->ass_op = OP_OR_ASS;
   buff->create_symtable = ass_create_symtable;
+  buff->create_symbol = ass_create_symbol;
 
   return buff;
 }
@@ -161,4 +173,14 @@ ass_create_symtable (struct assignment_operator *buff)
 
   buff->sym_table =
     ((struct assignment_expression *) (buff->parent))->sym_table;
+}
+
+static void
+ass_create_symbol (struct assignment_operator *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_ASSIGNMENT_OPERATOR);
+  assert (buff->sym_table != NULL);
+
+  /* NOTE nothing to do */
 }

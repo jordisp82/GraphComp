@@ -2,6 +2,9 @@
 #define MISRA_H
 
 #include "structs.h"
-#include "misra_5_3.h"
+#include "symbol.h"
+
+void check_misra (struct translation_unit *tu);
+int is_typedef (symbol_t * sym);        /* defined if misra_5_6.c */
 
 #endif

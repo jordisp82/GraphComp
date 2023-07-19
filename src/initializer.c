@@ -12,6 +12,7 @@
 #endif
 
 static void iz_create_symtable (struct initializer *buff);
+static void iz_create_symbol (struct initializer *buff);
 
 struct initializer *
 initializer_1 (void *ptr)
@@ -26,6 +27,7 @@ initializer_1 (void *ptr)
   buff->il->parent_kind = NODE_INITIALIZER;
   buff->il->parent = buff;
   buff->create_symtable = iz_create_symtable;
+  buff->create_symbol = iz_create_symbol;
 
   return buff;
 }
@@ -43,6 +45,7 @@ initializer_2 (void *ptr)
   buff->il->parent_kind = NODE_INITIALIZER;
   buff->il->parent = buff;
   buff->create_symtable = iz_create_symtable;
+  buff->create_symbol = iz_create_symbol;
 
   return buff;
 }
@@ -60,6 +63,7 @@ initializer_3 (void *ptr)
   buff->ae->parent_kind = NODE_INITIALIZER;
   buff->ae->parent = buff;
   buff->create_symtable = iz_create_symtable;
+  buff->create_symbol = iz_create_symbol;
 
   return buff;
 }
@@ -101,53 +105,24 @@ iz_create_symtable (struct initializer *buff)
     }
 }
 
-#if 0
-void
-set_initializer_scope (struct initializer *buff)
+static void
+iz_create_symbol (struct initializer *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_INIT_DECLARATOR:
-        set_init_declarator_scope (buff->parent);
-        buff->scope = ((struct init_declarator *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct init_declarator *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_INITIALIZER_LIST:
-        set_initializer_list_scope (buff->parent);
-        buff->scope = ((struct initializer_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct initializer_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_initializer (struct initializer *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_INITIALIZER);
+  assert (buff->sym_table != NULL);
 
   switch (buff->child_kind)
     {
     case IN_LIST:
-      set_symbol_for_initializer_list (buff->il);
+      buff->il->create_symbol (buff->il);
       break;
 
     case IN_ASS_EXPR:
-      set_symbol_for_assignment_expression (buff->ae);
+      buff->ae->create_symbol (buff->ae);
       break;
 
     default:
       ;                         /* BUG! */
     }
 }
-#endif

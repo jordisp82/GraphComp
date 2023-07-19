@@ -6,6 +6,7 @@
 #include "type_specifier.h"
 
 static void ats_create_symtable (struct atomic_type_specifier *buff);
+static void ats_create_symbol (struct atomic_type_specifier *buff);
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -39,25 +40,13 @@ ats_create_symtable (struct atomic_type_specifier *buff)
     buff->tn->create_symtable (buff->tn);
 }
 
-#if 0
-void
-set_atomic_specifier_scope (struct atomic_type_specifier *buff)
+static void
+ats_create_symbol (struct atomic_type_specifier *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_ATOMIC_TYPE_SPECIFIER);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_TYPE_SPECIFIER:
-        set_type_specifier_scope (buff->parent);
-        buff->scope = ((struct type_specifier *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct type_specifier *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  if (buff->tn != NULL)
+    buff->tn->create_symbol (buff->tn);
 }
-#endif

@@ -11,6 +11,7 @@
 #endif
 
 static void il_create_symtable (struct initializer_list *buff);
+static void il_create_symbol (struct initializer_list *buff);
 
 struct initializer_list *
 initializer_list_1 (void *ptr1, void *ptr2)
@@ -32,6 +33,7 @@ initializer_list_1 (void *ptr1, void *ptr2)
     NODE_INITIALIZER_LIST;
   buff->first->d->parent = buff->first->i->parent = buff;
   buff->create_symtable = il_create_symtable;
+  buff->create_symbol = il_create_symbol;
 
   return buff;
 }
@@ -53,6 +55,7 @@ initializer_list_2 (void *ptr)
   buff->first->i->parent_kind = NODE_INITIALIZER_LIST;
   buff->first->i->parent = buff;
   buff->create_symtable = il_create_symtable;
+  buff->create_symbol = il_create_symbol;
 
   return buff;
 }
@@ -77,6 +80,7 @@ initializer_list_3 (void *ptr1, void *ptr2, void *ptr3)
   d->parent_kind = i->parent_kind = NODE_INITIALIZER_LIST;
   d->parent = i->parent = buff;
   buff->create_symtable = il_create_symtable;
+  buff->create_symbol = il_create_symbol;
 
   return buff;
 }
@@ -98,6 +102,7 @@ initializer_list_4 (void *ptr1, void *ptr2)
   i->parent_kind = NODE_INITIALIZER_LIST;
   i->parent = buff;
   buff->create_symtable = il_create_symtable;
+  buff->create_symbol = il_create_symbol;
 
   return buff;
 }
@@ -137,46 +142,18 @@ il_create_symtable (struct initializer_list *buff)
     }
 }
 
-#if 0
-void
-set_initializer_list_scope (struct initializer_list *buff)
+static void
+il_create_symbol (struct initializer_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_INITIALIZER_LIST);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_POSTFIX_EXPRESSION:
-        set_postfix_expression_scope (buff->parent);
-        buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct postfix_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_INITIALIZER:
-        set_initializer_scope (buff->parent);
-        buff->scope = ((struct initializer *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct initializer *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_INITIALIZER_LIST:
-        set_initializer_list_scope (buff->parent);
-        buff->scope = ((struct initializer_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct initializer_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  for (struct il_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    {
+      if (ptr->d != NULL)
+        ptr->d->create_symbol (ptr->d);
+      if (ptr->i != NULL)
+        ptr->i->create_symbol (ptr->i);
+    }
 }
-
-void
-set_symbol_for_initializer_list (struct initializer_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_INITIALIZER_LIST);
-}
-#endif
