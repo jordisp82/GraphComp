@@ -10,6 +10,7 @@
 #endif
 
 static void re_create_symtable (struct relational_expression *buff);
+static void re_create_symbol (struct relational_expression *buff);
 
 struct relational_expression *
 relational_expression_1 (void *ptr)
@@ -25,6 +26,7 @@ relational_expression_1 (void *ptr)
   buff->sh_ex->parent_kind = NODE_RELATIONAL_EXPRESSION;
   buff->sh_ex->parent = buff;
   buff->create_symtable = re_create_symtable;
+  buff->create_symbol = re_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ relational_expression_2 (void *ptr1, void *ptr2)
     NODE_RELATIONAL_EXPRESSION;
   buff->relex->parent = buff->sh_ex->parent = buff;
   buff->create_symtable = re_create_symtable;
+  buff->create_symbol = re_create_symbol;
 
   return buff;
 }
@@ -67,6 +70,7 @@ relational_expression_3 (void *ptr1, void *ptr2)
     NODE_RELATIONAL_EXPRESSION;
   buff->relex->parent = buff->sh_ex->parent = buff;
   buff->create_symtable = re_create_symtable;
+  buff->create_symbol = re_create_symbol;
 
   return buff;
 }
@@ -88,6 +92,7 @@ relational_expression_4 (void *ptr1, void *ptr2)
     NODE_RELATIONAL_EXPRESSION;
   buff->relex->parent = buff->sh_ex->parent = buff;
   buff->create_symtable = re_create_symtable;
+  buff->create_symbol = re_create_symbol;
 
   return buff;
 }
@@ -109,6 +114,7 @@ relational_expression_5 (void *ptr1, void *ptr2)
     NODE_RELATIONAL_EXPRESSION;
   buff->relex->parent = buff->sh_ex->parent = buff;
   buff->create_symtable = re_create_symtable;
+  buff->create_symbol = re_create_symbol;
 
   return buff;
 }
@@ -141,45 +147,15 @@ re_create_symtable (struct relational_expression *buff)
     buff->relex->create_symtable (buff->relex);
 }
 
-#if 0
-void
-set_rel_expression_scope (struct relational_expression *buff)
+static void
+re_create_symbol (struct relational_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_RELATIONAL_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_RELATIONAL_EXPRESSION:
-        set_rel_expression_scope (buff->parent);
-        buff->scope =
-          ((struct relational_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct relational_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_EQUALITY_EXPRESSION:
-        set_equality_expression_scope (buff->parent);
-        buff->scope = ((struct equality_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct equality_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_relational_expression (struct relational_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_RELATIONAL_EXPRESSION);
-  assert (buff->sh_ex != NULL);
-
-  set_symbol_for_shift_expression (buff->sh_ex);
+  if (buff->sh_ex != NULL)
+    buff->sh_ex->create_symbol (buff->sh_ex);
   if (buff->relex != NULL)
-    set_symbol_for_relational_expression (buff->relex);
+    buff->relex->create_symbol (buff->relex);
 }
-#endif

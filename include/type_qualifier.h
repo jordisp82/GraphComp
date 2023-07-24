@@ -31,6 +31,7 @@ struct type_qualifier
   tq_kind_t tq_kind;
   struct symtable *sym_table;
   void (*create_symtable) (struct type_qualifier * buff);
+  void (*create_symbol) (struct type_qualifier * buff);
   node_kind_t parent_kind;
   void *parent;
 };

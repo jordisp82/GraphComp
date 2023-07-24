@@ -14,6 +14,7 @@
 #endif
 
 static void sus_create_symtable (struct struct_or_union_specifier *buff);
+static void sus_create_symbol (struct struct_or_union_specifier *buff);
 
 struct struct_or_union_specifier *
 struct_or_union_specifier_1 (void *ptr1, void *ptr2)
@@ -31,6 +32,7 @@ struct_or_union_specifier_1 (void *ptr1, void *ptr2)
     NODE_STRUCT_OR_UNION_SPECIFIER;
   buff->su->parent = buff->sdl->parent = buff;
   buff->create_symtable = sus_create_symtable;
+  buff->create_symbol = sus_create_symbol;
 
   return buff;
 }
@@ -54,6 +56,7 @@ struct_or_union_specifier_2 (void *ptr1, const char *str, void *ptr3)
     NODE_STRUCT_OR_UNION_SPECIFIER;
   buff->su->parent = buff->sdl->parent = buff;
   buff->create_symtable = sus_create_symtable;
+  buff->create_symbol = sus_create_symbol;
 
   return buff;
 }
@@ -74,6 +77,7 @@ struct_or_union_specifier_3 (void *ptr1, const char *str)
   buff->su->parent_kind = NODE_STRUCT_OR_UNION_SPECIFIER;
   buff->su->parent = buff;
   buff->create_symtable = sus_create_symtable;
+  buff->create_symbol = sus_create_symbol;
 
   return buff;
 }
@@ -100,4 +104,17 @@ sus_create_symtable (struct struct_or_union_specifier *buff)
       sym->node_kind = NODE_STRUCT_OR_UNION_SPECIFIER;
       buff->sym_table->tags = avl_add_create (buff->sym_table->tags, sym);
     }
+}
+
+static void
+sus_create_symbol (struct struct_or_union_specifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STRUCT_OR_UNION_SPECIFIER);
+  assert (buff->sym_table != NULL);
+
+  if (buff->su != NULL)
+    buff->su->create_symbol (buff->su);
+  if (buff->sdl != NULL)
+    buff->sdl->create_symbol (buff->sdl);
 }

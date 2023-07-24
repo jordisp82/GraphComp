@@ -34,6 +34,7 @@ struct unary_operator
   unop_kind_t un_op;
   struct symtable *sym_table;
   void (*create_symtable) (struct unary_operator * buff);
+  void (*create_symbol) (struct unary_operator * buff);
   node_kind_t parent_kind;
   void *parent;
 };

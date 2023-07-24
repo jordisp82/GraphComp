@@ -25,6 +25,7 @@ atomic_type_specifier_1 (void *ptr)
   buff->tn->parent_kind = NODE_ATOMIC_TYPE_SPECIFIER;
   buff->tn->parent = buff;
   buff->create_symtable = ats_create_symtable;
+  buff->create_symbol = ats_create_symbol;
 
   return buff;
 }

@@ -11,6 +11,7 @@
 #endif
 
 static void p_create_symtable (struct pointer *buff);
+static void p_create_symbol (struct pointer *buff);
 
 struct pointer *
 pointer_1 (void *ptr1, void *ptr2)
@@ -27,6 +28,7 @@ pointer_1 (void *ptr1, void *ptr2)
   buff->tql->parent_kind = buff->ptr->parent_kind = NODE_POINTER;
   buff->tql->parent = buff->ptr->parent = buff;
   buff->create_symtable = p_create_symtable;
+  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -44,6 +46,7 @@ pointer_2 (void *ptr)
   buff->tql->parent_kind = NODE_POINTER;
   buff->tql->parent = buff;
   buff->create_symtable = p_create_symtable;
+  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -61,6 +64,7 @@ pointer_3 (void *ptr)
   buff->ptr->parent_kind = NODE_POINTER;
   buff->ptr->parent = buff;
   buff->create_symtable = p_create_symtable;
+  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -73,6 +77,7 @@ pointer_4 (void)
   buff->kind = NODE_POINTER;
   buff->ptr_kind = PTR_EMPTY;
   buff->create_symtable = p_create_symtable;
+  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -106,4 +111,17 @@ p_create_symtable (struct pointer *buff)
     buff->tql->create_symtable (buff->tql);
   if (buff->ptr != NULL)
     buff->ptr->create_symtable (buff->ptr);
+}
+
+static void
+p_create_symbol (struct pointer *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_POINTER);
+  assert (buff->sym_table != NULL);
+
+  if (buff->tql != NULL)
+    buff->tql->create_symbol (buff->tql);
+  if (buff->ptr != NULL)
+    buff->ptr->create_symbol (buff->ptr);
 }

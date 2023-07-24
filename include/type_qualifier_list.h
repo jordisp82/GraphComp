@@ -26,6 +26,7 @@ struct type_qualifier_list
   } *first, *last;
   struct symtable *sym_table;
   void (*create_symtable) (struct type_qualifier_list * buff);
+  void (*create_symbol) (struct type_qualifier_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

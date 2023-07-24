@@ -12,6 +12,7 @@
 #endif
 
 static void sd_create_symtable (struct struct_declaration *buff);
+static void sd_create_symbol (struct struct_declaration *buff);
 
 struct struct_declaration *
 struct_declaration_1 (void *ptr)
@@ -26,6 +27,7 @@ struct_declaration_1 (void *ptr)
   buff->sql->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sql->parent = buff;
   buff->create_symtable = sd_create_symtable;
+  buff->create_symbol = sd_create_symbol;
 
   return buff;
 }
@@ -45,6 +47,7 @@ struct_declaration_2 (void *ptr1, void *ptr2)
   buff->sql->parent_kind = buff->sdl->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sql->parent = buff->sdl->parent = buff;
   buff->create_symtable = sd_create_symtable;
+  buff->create_symbol = sd_create_symbol;
 
   return buff;
 }
@@ -62,6 +65,7 @@ struct_declaration_3 (void *ptr)
   buff->sad->parent_kind = NODE_STRUCT_DECLARATION;
   buff->sad->parent = buff;
   buff->create_symtable = sd_create_symtable;
+  buff->create_symbol = sd_create_symbol;
 
   return buff;
 }
@@ -82,26 +86,17 @@ sd_create_symtable (struct struct_declaration *buff)
     buff->sad->create_symtable (buff->sad);
 }
 
-#if 0
-void
-set_struct_declaration_scope (struct struct_declaration *buff)
+static void
+sd_create_symbol (struct struct_declaration *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_STRUCT_DECLARATION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_STRUCT_DECLARATION_LIST:
-        set_struct_declaration_list_scope (buff->parent);
-        buff->scope =
-          ((struct struct_declaration_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct struct_declaration_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  if (buff->sql != NULL)
+    buff->sql->create_symbol (buff->sql);
+  if (buff->sdl != NULL)
+    buff->sdl->create_symbol (buff->sdl);
+  if (buff->sad != NULL)
+    buff->sad->create_symbol (buff->sad);
 }
-#endif

@@ -30,6 +30,7 @@ abstract_declarator_1 (void *ptr1, void *ptr2)
   buff->ptr->parent_kind = buff->dad->parent_kind = NODE_ABSTRACT_DECLARATOR;
   buff->ptr->parent = buff->dad->parent = buff;
   buff->create_symtable = ad_create_symtable;
+  buff->create_symbol = ad_create_symbol;
 
   return buff;
 }
@@ -47,6 +48,7 @@ abstract_declarator_2 (void *ptr)
   buff->ptr->parent_kind = NODE_ABSTRACT_DECLARATOR;
   buff->ptr->parent = buff;
   buff->create_symtable = ad_create_symtable;
+  buff->create_symbol = ad_create_symbol;
 
   return buff;
 }
@@ -64,6 +66,7 @@ abstract_declarator_3 (void *ptr)
   buff->dad->parent_kind = NODE_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff;
   buff->create_symtable = ad_create_symtable;
+  buff->create_symbol = ad_create_symbol;
 
   return buff;
 }

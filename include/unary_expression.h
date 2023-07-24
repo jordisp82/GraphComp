@@ -40,17 +40,11 @@ struct unary_expression
   struct unary_operator *unop;
   struct cast_expression *cex;
   struct type_name *tn;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct unary_expression * buff);
+  void (*create_symbol) (struct unary_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-void set_unary_expression_scope (struct unary_expression *buff);
-void set_symbol_for_unary_expression (struct unary_expression *buff);
 
 #endif

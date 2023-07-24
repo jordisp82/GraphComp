@@ -10,6 +10,7 @@
 #endif
 
 static void sh_create_symtable (struct shift_expression *buff);
+static void sh_create_symbol (struct shift_expression *buff);
 
 struct shift_expression *
 shift_expression_1 (void *ptr)
@@ -25,6 +26,7 @@ shift_expression_1 (void *ptr)
   buff->add_ex->parent_kind = NODE_SHIFT_EXPRESSION;
   buff->add_ex->parent = buff;
   buff->create_symtable = sh_create_symtable;
+  buff->create_symbol = sh_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ shift_expression_2 (void *ptr1, void *ptr2)
     NODE_SHIFT_EXPRESSION;
   buff->sh_ex->parent = buff->add_ex->parent = buff;
   buff->create_symtable = sh_create_symtable;
+  buff->create_symbol = sh_create_symbol;
 
   return buff;
 }
@@ -67,6 +70,7 @@ shift_expression_3 (void *ptr1, void *ptr2)
     NODE_SHIFT_EXPRESSION;
   buff->sh_ex->parent = buff->add_ex->parent = buff;
   buff->create_symtable = sh_create_symtable;
+  buff->create_symbol = sh_create_symbol;
 
   return buff;
 }
@@ -99,45 +103,15 @@ sh_create_symtable (struct shift_expression *buff)
     buff->sh_ex->create_symtable (buff->sh_ex);
 }
 
-#if 0
-void
-set_shift_expression_scope (struct shift_expression *buff)
+static void
+sh_create_symbol (struct shift_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_SHIFT_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_SHIFT_EXPRESSION:
-        set_shift_expression_scope (buff->parent);
-        buff->scope = ((struct shift_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct shift_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_RELATIONAL_EXPRESSION:
-        set_rel_expression_scope (buff->parent);
-        buff->scope =
-          ((struct relational_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct relational_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_shift_expression (struct shift_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_SHIFT_EXPRESSION);
-  assert (buff->add_ex != NULL);
-
-  set_symbol_for_additive_expression (buff->add_ex);
+  if (buff->add_ex != NULL)
+    buff->add_ex->create_symbol (buff->add_ex);
   if (buff->sh_ex != NULL)
-    set_symbol_for_shift_expression (buff->sh_ex);
+    buff->sh_ex->create_symbol (buff->sh_ex);
 }
-#endif

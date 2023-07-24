@@ -11,6 +11,7 @@
 #endif
 
 static void tq_create_symtable (struct type_qualifier *buff);
+static void tq_create_symbol (struct type_qualifier *buff);
 
 struct type_qualifier *
 type_qualifier_1 (void)
@@ -20,6 +21,7 @@ type_qualifier_1 (void)
   buff->kind = NODE_TYPE_QUALIFIER;
   buff->tq_kind = TQ_CONST;
   buff->create_symtable = tq_create_symtable;
+  buff->create_symbol = tq_create_symbol;
 
   return buff;
 }
@@ -32,6 +34,7 @@ type_qualifier_2 (void)
   buff->kind = NODE_TYPE_QUALIFIER;
   buff->tq_kind = TQ_RESTRICT;
   buff->create_symtable = tq_create_symtable;
+  buff->create_symbol = tq_create_symbol;
 
   return buff;
 }
@@ -44,6 +47,7 @@ type_qualifier_3 (void)
   buff->kind = NODE_TYPE_QUALIFIER;
   buff->tq_kind = TQ_VOLATILE;
   buff->create_symtable = tq_create_symtable;
+  buff->create_symbol = tq_create_symbol;
 
   return buff;
 }
@@ -56,6 +60,7 @@ type_qualifier_4 (void)
   buff->kind = NODE_TYPE_QUALIFIER;
   buff->tq_kind = TQ_ATOMIC;
   buff->create_symtable = tq_create_symtable;
+  buff->create_symbol = tq_create_symbol;
 
   return buff;
 }
@@ -86,4 +91,14 @@ tq_create_symtable (struct type_qualifier *buff)
     default:
       ;                         /* BUG! */
     }
+}
+
+static void
+tq_create_symbol (struct type_qualifier *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_TYPE_QUALIFIER);
+  assert (buff->sym_table != NULL);
+
+  /* nothing to do */
 }

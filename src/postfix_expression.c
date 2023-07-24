@@ -304,12 +304,13 @@ pe_create_symbol (struct postfix_expression *buff)
 
     case POSTFIX_ARRAY:
       buff->pfex->create_symbol (buff->pfex);
-      /* TODO buff->ex->create_symbol (buff->ex); */
+      buff->ex->create_symbol (buff->ex);
       break;
 
     case POSTFIX_FUNCTION:
       buff->pfex->create_symbol (buff->pfex);
-      /* TODO if (buff->ael != NULL) buff->ael->create_symbol (buff->ael); */
+      if (buff->ael != NULL)
+        buff->ael->create_symbol (buff->ael);
       break;
 
     case POSTFIX_FIELD1:
@@ -324,8 +325,8 @@ pe_create_symbol (struct postfix_expression *buff)
       break;
 
     case POSTFIX_COMP_LIT:
-      /* TODO buff->comp_lit.tn->create_symbol (buff->comp_lit->tn); */
-      /* TODO buff->comp_lit.il->create_symbol (buff->comp_lit->il); */
+      buff->comp_lit.tn->create_symbol (buff->comp_lit.tn);
+      buff->comp_lit.il->create_symbol (buff->comp_lit.il);
       break;
 
     default:

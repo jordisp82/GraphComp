@@ -10,6 +10,7 @@
 #endif
 
 static void sdl_create_symtable (struct struct_declaration_list *buff);
+static void sdl_create_symbol (struct struct_declaration_list *buff);
 
 struct struct_declaration_list *
 struct_declaration_list_1 (void *ptr)
@@ -27,6 +28,7 @@ struct_declaration_list_1 (void *ptr)
   buff->first->sd->parent_kind = NODE_STRUCT_DECLARATION_LIST;
   buff->first->sd->parent = buff;
   buff->create_symtable = sdl_create_symtable;
+  buff->create_symbol = sdl_create_symbol;
 
   return buff;
 }
@@ -47,6 +49,7 @@ struct_declaration_list_2 (void *ptr1, void *ptr2)
   sd->parent_kind = NODE_STRUCT_DECLARATION_LIST;
   sd->parent = sd;
   buff->create_symtable = sdl_create_symtable;
+  buff->create_symbol = sdl_create_symbol;
 
   return buff;
 }
@@ -63,26 +66,13 @@ sdl_create_symtable (struct struct_declaration_list *buff)
     ptr->sd->create_symtable (ptr->sd);
 }
 
-#if 0
-void
-set_struct_declaration_list_scope (struct struct_declaration_list *buff)
+static void
+sdl_create_symbol (struct struct_declaration_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_STRUCT_DECLARATION_LIST);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_STRUCT_OR_UNION_SPECIFIER:
-        set_struct_or_union_specifier_scope (buff->parent);
-        buff->scope =
-          ((struct struct_or_union_specifier *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct struct_or_union_specifier *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  for (struct sdln_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->sd->create_symbol (ptr->sd);
 }
-#endif

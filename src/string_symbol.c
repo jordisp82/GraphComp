@@ -10,6 +10,7 @@
 #endif
 
 static void s_create_symtable (struct string *buff);
+static void s_create_symbol (struct string *buff);
 
 struct string *
 string_1 (const char *str)
@@ -23,6 +24,7 @@ string_1 (const char *str)
   buff->str = strdup (str);
   assert (buff->str != NULL);
   buff->create_symtable = s_create_symtable;
+  buff->create_symbol = s_create_symbol;
 
   return buff;
 }
@@ -39,6 +41,7 @@ string_2 (const char *str)
   buff->str = strdup (str);
   assert (buff->str != NULL);
   buff->create_symtable = s_create_symtable;
+  buff->create_symbol = s_create_symbol;
 
   return buff;
 }
@@ -50,4 +53,14 @@ s_create_symtable (struct string *buff)
   assert (buff->kind == NODE_STRING);
 
   buff->sym_table = ((struct primary_expression *) (buff->parent))->sym_table;
+}
+
+static void
+s_create_symbol (struct string *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_STRING);
+  assert (buff->sym_table != NULL);
+
+  /* nothing to do */
 }

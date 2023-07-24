@@ -22,18 +22,11 @@ struct struct_declaration_list
     struct struct_declaration *sd;
     struct sdln_node *next;
   } *first, *last;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct struct_declaration_list * buff);
+  void (*create_symbol) (struct struct_declaration_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_struct_declaration_list_scope (struct struct_declaration_list *buff);
-#endif
 
 #endif

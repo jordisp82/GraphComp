@@ -16,6 +16,7 @@
 #endif
 
 static void tn_create_symtable (struct type_name *buff);
+static void tn_create_symbol (struct type_name *buff);
 
 struct type_name *
 type_name_1 (void *ptr1, void *ptr2)
@@ -31,6 +32,7 @@ type_name_1 (void *ptr1, void *ptr2)
   buff->sql->parent_kind = buff->adlr->parent_kind = NODE_TYPE_NAME;
   buff->sql->parent = buff->adlr->parent = buff;
   buff->create_symtable = tn_create_symtable;
+  buff->create_symbol = tn_create_symbol;
 
   return buff;
 }
@@ -47,6 +49,7 @@ type_name_2 (void *ptr)
   buff->sql->parent_kind = NODE_TYPE_NAME;
   buff->sql->parent = buff;
   buff->create_symtable = tn_create_symtable;
+  buff->create_symbol = tn_create_symbol;
 
   return buff;
 }
@@ -94,54 +97,15 @@ tn_create_symtable (struct type_name *buff)
     buff->adlr->create_symtable (buff->adlr);
 }
 
-#if 0
-void
-set_type_name_scope (struct type_name *buff)
+static void
+tn_create_symbol (struct type_name *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_TYPE_NAME);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_POSTFIX_EXPRESSION:
-        set_postfix_expression_scope (buff->parent);
-        buff->scope = ((struct postfix_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct postfix_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_UNARY_EXPRESSION:
-        set_unary_expression_scope (buff->parent);
-        buff->scope = ((struct unary_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct unary_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_CAST_EXPRESSION:
-        set_cast_expression_scope (buff->parent);
-        buff->scope = ((struct cast_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct cast_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_ATOMIC_TYPE_SPECIFIER:
-        set_atomic_specifier_scope (buff->parent);
-        buff->scope =
-          ((struct atomic_type_specifier *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct atomic_type_specifier *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_ALIGNMENT_SPECIFIER:
-        set_alignment_specifier_scope (buff->parent);
-        buff->scope = ((struct alignment_specifier *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct alignment_specifier *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  if (buff->sql != NULL)
+    buff->sql->create_symbol (buff->sql);
+  if (buff->adlr != NULL)
+    buff->adlr->create_symbol (buff->adlr);
 }
-#endif

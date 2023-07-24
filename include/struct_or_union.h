@@ -26,6 +26,7 @@ struct struct_or_union
   su_kind_t value;
   struct symtable *sym_table;
   void (*create_symtable) (struct struct_or_union * buff);
+  void (*create_symbol) (struct struct_or_union * buff);
   node_kind_t parent_kind;
   void *parent;
 };

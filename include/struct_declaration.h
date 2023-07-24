@@ -21,18 +21,11 @@ struct struct_declaration
   struct specifier_qualifier_list *sql;
   struct struct_declarator_list *sdl;
   struct static_assert_declaration *sad;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct struct_declaration * buff);
+  void (*create_symbol) (struct struct_declaration * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_struct_declaration_scope (struct struct_declaration *buff);
-#endif
 
 #endif

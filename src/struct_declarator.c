@@ -11,6 +11,7 @@
 #endif
 
 static void sd_create_symtable (struct struct_declarator *buff);
+static void sd_create_symbol (struct struct_declarator *buff);
 
 struct struct_declarator *
 struct_declarator_1 (void *ptr)
@@ -25,6 +26,7 @@ struct_declarator_1 (void *ptr)
   buff->expr->parent_kind = NODE_STRUCT_DECLARATOR;
   buff->expr->parent = buff;
   buff->create_symtable = sd_create_symtable;
+  buff->create_symbol = sd_create_symbol;
 
   return buff;
 }
@@ -44,6 +46,7 @@ struct_declarator_2 (void *ptr1, void *ptr2)
   buff->dclr->parent_kind = buff->expr->parent_kind = NODE_STRUCT_DECLARATOR;
   buff->dclr->parent = buff->expr->parent = buff;
   buff->create_symtable = sd_create_symtable;
+  buff->create_symbol = sd_create_symbol;
 
   return buff;
 }
@@ -61,6 +64,7 @@ struct_declarator_3 (void *ptr)
   buff->dclr->parent_kind = NODE_STRUCT_DECLARATOR;
   buff->dclr->parent = buff;
   buff->create_symtable = sd_create_symtable;
+  buff->create_symbol = sd_create_symbol;
 
   return buff;
 }
@@ -79,26 +83,15 @@ sd_create_symtable (struct struct_declarator *buff)
     buff->dclr->create_symtable (buff->dclr);
 }
 
-#if 0
-void
-set_struct_declarator_scope (struct struct_declarator *buff)
+static void
+sd_create_symbol (struct struct_declarator *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_STRUCT_DECLARATOR);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_STRUCT_DECLARATOR_LIST:
-        set_struct_declarator_list_scope (buff->parent);
-        buff->scope =
-          ((struct struct_declarator_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct struct_declarator_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  if (buff->expr != NULL)
+    buff->expr->create_symbol (buff->expr);
+  if (buff->dclr != NULL)
+    buff->dclr->create_symbol (buff->dclr);
 }
-#endif

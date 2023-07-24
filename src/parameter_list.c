@@ -10,6 +10,7 @@
 #endif
 
 static void pl_create_symtable (struct parameter_list *buff);
+static void pl_create_symbol (struct parameter_list *buff);
 
 struct parameter_list *
 parameter_list_1 (void *ptr)
@@ -26,6 +27,7 @@ parameter_list_1 (void *ptr)
   buff->first->pd->parent_kind = NODE_PARAMETER_LIST;
   buff->first->pd->parent = buff;
   buff->create_symtable = pl_create_symtable;
+  buff->create_symbol = pl_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ parameter_list_2 (void *ptr1, void *ptr2)
   pd->parent_kind = NODE_PARAMETER_LIST;
   pd->parent = buff;
   buff->create_symtable = pl_create_symtable;
+  buff->create_symbol = pl_create_symbol;
 
   return buff;
 }
@@ -75,55 +78,13 @@ pl_create_symtable (struct parameter_list *buff)
     ptr->pd->create_symtable (ptr->pd);
 }
 
-#if 0
-int
-create_symbols_for_param_list (struct parameter_list *buff,
-                               symbol_t *** sym_pars)
-{
-  assert (buff != NULL);
-  assert (sym_pars != NULL);
-  assert (buff->kind == NODE_PARAMETER_LIST);
-
-  int n = 0;
-  struct pl_node *ptr;
-  for (ptr = buff->first; ptr != NULL; n++, ptr = ptr->next);
-
-  symbol_t **aux = calloc (n, sizeof (symbol_t *));
-  assert (aux != NULL);
-
-  int i = 0;
-  for (ptr = buff->first; ptr != NULL; i++, ptr = ptr->next)
-    aux[i] = create_symbol_for_param_declaration (ptr->pd);
-
-  *sym_pars = aux;
-  return n;
-}
-
-void
-set_parameter_list_scope (struct parameter_list *buff)
+static void
+pl_create_symbol (struct parameter_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_PARAMETER_LIST);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_PARAMETER_LIST:
-        set_parameter_list_scope (buff->parent);
-        buff->scope = ((struct parameter_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct parameter_list *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_PARAMETER_TYPE_LIST:
-        set_parameter_type_list_scope (buff->parent);
-        buff->scope = ((struct parameter_type_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct parameter_type_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  for (struct pl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->pd->create_symbol (ptr->pd);
 }
-#endif

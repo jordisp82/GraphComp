@@ -10,6 +10,7 @@
 #endif
 
 static void sdl_create_symtable (struct struct_declarator_list *buff);
+static void sdl_create_symbol (struct struct_declarator_list *buff);
 
 struct struct_declarator_list *
 struct_declarator_list_1 (void *ptr)
@@ -27,6 +28,7 @@ struct_declarator_list_1 (void *ptr)
   buff->first->sd->parent_kind = NODE_STRUCT_DECLARATOR_LIST;
   buff->first->sd->parent = buff;
   buff->create_symtable = sdl_create_symtable;
+  buff->create_symbol = sdl_create_symbol;
 
   return buff;
 }
@@ -47,6 +49,7 @@ struct_declarator_list_2 (void *ptr1, void *ptr2)
   d->parent_kind = NODE_STRUCT_DECLARATOR_LIST;
   d->parent = buff;
   buff->create_symtable = sdl_create_symtable;
+  buff->create_symbol = sdl_create_symbol;
 
   return buff;
 }
@@ -77,33 +80,13 @@ sdl_create_symtable (struct struct_declarator_list *buff)
     ptr->sd->create_symtable (ptr->sd);
 }
 
-#if 0
-void
-set_struct_declarator_list_scope (struct struct_declarator_list *buff)
+static void
+sdl_create_symbol (struct struct_declarator_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_STRUCT_DECLARATOR_LIST);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_STRUCT_DECLARATOR_LIST:
-        set_struct_declarator_list_scope (buff->parent);
-        buff->scope =
-          ((struct struct_declarator_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct struct_declarator_list *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_STRUCT_DECLARATION:
-        set_struct_declaration_scope (buff->parent);
-        buff->scope = ((struct struct_declaration *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct struct_declaration *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
+  for (struct sdl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->sd->create_symbol (ptr->sd);
 }
-#endif

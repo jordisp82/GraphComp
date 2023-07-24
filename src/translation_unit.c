@@ -11,12 +11,6 @@
 #define NULL ((void*)0)
 #endif
 
-#if 0
-static void cst_file_fd (struct translation_unit *buff,
-                         struct function_definition *fd);
-static void cst_file_dl (struct translation_unit *buff,
-                         struct declaration *dl);
-#endif
 static void tu_create_symtable (struct translation_unit *buff);
 static void tu_create_symbol (struct translation_unit *buff);
 

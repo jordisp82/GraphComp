@@ -15,7 +15,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-//#include "symbol.h"
 #include "symtable.h"
 
 typedef enum
@@ -34,6 +33,7 @@ struct pointer
   struct pointer *ptr;
   struct symtable *sym_table;
   void (*create_symtable) (struct pointer * buff);
+  void (*create_symbol) (struct pointer * buff);
   node_kind_t parent_kind;
   void *parent;
 };

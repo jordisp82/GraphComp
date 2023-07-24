@@ -27,6 +27,7 @@ struct string
   const char *str;
   struct symtable *sym_table;
   void (*create_symtable) (struct string * buff);
+  void (*create_symbol) (struct string * buff);
   node_kind_t parent_kind;
   void *parent;
 };

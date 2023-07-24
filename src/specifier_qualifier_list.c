@@ -12,6 +12,7 @@
 #endif
 
 static void sql_create_symtable (struct specifier_qualifier_list *buff);
+static void sql_create_symbol (struct specifier_qualifier_list *buff);
 
 struct specifier_qualifier_list *
 specifier_qualifier_list_1 (void *ptr1, void *ptr2)
@@ -30,6 +31,7 @@ specifier_qualifier_list_1 (void *ptr1, void *ptr2)
   ts->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   ts->parent = buff;
   buff->create_symtable = sql_create_symtable;
+  buff->create_symbol = sql_create_symbol;
 
   return buff;
 }
@@ -51,6 +53,7 @@ specifier_qualifier_list_2 (void *ptr)
   buff->first->ts->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   buff->first->ts->parent = buff;
   buff->create_symtable = sql_create_symtable;
+  buff->create_symbol = sql_create_symbol;
 
   return buff;
 }
@@ -72,6 +75,7 @@ specifier_qualifier_list_3 (void *ptr1, void *ptr2)
   tq->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   tq->parent = buff;
   buff->create_symtable = sql_create_symtable;
+  buff->create_symbol = sql_create_symbol;
 
   return buff;
 }
@@ -93,6 +97,7 @@ specifier_qualifier_list_4 (void *ptr)
   buff->first->tq->parent_kind = NODE_SPECIFIER_QUALIFIER_LIST;
   buff->first->tq->parent = buff;
   buff->create_symtable = sql_create_symtable;
+  buff->create_symbol = sql_create_symbol;
 
   return buff;
 }
@@ -139,39 +144,25 @@ sql_create_symtable (struct specifier_qualifier_list *buff)
       }
 }
 
-#if 0
-void
-set_specifier_qualifier_list_scope (struct specifier_qualifier_list *buff)
+static void
+sql_create_symbol (struct specifier_qualifier_list *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_SPECIFIER_QUALIFIER_LIST);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
+  for (struct sql_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    switch (ptr->sq_kind)
       {
-      case NODE_SPECIFIER_QUALIFIER_LIST:
-        set_specifier_qualifier_list_scope (buff->parent);
-        buff->scope =
-          ((struct specifier_qualifier_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct specifier_qualifier_list *) (buff->parent))->scope_kind;
+      case SQ_TYPE_SPEC:
+        ptr->ts->create_symbol (ptr->ts);
         break;
 
-      case NODE_STRUCT_DECLARATION:
-        set_struct_declaration_scope (buff->parent);
-        buff->scope = ((struct struct_declaration *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct struct_declaration *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_TYPE_NAME:
-        set_type_name_scope (buff->parent);
-        buff->scope = ((struct type_name *) (buff->parent))->scope;
-        buff->scope_kind = ((struct type_name *) (buff->parent))->scope_kind;
+      case SQ_TYPE_QUAL:
+        ptr->tq->create_symtable (ptr->tq);
         break;
 
       default:
         ;                       /* BUG! */
       }
 }
-#endif

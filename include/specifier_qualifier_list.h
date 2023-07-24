@@ -36,19 +36,11 @@ struct specifier_qualifier_list
     };
     struct sql_node *next;
   } *first, *last;
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct specifier_qualifier_list * buff);
+  void (*create_symbol) (struct specifier_qualifier_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-void set_specifier_qualifier_list_scope (struct specifier_qualifier_list
-                                         *buff);
-#endif
 
 #endif

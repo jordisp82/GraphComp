@@ -10,6 +10,7 @@
 #endif
 
 static void ss_create_symtable (struct selection_statement *buff);
+static void ss_create_symbol (struct selection_statement *buff);
 
 struct selection_statement *
 selection_statement_1 (void *ptr1, void *ptr2, void *ptr3)
@@ -30,6 +31,7 @@ selection_statement_1 (void *ptr1, void *ptr2, void *ptr3)
     NODE_SELECTION_STATEMENT;
   buff->ex->parent = buff->st1->parent = buff->st2->parent = buff;
   buff->create_symtable = ss_create_symtable;
+  buff->create_symbol = ss_create_symbol;
 
   return buff;
 }
@@ -50,6 +52,7 @@ selection_statement_2 (void *ptr1, void *ptr2)
   buff->ex->parent_kind = buff->st1->parent_kind = NODE_SELECTION_STATEMENT;
   buff->ex->parent = buff->st1->parent = buff;
   buff->create_symtable = ss_create_symtable;
+  buff->create_symbol = ss_create_symbol;
 
   return buff;
 }
@@ -70,6 +73,7 @@ selection_statement_3 (void *ptr1, void *ptr2)
   buff->ex->parent_kind = buff->st1->parent_kind = NODE_SELECTION_STATEMENT;
   buff->ex->parent = buff->st1->parent = buff;
   buff->create_symtable = ss_create_symtable;
+  buff->create_symbol = ss_create_symbol;
 
   return buff;
 }
@@ -89,38 +93,17 @@ ss_create_symtable (struct selection_statement *buff)
     buff->st2->create_symtable (buff->st2);
 }
 
-#if 0
-void
-set_selection_stmt_scope (struct selection_statement *buff)
+static void
+ss_create_symbol (struct selection_statement *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_SELECTION_STATEMENT);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_STATEMENT:
-        set_statement_scope (buff->parent);
-        buff->scope = ((struct statement *) (buff->parent))->scope;
-        buff->scope_kind = ((struct statement *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_selection_stmt (struct selection_statement *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_SELECTION_STATEMENT);
-  assert (buff->ex != NULL);
-  assert (buff->st1 != NULL);
-
-  set_symbol_for_expression (buff->ex);
-  set_symbol_for_statement (buff->st1);
+  if (buff->ex != NULL)
+    buff->ex->create_symbol (buff->ex);
+  if (buff->st1 != NULL)
+    buff->st1->create_symtable (buff->st1);
   if (buff->st2 != NULL)
-    set_symbol_for_statement (buff->st2);
+    buff->st2->create_symtable (buff->st2);
 }
-#endif

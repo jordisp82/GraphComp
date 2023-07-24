@@ -15,10 +15,6 @@
 #define NULL ((void*)0)
 #endif
 
-#if 0
-static int priex_set_symbol_for_id (struct primary_expression *buff);
-#endif
-
 static void p_create_symtable (struct primary_expression *buff);
 static void p_create_symbol (struct primary_expression *buff);
 

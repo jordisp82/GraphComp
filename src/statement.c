@@ -15,6 +15,7 @@
 #endif
 
 static void s_create_symtable (struct statement *buff);
+static void s_create_symbol (struct statement *buff);
 
 struct statement *
 statement_1 (void *ptr)
@@ -29,6 +30,7 @@ statement_1 (void *ptr)
   buff->ls->parent_kind = NODE_STATEMENT;
   buff->ls->parent = buff;
   buff->create_symtable = s_create_symtable;
+  buff->create_symbol = s_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ statement_2 (void *ptr)
   buff->cs->parent_kind = NODE_STATEMENT;
   buff->cs->parent = buff;
   buff->create_symtable = s_create_symtable;
+  buff->create_symbol = s_create_symbol;
 
   return buff;
 }
@@ -63,6 +66,7 @@ statement_3 (void *ptr)
   buff->es->parent_kind = NODE_STATEMENT;
   buff->es->parent = buff;
   buff->create_symtable = s_create_symtable;
+  buff->create_symbol = s_create_symbol;
 
   return buff;
 }
@@ -80,6 +84,7 @@ statement_4 (void *ptr)
   buff->ss->parent_kind = NODE_STATEMENT;
   buff->ss->parent = buff;
   buff->create_symtable = s_create_symtable;
+  buff->create_symbol = s_create_symbol;
 
   return buff;
 }
@@ -97,6 +102,7 @@ statement_5 (void *ptr)
   buff->is->parent_kind = NODE_STATEMENT;
   buff->is->parent = buff;
   buff->create_symtable = s_create_symtable;
+  buff->create_symbol = s_create_symbol;
 
   return buff;
 }
@@ -114,6 +120,7 @@ statement_6 (void *ptr)
   buff->js->parent_kind = NODE_STATEMENT;
   buff->js->parent = buff;
   buff->create_symtable = s_create_symtable;
+  buff->create_symbol = s_create_symbol;
 
   return buff;
 }
@@ -180,82 +187,40 @@ s_create_symtable (struct statement *buff)
     }
 }
 
-#if 0
-void
-set_statement_scope (struct statement *buff)
+static void
+s_create_symbol (struct statement *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_STATEMENT);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_LABELED_STATEMENT:
-        set_labeled_stmt_scope (buff->parent);
-        buff->scope = ((struct labeled_statement *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct labeled_statement *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_BLOCK_ITEM:
-        set_block_item_scope (buff->parent);
-        buff->scope = ((struct block_item *) (buff->parent))->scope;
-        buff->scope_kind = ((struct block_item *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_SELECTION_STATEMENT:
-        set_selection_stmt_scope (buff->parent);
-        buff->scope = ((struct selection_statement *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct selection_statement *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_ITERATION_STATEMENT:
-        set_iteration_stmt_scope (buff->parent);
-        buff->scope = ((struct iteration_statement *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct iteration_statement *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_statement (struct statement *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_STATEMENT);
+  assert (buff->sym_table != NULL);
 
   switch (buff->child_kind)
     {
     case NODE_LABELED_STATEMENT:
-      /* nothing to do */
+      buff->ls->create_symbol (buff->ls);
       break;
 
     case NODE_COMPOUND_STATEMENT:
-      set_symbol_for_compound_stmt (buff->cs);
+      buff->cs->create_symbol (buff->cs);
       break;
 
     case NODE_EXPRESSION_STATEMENT:
-      set_symbol_for_expression_stmt (buff->es);
+      buff->es->create_symbol (buff->es);
       break;
 
     case NODE_SELECTION_STATEMENT:
-      set_symbol_for_selection_stmt (buff->ss);
+      buff->ss->create_symbol (buff->ss);
       break;
 
     case NODE_ITERATION_STATEMENT:
-      set_symbol_for_iteration_stmt (buff->is);
+      buff->is->create_symbol (buff->is);
       break;
 
     case NODE_JUMP_STATEMENT:
-      set_symbol_for_jump_stmt (buff->js);
+      buff->js->create_symbol (buff->js);
       break;
 
     default:
       ;                         /* BUG! */
     }
 }
-#endif

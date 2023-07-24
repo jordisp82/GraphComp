@@ -15,7 +15,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-//#include "symbol.h"
 #include "symtable.h"
 
 typedef enum
@@ -35,20 +34,11 @@ struct parameter_declaration
     struct declarator *dr;
     struct abstract_declarator *adr;
   };
-#if 0
-  node_kind_t scope_kind;
-  void *scope;
-#endif
   struct symtable *sym_table;
   void (*create_symtable) (struct parameter_declaration * buff);
+  void (*create_symbol) (struct parameter_declaration * buff);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-symbol_t *create_symbol_for_param_declaration (struct parameter_declaration
-                                               *buff);
-void set_parameter_declaration_scope (struct parameter_declaration *buff);
-#endif
 
 #endif

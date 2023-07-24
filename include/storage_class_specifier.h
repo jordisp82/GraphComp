@@ -34,6 +34,7 @@ struct storage_class_specifier
   stg_kind_t value;
   struct symtable *sym_table;
   void (*create_symtable) (struct storage_class_specifier * buff);
+  void (*create_symbol) (struct storage_class_specifier * buff);
   node_kind_t parent_kind;
   void *parent;
 };

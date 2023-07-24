@@ -11,6 +11,7 @@
 #endif
 
 static void ptl_create_symtable (struct parameter_type_list *buff);
+static void ptl_create_symbol (struct parameter_type_list *buff);
 
 struct parameter_type_list *
 parameter_type_list_1 (void *ptr)
@@ -26,6 +27,7 @@ parameter_type_list_1 (void *ptr)
   buff->pl->parent_kind = NODE_PARAMETER_TYPE_LIST;
   buff->pl->parent = buff;
   buff->create_symtable = ptl_create_symtable;
+  buff->create_symbol = ptl_create_symbol;
 
   return buff;
 }
@@ -44,6 +46,7 @@ parameter_type_list_2 (void *ptr)
   buff->pl->parent_kind = NODE_PARAMETER_TYPE_LIST;
   buff->pl->parent = buff;
   buff->create_symtable = ptl_create_symtable;
+  buff->create_symbol = ptl_create_symbol;
 
   return buff;
 }
@@ -88,4 +91,15 @@ ptl_create_symtable (struct parameter_type_list *buff)
   if (buff->pl != NULL)
     buff->pl->create_symtable (buff->pl);
   buff->sym_table->ord = buff->sym_table->tags = NULL;
+}
+
+static void
+ptl_create_symbol (struct parameter_type_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_PARAMETER_TYPE_LIST);
+  assert (buff->sym_table != NULL);
+
+  if (buff->pl != NULL)
+    buff->pl->create_symbol (buff->pl);
 }

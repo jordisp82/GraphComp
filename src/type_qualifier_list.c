@@ -12,6 +12,7 @@
 #endif
 
 static void tql_create_symtable (struct type_qualifier_list *buff);
+static void tql_create_symbol (struct type_qualifier_list *buff);
 
 struct type_qualifier_list *
 type_qualifier_list_1 (void *ptr)
@@ -29,6 +30,7 @@ type_qualifier_list_1 (void *ptr)
   buff->first->tq->parent_kind = NODE_TYPE_QUALIFIER_LIST;
   buff->first->tq->parent = buff;
   buff->create_symtable = tql_create_symtable;
+  buff->create_symbol = tql_create_symbol;
 
   return buff;
 }
@@ -49,6 +51,7 @@ type_qualifier_list_2 (void *ptr1, void *ptr2)
   tq->parent_kind = NODE_TYPE_QUALIFIER_LIST;
   tq->parent = buff;
   buff->create_symtable = tql_create_symtable;
+  buff->create_symbol = tql_create_symbol;
 
   return buff;
 }
@@ -86,4 +89,15 @@ tql_create_symtable (struct type_qualifier_list *buff)
 
   for (struct tql_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
     ptr->tq->create_symtable (ptr->tq);
+}
+
+static void
+tql_create_symbol (struct type_qualifier_list *buff)
+{
+  assert (buff != NULL);
+  assert (buff->kind == NODE_TYPE_QUALIFIER_LIST);
+  assert (buff->sym_table != NULL);
+
+  for (struct tql_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
+    ptr->tq->create_symbol (ptr->tq);
 }

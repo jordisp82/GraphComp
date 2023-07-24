@@ -10,6 +10,7 @@
 #endif
 
 static void m_create_symtable (struct multiplicative_expression *buff);
+static void m_create_symbol (struct multiplicative_expression *buff);
 
 struct multiplicative_expression *
 multiplicative_expression_1 (void *ptr)
@@ -25,6 +26,7 @@ multiplicative_expression_1 (void *ptr)
   buff->cast_ex->parent_kind = NODE_MULTIPLICATIVE_EXPRESSION;
   buff->cast_ex->parent = buff;
   buff->create_symtable = m_create_symtable;
+  buff->create_symbol = m_create_symbol;
 
   return buff;
 }
@@ -46,6 +48,7 @@ multiplicative_expression_2 (void *ptr1, void *ptr2)
     NODE_MULTIPLICATIVE_EXPRESSION;
   buff->mult_ex->parent = buff->cast_ex->parent = buff;
   buff->create_symtable = m_create_symtable;
+  buff->create_symbol = m_create_symbol;
 
   return buff;
 }
@@ -67,6 +70,7 @@ multiplicative_expression_3 (void *ptr1, void *ptr2)
     NODE_MULTIPLICATIVE_EXPRESSION;
   buff->mult_ex->parent = buff->cast_ex->parent = buff;
   buff->create_symtable = m_create_symtable;
+  buff->create_symbol = m_create_symbol;
 
   return buff;
 }
@@ -88,6 +92,7 @@ multiplicative_expression_4 (void *ptr1, void *ptr2)
     NODE_MULTIPLICATIVE_EXPRESSION;
   buff->mult_ex->parent = buff->cast_ex->parent = buff;
   buff->create_symtable = m_create_symtable;
+  buff->create_symbol = m_create_symbol;
 
   return buff;
 }
@@ -120,45 +125,15 @@ m_create_symtable (struct multiplicative_expression *buff)
     buff->mult_ex->create_symtable (buff->mult_ex);
 }
 
-#if 0
-void
-set_mult_expression_scope (struct multiplicative_expression *buff)
+static void
+m_create_symbol (struct multiplicative_expression *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_MULTIPLICATIVE_EXPRESSION);
+  assert (buff->sym_table != NULL);
 
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_MULTIPLICATIVE_EXPRESSION:
-        set_mult_expression_scope (buff->parent);
-        buff->scope =
-          ((struct multiplicative_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct multiplicative_expression *) (buff->parent))->scope_kind;
-        break;
-
-      case NODE_ADDITIVE_EXPRESSION:
-        set_add_expression_scope (buff->parent);
-        buff->scope = ((struct additive_expression *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct additive_expression *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-void
-set_symbol_for_mult_expression (struct multiplicative_expression *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_MULTIPLICATIVE_EXPRESSION);
-  assert (buff->cast_ex != NULL);
-
-  set_symbol_for_cast_expression (buff->cast_ex);
+  if (buff->cast_ex != NULL)
+    buff->cast_ex->create_symbol (buff->cast_ex);
   if (buff->mult_ex != NULL)
-    set_symbol_for_mult_expression (buff->mult_ex);
+    buff->mult_ex->create_symbol (buff->mult_ex);
 }
-#endif

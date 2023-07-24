@@ -12,6 +12,7 @@
 #endif
 
 static void pd_create_symtable (struct parameter_declaration *buff);
+static void pd_create_symbol (struct parameter_declaration *buff);
 
 struct parameter_declaration *
 parameter_declaration_1 (void *ptr1, void *ptr2)
@@ -29,6 +30,7 @@ parameter_declaration_1 (void *ptr1, void *ptr2)
   buff->ds->parent_kind = buff->dr->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff->dr->parent = buff;
   buff->create_symtable = pd_create_symtable;
+  buff->create_symbol = pd_create_symbol;
 
   return buff;
 }
@@ -49,6 +51,7 @@ parameter_declaration_2 (void *ptr1, void *ptr2)
   buff->ds->parent_kind = buff->adr->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff->adr->parent = buff;
   buff->create_symtable = pd_create_symtable;
+  buff->create_symbol = pd_create_symbol;
 
   return buff;
 }
@@ -67,6 +70,7 @@ parameter_declaration_3 (void *ptr)
   buff->ds->parent_kind = NODE_PARAMETER_DECLARATION;
   buff->ds->parent = buff;
   buff->create_symtable = pd_create_symtable;
+  buff->create_symbol = pd_create_symbol;
 
   return buff;
 }
@@ -98,46 +102,31 @@ pd_create_symtable (struct parameter_declaration *buff)
     }
 }
 
-#if 0
-symbol_t *
-create_symbol_for_param_declaration (struct parameter_declaration *buff)
+static void
+pd_create_symbol (struct parameter_declaration *buff)
 {
   assert (buff != NULL);
   assert (buff->kind == NODE_PARAMETER_DECLARATION);
+  assert (buff->sym_table != NULL);
 
-  /*
-   * Since this function is used to create
-   * a symbol table, we're not interested in
-   * abstract declarators.
-   */
+  if (buff->ds != NULL)
+    buff->ds->create_symbol (buff->ds);
 
-  if (buff->pd_kind != PD_DS_DECLR)
-    return NULL;
+  switch (buff->pd_kind)
+    {
+    case PD_DS_DECLR:
+      buff->dr->create_symbol (buff->dr);
+      break;
 
-  symbol_t *sym = create_symbol_for_declarator (buff->dr);
-  sym->dclr = buff->dr;
-  sym->sym_ns = SYM_NS_ORDINARY;
-  return sym;
+    case PD_DS_ABS_DECLR:
+      buff->adr->create_symbol (buff->adr);
+      break;
+
+    case PD_DS:
+      /* nothing more to do */
+      break;
+
+    default:
+      ;                         /* BUG! */
+    }
 }
-
-void
-set_parameter_declaration_scope (struct parameter_declaration *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_PARAMETER_DECLARATION);
-
-  if (buff->scope == NULL || buff->scope_kind == NODE_UNDEFINED)
-    switch (buff->parent_kind)
-      {
-      case NODE_PARAMETER_LIST:
-        set_parameter_list_scope (buff->parent);
-        buff->scope = ((struct parameter_list *) (buff->parent))->scope;
-        buff->scope_kind =
-          ((struct parameter_list *) (buff->parent))->scope_kind;
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-#endif
