@@ -24,6 +24,7 @@ struct translation_unit
     struct external_declaration *ed;
     struct tu_node *next;
   } *first, *last;
+  void (*dot_create) (void *node, void *f);
 };
 
 #endif

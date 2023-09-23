@@ -62,4 +62,3 @@ initializer_3 (void *ptr)
 
   return buff;
 }
-

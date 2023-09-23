@@ -23,6 +23,7 @@ struct declaration
   struct declaration_specifiers *ds;
   struct init_declarator_list *idl;
   struct static_assert_declaration *sad;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

@@ -11,6 +11,12 @@
 #include "structs.h"
 #include "node_kind_t.h"
 #include "translation_unit.h"
+#include "external_declaration.h"
+#include "function_definition.h"
+#include "declaration.h"
+#include "declaration_specifiers.h"
+#include "init_declarator_list.h"
+#include "static_assert_declaration.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -31,17 +37,7 @@ dot_create (struct translation_unit *tu, const char *fname)
       return -1;
     }
 
-  fprintf (f, "digraph tu {\n");
-  for (struct tu_node * ptr = tu->first; ptr != NULL; ptr = ptr->next)
-    {
-      fprintf (f, "\ttu [label=\"translation unit\"]\n");
-      fprintf (f, "\ttu -> %x;\n", ptr->ed);
-      fprintf (f, "\t%x [label=\"external declaration\"]\n", ptr->ed);
-    }
-
-  /* TODO */
-
-  fprintf (f, "}\n");
+  tu->dot_create (tu, f);
   fclose (f);
   return 0;
 }

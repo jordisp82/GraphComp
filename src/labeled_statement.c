@@ -69,4 +69,3 @@ labeled_statement_3 (void *ptr)
 
   return buff;
 }
-

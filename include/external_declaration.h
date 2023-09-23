@@ -22,6 +22,7 @@ struct external_declaration
     struct function_definition *fd;
     struct declaration *d;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

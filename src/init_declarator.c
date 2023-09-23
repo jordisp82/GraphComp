@@ -46,4 +46,3 @@ init_declarator_2 (void *ptr)
 
   return buff;
 }
-

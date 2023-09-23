@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "translation_unit.h"
@@ -13,6 +14,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct translation_unit *
 translation_unit_1 (void *ptr)
@@ -29,6 +32,8 @@ translation_unit_1 (void *ptr)
   buff->first->ed = ptr;
   buff->first->ed->parent = buff;
   buff->first->ed->parent_kind = NODE_TRANSLATION_UNIT;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -49,5 +54,30 @@ translation_unit_2 (void *ptr1, void *ptr2)
   ed->parent = buff;
   ed->parent_kind = NODE_TRANSLATION_UNIT;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct translation_unit *tu = Node;
+  assert (tu->kind == NODE_TRANSLATION_UNIT);
+  FILE *f = F;
+
+  fprintf (f, "digraph tu {\n");
+  for (struct tu_node * ptr = tu->first; ptr != NULL; ptr = ptr->next)
+    {
+      fprintf (f, "\ttu [label=\"translation unit\"]\n");
+      fprintf (f, "\ttu -> %lu;\n", (unsigned long) ptr->ed);
+      fprintf (f, "\t%lu [label=\"external declaration\"]\n",
+               (unsigned long) ptr->ed);
+      ptr->ed->dot_create (ptr->ed, f);
+    }
+
+  fprintf (f, "}\n");
 }

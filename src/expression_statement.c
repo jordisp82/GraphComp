@@ -40,4 +40,3 @@ expression_statement_2 (void *ptr)
 
   return buff;
 }
-

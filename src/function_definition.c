@@ -62,4 +62,3 @@ function_definition_2 (void *ptr1, void *ptr2, void *ptr3)
 
   return buff;
 }
-

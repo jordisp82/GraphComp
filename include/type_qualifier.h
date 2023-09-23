@@ -28,6 +28,7 @@ struct type_qualifier
 {
   node_kind_t kind;
   tq_kind_t tq_kind;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

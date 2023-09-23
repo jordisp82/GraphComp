@@ -157,4 +157,3 @@ iteration_statement_6 (void *ptr1, void *ptr2, void *ptr3, void *ptr4)
 
   return buff;
 }
-

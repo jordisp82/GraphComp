@@ -31,6 +31,7 @@ struct storage_class_specifier
 {
   node_kind_t kind;
   stg_kind_t value;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

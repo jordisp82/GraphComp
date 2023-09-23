@@ -99,4 +99,3 @@ initializer_list_4 (void *ptr1, void *ptr2)
 
   return buff;
 }
-

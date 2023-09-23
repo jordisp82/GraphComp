@@ -21,6 +21,7 @@ struct init_declarator_list
     struct init_declarator *id;
     struct idl_node *next;
   } *first, *last;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

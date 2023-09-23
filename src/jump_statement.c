@@ -77,4 +77,3 @@ jump_statement_5 (void *ptr)
 
   return buff;
 }
-

@@ -65,4 +65,3 @@ abstract_declarator_3 (void *ptr)
 
   return buff;
 }
-

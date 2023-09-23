@@ -59,6 +59,7 @@ struct type_specifier
     struct enum_specifier *es;
     const char *typedef_name;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

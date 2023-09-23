@@ -46,4 +46,3 @@ identifier_list_2 (void *ptr1, const char *str)
 
   return buff;
 }
-

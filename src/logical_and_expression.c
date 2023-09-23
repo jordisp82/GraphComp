@@ -47,4 +47,3 @@ logical_and_expression_2 (void *ptr1, void *ptr2)
 
   return buff;
 }
-
