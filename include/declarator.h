@@ -29,6 +29,7 @@ struct declarator
   dclr_kind_t dclr_kind;
   struct pointer *ptr;
   struct direct_declarator *ddclr;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

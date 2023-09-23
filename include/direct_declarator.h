@@ -36,16 +36,9 @@ struct direct_declarator
   struct assignment_expression *ass;
   struct parameter_type_list *ptl;
   struct identifier_list *il;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };
-
-#if 0
-symbol_t *create_symbol_for_direct_declarator (struct direct_declarator
-                                               *buff);
-int create_symbols_for_func_pars (struct direct_declarator *buff,
-                                  symbol_t *** sym_pars);
-void set_direct_declarator_scope (struct direct_declarator *buff);
-#endif
 
 #endif

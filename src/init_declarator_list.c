@@ -75,6 +75,6 @@ local_dot_create (void *Node, void *F)
                (unsigned long) ptr->id);
       fprintf (f, "\t%lu [label=\"init declarator\"]\n",
                (unsigned long) ptr->id);
-      /* todo */
+      ptr->id->dot_create (ptr->id, f);
     }
 }

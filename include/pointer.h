@@ -30,6 +30,7 @@ struct pointer
   pointer_kind_t ptr_kind;
   struct type_qualifier_list *tql;
   struct pointer *ptr;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

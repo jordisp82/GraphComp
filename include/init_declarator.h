@@ -18,6 +18,7 @@ struct init_declarator
   node_kind_t kind;
   struct declarator *dclr;
   struct initializer *itz;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };
