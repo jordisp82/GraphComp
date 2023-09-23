@@ -10,9 +10,6 @@
 #define NULL ((void*)0)
 #endif
 
-static void tq_create_symtable (struct type_qualifier *buff);
-static void tq_create_symbol (struct type_qualifier *buff);
-
 struct type_qualifier *
 type_qualifier_1 (void)
 {
@@ -20,8 +17,6 @@ type_qualifier_1 (void)
   assert (buff != NULL);
   buff->kind = NODE_TYPE_QUALIFIER;
   buff->tq_kind = TQ_CONST;
-  buff->create_symtable = tq_create_symtable;
-  buff->create_symbol = tq_create_symbol;
 
   return buff;
 }
@@ -33,8 +28,6 @@ type_qualifier_2 (void)
   assert (buff != NULL);
   buff->kind = NODE_TYPE_QUALIFIER;
   buff->tq_kind = TQ_RESTRICT;
-  buff->create_symtable = tq_create_symtable;
-  buff->create_symbol = tq_create_symbol;
 
   return buff;
 }
@@ -46,8 +39,6 @@ type_qualifier_3 (void)
   assert (buff != NULL);
   buff->kind = NODE_TYPE_QUALIFIER;
   buff->tq_kind = TQ_VOLATILE;
-  buff->create_symtable = tq_create_symtable;
-  buff->create_symbol = tq_create_symbol;
 
   return buff;
 }
@@ -59,46 +50,6 @@ type_qualifier_4 (void)
   assert (buff != NULL);
   buff->kind = NODE_TYPE_QUALIFIER;
   buff->tq_kind = TQ_ATOMIC;
-  buff->create_symtable = tq_create_symtable;
-  buff->create_symbol = tq_create_symbol;
 
   return buff;
-}
-
-static void
-tq_create_symtable (struct type_qualifier *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_TYPE_QUALIFIER);
-
-  switch (buff->parent_kind)
-    {
-    case NODE_DECLARATION_SPECIFIERS:
-      buff->sym_table =
-        ((struct declaration_specifiers *) (buff->parent))->sym_table;
-      break;
-
-    case NODE_SPECIFIER_QUALIFIER_LIST:
-      buff->sym_table =
-        ((struct specifier_qualifier_list *) (buff->parent))->sym_table;
-      break;
-
-    case NODE_TYPE_QUALIFIER_LIST:
-      buff->sym_table =
-        ((struct type_qualifier_list *) (buff->parent))->sym_table;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
-}
-
-static void
-tq_create_symbol (struct type_qualifier *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_TYPE_QUALIFIER);
-  assert (buff->sym_table != NULL);
-
-  /* nothing to do */
 }

@@ -9,9 +9,6 @@
 #define NULL ((void*)0)
 #endif
 
-static void sdl_create_symtable (struct struct_declarator_list *buff);
-static void sdl_create_symbol (struct struct_declarator_list *buff);
-
 struct struct_declarator_list *
 struct_declarator_list_1 (void *ptr)
 {
@@ -27,8 +24,6 @@ struct_declarator_list_1 (void *ptr)
   buff->first->sd = ptr;
   buff->first->sd->parent_kind = NODE_STRUCT_DECLARATOR_LIST;
   buff->first->sd->parent = buff;
-  buff->create_symtable = sdl_create_symtable;
-  buff->create_symbol = sdl_create_symbol;
 
   return buff;
 }
@@ -48,45 +43,6 @@ struct_declarator_list_2 (void *ptr1, void *ptr2)
   buff->last->sd = d;
   d->parent_kind = NODE_STRUCT_DECLARATOR_LIST;
   d->parent = buff;
-  buff->create_symtable = sdl_create_symtable;
-  buff->create_symbol = sdl_create_symbol;
 
   return buff;
-}
-
-static void
-sdl_create_symtable (struct struct_declarator_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_STRUCT_DECLARATOR_LIST);
-
-  switch (buff->parent_kind)
-    {
-    case NODE_STRUCT_DECLARATOR_LIST:
-      buff->sym_table =
-        ((struct struct_declarator_list *) (buff->parent))->sym_table;
-      break;
-
-    case NODE_STRUCT_DECLARATION:
-      buff->sym_table =
-        ((struct struct_declaration *) (buff->parent))->sym_table;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
-
-  for (struct sdl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    ptr->sd->create_symtable (ptr->sd);
-}
-
-static void
-sdl_create_symbol (struct struct_declarator_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_STRUCT_DECLARATOR_LIST);
-  assert (buff->sym_table != NULL);
-
-  for (struct sdl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    ptr->sd->create_symbol (ptr->sd);
 }

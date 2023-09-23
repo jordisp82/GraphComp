@@ -9,9 +9,6 @@
 #define NULL ((void*)0)
 #endif
 
-static void ss_create_symtable (struct selection_statement *buff);
-static void ss_create_symbol (struct selection_statement *buff);
-
 struct selection_statement *
 selection_statement_1 (void *ptr1, void *ptr2, void *ptr3)
 {
@@ -30,8 +27,6 @@ selection_statement_1 (void *ptr1, void *ptr2, void *ptr3)
   buff->ex->parent_kind = buff->st1->parent_kind = buff->st2->parent_kind =
     NODE_SELECTION_STATEMENT;
   buff->ex->parent = buff->st1->parent = buff->st2->parent = buff;
-  buff->create_symtable = ss_create_symtable;
-  buff->create_symbol = ss_create_symbol;
 
   return buff;
 }
@@ -51,8 +46,6 @@ selection_statement_2 (void *ptr1, void *ptr2)
   buff->st1 = ptr2;
   buff->ex->parent_kind = buff->st1->parent_kind = NODE_SELECTION_STATEMENT;
   buff->ex->parent = buff->st1->parent = buff;
-  buff->create_symtable = ss_create_symtable;
-  buff->create_symbol = ss_create_symbol;
 
   return buff;
 }
@@ -72,38 +65,6 @@ selection_statement_3 (void *ptr1, void *ptr2)
   buff->st1 = ptr2;
   buff->ex->parent_kind = buff->st1->parent_kind = NODE_SELECTION_STATEMENT;
   buff->ex->parent = buff->st1->parent = buff;
-  buff->create_symtable = ss_create_symtable;
-  buff->create_symbol = ss_create_symbol;
 
   return buff;
-}
-
-static void
-ss_create_symtable (struct selection_statement *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_SELECTION_STATEMENT);
-
-  buff->sym_table = ((struct statement *) (buff->parent))->sym_table;
-  if (buff->ex != NULL)
-    buff->ex->create_symtable (buff->ex);
-  if (buff->st1 != NULL)
-    buff->st1->create_symtable (buff->st1);
-  if (buff->st2 != NULL)
-    buff->st2->create_symtable (buff->st2);
-}
-
-static void
-ss_create_symbol (struct selection_statement *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_SELECTION_STATEMENT);
-  assert (buff->sym_table != NULL);
-
-  if (buff->ex != NULL)
-    buff->ex->create_symbol (buff->ex);
-  if (buff->st1 != NULL)
-    buff->st1->create_symtable (buff->st1);
-  if (buff->st2 != NULL)
-    buff->st2->create_symtable (buff->st2);
 }

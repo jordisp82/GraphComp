@@ -9,9 +9,6 @@
 #define NULL ((void*)0)
 #endif
 
-static void dl_create_symtable (struct declaration_list *buff);
-static void dl_create_symbol (struct declaration_list *buff);
-
 struct declaration_list *
 declaration_list_1 (void *ptr)
 {
@@ -27,8 +24,6 @@ declaration_list_1 (void *ptr)
   buff->first->dl = ptr;
   buff->first->dl->parent_kind = NODE_DECLARATION_LIST;
   buff->first->dl->parent = buff;
-  buff->create_symtable = dl_create_symtable;
-  buff->create_symbol = dl_create_symbol;
 
   return buff;
 }
@@ -48,33 +43,6 @@ declaration_list_2 (void *ptr1, void *ptr2)
   buff->last->dl = dl;
   dl->parent_kind = NODE_DECLARATION_LIST;
   dl->parent = buff;
-  buff->create_symtable = dl_create_symtable;
-  buff->create_symbol = dl_create_symbol;
 
   return buff;
-}
-
-static void
-dl_create_symtable (struct declaration_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DECLARATION_LIST);
-
-  buff->sym_table =
-    ((struct function_definition *) (buff->parent))->sym_table;
-  for (struct dl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    ptr->dl->create_symtable (ptr->dl);
-}
-
-static void
-dl_create_symbol (struct declaration_list *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DECLARATION_LIST);
-  assert (buff->sym_table != NULL);
-
-  buff->sym_table =
-    ((struct function_definition *) (buff->parent))->sym_table;
-  for (struct dl_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    ptr->dl->create_symbol (ptr->dl);
 }

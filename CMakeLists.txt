@@ -11,7 +11,6 @@ add_executable(GraphComp
     src/assignment_operator.c
     src/ast.c
     src/atomic_type_specifier.c
-    src/avl_tree.c
     src/block_item_list.c
     src/block_item.c
     src/cast_expression.c
@@ -51,10 +50,6 @@ add_executable(GraphComp
     src/logical_and_expression.c
     src/logical_or_expression.c
     src/main.c
-    src/misra.c
-    src/misra_5_3.c
-    src/misra_5_6.c
-    src/misra_5_7.c
     src/multiplicative_expression.c
     src/parameter_declaration.c
     src/parameter_list.c

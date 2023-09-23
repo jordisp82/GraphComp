@@ -10,9 +10,6 @@
 #define NULL ((void*)0)
 #endif
 
-static void p_create_symtable (struct pointer *buff);
-static void p_create_symbol (struct pointer *buff);
-
 struct pointer *
 pointer_1 (void *ptr1, void *ptr2)
 {
@@ -27,8 +24,6 @@ pointer_1 (void *ptr1, void *ptr2)
   buff->ptr = ptr2;
   buff->tql->parent_kind = buff->ptr->parent_kind = NODE_POINTER;
   buff->tql->parent = buff->ptr->parent = buff;
-  buff->create_symtable = p_create_symtable;
-  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -45,8 +40,6 @@ pointer_2 (void *ptr)
   buff->tql = ptr;
   buff->tql->parent_kind = NODE_POINTER;
   buff->tql->parent = buff;
-  buff->create_symtable = p_create_symtable;
-  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -63,8 +56,6 @@ pointer_3 (void *ptr)
   buff->ptr = ptr;
   buff->ptr->parent_kind = NODE_POINTER;
   buff->ptr->parent = buff;
-  buff->create_symtable = p_create_symtable;
-  buff->create_symbol = p_create_symbol;
 
   return buff;
 }
@@ -76,52 +67,6 @@ pointer_4 (void)
   assert (buff != NULL);
   buff->kind = NODE_POINTER;
   buff->ptr_kind = PTR_EMPTY;
-  buff->create_symtable = p_create_symtable;
-  buff->create_symbol = p_create_symbol;
 
   return buff;
-}
-
-static void
-p_create_symtable (struct pointer *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_POINTER);
-
-  switch (buff->parent_kind)
-    {
-    case NODE_POINTER:
-      buff->sym_table = ((struct pointer *) (buff->parent))->sym_table;
-      break;
-
-    case NODE_DECLARATOR:
-      buff->sym_table = ((struct declarator *) (buff->parent))->sym_table;
-      break;
-
-    case NODE_ABSTRACT_DECLARATOR:
-      buff->sym_table =
-        ((struct abstract_declarator *) (buff->parent))->sym_table;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
-
-  if (buff->tql != NULL)
-    buff->tql->create_symtable (buff->tql);
-  if (buff->ptr != NULL)
-    buff->ptr->create_symtable (buff->ptr);
-}
-
-static void
-p_create_symbol (struct pointer *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_POINTER);
-  assert (buff->sym_table != NULL);
-
-  if (buff->tql != NULL)
-    buff->tql->create_symbol (buff->tql);
-  if (buff->ptr != NULL)
-    buff->ptr->create_symbol (buff->ptr);
 }

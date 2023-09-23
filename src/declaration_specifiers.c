@@ -15,9 +15,6 @@
 #define NULL ((void*)0)
 #endif
 
-static void ds_create_symtable (struct declaration_specifiers *buff);
-static void ds_create_symbol (struct declaration_specifiers *buff);
-
 struct declaration_specifiers *
 declaration_specifiers_1 (void *ptr1, void *ptr2)
 {
@@ -34,8 +31,6 @@ declaration_specifiers_1 (void *ptr1, void *ptr2)
   buff->last->stg = stg;
   stg->parent_kind = NODE_DECLARATION_SPECIFIERS;
   stg->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -56,8 +51,6 @@ declaration_specifiers_2 (void *ptr)
   buff->first->stg = ptr;
   buff->first->stg->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->stg->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -78,8 +71,6 @@ declaration_specifiers_3 (void *ptr1, void *ptr2)
   buff->last->ts = ts;
   ts->parent_kind = NODE_DECLARATION_SPECIFIERS;
   ts->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -100,8 +91,6 @@ declaration_specifiers_4 (void *ptr)
   buff->first->ts = ptr;
   buff->first->ts->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->ts->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -122,8 +111,6 @@ declaration_specifiers_5 (void *ptr1, void *ptr2)
   buff->last->tq = tq;
   tq->parent_kind = NODE_DECLARATION_SPECIFIERS;
   tq->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -144,8 +131,6 @@ declaration_specifiers_6 (void *ptr)
   buff->first->tq = ptr;
   buff->first->tq->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->tq->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -166,8 +151,6 @@ declaration_specifiers_7 (void *ptr1, void *ptr2)
   buff->last->fs = fs;
   fs->parent_kind = NODE_DECLARATION_SPECIFIERS;
   fs->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -188,8 +171,6 @@ declaration_specifiers_8 (void *ptr)
   buff->first->fs = ptr;
   buff->first->fs->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->fs->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -210,8 +191,6 @@ declaration_specifiers_9 (void *ptr1, void *ptr2)
   buff->last->as = as;
   as->parent_kind = NODE_DECLARATION_SPECIFIERS;
   as->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
 }
@@ -232,99 +211,8 @@ declaration_specifiers_10 (void *ptr)
   buff->first->as = ptr;
   buff->first->as->parent_kind = NODE_DECLARATION_SPECIFIERS;
   buff->first->as->parent = buff;
-  buff->create_symtable = ds_create_symtable;
-  buff->create_symbol = ds_create_symbol;
 
   return buff;
-}
-
-static void
-ds_create_symtable (struct declaration_specifiers *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DECLARATION_SPECIFIERS);
-
-  switch (buff->parent_kind)
-    {
-    case NODE_DECLARATION:
-      buff->sym_table = ((struct declaration *) (buff->parent))->sym_table;
-      break;
-
-    case NODE_PARAMETER_DECLARATION:
-      buff->sym_table =
-        ((struct parameter_declaration *) (buff->parent))->sym_table;
-      break;
-
-    case NODE_FUNCTION_DEFINITION:
-      buff->sym_table =
-        ((struct function_definition *) (buff->parent))->sym_table;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
-
-  for (struct ds_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    switch (ptr->ds_kind)
-      {
-      case NODE_STORAGE_CLASS_SPECIFIER:
-        ptr->stg->create_symtable (ptr->stg);
-        break;
-
-      case NODE_TYPE_SPECIFIER:
-        ptr->ts->create_symtable (ptr->ts);
-        break;
-
-      case NODE_TYPE_QUALIFIER:
-        ptr->tq->create_symtable (ptr->tq);
-        break;
-
-      case NODE_FUNCTION_SPECIFIER:
-        ptr->fs->create_symtable (ptr->fs);
-        break;
-
-      case NODE_ALIGNMENT_SPECIFIER:
-        ptr->as->create_symtable (ptr->as);
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
-}
-
-static void
-ds_create_symbol (struct declaration_specifiers *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DECLARATION_SPECIFIERS);
-  assert (buff->sym_table != NULL);
-
-  for (struct ds_node * ptr = buff->first; ptr != NULL; ptr = ptr->next)
-    switch (ptr->ds_kind)
-      {
-      case NODE_STORAGE_CLASS_SPECIFIER:
-        ptr->stg->create_symbol (ptr->stg);
-        break;
-
-      case NODE_TYPE_SPECIFIER:
-        ptr->ts->create_symbol (ptr->ts);
-        break;
-
-      case NODE_TYPE_QUALIFIER:
-        ptr->tq->create_symbol (ptr->tq);
-        break;
-
-      case NODE_FUNCTION_SPECIFIER:
-        ptr->fs->create_symbol (ptr->fs);
-        break;
-
-      case NODE_ALIGNMENT_SPECIFIER:
-        ptr->as->create_symbol (ptr->as);
-        break;
-
-      default:
-        ;                       /* BUG! */
-      }
 }
 
 int

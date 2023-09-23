@@ -12,9 +12,6 @@
 #define NULL ((void*)0)
 #endif
 
-static void dad_create_symtable (struct direct_abstract_declarator *buff);
-static void dad_create_symbol (struct direct_abstract_declarator *buff);
-
 struct direct_abstract_declarator *
 direct_abstract_declarator_1 (void *ptr)
 {
@@ -28,8 +25,6 @@ direct_abstract_declarator_1 (void *ptr)
   buff->adclr = ptr;
   buff->adclr->parent_kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->adclr->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -42,8 +37,6 @@ direct_abstract_declarator_2 (void)
   assert (buff);
   buff->kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->n_prod = 2;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -56,8 +49,6 @@ direct_abstract_declarator_3 (void)
   assert (buff);
   buff->kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->n_prod = 3;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -78,8 +69,6 @@ direct_abstract_declarator_4 (void *ptr1, void *ptr2)
   buff->tql->parent_kind = buff->ass->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->tql->parent = buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -97,8 +86,6 @@ direct_abstract_declarator_5 (void *ptr)
   buff->ass = ptr;
   buff->ass->parent_kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -119,8 +106,6 @@ direct_abstract_declarator_6 (void *ptr1, void *ptr2)
   buff->tql->parent_kind = buff->ass->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->tql->parent = buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -141,8 +126,6 @@ direct_abstract_declarator_7 (void *ptr1, void *ptr2)
   buff->tql->parent_kind = buff->ass->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->tql->parent = buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -160,8 +143,6 @@ direct_abstract_declarator_8 (void *ptr)
   buff->tql = ptr;
   buff->tql->parent_kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->tql->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -179,8 +160,6 @@ direct_abstract_declarator_9 (void *ptr)
   buff->ass = ptr;
   buff->ass->parent_kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -198,8 +177,6 @@ direct_abstract_declarator_10 (void *ptr)
   buff->dad = ptr;
   buff->dad->parent_kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -217,8 +194,6 @@ direct_abstract_declarator_11 (void *ptr)
   buff->dad = ptr;
   buff->dad->parent_kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -241,8 +216,6 @@ direct_abstract_declarator_12 (void *ptr1, void *ptr2, void *ptr3)
   buff->dad->parent_kind = buff->tql->parent_kind = buff->ass->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff->tql->parent = buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -263,8 +236,6 @@ direct_abstract_declarator_13 (void *ptr1, void *ptr2)
   buff->dad->parent_kind = buff->ass->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -287,8 +258,6 @@ direct_abstract_declarator_14 (void *ptr1, void *ptr2, void *ptr3)
   buff->dad->parent_kind = buff->tql->parent_kind = buff->ass->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff->tql->parent = buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -311,8 +280,6 @@ direct_abstract_declarator_15 (void *ptr1, void *ptr2, void *ptr3)
   buff->dad->parent_kind = buff->tql->parent_kind = buff->ass->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff->tql->parent = buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -333,8 +300,6 @@ direct_abstract_declarator_16 (void *ptr1, void *ptr2)
   buff->dad->parent_kind = buff->tql->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff->tql->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -355,8 +320,6 @@ direct_abstract_declarator_17 (void *ptr1, void *ptr2)
   buff->dad->parent_kind = buff->ass->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff->ass->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -369,8 +332,6 @@ direct_abstract_declarator_18 (void)
   assert (buff);
   buff->kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->n_prod = 18;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -388,8 +349,6 @@ direct_abstract_declarator_19 (void *ptr)
   buff->ptl = ptr;
   buff->ptl->parent_kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->ptl->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -407,8 +366,6 @@ direct_abstract_declarator_20 (void *ptr)
   buff->dad = ptr;
   buff->dad->parent_kind = NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
 }
@@ -429,61 +386,6 @@ direct_abstract_declarator_21 (void *ptr1, void *ptr2)
   buff->dad->parent_kind = buff->ptl->parent_kind =
     NODE_DIRECT_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff->ptl->parent = buff;
-  buff->create_symtable = dad_create_symtable;
-  buff->create_symbol = dad_create_symbol;
 
   return buff;
-}
-
-static void
-dad_create_symtable (struct direct_abstract_declarator *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DIRECT_ABSTRACT_DECLARATOR);
-
-  switch (buff->parent_kind)
-    {
-    case NODE_ABSTRACT_DECLARATOR:
-      buff->sym_table =
-        ((struct abstract_declarator *) (buff->parent))->sym_table;
-      break;
-
-    case NODE_DIRECT_ABSTRACT_DECLARATOR:
-      buff->sym_table =
-        ((struct direct_abstract_declarator *) (buff->parent))->sym_table;
-      break;
-
-    default:
-      ;                         /* BUG! */
-    }
-
-  if (buff->adclr != NULL)
-    buff->adclr->create_symtable (buff->adclr);
-  if (buff->tql != NULL)
-    buff->tql->create_symtable (buff->tql);
-  if (buff->ass != NULL)
-    buff->ass->create_symtable (buff->ass);
-  if (buff->ptl != NULL)
-    buff->ptl->create_symtable (buff->ptl);
-  if (buff->dad != NULL)
-    buff->dad->create_symtable (buff->dad);
-}
-
-static void
-dad_create_symbol (struct direct_abstract_declarator *buff)
-{
-  assert (buff != NULL);
-  assert (buff->kind == NODE_DIRECT_ABSTRACT_DECLARATOR);
-  assert (buff->sym_table != NULL);
-
-  if (buff->adclr != NULL)
-    buff->adclr->create_symbol (buff->adclr);
-  if (buff->tql != NULL)
-    buff->tql->create_symbol (buff->tql);
-  if (buff->ass != NULL)
-    buff->ass->create_symbol (buff->ass);
-  if (buff->ptl != NULL)
-    buff->ptl->create_symbol (buff->ptl);
-  if (buff->dad != NULL)
-    buff->dad->create_symbol (buff->dad);
 }
