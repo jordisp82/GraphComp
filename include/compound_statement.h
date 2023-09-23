@@ -18,7 +18,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -31,11 +30,8 @@ struct compound_statement
   node_kind_t kind;
   cs_kind_t cs_kind;
   struct block_item_list *bil;  /* only for CS_BLOCK_ITEM_LIST */
-  struct symtable *sym_table;
-  void (*create_symtable) (struct compound_statement * buff);
-  void (*create_symbol) (struct compound_statement * buff);
   node_kind_t parent_kind;
-  void *parent;                 /* void * for now */
+  void *parent;
 };
 
 #endif

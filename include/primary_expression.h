@@ -17,8 +17,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symbol.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -40,10 +38,6 @@ struct primary_expression
     struct string *s;
     struct expression *e;
   };
-  struct symtable *sym_table;
-  void (*create_symtable) (struct primary_expression * buff);
-  symbol_t *sym;                /* only for an identifier */
-  void (*create_symbol) (struct primary_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };

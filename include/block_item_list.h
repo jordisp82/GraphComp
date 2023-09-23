@@ -21,9 +21,6 @@ struct block_item_list
     struct block_item *block_item;
     struct bil_node *next;
   } *first, *last;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct block_item_list * buff);
-  void (*create_symbol) (struct block_item_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

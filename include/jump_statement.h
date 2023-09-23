@@ -15,7 +15,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -35,9 +34,6 @@ struct jump_statement
     const char *id;             // only JS_GOTO
     struct expression *exp;     // only JS_RETURN_EXP
   };
-  struct symtable *sym_table;
-  void (*create_symtable) (struct jump_statement * buff);
-  void (*create_symbol) (struct jump_statement * buff);
   node_kind_t parent_kind;
   void *parent;
 };

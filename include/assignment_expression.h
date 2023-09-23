@@ -17,7 +17,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct assignment_expression
 {
@@ -26,9 +25,6 @@ struct assignment_expression
   struct unary_expression *un_expr;
   struct assignment_operator *ass_op;
   struct assignment_expression *ass_e;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct assignment_expression * buff);
-  void (*create_symbol) (struct assignment_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };

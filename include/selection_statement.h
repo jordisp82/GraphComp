@@ -13,7 +13,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -29,9 +28,6 @@ struct selection_statement
   struct expression *ex;
   struct statement *st1;
   struct statement *st2;        // only if SS_IF_ELSE
-  struct symtable *sym_table;
-  void (*create_symtable) (struct selection_statement * buff);
-  void (*create_symbol) (struct selection_statement * buff);
   node_kind_t parent_kind;
   void *parent;
 };

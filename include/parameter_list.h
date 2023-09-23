@@ -12,7 +12,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct parameter_list
 {
@@ -22,9 +21,6 @@ struct parameter_list
     struct parameter_declaration *pd;
     struct pl_node *next;
   } *first, *last;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct parameter_list * buff);
-  void (*create_symbol) (struct parameter_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

@@ -15,16 +15,12 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct enum_specifier
 {
   node_kind_t kind;
   const char *tag;
   struct enumerator_list *el;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct enum_specifier * buff);
-  void (*create_symbol) (struct enum_specifier * buff);
   node_kind_t parent_kind;
   void *parent;
 };

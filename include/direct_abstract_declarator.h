@@ -31,7 +31,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct direct_abstract_declarator
 {
@@ -42,9 +41,6 @@ struct direct_abstract_declarator
   struct assignment_expression *ass;
   struct parameter_type_list *ptl;
   struct direct_abstract_declarator *dad;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct direct_abstract_declarator * buff);
-  void (*create_symbol) (struct direct_abstract_declarator * buff);
   node_kind_t parent_kind;
   void *parent;
 };

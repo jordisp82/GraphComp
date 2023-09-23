@@ -19,7 +19,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct statement
 {
@@ -34,9 +33,6 @@ struct statement
     struct iteration_statement *is;
     struct jump_statement *js;
   };
-  struct symtable *sym_table;
-  void (*create_symtable) (struct statement * buff);
-  void (*create_symbol) (struct statement * buff);
   node_kind_t parent_kind;
   void *parent;
 };

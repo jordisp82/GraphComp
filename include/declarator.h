@@ -16,7 +16,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -30,9 +29,6 @@ struct declarator
   dclr_kind_t dclr_kind;
   struct pointer *ptr;
   struct direct_declarator *ddclr;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct declarator * buff);
-  void (*create_symbol) (struct declarator * buff);
   node_kind_t parent_kind;
   void *parent;
 };

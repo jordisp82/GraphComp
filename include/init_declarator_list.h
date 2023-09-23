@@ -21,9 +21,6 @@ struct init_declarator_list
     struct init_declarator *id;
     struct idl_node *next;
   } *first, *last;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct init_declarator_list * buff);
-  void (*create_symbol) (struct init_declarator_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

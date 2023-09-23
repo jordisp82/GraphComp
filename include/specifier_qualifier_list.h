@@ -15,7 +15,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -36,9 +35,6 @@ struct specifier_qualifier_list
     };
     struct sql_node *next;
   } *first, *last;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct specifier_qualifier_list * buff);
-  void (*create_symbol) (struct specifier_qualifier_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

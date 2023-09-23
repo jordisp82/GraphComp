@@ -13,7 +13,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -28,9 +27,6 @@ struct additive_expression
   add_kind_t add_kind;
   struct multiplicative_expression *mult_ex;
   struct additive_expression *add_ex;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct additive_expression * buff);
-  void (*create_symbol) (struct additive_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };

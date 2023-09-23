@@ -16,7 +16,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct declaration
 {
@@ -24,9 +23,6 @@ struct declaration
   struct declaration_specifiers *ds;
   struct init_declarator_list *idl;
   struct static_assert_declaration *sad;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct declaration * buff);
-  void (*create_symbol) (struct declaration * buff);
   node_kind_t parent_kind;
   void *parent;
 };

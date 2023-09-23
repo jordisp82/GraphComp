@@ -13,8 +13,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
-#include "symbol.h"
 
 typedef enum
 {
@@ -33,10 +31,6 @@ struct constant
     int integer;
     double floating;
   };
-  struct symtable *sym_table;
-  void (*create_symtable) (struct constant * buff);
-  symbol_t *sym;                /* only for an enumeration constant */
-  void (*create_symbol) (struct constant * buff);
   node_kind_t parent_kind;
   void *parent;
 };

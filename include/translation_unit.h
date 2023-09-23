@@ -15,8 +15,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-//#include "avl_tree.h"
-#include "symtable.h"
 
 struct translation_unit
 {
@@ -26,9 +24,6 @@ struct translation_unit
     struct external_declaration *ed;
     struct tu_node *next;
   } *first, *last;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct translation_unit * buff);
-  void (*create_symbol) (struct translation_unit * buff);
 };
 
 #endif

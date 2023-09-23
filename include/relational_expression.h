@@ -15,7 +15,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -32,9 +31,6 @@ struct relational_expression
   rel_kind_t rel_kind;
   struct shift_expression *sh_ex;
   struct relational_expression *relex;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct relational_expression * buff);
-  void (*create_symbol) (struct relational_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };

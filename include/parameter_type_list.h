@@ -20,9 +20,6 @@ struct parameter_type_list
   node_kind_t kind;
   struct parameter_list *pl;
   int ellipsis;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct parameter_type_list * buff);
-  void (*create_symbol) (struct parameter_type_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

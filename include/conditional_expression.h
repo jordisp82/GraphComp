@@ -13,7 +13,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct conditional_expression
 {
@@ -21,9 +20,6 @@ struct conditional_expression
   struct logical_or_expression *l_expr;
   struct expression *expr;
   struct conditional_expression *cond_e;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct conditional_expression * buff);
-  void (*create_symbol) (struct conditional_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };

@@ -12,7 +12,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct block_item
 {
@@ -23,9 +22,6 @@ struct block_item
     struct declaration *d;
     struct statement *s;
   };
-  struct symtable *sym_table;
-  void (*create_symtable) (struct block_item * buff);
-  void (*create_symbol) (struct block_item * buff);
   node_kind_t parent_kind;
   void *parent;
 };

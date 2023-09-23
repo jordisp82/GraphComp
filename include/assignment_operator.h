@@ -21,7 +21,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -42,9 +41,6 @@ struct assignment_operator
 {
   node_kind_t kind;
   assop_kind_t ass_op;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct assignment_operator * buff);
-  void (*create_symbol) (struct assignment_operator * buff);
   node_kind_t parent_kind;
   void *parent;
 };

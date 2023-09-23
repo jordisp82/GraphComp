@@ -13,7 +13,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -32,9 +31,6 @@ struct labeled_statement
     struct constant_expression *ce;     // only for LABEL_CASE
   };
   struct statement *s;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct labeled_statement * buff);
-  void (*create_symbol) (struct labeled_statement * buff);
   node_kind_t parent_kind;
   void *parent;
 };

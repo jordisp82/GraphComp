@@ -24,8 +24,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symbol.h"
-#include "symtable.h"
 
 struct direct_declarator
 {
@@ -38,10 +36,6 @@ struct direct_declarator
   struct assignment_expression *ass;
   struct parameter_type_list *ptl;
   struct identifier_list *il;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct direct_declarator * buff);
-  struct symbol *sym;
-  void (*create_symbol) (struct direct_declarator * buff);
   node_kind_t parent_kind;
   void *parent;
 };

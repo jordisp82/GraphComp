@@ -12,7 +12,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct argument_expression_list
 {
@@ -22,9 +21,6 @@ struct argument_expression_list
     struct assignment_expression *ass;
     struct ael_node *next;
   } *first, *last;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct argument_expression_list * buff);
-  void (*create_symbol) (struct argument_expression_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

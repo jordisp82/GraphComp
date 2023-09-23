@@ -15,7 +15,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -33,9 +32,6 @@ struct initializer_list
     struct initializer *i;
     struct il_node *next;
   } *first, *last;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct initializer_list * buff);
-  void (*create_symbol) (struct initializer_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

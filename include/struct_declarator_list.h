@@ -12,7 +12,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct struct_declarator_list
 {
@@ -22,9 +21,6 @@ struct struct_declarator_list
     struct struct_declarator *sd;
     struct sdl_node *next;
   } *first, *last;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct struct_declarator_list * buff);
-  void (*create_symbol) (struct struct_declarator_list * buff);
   node_kind_t parent_kind;
   void *parent;
 };

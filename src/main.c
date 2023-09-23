@@ -36,8 +36,6 @@ main (int argc, char *argv[])
           struct translation_unit *ast = NULL;
           yyin = fopen (dst, "r");
           yyparse ((void **) &ast);
-          ast->create_symtable (ast);
-          check_misra (ast);
         }
     }
 

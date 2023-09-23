@@ -12,7 +12,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -29,9 +28,6 @@ struct designator
     struct constant_expression *ex;
     const char *str;
   };
-  struct symtable *sym_table;
-  void (*create_symtable) (struct designator * buff);
-  void (*create_symbol) (struct designator * buff);
   node_kind_t parent_kind;
   void *parent;
 };

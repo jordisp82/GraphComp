@@ -18,7 +18,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -40,9 +39,6 @@ struct unary_expression
   struct unary_operator *unop;
   struct cast_expression *cex;
   struct type_name *tn;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct unary_expression * buff);
-  void (*create_symbol) (struct unary_expression * buff);
   node_kind_t parent_kind;
   void *parent;
 };

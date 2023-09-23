@@ -13,7 +13,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 struct struct_declaration
 {
@@ -21,9 +20,6 @@ struct struct_declaration
   struct specifier_qualifier_list *sql;
   struct struct_declarator_list *sdl;
   struct static_assert_declaration *sad;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct struct_declaration * buff);
-  void (*create_symbol) (struct struct_declaration * buff);
   node_kind_t parent_kind;
   void *parent;
 };

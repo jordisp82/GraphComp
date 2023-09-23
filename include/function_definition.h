@@ -12,7 +12,6 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
-#include "symtable.h"
 
 typedef enum
 {
@@ -28,9 +27,6 @@ struct function_definition
   struct declarator *dr;
   struct declaration_list *dl;  // only non-NULL if fd_kind is FD_K_AND_R */
   struct compound_statement *cs;
-  struct symtable *sym_table;
-  void (*create_symtable) (struct function_definition * buff);
-  void (*create_symbol) (struct function_definition * buff);
   node_kind_t parent_kind;
   void *parent;
 };
