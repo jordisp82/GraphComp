@@ -27,6 +27,7 @@ add_executable(GraphComp
     src/designator.c
     src/direct_abstract_declarator.c
     src/direct_declarator.c
+    src/dot_create.c
     src/enum_specifier.c
     src/enumeration_constant.c
     src/enumerator_list.c

@@ -12,6 +12,7 @@
 #include "ast.h"
 #include "structs.h"
 #include "translation_unit.h"
+#include "dot_create.h"
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -35,6 +36,7 @@ main (int argc, char *argv[])
           struct translation_unit *ast = NULL;
           yyin = fopen (dst, "r");
           yyparse ((void **) &ast);
+          (void) dot_create (ast, "test.dot");
         }
     }
 
