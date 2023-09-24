@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "unary_expression.h"
@@ -15,6 +16,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct unary_expression *
 unary_expression_1 (void *ptr)
@@ -29,6 +32,8 @@ unary_expression_1 (void *ptr)
   buff->pex = ptr;
   buff->pex->parent_kind = NODE_UNARY_EXPRESSION;
   buff->pex->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -47,6 +52,8 @@ unary_expression_2 (void *ptr)
   buff->unex->parent_kind = NODE_UNARY_EXPRESSION;
   buff->unex->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
 }
 
@@ -63,6 +70,8 @@ unary_expression_3 (void *ptr)
   buff->unex = ptr;
   buff->unex->parent_kind = NODE_UNARY_EXPRESSION;
   buff->unex->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -83,6 +92,8 @@ unary_expression_4 (void *ptr1, void *ptr2)
   buff->unop->parent_kind = buff->cex->parent_kind = NODE_UNARY_EXPRESSION;
   buff->unop->parent = buff->cex->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
 }
 
@@ -99,6 +110,8 @@ unary_expression_5 (void *ptr)
   buff->unex = ptr;
   buff->unex->parent_kind = NODE_UNARY_EXPRESSION;
   buff->unex->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -117,6 +130,8 @@ unary_expression_6 (void *ptr)
   buff->tn->parent_kind = NODE_UNARY_EXPRESSION;
   buff->tn->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
 }
 
@@ -134,5 +149,117 @@ unary_expression_7 (void *ptr)
   buff->tn->parent_kind = NODE_UNARY_EXPRESSION;
   buff->tn->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct unary_expression *node = Node;
+  assert (node->kind == NODE_UNARY_EXPRESSION);
+  FILE *f = F;
+
+  switch (node->unary_kind)
+    {
+    case UNARY_POSTFIX:
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->pex);
+      fprintf (f, "\t%lu [label=\"postfix expression\"]\n",
+               (unsigned long) node->pex);
+      break;
+
+    case UNARY_INC:
+      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu0 [label=\"++\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->unex);
+      fprintf (f, "\t%lu [label=\"unary expression\"]\n",
+               (unsigned long) node->unex);
+      node->unex->dot_create (node->unex, f);
+      break;
+
+    case UNARY_DEC:
+      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu0 [label=\"--\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->unex);
+      fprintf (f, "\t%lu [label=\"unary expression\"]\n",
+               (unsigned long) node->unex);
+      node->unex->dot_create (node->unex, f);
+      break;
+
+    case UNARY_OP:
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->unop);
+      fprintf (f, "\t%lu [label=\"unary operator\"]\n",
+               (unsigned long) node->unop);
+      /* TODO */
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->cex);
+      fprintf (f, "\t%lu [label=\"cast expression\"]\n",
+               (unsigned long) node->cex);
+      /* TODO */
+      break;
+
+    case UNARY_SIZEOF1:
+      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu0 [label=\"sizeof\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->unex);
+      fprintf (f, "\t%lu [label=\"unary expression\"]\n",
+               (unsigned long) node->unex);
+      node->unex->dot_create (node->unex, f);
+      break;
+
+    case UNARY_SIZEOF2:
+      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu0 [label=\"sizeof\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu1;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu1 [label=\"(\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->tn);
+      fprintf (f, "\t%lu [label=\"typename\"]\n", (unsigned long) node->tn);
+      /* TODO */
+      fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu2 [label=\")\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      break;
+
+    case UNARY_ALIGNOF:
+      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu0 [label=\"_Alignof\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu1;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu1 [label=\"(\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->tn);
+      fprintf (f, "\t%lu [label=\"typename\"]\n", (unsigned long) node->tn);
+      /* TODO */
+      fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu2 [label=\")\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      break;
+
+    default:;                  /* BUG! */
+    }
 }

@@ -69,5 +69,40 @@ local_dot_create (void *Node, void *F)
   assert (Node != NULL);
   assert (F != NULL);
 
-  /* TODO */
+  struct assignment_expression *node = Node;
+  assert (node->kind == NODE_ASSIGNMENT_EXPRESSION);
+  FILE *f = F;
+
+  if (node->cond_e != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->cond_e);
+      fprintf (f, "\t%lu [label=\"conditional expression\"]\n",
+               (unsigned long) node->cond_e);
+      node->cond_e->dot_create (node->cond_e, f);
+    }
+  if (node->un_expr != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->un_expr);
+      fprintf (f, "\t%lu [label=\"unary expression\"]\n",
+               (unsigned long) node->un_expr);
+      node->un_expr->dot_create (node->un_expr, f);
+    }
+  if (node->ass_op != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->ass_op);
+      fprintf (f, "\t%lu [label=\"assignment operator\"]\n",
+               (unsigned long) node->ass_op);
+      node->ass_op->dot_create (node->ass_op, f);
+    }
+  if (node->ass_e != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->ass_e);
+      fprintf (f, "\t%lu [label=\"assignment expression\"]\n",
+               (unsigned long) node->ass_e);
+      node->ass_e->dot_create (node->ass_e, f);
+    }
 }

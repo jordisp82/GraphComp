@@ -19,6 +19,7 @@ struct parameter_type_list
   node_kind_t kind;
   struct parameter_list *pl;
   int ellipsis;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

@@ -20,6 +20,7 @@ struct conditional_expression
   struct logical_or_expression *l_expr;
   struct expression *expr;
   struct conditional_expression *cond_e;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

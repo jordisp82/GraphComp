@@ -39,6 +39,7 @@ struct unary_expression
   struct unary_operator *unop;
   struct cast_expression *cex;
   struct type_name *tn;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

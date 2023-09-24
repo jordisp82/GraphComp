@@ -477,7 +477,7 @@ do_child_3 (struct direct_declarator *node, FILE * f)
                (unsigned long) node->ass);
       fprintf (f, "\t%lu [label=\"assignment expression\"]\n",
                (unsigned long) node->ass);
-      /* TODO */
+      node->ass->dot_create (node->ass, f);
       break;
 
     case 12:
@@ -486,7 +486,7 @@ do_child_3 (struct direct_declarator *node, FILE * f)
                (unsigned long) node->ptl);
       fprintf (f, "\t%lu [label=\"parameter type list\"]\n",
                (unsigned long) node->ptl);
-      /* TODO */
+      node->ptl->dot_create (node->ptl, f);
       break;
 
     case 14:
@@ -495,7 +495,7 @@ do_child_3 (struct direct_declarator *node, FILE * f)
                (unsigned long) node->il);
       fprintf (f, "\t%lu [label=\"identifier list\"]\n",
                (unsigned long) node->il);
-      /* TODO */
+      node->il->dot_create (node->il, f);
       break;
 
     default:;                  /* BUG! */
@@ -539,7 +539,7 @@ do_child_4 (struct direct_declarator *node, FILE * f)
                (unsigned long) node->ass);
       fprintf (f, "\t%lu [label=\"assignment expression\"]\n",
                (unsigned long) node->ass);
-      /* TODO */
+      node->ass->dot_create (node->ass, f);
       break;
 
     case 7:
@@ -587,7 +587,7 @@ do_child_5 (struct direct_declarator *node, FILE * f)
                (unsigned long) node->ass);
       fprintf (f, "\t%lu [label=\"assignment expression\"]\n",
                (unsigned long) node->ass);
-      /* TODO */
+      node->ass->dot_create (node->ass, f);
       break;
 
     case 6:

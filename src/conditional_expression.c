@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "conditional_expression.h"
@@ -14,6 +15,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct conditional_expression *
 conditional_expression_1 (void *ptr)
@@ -27,6 +30,8 @@ conditional_expression_1 (void *ptr)
   buff->l_expr = ptr;
   buff->l_expr->parent_kind = NODE_CONDITIONAL_EXPRESSION;
   buff->l_expr->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -49,5 +54,51 @@ conditional_expression_2 (void *ptr1, void *ptr2, void *ptr3)
     buff->cond_e->parent_kind = NODE_CONDITIONAL_EXPRESSION;
   buff->l_expr->parent = buff->expr->parent = buff->cond_e->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct conditional_expression *node = Node;
+  assert (node->kind == NODE_CONDITIONAL_EXPRESSION);
+  FILE *f = F;
+
+  if (node->l_expr != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->l_expr);
+      fprintf (f, "\t%lu [label=\"logical-or expression\"]\n",
+               (unsigned long) node->l_expr);
+      /* TODO */
+    }
+  if (node->expr != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu0\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu0 [label=\"?\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->expr);
+      fprintf (f, "\t%lu [label=\"expression\"]\n",
+               (unsigned long) node->expr);
+      /* TODO */
+    }
+  if (node->cond_e != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu1\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu1 [label=\"?\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->cond_e);
+      fprintf (f, "\t%lu [label=\"conditional expression\"]\n",
+               (unsigned long) node->cond_e);
+      node->cond_e->dot_create (node->cond_e, f);
+    }
 }
