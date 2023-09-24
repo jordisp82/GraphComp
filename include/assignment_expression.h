@@ -25,6 +25,7 @@ struct assignment_expression
   struct unary_expression *un_expr;
   struct assignment_operator *ass_op;
   struct assignment_expression *ass_e;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

@@ -32,6 +32,7 @@ struct initializer_list
     struct initializer *i;
     struct il_node *next;
   } *first, *last;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

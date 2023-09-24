@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "initializer_list.h"
@@ -13,6 +14,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct initializer_list *
 initializer_list_1 (void *ptr1, void *ptr2)
@@ -34,6 +37,8 @@ initializer_list_1 (void *ptr1, void *ptr2)
     NODE_INITIALIZER_LIST;
   buff->first->d->parent = buff->first->i->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
 }
 
@@ -53,6 +58,8 @@ initializer_list_2 (void *ptr)
   buff->first->i = ptr;
   buff->first->i->parent_kind = NODE_INITIALIZER_LIST;
   buff->first->i->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -77,6 +84,8 @@ initializer_list_3 (void *ptr1, void *ptr2, void *ptr3)
   d->parent_kind = i->parent_kind = NODE_INITIALIZER_LIST;
   d->parent = i->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
 }
 
@@ -97,5 +106,40 @@ initializer_list_4 (void *ptr1, void *ptr2)
   i->parent_kind = NODE_INITIALIZER_LIST;
   i->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct initializer_list *node = Node;
+  assert (node->kind == NODE_INITIALIZER_LIST);
+  FILE *f = F;
+
+  for (struct il_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
+    switch (ptr->il_kind)
+      {
+      case IL_D_I:
+        assert (ptr->d != NULL);
+        fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+                 (unsigned long) ptr->d);
+        fprintf (f, "\t%lu [label=\"designation\"]\n", (unsigned long) node);
+        ptr->d->dot_create (ptr->d, f);
+        /* fallthrough */
+
+      case IL_I:
+        assert (ptr->i != NULL);
+        fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+                 (unsigned long) ptr->i);
+        fprintf (f, "\t%lu [label=\"initializer\"]\n", (unsigned long) node);
+        ptr->i->dot_create (ptr->i, f);
+        break;
+
+      default:;                /* BUG! */
+      }
 }

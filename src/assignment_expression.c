@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "assignment_expression.h"
@@ -19,6 +20,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void local_dot_create (void *Node, void *F);
+
 struct assignment_expression *
 assignment_expression_1 (void *ptr)
 {
@@ -31,6 +34,8 @@ assignment_expression_1 (void *ptr)
   buff->cond_e = ptr;
   buff->cond_e->parent_kind = NODE_ASSIGNMENT_EXPRESSION;
   buff->cond_e->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -53,5 +58,16 @@ assignment_expression_2 (void *ptr1, void *ptr2, void *ptr3)
     buff->ass_e->parent_kind = NODE_ASSIGNMENT_EXPRESSION;
   buff->un_expr->parent = buff->ass_op->parent = buff->ass_e->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  /* TODO */
 }

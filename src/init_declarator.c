@@ -82,6 +82,6 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->itz);
       fprintf (f, "\t%lu [label=\"initializer\"]\n",
                (unsigned long) node->itz);
-      /* todo */
+      node->itz->dot_create (node->itz, f);
     }
 }

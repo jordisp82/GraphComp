@@ -16,6 +16,7 @@ struct designation
 {
   node_kind_t kind;
   struct designator_list *dl;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };
