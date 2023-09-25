@@ -29,6 +29,7 @@ struct cast_expression
     struct unary_expression *unary_ex;
     struct cast_expression *cast_ex;
   };
+  void (*dot_create) (void *node, void *f);
   struct type_name *tn;
   node_kind_t parent_kind;
   void *parent;

@@ -21,6 +21,7 @@ struct abstract_declarator
   node_kind_t kind;
   struct pointer *ptr;
   struct direct_abstract_declarator *dad;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

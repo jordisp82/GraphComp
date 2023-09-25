@@ -75,7 +75,7 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->l_expr);
       fprintf (f, "\t%lu [label=\"logical-or expression\"]\n",
                (unsigned long) node->l_expr);
-      /* TODO */
+      node->l_expr->dot_create (node->l_expr, f);
     }
   if (node->expr != NULL)
     {
@@ -87,7 +87,7 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->expr);
       fprintf (f, "\t%lu [label=\"expression\"]\n",
                (unsigned long) node->expr);
-      /* TODO */
+      node->expr->dot_create (node->expr, f);
     }
   if (node->cond_e != NULL)
     {

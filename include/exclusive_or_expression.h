@@ -18,6 +18,7 @@ struct exclusive_or_expression
   node_kind_t kind;
   struct and_expression *and_e;
   struct exclusive_or_expression *xor_e;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

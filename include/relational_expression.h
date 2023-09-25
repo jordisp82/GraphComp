@@ -31,6 +31,7 @@ struct relational_expression
   rel_kind_t rel_kind;
   struct shift_expression *sh_ex;
   struct relational_expression *relex;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

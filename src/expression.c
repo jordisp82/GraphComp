@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "expression.h"
@@ -19,6 +20,8 @@
 #define NULL ((void*)0)
 #endif
 
+static void local_dot_create (void *Node, void *F);
+
 struct expression *
 expression_1 (void *ptr)
 {
@@ -30,6 +33,8 @@ expression_1 (void *ptr)
   buff->ass = ptr;
   buff->ass->parent_kind = NODE_EXPRESSION;
   buff->ass->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -48,5 +53,44 @@ expression_2 (void *ptr1, void *ptr2)
   buff->expr->parent_kind = buff->ass->parent_kind = NODE_EXPRESSION;
   buff->expr->parent = buff->ass->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct expression *node = Node;
+  assert (node->kind == NODE_EXPRESSION);
+  FILE *f = F;
+
+  if (node->ass != NULL && node->expr == NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->ass);
+      fprintf (f, "\t%lu [label=\"assignment expression\"]\n",
+               (unsigned long) node->ass);
+      node->ass->dot_create (node->ass, f);
+    }
+  else if (node->ass != NULL && node->expr != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->expr);
+      fprintf (f, "\t%lu [label=\"expression\"]\n",
+               (unsigned long) node->expr);
+      node->expr->dot_create (node->expr, f);
+      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
+               (unsigned long) node);
+      fprintf (f, "\t%lu0 [label=\",\",shape=box,fontname=Courier]\n",
+               (unsigned long) node);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->ass);
+      fprintf (f, "\t%lu [label=\"assignment expression\"]\n",
+               (unsigned long) node->ass);
+      node->ass->dot_create (node->ass, f);
+    }
 }

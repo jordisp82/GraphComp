@@ -18,6 +18,7 @@ struct logical_and_expression
   node_kind_t kind;
   struct inclusive_or_expression *inc_or;
   struct logical_and_expression *log_and;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

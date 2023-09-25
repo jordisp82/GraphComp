@@ -27,6 +27,7 @@ struct additive_expression
   add_kind_t add_kind;
   struct multiplicative_expression *mult_ex;
   struct additive_expression *add_ex;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

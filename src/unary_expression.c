@@ -202,12 +202,12 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->unop);
       fprintf (f, "\t%lu [label=\"unary operator\"]\n",
                (unsigned long) node->unop);
-      /* TODO */
+      node->unop->dot_create (node->unop, f);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->cex);
       fprintf (f, "\t%lu [label=\"cast expression\"]\n",
                (unsigned long) node->cex);
-      /* TODO */
+      node->cex->dot_create (node->cex, f);
       break;
 
     case UNARY_SIZEOF1:
@@ -234,7 +234,7 @@ local_dot_create (void *Node, void *F)
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->tn);
       fprintf (f, "\t%lu [label=\"typename\"]\n", (unsigned long) node->tn);
-      /* TODO */
+      node->tn->dot_create (node->tn, f);
       fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
                (unsigned long) node);
       fprintf (f, "\t%lu2 [label=\")\",shape=box,fontname=Courier]\n",
@@ -253,7 +253,7 @@ local_dot_create (void *Node, void *F)
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->tn);
       fprintf (f, "\t%lu [label=\"typename\"]\n", (unsigned long) node->tn);
-      /* TODO */
+      node->tn->dot_create (node->tn, f);
       fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
                (unsigned long) node);
       fprintf (f, "\t%lu2 [label=\")\",shape=box,fontname=Courier]\n",

@@ -27,6 +27,7 @@ struct equality_expression
   eq_kind_t eq_kind;
   struct relational_expression *rexp;
   struct equality_expression *eqex;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

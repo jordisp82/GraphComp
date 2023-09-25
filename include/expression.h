@@ -24,6 +24,7 @@ struct expression
   node_kind_t kind;
   struct expression *expr;
   struct assignment_expression *ass;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

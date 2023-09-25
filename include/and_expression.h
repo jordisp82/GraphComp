@@ -18,6 +18,7 @@ struct and_expression
   node_kind_t kind;
   struct equality_expression *eq;
   struct and_expression *and_e;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

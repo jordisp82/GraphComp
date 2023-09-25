@@ -27,6 +27,7 @@ struct shift_expression
   sh_kind_t sh_kind;
   struct additive_expression *add_ex;
   struct shift_expression *sh_ex;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "abstract_declarator.h"
@@ -15,6 +16,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct abstract_declarator *
 abstract_declarator_1 (void *ptr1, void *ptr2)
@@ -30,6 +33,8 @@ abstract_declarator_1 (void *ptr1, void *ptr2)
   buff->dad = ptr2;
   buff->ptr->parent_kind = buff->dad->parent_kind = NODE_ABSTRACT_DECLARATOR;
   buff->ptr->parent = buff->dad->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -47,6 +52,8 @@ abstract_declarator_2 (void *ptr)
   buff->ptr->parent_kind = NODE_ABSTRACT_DECLARATOR;
   buff->ptr->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
 }
 
@@ -63,5 +70,34 @@ abstract_declarator_3 (void *ptr)
   buff->dad->parent_kind = NODE_ABSTRACT_DECLARATOR;
   buff->dad->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct abstract_declarator *node = Node;
+  assert (node->kind == NODE_ABSTRACT_DECLARATOR);
+  FILE *f = F;
+
+  if (node->ptr != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->ptr);
+      fprintf (f, "\t%lu [label=\"pointer\"]\n", (unsigned long) node->ptr);
+      node->ptr->dot_create (node->ptr, f);
+    }
+  if (node->dad != NULL)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->dad);
+      fprintf (f, "\t%lu [label=\"direct abstract declarator\"]\n",
+               (unsigned long) node->dad);
+      /* TODO */
+    }
 }
