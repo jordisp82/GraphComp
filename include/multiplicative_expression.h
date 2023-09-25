@@ -29,6 +29,7 @@ struct multiplicative_expression
   mult_kind_t mult_kind;
   struct cast_expression *cast_ex;
   struct multiplicative_expression *mult_ex;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

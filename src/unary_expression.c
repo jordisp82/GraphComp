@@ -167,13 +167,16 @@ local_dot_create (void *Node, void *F)
   switch (node->unary_kind)
     {
     case UNARY_POSTFIX:
+      assert (node->pex != NULL);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->pex);
       fprintf (f, "\t%lu [label=\"postfix expression\"]\n",
                (unsigned long) node->pex);
+      node->pex->dot_create (node->pex, f);
       break;
 
     case UNARY_INC:
+      assert (node->unex != NULL);
       fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
                (unsigned long) node);
       fprintf (f, "\t%lu0 [label=\"++\",shape=box,fontname=Courier]\n",
@@ -186,6 +189,7 @@ local_dot_create (void *Node, void *F)
       break;
 
     case UNARY_DEC:
+      assert (node->unex != NULL);
       fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
                (unsigned long) node);
       fprintf (f, "\t%lu0 [label=\"--\",shape=box,fontname=Courier]\n",
@@ -198,11 +202,13 @@ local_dot_create (void *Node, void *F)
       break;
 
     case UNARY_OP:
+      assert (node->unop != NULL);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->unop);
       fprintf (f, "\t%lu [label=\"unary operator\"]\n",
                (unsigned long) node->unop);
       node->unop->dot_create (node->unop, f);
+      assert (node->cex != NULL);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->cex);
       fprintf (f, "\t%lu [label=\"cast expression\"]\n",
@@ -211,6 +217,7 @@ local_dot_create (void *Node, void *F)
       break;
 
     case UNARY_SIZEOF1:
+      assert (node->unex != NULL);
       fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
                (unsigned long) node);
       fprintf (f, "\t%lu0 [label=\"sizeof\",shape=box,fontname=Courier]\n",
@@ -223,6 +230,7 @@ local_dot_create (void *Node, void *F)
       break;
 
     case UNARY_SIZEOF2:
+      assert (node->tn != NULL);
       fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
                (unsigned long) node);
       fprintf (f, "\t%lu0 [label=\"sizeof\",shape=box,fontname=Courier]\n",
@@ -242,6 +250,7 @@ local_dot_create (void *Node, void *F)
       break;
 
     case UNARY_ALIGNOF:
+      assert (node->tn != NULL);
       fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
                (unsigned long) node);
       fprintf (f, "\t%lu0 [label=\"_Alignof\",shape=box,fontname=Courier]\n",

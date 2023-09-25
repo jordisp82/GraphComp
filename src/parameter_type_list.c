@@ -69,7 +69,7 @@ local_dot_create (void *Node, void *F)
     {
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->pl);
-      fprintf (f, "\t%lu [label=\"conditional expression\"]\n",
+      fprintf (f, "\t%lu [label=\"parameter list\"]\n",
                (unsigned long) node->pl);
       /* TODO */
     }

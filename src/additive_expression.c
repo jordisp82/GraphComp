@@ -90,13 +90,13 @@ local_dot_create (void *Node, void *F)
   FILE *f = F;
 
   assert (node->mult_ex != NULL);
-  if (node->kind == ADD_NONE)
+  if (node->add_kind == ADD_NONE)
     {
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->mult_ex);
       fprintf (f, "\t%lu [label=\"multiplicative expression\"]\n",
                (unsigned long) node->mult_ex);
-      /* TODO */
+      node->mult_ex->dot_create (node->mult_ex, f);
     }
   else
     {
@@ -128,6 +128,6 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->mult_ex);
       fprintf (f, "\t%lu [label=\"multiplicative expression\"]\n",
                (unsigned long) node->mult_ex);
-      /* TODO */
+      node->mult_ex->dot_create (node->mult_ex, f);
     }
 }

@@ -38,6 +38,7 @@ struct primary_expression
     struct string *s;
     struct expression *e;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

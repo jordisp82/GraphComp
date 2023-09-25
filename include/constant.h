@@ -31,6 +31,7 @@ struct constant
     int integer;
     double floating;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

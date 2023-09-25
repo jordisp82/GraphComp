@@ -50,6 +50,7 @@ struct postfix_expression
       struct initializer_list *il;
     } comp_lit;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };
