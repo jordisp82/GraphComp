@@ -282,7 +282,7 @@ local_dot_create (void *Node, void *F)
                        (unsigned long) node->ael);
               fprintf (f, "\t%lu [label=\"argument expression list\"]\n",
                        (unsigned long) node->ael);
-              /* TODO */
+              node->ael->dot_create (node->ael, f);
             }
           do_term (node, f, ")", 1);
           break;

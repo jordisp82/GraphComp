@@ -33,6 +33,7 @@ struct parameter_declaration
     struct declarator *dr;
     struct abstract_declarator *adr;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

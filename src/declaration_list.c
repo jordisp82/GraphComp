@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "declaration_list.h"
@@ -12,6 +13,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct declaration_list *
 declaration_list_1 (void *ptr)
@@ -28,6 +31,8 @@ declaration_list_1 (void *ptr)
   buff->first->dl = ptr;
   buff->first->dl->parent_kind = NODE_DECLARATION_LIST;
   buff->first->dl->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -48,5 +53,29 @@ declaration_list_2 (void *ptr1, void *ptr2)
   dl->parent_kind = NODE_DECLARATION_LIST;
   dl->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct declaration_list *node = Node;
+  assert (node->kind == NODE_FUNCTION_DEFINITION);
+  FILE *f = F;
+
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  for (struct dl_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) ptr->dl);
+      fprintf (f, "\t%lu [label=\"declaration\"]\n", (unsigned long) ptr->dl);
+      ptr->dl->dot_create (ptr->dl, f);
+    }
 }

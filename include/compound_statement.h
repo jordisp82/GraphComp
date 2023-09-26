@@ -30,6 +30,7 @@ struct compound_statement
   node_kind_t kind;
   cs_kind_t cs_kind;
   struct block_item_list *bil;  /* only for CS_BLOCK_ITEM_LIST */
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

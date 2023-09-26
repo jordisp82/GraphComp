@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "block_item.h"
@@ -13,6 +14,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct block_item *
 block_item_1 (void *ptr)
@@ -26,6 +29,8 @@ block_item_1 (void *ptr)
   buff->d = ptr;
   buff->d->parent_kind = NODE_BLOCK_ITEM;
   buff->d->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -43,5 +48,35 @@ block_item_2 (void *ptr)
   buff->s->parent_kind = NODE_BLOCK_ITEM;
   buff->s->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct block_item *node = Node;
+  assert (node->kind == NODE_BLOCK_ITEM);
+  FILE *f = F;
+
+  switch (node->child_kind)
+    {
+    case NODE_DECLARATION:
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->d);
+      fprintf (f, "\t%lu [label=\"declaration\"]\n", (unsigned long) node->d);
+      break;
+
+    case NODE_STATEMENT:
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->s);
+      fprintf (f, "\t%lu [label=\"statement\"]\n", (unsigned long) node->s);
+      break;
+
+    default:;                  /* BUG! */
+    }
 }

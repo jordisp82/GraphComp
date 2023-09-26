@@ -71,7 +71,7 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->pl);
       fprintf (f, "\t%lu [label=\"parameter list\"]\n",
                (unsigned long) node->pl);
-      /* TODO */
+      node->pl->dot_create (node->pl, f);
     }
   if (node->ellipsis == 1)
     {

@@ -22,6 +22,7 @@ struct block_item
     struct declaration *d;
     struct statement *s;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

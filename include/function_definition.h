@@ -27,6 +27,7 @@ struct function_definition
   struct declarator *dr;
   struct declaration_list *dl;  // only non-NULL if fd_kind is FD_K_AND_R */
   struct compound_statement *cs;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

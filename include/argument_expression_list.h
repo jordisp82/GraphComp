@@ -21,6 +21,7 @@ struct argument_expression_list
     struct assignment_expression *ass;
     struct ael_node *next;
   } *first, *last;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

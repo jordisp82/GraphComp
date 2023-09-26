@@ -21,6 +21,7 @@ struct block_item_list
     struct block_item *block_item;
     struct bil_node *next;
   } *first, *last;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

@@ -21,6 +21,7 @@ struct constant_expression
 {
   node_kind_t kind;
   struct conditional_expression *expr;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

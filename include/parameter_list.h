@@ -21,6 +21,7 @@ struct parameter_list
     struct parameter_declaration *pd;
     struct pl_node *next;
   } *first, *last;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };
