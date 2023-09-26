@@ -69,12 +69,14 @@ local_dot_create (void *Node, void *F)
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->d);
       fprintf (f, "\t%lu [label=\"declaration\"]\n", (unsigned long) node->d);
+      node->d->dot_create (node->d, f);
       break;
 
     case NODE_STATEMENT:
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->s);
       fprintf (f, "\t%lu [label=\"statement\"]\n", (unsigned long) node->s);
+      node->s->dot_create (node->s, f);
       break;
 
     default:;                  /* BUG! */

@@ -33,6 +33,7 @@ struct statement
     struct iteration_statement *is;
     struct jump_statement *js;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

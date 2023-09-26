@@ -25,6 +25,7 @@ struct expression_statement
   node_kind_t kind;             // NODE_EXPRESSION_STATEMENT
   es_kind_t es_kind;
   struct expression *expr;      // only for ES_EXPRESSION
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

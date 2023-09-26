@@ -28,6 +28,7 @@ struct selection_statement
   struct expression *ex;
   struct statement *st1;
   struct statement *st2;        // only if SS_IF_ELSE
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

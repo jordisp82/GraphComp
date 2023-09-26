@@ -31,6 +31,7 @@ struct labeled_statement
     struct constant_expression *ce;     // only for LABEL_CASE
   };
   struct statement *s;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };
