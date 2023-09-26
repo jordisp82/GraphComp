@@ -70,6 +70,7 @@ struct iteration_statement
       struct statement *st;
     } is_for_decl_es_ex;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

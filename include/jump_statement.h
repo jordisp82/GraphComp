@@ -34,6 +34,7 @@ struct jump_statement
     const char *id;             // only JS_GOTO
     struct expression *exp;     // only JS_RETURN_EXP
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

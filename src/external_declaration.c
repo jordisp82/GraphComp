@@ -72,7 +72,7 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->fd);
       fprintf (f, "\t%lu [label=\"function definition\"]\n",
                (unsigned long) node->fd);
-      // TODO fd_dot_create (node->fd, f);
+      node->fd->dot_create (node->fd, f);
       break;
 
     case NODE_DECLARATION:

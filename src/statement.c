@@ -178,6 +178,7 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->is);
       fprintf (f, "\t%lu [label=\"iteration statement\"]\n",
                (unsigned long) node->is);
+      node->is->dot_create (node->is, f);
       break;
 
     case NODE_JUMP_STATEMENT:
@@ -185,6 +186,7 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->js);
       fprintf (f, "\t%lu [label=\"jump statement\"]\n",
                (unsigned long) node->js);
+      node->js->dot_create (node->js, f);
       break;
 
     default:;                  /* BUG! */

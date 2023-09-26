@@ -94,57 +94,30 @@ local_dot_create (void *Node, void *F)
   assert (node->kind == NODE_SELECTION_STATEMENT);
   FILE *f = F;
 
-  /* FIXME simplify */
-  switch (node->ss_kind)
+  if (node->ss_kind == SS_IF_ELSE || node->ss_kind == SS_IF)
+    do_term (node, f, "if", 0);
+  else if (node->ss_kind == SS_SWITCH)
+    do_term (node, f, "switch", 0);
+  else
+    return;                     /* BUG! */
+
+  do_term (node, f, "(", 1);
+  fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+           (unsigned long) node->ex);
+  fprintf (f, "\t%lu [label=\"expression\"]\n", (unsigned long) node->ex);
+  node->ex->dot_create (node->ex, f);
+  do_term (node, f, ")", 2);
+  fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+           (unsigned long) node->st1);
+  fprintf (f, "\t%lu [label=\"statement\"]\n", (unsigned long) node->st1);
+  node->st1->dot_create (node->st1, f);
+  if (node->ss_kind == SS_IF_ELSE)
     {
-    case SS_IF_ELSE:
-      do_term (node, f, "if", 0);
-      do_term (node, f, "(", 1);
-      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
-               (unsigned long) node->ex);
-      fprintf (f, "\t%lu [label=\"expression\"]\n", (unsigned long) node->ex);
-      node->ex->dot_create (node->ex, f);
-      do_term (node, f, ")", 2);
-      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
-               (unsigned long) node->st1);
-      fprintf (f, "\t%lu [label=\"statement\"]\n", (unsigned long) node->st1);
-      node->st1->dot_create (node->st1, f);
       do_term (node, f, "else", 3);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->st2);
       fprintf (f, "\t%lu [label=\"statement\"]\n", (unsigned long) node->st2);
       node->st2->dot_create (node->st2, f);
-      break;
-
-    case SS_IF:
-      do_term (node, f, "if", 0);
-      do_term (node, f, "(", 1);
-      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
-               (unsigned long) node->ex);
-      fprintf (f, "\t%lu [label=\"expression\"]\n", (unsigned long) node->ex);
-      node->ex->dot_create (node->ex, f);
-      do_term (node, f, ")", 2);
-      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
-               (unsigned long) node->st1);
-      fprintf (f, "\t%lu [label=\"statement\"]\n", (unsigned long) node->st1);
-      node->st1->dot_create (node->st1, f);
-      break;
-
-    case SS_SWITCH:
-      do_term (node, f, "switch", 0);
-      do_term (node, f, "(", 1);
-      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
-               (unsigned long) node->ex);
-      fprintf (f, "\t%lu [label=\"expression\"]\n", (unsigned long) node->ex);
-      node->ex->dot_create (node->ex, f);
-      do_term (node, f, ")", 2);
-      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
-               (unsigned long) node->st1);
-      fprintf (f, "\t%lu [label=\"statement\"]\n", (unsigned long) node->st1);
-      node->st1->dot_create (node->st1, f);
-      break;
-
-    default:;                  /* BUG! */
     }
 }
 
