@@ -296,6 +296,7 @@ do_child_3 (struct iteration_statement *node, FILE * f)
                (unsigned long) node->is_for_decl_es.dl);
       fprintf (f, "\t%lu [label=\"declaration\"]\n",
                (unsigned long) node->is_for_decl_es.dl);
+      node->is_for_decl_es.dl->dot_create (node->is_for_decl_es.dl, f);
       break;
 
     case IS_FOR_DECL_ES_EX:
@@ -303,6 +304,7 @@ do_child_3 (struct iteration_statement *node, FILE * f)
                (unsigned long) node->is_for_decl_es_ex.dl);
       fprintf (f, "\t%lu [label=\"declaration\"]\n",
                (unsigned long) node->is_for_decl_es_ex.dl);
+      node->is_for_decl_es_ex.dl->dot_create (node->is_for_decl_es_ex.dl, f);
       break;
 
     default:;                  /* BUG! */

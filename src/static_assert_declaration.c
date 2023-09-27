@@ -57,6 +57,7 @@ local_dot_create (void *Node, void *F)
            (unsigned long) node->expr);
   fprintf (f, "\t%lu [label=\"constant expression\"]\n",
            (unsigned long) node->expr);
+  node->expr->dot_create (node->expr, f);
   do_term (node, f, node->str, 2);
   do_term (node, f, ")", 3);
   do_term (node, f, ";", 4);

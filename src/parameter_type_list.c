@@ -16,6 +16,8 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+static void do_term (struct parameter_type_list *node, FILE * f,
+                     const char *token, int n_token);
 
 struct parameter_type_list *
 parameter_type_list_1 (void *ptr)
@@ -75,13 +77,22 @@ local_dot_create (void *Node, void *F)
     }
   if (node->ellipsis == 1)
     {
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\",\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
-      fprintf (f, "\t%lu -> %lu1;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu1 [label=\"...\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, ",", 0);
+      do_term (node, f, "...", 1);
     }
+}
+
+static void
+do_term (struct parameter_type_list *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }

@@ -19,6 +19,8 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+static void do_term (struct type_specifier *node, FILE * f,
+                     const char *token, int n_token);
 
 struct type_specifier *
 type_specifier_1 (void)
@@ -260,58 +262,47 @@ local_dot_create (void *Node, void *F)
   switch (node->ts_kind)
     {
     case TS_VOID:
-      fprintf (f, "\t%lu [label=\"void\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "void", 0);
       break;
 
     case TS_CHAR:
-      fprintf (f, "\t%lu [label=\"char\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "char", 0);
       break;
 
     case TS_SHORT:
-      fprintf (f, "\t%lu [label=\"short\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "short", 0);
       break;
 
     case TS_INT:
-      fprintf (f, "\t%lu [label=\"int\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "int", 0);
       break;
 
     case TS_LONG:
-      fprintf (f, "\t%lu [label=\"long\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "long", 0);
       break;
 
     case TS_FLOAT:
-      fprintf (f, "\t%lu [label=\"float\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "float", 0);
       break;
 
     case TS_DOUBLE:
-      fprintf (f, "\t%lu [label=\"double\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "double", 0);
       break;
 
     case TS_SIGNED:
-      fprintf (f, "\t%lu [label=\"signed\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "signed", 0);
       break;
 
     case TS_UNSIGNED:
-      fprintf (f, "\t%lu [label=\"unsigned\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "unsigned", 0);
       break;
 
     case TS_BOOL:
-      fprintf (f, "\t%lu [label=\"_Bool\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "_Bool", 0);
       break;
 
     case TS_COMPLEX:
-      fprintf (f, "\t%lu [label=\"_Complex\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "_Complex", 0);
       break;
 
     case TS_IMAGINARY:
@@ -319,17 +310,48 @@ local_dot_create (void *Node, void *F)
       break;
 
     case TS_ATOMIC:
-      /* todo */ break;
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->ats);
+      fprintf (f, "\t%lu [label=\"atomic type specifier\"]\n",
+               (unsigned long) node->ats);
+      node->ats->dot_create (node->ats, f);
+      break;
 
     case TS_STRUCT_UNION:
-      /* todo */ break;
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->sus);
+      fprintf (f, "\t%lu [label=\"struct-or-union specifier\"]\n",
+               (unsigned long) node->sus);
+      node->sus->dot_create (node->sus, f);
+      break;
 
     case TS_ENUM:
-      /* todo */ break;
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->es);
+      fprintf (f, "\t%lu [label=\"enum specifier\"]\n",
+               (unsigned long) node->es);
+      node->es->dot_create (node->es, f);
+      break;
 
     case TS_TYPEDEF:
-      /* todo */ break;
+      do_term (node, f, node->typedef_name, 0);
+      break;
 
     default:;                  /* BUG! */
     }
+}
+
+static void
+do_term (struct type_specifier *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }

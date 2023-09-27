@@ -14,6 +14,8 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+static void do_term (struct unary_operator *node, FILE * f,
+                     const char *token, int n_token);
 
 struct unary_operator *
 unary_operator_1 (void)
@@ -106,47 +108,44 @@ local_dot_create (void *Node, void *F)
   switch (node->un_op)
     {
     case UNOP_AMPERSAND:
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"&\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "&", 0);
       break;
 
     case UNOP_STAR:
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"*\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "*", 0);
       break;
 
     case UNOP_PLUS:
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"+\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "+", 0);
       break;
 
     case UNOP_DASH:
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"-\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "-", 0);
       break;
 
     case UNOP_TILDE:
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"~\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "~", 0);
       break;
 
     case UNOP_EXCLAMATION:
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"!\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "!", 0);
       break;
 
     default:;                  /* BUG! */
     }
+}
+
+static void
+do_term (struct unary_operator *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }

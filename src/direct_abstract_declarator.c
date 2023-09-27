@@ -21,6 +21,8 @@ static void local_dot_create (void *Node, void *F);
 static void do_child_1 (struct direct_abstract_declarator *node, FILE * f);
 static void do_child_2 (struct direct_abstract_declarator *node, FILE * f);
 static void do_child_3 (struct direct_abstract_declarator *node, FILE * f);
+static void do_child_4 (struct direct_abstract_declarator *node, FILE * f);
+static void do_child_56 (struct direct_abstract_declarator *node, FILE * f);
 static void do_term (struct direct_abstract_declarator *node, FILE * f,
                      const char *token, int n_token);
 
@@ -457,6 +459,8 @@ local_dot_create (void *Node, void *F)
   do_child_1 (node, f);
   do_child_2 (node, f);
   do_child_3 (node, f);
+  do_child_4 (node, f);
+  do_child_56 (node, f);
 }
 
 static void
@@ -649,6 +653,108 @@ do_child_3 (struct direct_abstract_declarator *node, FILE * f)
       break;
 
     default:;                  /* BUG! */
+    }
+}
+
+static void
+do_child_4 (struct direct_abstract_declarator *node, FILE * f)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+
+  switch (node->n_prod)
+    {
+    case 1:
+    case 2:
+    case 3:
+    case 8:
+    case 9:
+    case 10:
+    case 18:
+    case 19:
+    case 20:
+      return;
+
+    case 4:
+    case 6:
+    case 13:
+    case 14:
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->ass);
+      fprintf (f, "\t%lu [label=\"assignment expression\"]\n",
+               (unsigned long) node->ass);
+      node->ass->dot_create (node->ass, f);
+      break;
+
+    case 5:
+    case 7:
+    case 11:
+    case 16:
+    case 17:
+      do_term (node, f, "]", 3);
+      break;
+
+    case 12:
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->tql);
+      fprintf (f, "\t%lu [label=\"type qualifier list\"]\n",
+               (unsigned long) node->tql);
+      node->tql->dot_create (node->tql, f);
+      break;
+
+    case 15:
+      do_term (node, f, "static", 3);
+      break;
+
+    case 21:
+      do_term (node, f, ")", 3);
+      break;
+
+    default:;                  /* BUG! */
+    }
+}
+
+static void
+do_child_56 (struct direct_abstract_declarator *node, FILE * f)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+
+  switch (node->n_prod)
+    {
+    case 1:
+    case 2:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+      return;
+
+    case 4:
+    case 6:
+    case 13:
+    case 14:
+      do_term (node, f, "]", 4);
+      break;
+
+    case 12:
+    case 15:
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->ass);
+      fprintf (f, "\t%lu [label=\"assignment expression\"]\n",
+               (unsigned long) node->ass);
+      node->ass->dot_create (node->ass, f);
+      do_term (node, f, "]", 5);
+      break;
     }
 }
 

@@ -92,6 +92,7 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->sql);
       fprintf (f, "\t%lu [label=\"specifier qualifier list\"]\n",
                (unsigned long) node->sql);
+      node->sql->dot_create (node->sql, f);
       if (node->sdl != NULL)
         {
           fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,

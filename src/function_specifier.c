@@ -14,6 +14,8 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+static void do_term (struct function_specifier *node, FILE * f,
+                     const char *token, int n_token);
 
 struct function_specifier *
 function_specifier_1 (void)
@@ -56,15 +58,28 @@ local_dot_create (void *Node, void *F)
   switch (node->fs_kind)
     {
     case FS_INLINE:
-      fprintf (f, "\t%lu [label=\"inline\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "inline", 0);
       break;
 
     case FS_NORETURN:
-      fprintf (f, "\t%lu [label=\"_Noreturn\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "_Noreturn", 0);
       break;
 
     default:;                  /* BUG! */
     }
+}
+
+static void
+do_term (struct function_specifier *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }

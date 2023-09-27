@@ -18,6 +18,8 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+static void do_term (struct unary_expression *node, FILE * f,
+                     const char *token, int n_token);
 
 struct unary_expression *
 unary_expression_1 (void *ptr)
@@ -177,10 +179,7 @@ local_dot_create (void *Node, void *F)
 
     case UNARY_INC:
       assert (node->unex != NULL);
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"++\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "++", 0);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->unex);
       fprintf (f, "\t%lu [label=\"unary expression\"]\n",
@@ -190,10 +189,7 @@ local_dot_create (void *Node, void *F)
 
     case UNARY_DEC:
       assert (node->unex != NULL);
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"--\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "--", 0);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->unex);
       fprintf (f, "\t%lu [label=\"unary expression\"]\n",
@@ -218,10 +214,7 @@ local_dot_create (void *Node, void *F)
 
     case UNARY_SIZEOF1:
       assert (node->unex != NULL);
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"sizeof\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "sizeof", 0);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->unex);
       fprintf (f, "\t%lu [label=\"unary expression\"]\n",
@@ -231,44 +224,41 @@ local_dot_create (void *Node, void *F)
 
     case UNARY_SIZEOF2:
       assert (node->tn != NULL);
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"sizeof\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
-      fprintf (f, "\t%lu -> %lu1;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu1 [label=\"(\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "sizeof", 0);
+      do_term (node, f, "(", 1);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->tn);
       fprintf (f, "\t%lu [label=\"typename\"]\n", (unsigned long) node->tn);
       node->tn->dot_create (node->tn, f);
-      fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu2 [label=\")\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, ")", 2);
       break;
 
     case UNARY_ALIGNOF:
       assert (node->tn != NULL);
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"_Alignof\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
-      fprintf (f, "\t%lu -> %lu1;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu1 [label=\"(\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "_Alignof", 0);
+      do_term (node, f, "(", 1);
       fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
                (unsigned long) node->tn);
       fprintf (f, "\t%lu [label=\"typename\"]\n", (unsigned long) node->tn);
       node->tn->dot_create (node->tn, f);
-      fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu2 [label=\")\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, ")", 2);
       break;
 
     default:;                  /* BUG! */
     }
+}
+
+static void
+do_term (struct unary_expression *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }

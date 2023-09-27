@@ -14,6 +14,8 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+static void do_term (struct storage_class_specifier *node, FILE * f,
+                     const char *token, int n_token);
 
 struct storage_class_specifier *
 storage_class_specifier_1 (void)
@@ -112,36 +114,44 @@ local_dot_create (void *Node, void *F)
   switch (node->value)
     {
     case STG_TYPEDEF:
-      fprintf (f, "\t%lu [label=\"typedef\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "typedef", 0);
       break;
 
     case STG_EXTERN:
-      fprintf (f, "\t%lu [label=\"extern\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "extern", 0);
       break;
 
     case STG_STATIC:
-      fprintf (f, "\t%lu [label=\"static\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "static", 0);
       break;
 
     case STG_THREAD_LOCAL:
-      fprintf (f,
-               "\t%lu [label=\"_Thread_local\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "_Thread_local", 0);
       break;
 
     case STG_AUTO:
-      fprintf (f, "\t%lu [label=\"auto\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "auto", 0);
       break;
 
     case STG_REGISTER:
-      fprintf (f, "\t%lu [label=\"register\",fontname=Courier,shape=box]\n",
-               (unsigned long) node);
+      do_term (node, f, "register", 0);
       break;
 
     default:;                  /* BUG! */
     }
+}
+
+static void
+do_term (struct storage_class_specifier *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }
