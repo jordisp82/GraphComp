@@ -24,6 +24,8 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+static void do_term (struct declaration *node, FILE * f,
+                     const char *token, int n_token);
 
 struct declaration *
 declaration_1 (void *ptr)
@@ -98,6 +100,7 @@ local_dot_create (void *Node, void *F)
       fprintf (f, "\t%lu [label=\"declaration specifiers\"]\n",
                (unsigned long) node->ds);
       node->ds->dot_create (node->ds, f);
+      do_term (node, f, ";", 0);
     }
   if (node->idl != NULL)
     {
@@ -106,6 +109,7 @@ local_dot_create (void *Node, void *F)
       fprintf (f, "\t%lu [label=\"init declarator list\"]\n",
                (unsigned long) node->idl);
       node->idl->dot_create (node->idl, f);
+      do_term (node, f, ";", 0);
     }
   if (node->sad != NULL)
     {
@@ -115,4 +119,19 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->sad);
       node->sad->dot_create (node->sad, f);
     }
+}
+
+static void
+do_term (struct declaration *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }
