@@ -113,6 +113,6 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->sad);
       fprintf (f, "\t%lu [label=\"static assert declaration\"]\n",
                (unsigned long) node->sad);
-      /* NOTE fuck off static assert declarations */
+      node->sad->dot_create (node->sad, f);
     }
 }

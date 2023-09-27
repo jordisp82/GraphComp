@@ -19,6 +19,7 @@ struct struct_declarator
   node_kind_t kind;
   struct constant_expression *expr;
   struct declarator *dclr;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

@@ -16,6 +16,8 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+static void do_term (struct identifier_list *node, FILE * f,
+                     const char *token, int n_token);
 
 struct identifier_list *
 identifier_list_1 (const char *str)
@@ -68,18 +70,23 @@ local_dot_create (void *Node, void *F)
 
   for (struct il_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
     {
-      fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
-               (unsigned long) node, i);
-      fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
-               (unsigned long) node, i, ptr->str);
-      i++;
+      do_term (node, f, ptr->str, i++);
       if (ptr->next != NULL)
-        {
-          fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
-                   (unsigned long) node, i);
-          fprintf (f, "\t%lu%d [label=\",\",shape=box,fontname=Courier]\n",
-                   (unsigned long) node, i);
-          i++;
-        }
+        do_term (node, f, ",", i++);
     }
+}
+
+static void
+do_term (struct identifier_list *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }

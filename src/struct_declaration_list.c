@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "struct_declaration_list.h"
@@ -12,6 +13,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct struct_declaration_list *
 struct_declaration_list_1 (void *ptr)
@@ -28,6 +31,8 @@ struct_declaration_list_1 (void *ptr)
   buff->first->sd = ptr;
   buff->first->sd->parent_kind = NODE_STRUCT_DECLARATION_LIST;
   buff->first->sd->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -48,5 +53,27 @@ struct_declaration_list_2 (void *ptr1, void *ptr2)
   sd->parent_kind = NODE_STRUCT_DECLARATION_LIST;
   sd->parent = sd;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct struct_declaration_list *node = Node;
+  assert (node->kind == NODE_STRUCT_DECLARATION_LIST);
+  FILE *f = F;
+
+  for (struct sdln_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) ptr->sd);
+      fprintf (f, "\t%lu [label=\"struct declaration\"]\n",
+               (unsigned long) ptr->sd);
+      ptr->sd->dot_create (ptr->sd, f);
+    }
 }

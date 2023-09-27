@@ -98,6 +98,6 @@ local_dot_create (void *Node, void *F)
                (unsigned long) node->dad);
       fprintf (f, "\t%lu [label=\"direct abstract declarator\"]\n",
                (unsigned long) node->dad);
-      /* TODO */
+      node->dad->dot_create (node->dad, f);
     }
 }

@@ -21,6 +21,7 @@ struct struct_declaration_list
     struct struct_declaration *sd;
     struct sdln_node *next;
   } *first, *last;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

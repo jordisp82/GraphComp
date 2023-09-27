@@ -137,7 +137,11 @@ local_dot_create (void *Node, void *F)
       break;
 
     case PRIEX_STRING:
-      /* TODO */
+      assert (node->s != NULL);
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) node->s);
+      fprintf (f, "\t%lu [label=\"string\"]\n", (unsigned long) node->s);
+      node->s->dot_create (node->s, f);
       break;
 
     case PRIEX_EX:

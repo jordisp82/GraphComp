@@ -41,6 +41,7 @@ struct direct_abstract_declarator
   struct assignment_expression *ass;
   struct parameter_type_list *ptl;
   struct direct_abstract_declarator *dad;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

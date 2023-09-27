@@ -20,6 +20,7 @@ struct struct_declaration
   struct specifier_qualifier_list *sql;
   struct struct_declarator_list *sdl;
   struct static_assert_declaration *sad;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

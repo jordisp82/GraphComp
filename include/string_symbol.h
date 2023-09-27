@@ -24,6 +24,7 @@ struct string
   node_kind_t kind;
   string_kind_t str_kind;
   const char *str;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

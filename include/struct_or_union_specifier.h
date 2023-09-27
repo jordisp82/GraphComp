@@ -20,6 +20,7 @@ struct struct_or_union_specifier
   struct struct_or_union *su;
   const char *tag;
   struct struct_declaration_list *sdl;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };
