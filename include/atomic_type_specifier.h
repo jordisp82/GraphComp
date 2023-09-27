@@ -16,6 +16,7 @@ struct atomic_type_specifier
 {
   node_kind_t kind;
   struct type_name *tn;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

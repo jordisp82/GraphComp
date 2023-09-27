@@ -30,6 +30,8 @@ static int do_child_3 (struct direct_declarator *node, FILE * f);
 static int do_child_4 (struct direct_declarator *node, FILE * f);
 static int do_child_5 (struct direct_declarator *node, FILE * f);
 static void do_child_6 (struct direct_declarator *node, FILE * f);
+static void do_term (struct direct_declarator *node, FILE * f,
+                     const char *token, int n_token);
 
 struct direct_declarator *
 direct_declarator_1 (const char *str)
@@ -353,20 +355,12 @@ do_child_1 (struct direct_declarator *node, FILE * f)
 
   if (node->n_prod == 1)
     {
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"%s\",shape=box,fontname=Courier]\n",
-               (unsigned long) node, node->id);
+      do_term (node, f, node->id, 0);
       /* and we're done */
       return 1;
     }
   else if (node->n_prod == 2)
-    {
-      fprintf (f, "\t%lu -> %lu0;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu0 [label=\"(\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
-    }
+    do_term (node, f, "(", 0);
   else if (node->n_prod > 2 && node->n_prod <= 14)
     {
       assert (node->ddeclr != NULL);
@@ -400,19 +394,9 @@ do_child_2 (struct direct_declarator *node, FILE * f)
       node->declr->dot_create (node->declr, f);
     }
   else if (node->n_prod > 2 && node->n_prod <= 11)
-    {
-      fprintf (f, "\t%lu -> %lu1;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu1 [label=\"[\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
-    }
+    do_term (node, f, "[", 1);
   else if (node->n_prod > 11 && node->n_prod <= 14)
-    {
-      fprintf (f, "\t%lu -> %lu1;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu1 [label=\"(\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
-    }
+    do_term (node, f, "(", 1);
   else
     {                           /* BUG! */
     }
@@ -429,34 +413,22 @@ do_child_3 (struct direct_declarator *node, FILE * f)
     {
     case 2:
     case 13:
-      fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu2 [label=\")\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, ")", 2);
       /* and we're done */
       return 1;
 
     case 3:
-      fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu2 [label=\"]\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "]", 2);
       /* and we're done */
       return 1;
 
     case 4:
-      fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu2 [label=\"*\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "*", 2);
       break;
 
     case 5:
     case 6:
-      fprintf (f, "\t%lu -> %lu2;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu2 [label=\"static\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "static", 2);
       break;
 
     case 7:
@@ -516,10 +488,7 @@ do_child_4 (struct direct_declarator *node, FILE * f)
     case 4:
     case 10:
     case 11:
-      fprintf (f, "\t%lu -> %lu3;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu3 [label=\"]\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "]", 3);
       /* and we're done */
       return 1;
 
@@ -543,25 +512,16 @@ do_child_4 (struct direct_declarator *node, FILE * f)
       break;
 
     case 7:
-      fprintf (f, "\t%lu -> %lu3;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu3 [label=\"*\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "*", 3);
       break;
 
     case 8:
-      fprintf (f, "\t%lu -> %lu3;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu3 [label=\"static\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "static", 3);
       break;
 
     case 12:
     case 14:
-      fprintf (f, "\t%lu -> %lu3;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu3 [label=\")\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, ")", 3);
       /* and we're done */
       return 1;
 
@@ -593,10 +553,7 @@ do_child_5 (struct direct_declarator *node, FILE * f)
     case 6:
     case 7:
     case 9:
-      fprintf (f, "\t%lu -> %lu4;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu4 [label=\"]\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
+      do_term (node, f, "]", 4);
       /* and we're done */
       return 1;
 
@@ -614,13 +571,23 @@ do_child_6 (struct direct_declarator *node, FILE * f)
   assert (f != NULL);
 
   if (node->n_prod == 5 || node->n_prod == 8)
-    {
-      fprintf (f, "\t%lu -> %lu5;\n", (unsigned long) node,
-               (unsigned long) node);
-      fprintf (f, "\t%lu5 [label=\"]\",shape=box,fontname=Courier]\n",
-               (unsigned long) node);
-    }
+    do_term (node, f, "]", 5);
   else
     {                           /* BUG! */
     }
+}
+
+static void
+do_term (struct direct_declarator *node, FILE * f, const char *token,
+         int n_token)
+{
+  assert (node != NULL);
+  assert (f != NULL);
+  assert (token != NULL);
+  assert (n_token >= 0);
+
+  fprintf (f, "\t%lu -> %lu%d;\n", (unsigned long) node,
+           (unsigned long) node, n_token);
+  fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
+           (unsigned long) node, n_token, token);
 }

@@ -3,6 +3,7 @@
 #endif
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "designator_list.h"
@@ -12,6 +13,8 @@
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+
+static void local_dot_create (void *Node, void *F);
 
 struct designator_list *
 designator_list_1 (void *ptr)
@@ -27,6 +30,8 @@ designator_list_1 (void *ptr)
   buff->first->ds = ptr;
   buff->first->ds->parent_kind = NODE_DESIGNATOR_LIST;
   buff->first->ds->parent = buff;
+
+  buff->dot_create = local_dot_create;
 
   return buff;
 }
@@ -47,5 +52,26 @@ designator_list_2 (void *ptr1, void *ptr2)
   ds->parent_kind = NODE_DESIGNATOR_LIST;
   ds->parent = buff;
 
+  buff->dot_create = local_dot_create;
+
   return buff;
+}
+
+static void
+local_dot_create (void *Node, void *F)
+{
+  assert (Node != NULL);
+  assert (F != NULL);
+
+  struct designator_list *node = Node;
+  assert (node->kind == NODE_DESIGNATOR_LIST);
+  FILE *f = F;
+
+  for (struct ds_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
+    {
+      fprintf (f, "\t%lu -> %lu;\n", (unsigned long) node,
+               (unsigned long) ptr->ds);
+      fprintf (f, "\t%lu [label=\"designator\"]\n", (unsigned long) ptr->ds);
+      ptr->ds->dot_create (ptr->ds, f);
+    }
 }

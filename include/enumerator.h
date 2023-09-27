@@ -25,6 +25,7 @@ struct enumerator
   enum_kind_t e_kind;
   struct enumeration_constant *ec;
   struct constant_expression *expr;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

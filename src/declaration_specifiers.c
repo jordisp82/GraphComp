@@ -305,7 +305,7 @@ local_dot_create (void *Node, void *F)
                  (unsigned long) ptr->as);
         fprintf (f, "\t%lu [label=\"alignment specifier\"]\n",
                  (unsigned long) ptr->as);
-        /* NOTE fuck off alignment specifiers for now */
+        ptr->as->dot_create (ptr->as, f);
         break;
 
       default:;                /* BUG! */

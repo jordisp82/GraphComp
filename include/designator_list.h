@@ -21,6 +21,7 @@ struct designator_list
     struct designator *ds;
     struct ds_node *next;
   } *first, *last;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

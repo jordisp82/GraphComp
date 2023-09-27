@@ -21,6 +21,7 @@ struct enum_specifier
   node_kind_t kind;
   const char *tag;
   struct enumerator_list *el;
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };

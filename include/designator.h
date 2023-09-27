@@ -28,6 +28,7 @@ struct designator
     struct constant_expression *ex;
     const char *str;
   };
+  void (*dot_create) (void *node, void *f);
   node_kind_t parent_kind;
   void *parent;
 };
