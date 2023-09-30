@@ -16,6 +16,9 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+/* NOTE start of experimental code */
+static int local_sem_analysis (void *Node);
+/* NOTE end of experimental code */
 
 struct translation_unit *
 translation_unit_1 (void *ptr)
@@ -34,6 +37,9 @@ translation_unit_1 (void *ptr)
   buff->first->ed->parent_kind = NODE_TRANSLATION_UNIT;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -55,6 +61,9 @@ translation_unit_2 (void *ptr1, void *ptr2)
   ed->parent_kind = NODE_TRANSLATION_UNIT;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -80,4 +89,17 @@ local_dot_create (void *Node, void *F)
     }
 
   fprintf (f, "}\n");
+}
+
+static int
+local_sem_analysis (void *Node)
+{
+  assert (Node != NULL);
+  struct translation_unit *tu = Node;
+  assert (tu->kind == NODE_TRANSLATION_UNIT);
+
+  for (struct tu_node * ptr = tu->first; ptr != NULL; ptr = ptr->next)
+    (void) ptr->ed->sem_analysis (ptr->ed);
+
+  return 0;                     /* FIXME */
 }

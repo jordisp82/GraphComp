@@ -3,8 +3,8 @@
 #endif
 
 #include <assert.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "declaration.h"
 #include "declaration_specifiers.h"
@@ -18,6 +18,12 @@
 #include "ast.h"
 #include "iteration_statement.h"
 #include "declaration_list.h"
+/* NOTE start of experimental code */
+#include "type_specifier.h"
+#include "struct_or_union_specifier.h"
+#include "enum_specifier.h"
+#include "type_t.h"
+/* NOTE end of experimental code */
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -26,6 +32,13 @@
 static void local_dot_create (void *Node, void *F);
 static void do_term (struct declaration *node, FILE * f,
                      const char *token, int n_token);
+/* NOTE start of experimental code */
+static int sem_analysis_1 (void *Node);
+static int sem_analysis_2 (void *Node);
+static int sem_analysis_3 (void *Node);
+static int type_spec_alone (struct declaration *node,
+                            struct type_specifier *ts);
+/* NOTE end of experimental code */
 
 struct declaration *
 declaration_1 (void *ptr)
@@ -40,6 +53,9 @@ declaration_1 (void *ptr)
   buff->ds->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = sem_analysis_1;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -59,6 +75,9 @@ declaration_2 (void *ptr1, void *ptr2)
   buff->ds->parent = buff->idl->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = sem_analysis_2;
+  /* NOTE end of experimental code */
 
   if (look_for_typedef (buff->ds) == 1)
     register_ids_as_typedef (buff->idl);
@@ -79,6 +98,9 @@ declaration_3 (void *ptr)
   buff->sad->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = sem_analysis_3;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -122,8 +144,7 @@ local_dot_create (void *Node, void *F)
 }
 
 static void
-do_term (struct declaration *node, FILE * f, const char *token,
-         int n_token)
+do_term (struct declaration *node, FILE * f, const char *token, int n_token)
 {
   assert (node != NULL);
   assert (f != NULL);
@@ -135,3 +156,158 @@ do_term (struct declaration *node, FILE * f, const char *token,
   fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
            (unsigned long) node, n_token, token);
 }
+
+/* NOTE start of experimental code */
+static int
+sem_analysis_1 (void *Node)
+{
+  assert (Node != NULL);
+
+  struct declaration *node = Node;
+  assert (node->kind == NODE_DECLARATION);
+
+  /*
+   * 6.7, paragraph 2:
+   * since we have no declarator, then we
+   * must declare a tag or the members of
+   * an enumeration.
+   */
+
+  /*
+   * 6.7, paragraphs 3 and 4 are outside
+   * the scope of the semantic analysis
+   * in this AST node.
+   */
+
+  if (node->ds->sem_analysis < 0)
+    return -1;
+
+  int v = 0;
+
+  for (struct ds_node * ptr = node->ds->first; ptr != NULL; ptr = ptr->next)
+    switch (ptr->ds_kind)
+      {
+      case NODE_STORAGE_CLASS_SPECIFIER:
+      case NODE_TYPE_QUALIFIER:
+      case NODE_FUNCTION_SPECIFIER:
+        /* they are relevant for objects or functions, not for types */
+        break;
+
+      case NODE_TYPE_SPECIFIER:
+        if (type_spec_alone (node, ptr->ts) == 1)
+          v = 1;
+        break;
+
+      default:;                /* BUG! */
+      }
+
+  if (v == 0)
+    printf ("[%s:%d]<%s> useless declaration found.\n", __FILE__, __LINE__,
+            __func__);
+  else
+    {
+      type_t type = node->ds->create_type (node->ds);
+      /* TODO */
+      if (type.type_kind == TYPE_UNKNOWN)
+        return -1;
+    }
+
+  return 0;
+}
+
+static int
+sem_analysis_2 (void *Node)
+{
+  assert (Node != NULL);
+
+  struct declaration *node = Node;
+  assert (node->kind == NODE_DECLARATION);
+
+  if (node->ds->sem_analysis < 0)
+    return -1;
+
+  /*
+   * 6.7.1 paragraph 4:
+   * "_Thread_local shall not appear in the
+   * declaration specifiers of a function
+   * declaration".
+   */
+
+  /*
+   * 6.7.1 paragraph 7:
+   * "The declaration of an identifier for a
+   * function that has block scope shall have
+   * no explicit storage-class specifier
+   * other than extern.
+   */
+
+  /* TODO */
+
+  return 0;
+}
+
+static int
+sem_analysis_3 (void *Node)
+{
+  assert (Node != NULL);
+
+  struct declaration *node = Node;
+  assert (node->kind == NODE_DECLARATION);
+
+  /* NOTE so far nothing to check on static assert declarations */
+
+  return 0;
+}
+
+static int
+type_spec_alone (struct declaration *node, struct type_specifier *ts)
+{
+  assert (node != NULL);
+  assert (ts != NULL);
+  assert (ts->kind == NODE_TYPE_SPECIFIER);
+
+  /*
+   * A type specifier alone in a declaration
+   * makes sense when it declares a new
+   * struct, union or enum tag.
+   * NOTE fuck atomic type specifiers for now.
+   */
+
+  switch (ts->ts_kind)
+    {
+    case TS_STRUCT_UNION:
+      if (ts->sus->tag != NULL)
+        return 1;
+      else
+        return 0;
+
+    case TS_ENUM:
+      if (ts->es->tag != NULL)
+        return 1;
+      else
+        return 0;
+      break;
+
+    case TS_VOID:
+    case TS_CHAR:
+    case TS_SHORT:
+    case TS_INT:
+    case TS_LONG:
+    case TS_FLOAT:
+    case TS_DOUBLE:
+    case TS_SIGNED:
+    case TS_UNSIGNED:
+    case TS_BOOL:
+    case TS_COMPLEX:
+    case TS_IMAGINARY:
+    case TS_ATOMIC:
+    case TS_TYPEDEF:
+      return 0;
+
+    default:;                  /* BUG! */
+    }
+
+  return 0;
+}
+
+/* NOTE end of experimental code */

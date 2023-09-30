@@ -24,6 +24,9 @@ struct declaration
   struct init_declarator_list *idl;
   struct static_assert_declaration *sad;
   void (*dot_create) (void *node, void *f);
+  /* NOTE start of experimental code */
+  int (*sem_analysis) (void *node);
+  /* NOTE end of experimental code */
   node_kind_t parent_kind;
   void *parent;
 };

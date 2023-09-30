@@ -36,7 +36,8 @@ main (int argc, char *argv[])
           struct translation_unit *ast = NULL;
           yyin = fopen (dst, "r");
           yyparse ((void **) &ast);
-          (void) dot_create (ast, "test.dot");
+          // (void) dot_create (ast, "test.dot");
+          (void) ast->sem_analysis (ast);
         }
     }
 

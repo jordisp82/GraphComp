@@ -16,6 +16,9 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+/* NOTE start of experimental code */
+static int local_sem_analysis (void *Node);
+/* NOTE end of experimental code */
 
 struct external_declaration *
 external_declaration_1 (void *ptr)
@@ -32,6 +35,9 @@ external_declaration_1 (void *ptr)
   buff->fd->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -51,6 +57,9 @@ external_declaration_2 (void *ptr)
   buff->d->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -84,4 +93,26 @@ local_dot_create (void *Node, void *F)
 
     default:;                  /* BUG! */
     }
+}
+
+static int
+local_sem_analysis (void *Node)
+{
+  assert (Node != NULL);
+  struct external_declaration *node = Node;
+  assert (node->kind == NODE_EXTERNAL_DECLARATION);
+
+  switch (node->child_kind)
+    {
+    case NODE_FUNCTION_DEFINITION:
+      /* TODO */
+      return 0;
+
+    case NODE_DECLARATION:
+      return node->d->sem_analysis (node->d);
+
+    default:;                  /* BUG! */
+    }
+
+  return -1;                    /* because of bug */
 }

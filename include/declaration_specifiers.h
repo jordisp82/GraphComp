@@ -24,6 +24,9 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+/* NOTE start of experimental code */
+#include "type_t.h"
+/* NOTE end of experimental code */
 
 struct declaration_specifiers
 {
@@ -42,6 +45,10 @@ struct declaration_specifiers
     struct ds_node *next;
   } *first, *last;
   void (*dot_create) (void *node, void *f);
+  /* NOTE start of experimental code */
+  int (*sem_analysis) (void *node);
+    type_t (*create_type) (void *node);
+  /* NOTE end of experimental code */
   node_kind_t parent_kind;
   void *parent;
 };

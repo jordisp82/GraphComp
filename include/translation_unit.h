@@ -25,6 +25,9 @@ struct translation_unit
     struct tu_node *next;
   } *first, *last;
   void (*dot_create) (void *node, void *f);
+  /* NOTE start of experimental code */
+  int (*sem_analysis) (void *node);
+  /* NOTE end of experimental code */
 };
 
 #endif
