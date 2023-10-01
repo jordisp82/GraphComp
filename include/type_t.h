@@ -27,7 +27,8 @@ typedef enum
   QUAL_NONE = 0,
   QUAL_CONST = 0x01,
   QUAL_VOLATILE = 0x02,
-  QUAL_RESTRICT = 0x04
+  QUAL_RESTRICT = 0x04,
+  QUAL_ATOMIC = 0x08
 } type_qual_t;
 
 /*
@@ -93,6 +94,8 @@ typedef struct
   int fam;                      /* 1 if it has a flexible array member */
 } union_type_t;
 
+/* TODO enum */
+
 typedef struct type_s
 {
   type_kind_t type_kind;
@@ -104,6 +107,7 @@ typedef struct type_s
     struct_type_t struct_type;  /* TYPE_STRUCT */
     union_type_t union_type;    /* TYPE_UNION */
     struct type_s *ptr_type;    /* TYPE_POINTER */
+    /* TODO enum */
     /* NOTE atomic? */
     typedef_type_t typedef_type;        /* TYPE_TYPEDEF */
   };

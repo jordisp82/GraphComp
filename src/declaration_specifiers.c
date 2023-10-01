@@ -360,6 +360,7 @@ local_dot_create (void *Node, void *F)
       }
 }
 
+/* NOTE start of experimental code */
 #define MASK_TYPEDEF    0x01
 #define MASK_EXTERN     0x02
 #define MASK_STATIC     0x04
@@ -384,46 +385,49 @@ local_dot_create (void *Node, void *F)
 #define MASK_ENUM       0x4000
 #define MASK_NAME       0x8000  /* typedef */
 
-static const int valid_types[] = {
-  MASK_VOID,
-  MASK_CHAR,
-  MASK_SIGNED | MASK_CHAR,
-  MASK_UNSIGNED | MASK_CHAR,
-  MASK_SHORT,
-  MASK_SHORT | MASK_INT,
-  MASK_SHORT | MASK_SIGNED,
-  MASK_SHORT | MASK_SIGNED | MASK_INT,
-  MASK_SHORT | MASK_UNSIGNED,
-  MASK_SHORT | MASK_UNSIGNED | MASK_INT,
-  MASK_INT,
-  MASK_SIGNED | MASK_INT,
-  MASK_UNSIGNED | MASK_INT,
-  MASK_SIGNED,                  /* means signed int */
-  MASK_UNSIGNED,                /* means unsigned int */
-  MASK_LONG,
-  MASK_LONG | MASK_INT,
-  MASK_LONG | MASK_SIGNED,
-  MASK_LONG | MASK_SIGNED | MASK_INT,
-  MASK_LONG | MASK_UNSIGNED,
-  MASK_LONG | MASK_UNSIGNED | MASK_INT,
-  MASK_LLONG,
-  MASK_LLONG | MASK_INT,
-  MASK_LLONG | MASK_SIGNED,
-  MASK_LLONG | MASK_SIGNED | MASK_INT,
-  MASK_LLONG | MASK_UNSIGNED,
-  MASK_LLONG | MASK_UNSIGNED | MASK_INT,
-  MASK_FLOAT,
-  MASK_DOUBLE,
-  MASK_LONG | MASK_DOUBLE,
-  MASK_LONG | MASK_FLOAT,       /* old syn. for double */
-  MASK_BOOL,
-  MASK_STRUCT,
-  MASK_UNION,
-  MASK_ENUM,
-  MASK_NAME
+static const struct
+{
+  int mask;
+  nd_type_t nd;
+} valid_types[] = {
+  {MASK_VOID, NT_VOID},
+  {MASK_CHAR, NT_CHAR},
+  {MASK_SIGNED | MASK_CHAR, NT_SIGNED_CHAR},
+  {MASK_UNSIGNED | MASK_CHAR, NT_UNSIGNED_CHAR},
+  {MASK_SHORT, NT_SIGNED_SHORT},
+  {MASK_SHORT | MASK_INT, NT_SIGNED_SHORT},
+  {MASK_SHORT | MASK_SIGNED, NT_SIGNED_SHORT},
+  {MASK_SHORT | MASK_SIGNED | MASK_INT, NT_SIGNED_SHORT},
+  {MASK_SHORT | MASK_UNSIGNED, NT_UNSIGNED_SHORT},
+  {MASK_SHORT | MASK_UNSIGNED | MASK_INT, NT_UNSIGNED_SHORT},
+  {MASK_INT, NT_SIGNED_INT},
+  {MASK_SIGNED | MASK_INT, NT_SIGNED_INT},
+  {MASK_UNSIGNED | MASK_INT, NT_UNSIGNED_INT},
+  {MASK_SIGNED, NT_SIGNED_INT},
+  {MASK_UNSIGNED, NT_UNSIGNED_INT},
+  {MASK_LONG, NT_SIGNED_LONG},
+  {MASK_LONG | MASK_INT, NT_SIGNED_LONG},
+  {MASK_LONG | MASK_SIGNED, NT_SIGNED_LONG},
+  {MASK_LONG | MASK_SIGNED | MASK_INT, NT_SIGNED_LONG},
+  {MASK_LONG | MASK_UNSIGNED, NT_UNSIGNED_LONG},
+  {MASK_LONG | MASK_UNSIGNED | MASK_INT, NT_UNSIGNED_LONG},
+  {MASK_LLONG, NT_SIGNED_LONG_LONG},
+  {MASK_LLONG | MASK_INT, NT_SIGNED_LONG_LONG},
+  {MASK_LLONG | MASK_SIGNED, NT_SIGNED_LONG_LONG},
+  {MASK_LLONG | MASK_SIGNED | MASK_INT, NT_SIGNED_LONG_LONG},
+  {MASK_LLONG | MASK_UNSIGNED, NT_UNSIGNED_LONG_LONG},
+  {MASK_LLONG | MASK_UNSIGNED | MASK_INT, NT_UNSIGNED_LONG_LONG},
+  {MASK_FLOAT, NT_FLOAT},
+  {MASK_DOUBLE, NT_DOUBLE},
+  {MASK_LONG | MASK_DOUBLE, NT_LONG_DOUBLE},
+  {MASK_LONG | MASK_FLOAT, NT_DOUBLE},
+  {MASK_BOOL, NT_BOOL},
+  {MASK_STRUCT, NT_UNKNOWN},
+  {MASK_UNION, NT_UNKNOWN},
+  {MASK_ENUM, NT_UNKNOWN},
+  {MASK_NAME, NT_UNKNOWN}
 };
 
-/* NOTE start of experimental code */
 static int
 local_sem_analysis (void *Node)
 {
@@ -431,8 +435,8 @@ local_sem_analysis (void *Node)
   struct declaration_specifiers *node = Node;
   assert (node->kind == NODE_DECLARATION_SPECIFIERS);
 
-  int stg_mask = 0;
-  int ts_mask = 0;
+  node->stg_mask = 0;
+  node->ts_mask = 0;
 
   for (struct ds_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
     switch (ptr->ds_kind)
@@ -441,50 +445,50 @@ local_sem_analysis (void *Node)
         switch (ptr->stg->value)
           {
           case STG_TYPEDEF:
-            if (stg_mask & MASK_TYPEDEF)
+            if (node->stg_mask & MASK_TYPEDEF)
               printf
                 ("[%s:%d]<%s> typedef already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            stg_mask |= MASK_TYPEDEF;
+            node->stg_mask |= MASK_TYPEDEF;
             break;
 
           case STG_EXTERN:
-            if (stg_mask & MASK_EXTERN)
+            if (node->stg_mask & MASK_EXTERN)
               printf
                 ("[%s:%d]<%s> extern already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            stg_mask |= MASK_EXTERN;
+            node->stg_mask |= MASK_EXTERN;
             break;
 
           case STG_STATIC:
-            if (stg_mask & MASK_STATIC)
+            if (node->stg_mask & MASK_STATIC)
               printf
                 ("[%s:%d]<%s> static already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            stg_mask |= MASK_STATIC;
+            node->stg_mask |= MASK_STATIC;
             break;
 
           case STG_THREAD_LOCAL:
-            if (stg_mask & MASK_THREAD_LOCAL)
+            if (node->stg_mask & MASK_THREAD_LOCAL)
               printf
                 ("[%s:%d]<%s> _Thread_local already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            stg_mask |= MASK_THREAD_LOCAL;
+            node->stg_mask |= MASK_THREAD_LOCAL;
             break;
 
           case STG_AUTO:
-            if (stg_mask & MASK_AUTO)
+            if (node->stg_mask & MASK_AUTO)
               printf ("[%s:%d]<%s> auto already found in the declaration.\n",
                       __FILE__, __LINE__, __func__);
-            stg_mask |= MASK_AUTO;
+            node->stg_mask |= MASK_AUTO;
             break;
 
           case STG_REGISTER:
-            if (stg_mask & MASK_REGISTER)
+            if (node->stg_mask & MASK_REGISTER)
               printf
                 ("[%s:%d]<%s> register already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            stg_mask |= MASK_REGISTER;
+            node->stg_mask |= MASK_REGISTER;
             break;
 
           default:;            /* BUG! */
@@ -495,31 +499,31 @@ local_sem_analysis (void *Node)
         switch (ptr->ts->ts_kind)
           {
           case TS_VOID:
-            if (ts_mask & MASK_VOID)
+            if (node->ts_mask & MASK_VOID)
               printf ("[%s:%d]<%s> void already found in the declaration.\n",
                       __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_VOID;
+            node->ts_mask |= MASK_VOID;
             break;
 
           case TS_CHAR:
-            if (ts_mask & MASK_CHAR)
+            if (node->ts_mask & MASK_CHAR)
               printf ("[%s:%d]<%s> char already found in the declaration.\n",
                       __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_CHAR;
+            node->ts_mask |= MASK_CHAR;
             break;
 
           case TS_SHORT:
-            if (ts_mask & MASK_SHORT)
+            if (node->ts_mask & MASK_SHORT)
               printf ("[%s:%d]<%s> short already found in the declaration.\n",
                       __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_SHORT;
+            node->ts_mask |= MASK_SHORT;
             break;
 
           case TS_INT:
-            if (ts_mask & MASK_INT)
+            if (node->ts_mask & MASK_INT)
               printf ("[%s:%d]<%s> int already found in the declaration.\n",
                       __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_INT;
+            node->ts_mask |= MASK_INT;
             break;
 
           case TS_LONG:
@@ -528,56 +532,57 @@ local_sem_analysis (void *Node)
              * (but with a different meaning),
              * but long long long is not!
              */
-            if ((ts_mask & MASK_LONG) == 0 && (ts_mask & MASK_LLONG) == 0)
-              ts_mask |= TS_LONG;
-            else if ((ts_mask & MASK_LONG) == 1
-                     && (ts_mask & MASK_LLONG) == 0)
+            if ((node->ts_mask & MASK_LONG) == 0
+                && (node->ts_mask & MASK_LLONG) == 0)
+              node->ts_mask |= TS_LONG;
+            else if ((node->ts_mask & MASK_LONG) == 1
+                     && (node->ts_mask & MASK_LLONG) == 0)
               {
-                ts_mask &= ~MASK_LONG;
-                ts_mask |= MASK_LLONG;
+                node->ts_mask &= ~MASK_LONG;
+                node->ts_mask |= MASK_LLONG;
               }
-            else if (ts_mask & MASK_LLONG)
+            else if (node->ts_mask & MASK_LLONG)
               printf
                 ("[%s:%d]<%s> long already found twice in the declaration.\n",
                  __FILE__, __LINE__, __func__);
             break;
 
           case TS_FLOAT:
-            if (ts_mask & MASK_FLOAT)
+            if (node->ts_mask & MASK_FLOAT)
               printf ("[%s:%d]<%s> float already found in the declaration.\n",
                       __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_FLOAT;
+            node->ts_mask |= MASK_FLOAT;
             break;
 
           case TS_DOUBLE:
-            if (ts_mask & MASK_DOUBLE)
+            if (node->ts_mask & MASK_DOUBLE)
               printf
                 ("[%s:%d]<%s> double already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_DOUBLE;
+            node->ts_mask |= MASK_DOUBLE;
             break;
 
           case TS_SIGNED:
-            if (ts_mask & MASK_SIGNED)
+            if (node->ts_mask & MASK_SIGNED)
               printf
                 ("[%s:%d]<%s> signed already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_SIGNED;
+            node->ts_mask |= MASK_SIGNED;
             break;
 
           case TS_UNSIGNED:
-            if (ts_mask & MASK_UNSIGNED)
+            if (node->ts_mask & MASK_UNSIGNED)
               printf
                 ("[%s:%d]<%s> unsigned already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_UNSIGNED;
+            node->ts_mask |= MASK_UNSIGNED;
             break;
 
           case TS_BOOL:
-            if (ts_mask & MASK_BOOL)
+            if (node->ts_mask & MASK_BOOL)
               printf ("[%s:%d]<%s> _Bool already found in the declaration.\n",
                       __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_BOOL;
+            node->ts_mask |= MASK_BOOL;
             break;
 
             /* NOTE so far fuck off complex and imaginary and atomic */
@@ -586,19 +591,19 @@ local_sem_analysis (void *Node)
             switch (ptr->ts->sus->su->value)
               {
               case SU_STRUCT:
-                if (ts_mask & MASK_STRUCT)
+                if (node->ts_mask & MASK_STRUCT)
                   printf
                     ("[%s:%d]<%s> struct already found in the declaration.\n",
                      __FILE__, __LINE__, __func__);
-                ts_mask |= MASK_STRUCT;
+                node->ts_mask |= MASK_STRUCT;
                 break;
 
               case SU_UNION:
-                if (ts_mask & MASK_UNION)
+                if (node->ts_mask & MASK_UNION)
                   printf
                     ("[%s:%d]<%s> union already found in the declaration.\n",
                      __FILE__, __LINE__, __func__);
-                ts_mask |= MASK_UNION;
+                node->ts_mask |= MASK_UNION;
                 break;
 
               default:;        /* BUG! */
@@ -606,18 +611,18 @@ local_sem_analysis (void *Node)
             break;
 
           case TS_ENUM:
-            if (ts_mask & MASK_ENUM)
+            if (node->ts_mask & MASK_ENUM)
               printf ("[%s:%d]<%s> enum already found in the declaration.\n",
                       __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_ENUM;
+            node->ts_mask |= MASK_ENUM;
             break;
 
           case TS_TYPEDEF:
-            if (ts_mask & MASK_NAME)
+            if (node->ts_mask & MASK_NAME)
               printf
                 ("[%s:%d]<%s> typedef name already found in the declaration.\n",
                  __FILE__, __LINE__, __func__);
-            ts_mask |= MASK_NAME;
+            node->ts_mask |= MASK_NAME;
             break;
 
           default:;            /* BUG! */
@@ -659,7 +664,7 @@ local_sem_analysis (void *Node)
    * of that object".
    */
 
-  switch (stg_mask)
+  switch (node->stg_mask)
     {
     case 0:
     case MASK_TYPEDEF:
@@ -676,21 +681,21 @@ local_sem_analysis (void *Node)
       printf
         ("[%s:%d]<%s> Invalid combination of storage class specifiers (6.7.1, 2):\n",
          __FILE__, __LINE__, __func__);
-      show_stg (stg_mask);
+      show_stg (node->stg_mask);
       ret = -1;
     }
 
   /* 6.7.2 paragraph 2 */
   size_t i, s = sizeof (valid_types) / sizeof (valid_types[0]);
   for (i = 0; i < s; i++)
-    if (ts_mask == valid_types[i])
+    if (node->ts_mask == valid_types[i].mask)
       break;
   if (i == s)
     {
       printf
         ("[%s:%d]<%s> Invalid combination of type specifiers (6.7.2, 2):\n",
          __FILE__, __LINE__, __func__);
-      show_ts (ts_mask);
+      show_ts (node->ts_mask);
       ret = -1;
     }
 
@@ -703,8 +708,65 @@ local_create_type (void *Node)
   assert (Node != NULL);
   struct declaration_specifiers *node = Node;
   assert (node->kind == NODE_DECLARATION_SPECIFIERS);
-  type_t type = {.type_kind = TYPE_UNKNOWN };
-  /* TODO */
+  type_t type = {.type_kind = TYPE_UNKNOWN,.nd_type = NT_UNKNOWN };
+
+  size_t i, s = sizeof (valid_types) / sizeof (valid_types[0]);
+  for (i = 0; i < s; i++)
+    if (node->ts_mask == valid_types[i].mask
+        && valid_types[i].nd != NT_UNKNOWN)
+      type.nd_type = valid_types[i].nd;
+  if (node->ts_mask == MASK_STRUCT)
+    {
+    }
+  else if (node->ts_mask == MASK_UNION)
+    {
+    }
+  else if (node->ts_mask == MASK_ENUM)
+    {
+    }
+  else if (node->ts_mask == MASK_NAME)
+    {
+    }
+
+  for (struct ds_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
+    switch (ptr->ds_kind)
+      {
+      case NODE_STORAGE_CLASS_SPECIFIER:
+      case NODE_FUNCTION_SPECIFIER:
+        break;                  /* not included in type_t */
+
+      case NODE_TYPE_SPECIFIER:
+        break;                  /* already dealt with */
+
+      case NODE_TYPE_QUALIFIER:
+        switch (ptr->tq->tq_kind)
+          {
+          case TQ_CONST:
+            type.type_quals |= QUAL_CONST;
+            break;
+
+          case TQ_RESTRICT:
+            type.type_quals |= QUAL_RESTRICT;
+            break;
+
+          case TQ_VOLATILE:
+            type.type_quals |= QUAL_VOLATILE;
+            break;
+
+          case TQ_ATOMIC:
+            type.type_quals |= QUAL_ATOMIC;
+            break;
+
+          default:;            /* BUG! */
+          }
+        break;
+
+      case NODE_ALIGNMENT_SPECIFIER:
+        break;                  /* fuck off with them */
+
+      default:;                /* BUG! */
+      }
+
   return type;
 }
 

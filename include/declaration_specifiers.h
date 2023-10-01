@@ -48,6 +48,8 @@ struct declaration_specifiers
   /* NOTE start of experimental code */
   int (*sem_analysis) (void *node);
     type_t (*create_type) (void *node);
+  int stg_mask;
+  int ts_mask;
   /* NOTE end of experimental code */
   node_kind_t parent_kind;
   void *parent;
