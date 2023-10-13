@@ -236,7 +236,7 @@ sem_analysis_2 (void *Node)
   struct declaration *node = Node;
   assert (node->kind == NODE_DECLARATION);
 
-  if (node->ds->sem_analysis < 0)
+  if (node->ds->sem_analysis (node->ds) < 0)
     return -1;
 
 #if 0

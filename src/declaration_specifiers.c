@@ -29,7 +29,7 @@ static int stg_class_sem_analysis (struct declaration_specifiers *node);
 static int type_spec_sem_analysis (struct declaration_specifiers *node);
 static int type_qual_sem_analysis (struct declaration_specifiers *node);
 static int func_spec_sem_analysis (struct declaration_specifiers *node);
-static char *get_typedef_name (struct declaration_specifiers *node);
+static const char *get_typedef_name (struct declaration_specifiers *node);
 /* NOTE end of experimental code */
 
 struct declaration_specifiers *
@@ -765,12 +765,32 @@ func_spec_sem_analysis (struct declaration_specifiers *node)
   assert (node != NULL);
   assert (node->kind == NODE_DECLARATION_SPECIFIERS);
 
+  /* TODO */
+
   return 0;
 }
 
-static char *
+static const char *
 get_typedef_name (struct declaration_specifiers *node)
 {
   assert (node != NULL);
   assert (node->kind == NODE_DECLARATION_SPECIFIERS);
+
+  for (struct ds_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
+    switch (ptr->ds_kind)
+      {
+      case NODE_TYPE_SPECIFIER:
+        switch (ptr->ts->ts_kind)
+          {
+          case TS_TYPEDEF:
+            return ptr->ts->typedef_name;
+            break;
+
+          default:;
+          }
+
+      default:;
+      }
+
+  return NULL;
 }
