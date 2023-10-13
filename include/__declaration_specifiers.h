@@ -49,8 +49,7 @@ struct declaration_specifiers
   int (*sem_analysis) (void *node);
   int stg_mask;
   int ts_mask;
-  int tq_mask;
-  type_t type;
+  /* TODO functions to get the struct, union, enum, and typedef */
   /* NOTE end of experimental code */
   node_kind_t parent_kind;
   void *parent;
@@ -82,11 +81,6 @@ int is_there_typedef (struct declaration_specifiers *buff);
 #define MASK_UNION      0x2000
 #define MASK_ENUM       0x4000
 #define MASK_NAME       0x8000  /* typedef */
-
-#define MASK_CONST      0x01
-#define MASK_RESTRICT   0x02
-#define MASK_VOLATILE   0x04
-#define MASK_ATOMIC     0x08
 /* NOTE end of experimental code */
 
 #endif

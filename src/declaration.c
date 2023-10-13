@@ -36,8 +36,10 @@ static void do_term (struct declaration *node, FILE * f,
 static int sem_analysis_1 (void *Node);
 static int sem_analysis_2 (void *Node);
 static int sem_analysis_3 (void *Node);
+#if 0
 static int type_spec_alone (struct declaration *node,
                             struct type_specifier *ts);
+#endif
 /* NOTE end of experimental code */
 
 struct declaration *
@@ -158,6 +160,21 @@ do_term (struct declaration *node, FILE * f, const char *token, int n_token)
 }
 
 /* NOTE start of experimental code */
+
+/*
+ * In a declaration, we can:
+ * (a) declare a new type (with a tag),
+ * (b) declare a new type (with typedef),
+ * (c) declare new things (objects or functions).
+ * Case (a) can be done without declarators,
+ * but cases (b) and (c) must use declarators.
+ * When it comes to objects and functions,
+ * their type is declared not in a single place,
+ * but in part in the declaration specifiers and
+ * in part in the declarators themselves.
+ */
+
+
 static int
 sem_analysis_1 (void *Node)
 {
@@ -173,15 +190,10 @@ sem_analysis_1 (void *Node)
    * an enumeration.
    */
 
-  /*
-   * 6.7, paragraphs 3 and 4 are outside
-   * the scope of the semantic analysis
-   * in this AST node.
-   */
-
   if (node->ds->sem_analysis < 0)
     return -1;
 
+#if 0
   int v = 0;
 
   for (struct ds_node * ptr = node->ds->first; ptr != NULL; ptr = ptr->next)
@@ -211,6 +223,7 @@ sem_analysis_1 (void *Node)
       if (type.type_kind == TYPE_UNKNOWN)
         return -1;
     }
+#endif
 
   return 0;
 }
@@ -226,6 +239,7 @@ sem_analysis_2 (void *Node)
   if (node->ds->sem_analysis < 0)
     return -1;
 
+#if 0
   /*
    * 6.7.1 paragraph 4:
    * "_Thread_local shall not appear in the
@@ -242,6 +256,7 @@ sem_analysis_2 (void *Node)
    */
 
   /* TODO */
+#endif
 
   return 0;
 }
@@ -259,6 +274,7 @@ sem_analysis_3 (void *Node)
   return 0;
 }
 
+#if 0
 static int
 type_spec_alone (struct declaration *node, struct type_specifier *ts)
 {
@@ -309,5 +325,6 @@ type_spec_alone (struct declaration *node, struct type_specifier *ts)
 
   return 0;
 }
+#endif
 
 /* NOTE end of experimental code */
