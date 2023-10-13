@@ -190,7 +190,7 @@ sem_analysis_1 (void *Node)
    * an enumeration.
    */
 
-  if (node->ds->sem_analysis < 0)
+  if (node->ds->sem_analysis (node->ds) < 0)
     return -1;
 
 #if 0
