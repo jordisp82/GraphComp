@@ -20,6 +20,9 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+/* NOTE start of experimental code */
+static int local_sem_analysis (void *Node);
+/* NOTE end of experimental code */
 
 struct declarator *
 declarator_1 (void *ptr1, void *ptr2)
@@ -37,6 +40,9 @@ declarator_1 (void *ptr1, void *ptr2)
   buff->ptr->parent = buff->ddclr->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -55,6 +61,9 @@ declarator_2 (void *ptr)
   buff->ddclr->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -85,3 +94,38 @@ local_dot_create (void *Node, void *F)
       node->ddclr->dot_create (node->ddclr, f);
     }
 }
+
+/* NOTE start of experimental code */
+static int
+local_sem_analysis (void *Node)
+{
+  assert (Node != NULL);
+  struct declarator *node = Node;
+  assert (node->kind == NODE_DECLARATOR);
+
+  if (node->ptr != NULL && node->ptr->sem_analysis (node->ptr) < 0)
+    return -1;
+  if (node->ddclr->sem_analysis (node->ddclr) < 0)
+    return -1;
+
+  /*
+   * If there is no pointer, the type of the
+   * declarator is that of the direct declarator.
+   * But if there is a pointer, then we need
+   * to take it into account. And there can be
+   * several levels of pointers.
+   */
+
+  if (node->ptr == NULL)
+    node->type = node->ddclr->type;
+  else
+    {
+      type_t *last = node->ptr->type.ptr_type;
+      for (; last->ptr_type != NULL; last = last->ptr_type);
+      last->ptr_type = &(node->ddclr->type);
+    }
+
+  return 0;
+}
+
+/* NOTE end of experimental code */

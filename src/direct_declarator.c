@@ -32,6 +32,9 @@ static int do_child_5 (struct direct_declarator *node, FILE * f);
 static void do_child_6 (struct direct_declarator *node, FILE * f);
 static void do_term (struct direct_declarator *node, FILE * f,
                      const char *token, int n_token);
+/* NOTE start of experimental code */
+static int local_sem_analysis (void *Node);
+/* NOTE end of experimental code */
 
 struct direct_declarator *
 direct_declarator_1 (const char *str)
@@ -46,6 +49,9 @@ direct_declarator_1 (const char *str)
   buff->id = strdup (str);
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -65,6 +71,9 @@ direct_declarator_2 (void *ptr)
   buff->declr->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -84,6 +93,9 @@ direct_declarator_3 (void *ptr)
   buff->ddeclr->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -103,6 +115,9 @@ direct_declarator_4 (void *ptr)
   buff->ddeclr->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -127,6 +142,9 @@ direct_declarator_5 (void *ptr1, void *ptr2, void *ptr3)
   buff->ddeclr->parent = buff->tql->parent = buff->ass->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -148,6 +166,9 @@ direct_declarator_6 (void *ptr1, void *ptr2)
   buff->ddeclr->parent = buff->ass->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -169,6 +190,9 @@ direct_declarator_7 (void *ptr1, void *ptr2)
   buff->ddeclr->parent = buff->tql->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -193,6 +217,9 @@ direct_declarator_8 (void *ptr1, void *ptr2, void *ptr3)
   buff->ddeclr->parent = buff->tql->parent = buff->ass->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -217,6 +244,9 @@ direct_declarator_9 (void *ptr1, void *ptr2, void *ptr3)
   buff->ddeclr->parent = buff->tql->parent = buff->ass->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -238,6 +268,9 @@ direct_declarator_10 (void *ptr1, void *ptr2)
   buff->ddeclr->parent = buff->tql->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -259,6 +292,9 @@ direct_declarator_11 (void *ptr1, void *ptr2)
   buff->ddeclr->parent = buff->ass->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -280,6 +316,9 @@ direct_declarator_12 (void *ptr1, void *ptr2)
   buff->ddeclr->parent = buff->ptl->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -299,6 +338,9 @@ direct_declarator_13 (void *ptr)
   buff->ddeclr->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -320,6 +362,9 @@ direct_declarator_14 (void *ptr1, void *ptr2)
   buff->ddeclr->parent = buff->il->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -591,3 +636,61 @@ do_term (struct direct_declarator *node, FILE * f, const char *token,
   fprintf (f, "\t%lu%d [label=\"%s\",shape=box,fontname=Courier]\n",
            (unsigned long) node, n_token, token);
 }
+
+/* NOTE start of experimental code */
+static int
+local_sem_analysis (void *Node)
+{
+  assert (Node != NULL);
+  struct direct_declarator *node = Node;
+  assert (node->kind == NODE_DIRECT_DECLARATOR);
+
+  switch (node->n_prod)
+    {
+    case 1:                    /* identifier */
+      /*
+       * The declarator does not add
+       * a type of its own, so we'll
+       * rely on the declaration
+       * specifiers.
+       */
+      node->type.type_kind = TYPE_UNKNOWN;
+      break;
+
+    case 2:                    /* parenthesis */
+      if (node->declr->sem_analysis (node->declr) < 0)
+        return -1;
+      node->type = node->declr->type;
+      break;
+
+    case 3:                    /* array of unknwon size */
+      node->type.type_kind = TYPE_ARRAY;
+      node->type.array_type.n_cells = 0;
+      /* the type of the element is in another place */
+      break;
+
+    case 4:                    /* VLA */
+    case 5:                    /* static tql number */
+    case 6:                    /* static number */
+    case 7:                    /* tql VLA */
+    case 8:                    /* tql static number */
+    case 9:                    /* tql number */
+    case 10:                   /* tql, no number */
+      break;
+
+    case 11:                   /* number */
+      node->type.type_kind = TYPE_ARRAY;
+      /* FIXME */ node->type.array_type.n_cells = 0;
+      /* the type of the element is in another place */
+      break;
+
+    case 12:                   /* () parameter type list */
+    case 13:                   /* function, empty */
+    case 14:                   /* () identifier list */
+      break;
+    }
+
+  return 0;
+}
+
+/* NOTE end of experimental code */

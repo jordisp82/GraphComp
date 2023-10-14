@@ -19,6 +19,9 @@ struct init_declarator
   struct declarator *dclr;
   struct initializer *itz;
   void (*dot_create) (void *node, void *f);
+  /* NOTE start of experimental code */
+  int (*sem_analysis) (void *node);
+  /* NOTE end of experimental code */
   node_kind_t parent_kind;
   void *parent;
 };

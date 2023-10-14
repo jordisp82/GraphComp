@@ -16,6 +16,9 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+/* NOTE start of experimental code */
+static int local_sem_analysis (void *Node);
+/* NOTE end of experimental code */
 
 struct pointer *
 pointer_1 (void *ptr1, void *ptr2)
@@ -33,6 +36,9 @@ pointer_1 (void *ptr1, void *ptr2)
   buff->tql->parent = buff->ptr->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -51,6 +57,9 @@ pointer_2 (void *ptr)
   buff->tql->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -69,6 +78,9 @@ pointer_3 (void *ptr)
   buff->ptr->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -82,6 +94,9 @@ pointer_4 (void)
   buff->ptr_kind = PTR_EMPTY;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -139,3 +154,47 @@ local_dot_create (void *Node, void *F)
     default:;                  /* BUG! */
     }
 }
+
+/* NOTE start of experimental code */
+static int
+local_sem_analysis (void *Node)
+{
+  assert (Node != NULL);
+  struct pointer *node = Node;
+  assert (node->kind == NODE_POINTER);
+
+  switch (node->ptr_kind)
+    {
+    case PTR_EMPTY:
+      node->type.type_kind = TYPE_POINTER;
+      node->type.ptr_type = NULL;
+      break;
+
+    case PTR_PTR:
+      if (node->ptr->sem_analysis (node->ptr) < 0)
+        return -1;
+      node->type.type_kind = TYPE_POINTER;
+      node->type.ptr_type = &(node->ptr->type);
+      break;
+
+    case PTR_TQ:
+      node->type.type_kind = TYPE_POINTER;
+      // TODO node->type.type_quals = ...;
+      node->type.ptr_type = NULL;
+      break;
+
+    case PTR_TQ_PTR:
+      if (node->ptr->sem_analysis (node->ptr) < 0)
+        return -1;
+      node->type.type_kind = TYPE_POINTER;
+      // TODO node->type.type_quals = ...;
+      node->type.ptr_type = &(node->ptr->type);
+      break;
+
+    default:;                  /* BUG! */
+    }
+
+  return 0;
+}
+
+/* NOTE end of experimental code */

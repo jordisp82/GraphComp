@@ -22,6 +22,9 @@ struct init_declarator_list
     struct idl_node *next;
   } *first, *last;
   void (*dot_create) (void *node, void *f);
+  /* NOTE start of experimental code */
+  int (*sem_analysis) (void *node);
+  /* NOTE end of experimental code */
   node_kind_t parent_kind;
   void *parent;
 };

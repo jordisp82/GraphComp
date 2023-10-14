@@ -15,6 +15,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "type_t.h"
 
 typedef enum
 {
@@ -31,6 +32,10 @@ struct pointer
   struct type_qualifier_list *tql;
   struct pointer *ptr;
   void (*dot_create) (void *node, void *f);
+  /* NOTE start of experimental code */
+  int (*sem_analysis) (void *node);
+  type_t type;
+  /* NOTE end of experimental code */
   node_kind_t parent_kind;
   void *parent;
 };

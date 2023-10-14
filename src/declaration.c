@@ -22,6 +22,7 @@
 #include "type_specifier.h"
 #include "struct_or_union_specifier.h"
 #include "enum_specifier.h"
+#include "init_declarator.h"
 #include "type_t.h"
 /* NOTE end of experimental code */
 
@@ -37,8 +38,8 @@ static int sem_analysis_1 (void *Node);
 static int sem_analysis_2 (void *Node);
 static int sem_analysis_3 (void *Node);
 #if 0
-static int type_spec_alone (struct declaration *node,
-                            struct type_specifier *ts);
+static void proc_init_declr (struct init_declarator *id,
+                             struct declaration_specifiers *ds);
 #endif
 /* NOTE end of experimental code */
 
@@ -193,37 +194,31 @@ sem_analysis_1 (void *Node)
   if (node->ds->sem_analysis (node->ds) < 0)
     return -1;
 
-#if 0
-  int v = 0;
-
-  for (struct ds_node * ptr = node->ds->first; ptr != NULL; ptr = ptr->next)
-    switch (ptr->ds_kind)
-      {
-      case NODE_STORAGE_CLASS_SPECIFIER:
-      case NODE_TYPE_QUALIFIER:
-      case NODE_FUNCTION_SPECIFIER:
-        /* they are relevant for objects or functions, not for types */
-        break;
-
-      case NODE_TYPE_SPECIFIER:
-        if (type_spec_alone (node, ptr->ts) == 1)
-          v = 1;
-        break;
-
-      default:;                /* BUG! */
-      }
-
-  if (v == 0)
-    printf ("[%s:%d]<%s> useless declaration found.\n", __FILE__, __LINE__,
-            __func__);
-  else
+  switch (node->ds->type.type_kind)
     {
-      type_t type = node->ds->create_type (node->ds);
+    case TYPE_STRUCT:
+      if (node->ds->type.struct_type.tag == NULL)
+        printf ("[%s:%d]<%s> useless declaration found.\n", __FILE__,
+                __LINE__, __func__);
+      break;
+
+    case TYPE_UNION:
+      if (node->ds->type.union_type.tag == NULL)
+        printf ("[%s:%d]<%s> useless declaration found.\n", __FILE__,
+                __LINE__, __func__);
+      break;
+
+    case TYPE_ENUM:
       /* TODO */
-      if (type.type_kind == TYPE_UNKNOWN)
-        return -1;
+      break;
+
+    default:
+      printf ("[%s:%d]<%s> useless declaration found.\n", __FILE__, __LINE__,
+              __func__);
+      break;
     }
-#endif
+
+  /* TODO add the new type to the symbol table */
 
   return 0;
 }
@@ -239,24 +234,24 @@ sem_analysis_2 (void *Node)
   if (node->ds->sem_analysis (node->ds) < 0)
     return -1;
 
-#if 0
   /*
-   * 6.7.1 paragraph 4:
-   * "_Thread_local shall not appear in the
-   * declaration specifiers of a function
-   * declaration".
+   * The fact that there are declarators
+   * does not prevent the declaration
+   * from declaring new tags or enumeration
+   * members --- and we may have typedefs.
    */
 
-  /*
-   * 6.7.1 paragraph 7:
-   * "The declaration of an identifier for a
-   * function that has block scope shall have
-   * no explicit storage-class specifier
-   * other than extern.
-   */
+  if (node->idl->sem_analysis (node->idl) < 0)
+    return -1;
 
-  /* TODO */
-#endif
+  /*
+   * TODO
+   * For each init declarator, we need to get
+   * the "part of the type" of the declarator
+   * and then mix it with the part of the type
+   * of the declaration specifiers, to get the
+   * combined type.
+   */
 
   return 0;
 }
@@ -275,56 +270,17 @@ sem_analysis_3 (void *Node)
 }
 
 #if 0
-static int
-type_spec_alone (struct declaration *node, struct type_specifier *ts)
+static void
+proc_init_declr (struct init_declarator *id,
+                 struct declaration_specifiers *ds)
 {
-  assert (node != NULL);
-  assert (ts != NULL);
-  assert (ts->kind == NODE_TYPE_SPECIFIER);
+  assert (id != NULL);
+  assert (ds != NULL);
+  assert (id->kind == NODE_INIT_DECLARATOR);
+  assert (ds->kind == NODE_DECLARATION_SPECIFIERS);
 
-  /*
-   * A type specifier alone in a declaration
-   * makes sense when it declares a new
-   * struct, union or enum tag.
-   * NOTE fuck atomic type specifiers for now.
-   */
 
-  switch (ts->ts_kind)
-    {
-    case TS_STRUCT_UNION:
-      if (ts->sus->tag != NULL)
-        return 1;
-      else
-        return 0;
-
-    case TS_ENUM:
-      if (ts->es->tag != NULL)
-        return 1;
-      else
-        return 0;
-      break;
-
-    case TS_VOID:
-    case TS_CHAR:
-    case TS_SHORT:
-    case TS_INT:
-    case TS_LONG:
-    case TS_FLOAT:
-    case TS_DOUBLE:
-    case TS_SIGNED:
-    case TS_UNSIGNED:
-    case TS_BOOL:
-    case TS_COMPLEX:
-    case TS_IMAGINARY:
-    case TS_ATOMIC:
-    case TS_TYPEDEF:
-      return 0;
-
-    default:;                  /* BUG! */
-    }
-
-  return 0;
 }
-#endif
 
 /* NOTE end of experimental code */
+#endif

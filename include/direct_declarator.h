@@ -24,6 +24,7 @@
 
 #include "node_kind_t.h"
 #include "structs.h"
+#include "type_t.h"
 
 struct direct_declarator
 {
@@ -37,6 +38,10 @@ struct direct_declarator
   struct parameter_type_list *ptl;
   struct identifier_list *il;
   void (*dot_create) (void *node, void *f);
+  /* NOTE start of experimental code */
+  int (*sem_analysis) (void *node);
+  type_t type;
+  /* NOTE end of experimental code */
   node_kind_t parent_kind;
   void *parent;
 };

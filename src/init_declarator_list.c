@@ -16,6 +16,9 @@
 #endif
 
 static void local_dot_create (void *Node, void *F);
+/* NOTE start of experimental code */
+static int local_sem_analysis (void *Node);
+/* NOTE end of experimental code */
 
 struct init_declarator_list *
 init_declarator_list_1 (void *ptr)
@@ -34,6 +37,9 @@ init_declarator_list_1 (void *ptr)
   buff->first->id->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -55,6 +61,9 @@ init_declarator_list_2 (void *ptr1, void *ptr2)
   id->parent = buff;
 
   buff->dot_create = local_dot_create;
+  /* NOTE start of experimental code */
+  buff->sem_analysis = local_sem_analysis;
+  /* NOTE end of experimental code */
 
   return buff;
 }
@@ -78,3 +87,20 @@ local_dot_create (void *Node, void *F)
       ptr->id->dot_create (ptr->id, f);
     }
 }
+
+/* NOTE start of experimental code */
+static int
+local_sem_analysis (void *Node)
+{
+  assert (Node != NULL);
+  struct init_declarator_list *node = Node;
+  assert (node->kind == NODE_INIT_DECLARATOR_LIST);
+
+  for (struct idl_node * ptr = node->first; ptr != NULL; ptr = ptr->next)
+    if (ptr->id->sem_analysis (ptr->id) < 0)
+      return -1;
+
+  return 0;
+}
+
+/* NOTE end of experimental code */

@@ -61,7 +61,7 @@ typedef enum
 
 typedef struct
 {
-  int n_cells;                  /* number of elements in the array, 0 if FAM */
+  int n_cells;                  /* number of elements in the array, 0 if FAM or unknown */
   struct type_s *cell_type;     /* type of each element in the array */
 } array_type_t;
 
